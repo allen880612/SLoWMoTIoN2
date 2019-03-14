@@ -5,6 +5,7 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "CMapManager.h"
+
 namespace game_framework
 {
 	CMapManager::CMapManager()
@@ -12,6 +13,7 @@ namespace game_framework
 		InitializeCBlockMap();
 		nowMap = 0;
 		loadMap = blockMap[0].loadMap;
+		layer = 7;
 	}
 
 
@@ -50,6 +52,21 @@ namespace game_framework
 	{
 		return loadMap;
 	}
+
+	int CMapManager::GetLayer()
+	{
+		return layer;
+	}
+
+	void CMapManager::SetLayer(int _layer)
+	{
+		if (_layer >= 10)
+			_layer = 9;
+		else if (_layer < 0)
+			_layer = 0;
+
+		layer = _layer;
+	}
 #pragma endregion
 
 	void CMapManager::ChangeMap(int changeMap)
@@ -58,10 +75,16 @@ namespace game_framework
 		loadMap = blockMap[nowMap].loadMap;
 	}
 
-	void CMapManager::onShow() //顯示對應到的blockMap圖片 (nowMap = 1, 顯示blockMap[1]的background, 類推)
+	void CMapManager::OnShow() //顯示對應到的blockMap圖片 (nowMap = 1, 顯示blockMap[1]的background, 類推)
 	{
 		blockMap[nowMap].backgroundBitmap.SetTopLeft(0, 0);
 		blockMap[nowMap].backgroundBitmap.ShowBitmap();
+	}
+
+	CMovingBitmap* CMapManager::GetBitmap()
+	{
+		blockMap[nowMap].backgroundBitmap.SetTopLeft(0, 0);
+		return &(blockMap[nowMap].backgroundBitmap);
 	}
 
 	void CMapManager::InitializeCBlockMap()

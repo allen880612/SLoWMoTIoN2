@@ -63,9 +63,14 @@ namespace game_framework {
 		void OnMove();
 		void onShow();
 
+		int GetLayer();
+		CMovingBitmap* GetBitmap();
+		void SetLayer(int);
+
 	private:
 		CMovingBitmap pic;
 		int x, y;
+		int layer;
 	};
 #pragma endregion
 class CBouncingBall;
@@ -91,6 +96,23 @@ class CBouncingBall;
 		int random_num;
 	};
 #pragma endregion
+
+	#pragma region - layerManager -
+	class CLayerManager
+	{
+		public:
+			CLayerManager();
+			~CLayerManager();
+			void Clear();
+			void AddObject(CMovingBitmap*, int);
+			void AddObject(CAnimation*, int);
+			void ShowLayer();
+		private:
+			const int MAX_LAYER_NUMBER = 10;
+			vector <CMovingBitmap*> layerBitmap[10];
+			vector <CAnimation*> layerAnimation[10];
+	};
+	#pragma endregion
 
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲開頭畫面物件
@@ -145,6 +167,7 @@ class CBouncingBall;
 		CBouncingBall   bball;		// 反覆彈跳的球
 
 		CMapManager mapManager;
+		CLayerManager layerManager;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

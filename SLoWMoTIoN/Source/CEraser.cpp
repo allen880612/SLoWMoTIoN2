@@ -46,6 +46,21 @@ namespace game_framework {
 		return isMovingRight;
 	}
 
+	int CEraser::GetLayer()
+	{
+		return layer;
+	}
+
+	void CEraser::SetLayer(int _layer)
+	{
+		if (_layer >= 10)
+			_layer = 9;
+		else if (_layer < 0)
+			_layer = 0;
+
+		layer = _layer;
+	}
+
 	void CEraser::Initialize()
 	{
 		const int X_POS = 280;
@@ -53,6 +68,7 @@ namespace game_framework {
 		x = X_POS;
 		y = Y_POS;
 		isMovingLeft = isMovingRight = isMovingUp = isMovingDown = false;
+		layer = 8;
 	}
 
 	void CEraser::LoadBitmap()
@@ -69,17 +85,11 @@ namespace game_framework {
 		animation.OnMove();
 		if (isMovingLeft)
 		{
-			if (GetX2() >= 0)
-			{
 				x -= STEP_SIZE;
-			}
 		}
 		if (isMovingRight)
 		{
-			if (GetX1() <= SIZE_X)
-			{
 				x += STEP_SIZE;
-			}
 		}
 		if (isMovingUp)
 			y -= STEP_SIZE;
@@ -116,5 +126,11 @@ namespace game_framework {
 	{
 		animation.SetTopLeft(x, y);
 		animation.OnShow();
+	}
+
+	CAnimation* CEraser::GetAnimation()
+	{
+		animation.SetTopLeft(x, y);
+		return &animation;
 	}
 }

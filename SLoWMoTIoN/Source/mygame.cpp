@@ -58,6 +58,8 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "mygame.h"
+#include <vector>
+using namespace std;
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -353,13 +355,8 @@ namespace game_framework {
 																	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 																	//
 		mapManager.LoadMapBitmap();
-#pragma region MyRegion
-
-#pragma endregion
-
-
+		
 	}
-
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		const char KEY_LEFT = 0x25; // keyboard左箭頭
@@ -445,8 +442,9 @@ namespace game_framework {
 			ball[i].OnShow();				// 貼上第i號球
 		bball.OnShow();						// 貼上彈跳的球
 
-		mapManager.onShow();
-		eraser.OnShow();					// 貼上擦子
+
+		//mapManager.OnShow();
+		//eraser.OnShow();					// 貼上擦子
 											//
 											//  貼上左上及右下角落的圖
 											//
@@ -455,13 +453,19 @@ namespace game_framework {
 		corner.SetTopLeft(SIZE_X - corner.Width(), SIZE_Y - corner.Height());
 		corner.ShowBitmap();
 		//貼上MIKU
-		miku.onShow();
-
-		printf("x = %d\n", eraser.GetX1());
+		//miku.onShow();
+		layerManager.Clear();
+		#pragma region - add object to layer -
+		layerManager.AddObject(miku.GetBitmap(), miku.GetLayer());
+		layerManager.AddObject(eraser.GetAnimation(), eraser.GetLayer());
+		layerManager.AddObject(mapManager.GetBitmap(), mapManager.GetLayer());
+		#pragma endregion
+		layerManager.ShowLayer();
 	}
 	CMiku::CMiku()
 	{
 		x = y = 0;
+		layer = 9;
 	}
 
 	void CMiku::LoadBitmap()
@@ -482,6 +486,27 @@ namespace game_framework {
 		{
 			x = y = 0;
 		}
+	}
+
+	CMovingBitmap* CMiku::GetBitmap()
+	{
+		pic.SetTopLeft(x, y);
+		return &pic;
+	}
+
+	int CMiku::GetLayer()
+	{
+		return layer;
+	}
+
+	void CMiku::SetLayer(int _layer)
+	{
+		if (_layer >= 10)
+			_layer = 9;
+		else if (_layer < 0)
+			_layer = 0;
+
+		layer = _layer;
 	}
 
 	void CMiku::onShow()
@@ -601,5 +626,51 @@ namespace game_framework {
 	{
 		delete[] bballs;
 	}
+
+	#pragma region - layerManager -
+	CLayerManager::CLayerManager()
+	{
+		Clear();
+	}
+	CLayerManager::~CLayerManager()
+	{
+
+	}
+	void CLayerManager::Clear()
+	{
+		for (int i = 0; i < MAX_LAYER_NUMBER; i++)
+		{
+			layerBitmap[i].clear();
+			layerAnimation[i].clear();
+		}
+	}
+
+	void CLayerManager::AddObject(CMovingBitmap* object, int targetLayer)
+	{
+		layerBitmap[targetLayer].push_back(object);
+	}
+	
+	void CLayerManager::AddObject(CAnimation* object, int targetLayer)
+	{
+		layerAnimation[targetLayer].push_back(object);
+	}
+
+	void CLayerManager::ShowLayer()
+	{
+		for (int i = 0; i < MAX_LAYER_NUMBER; i++)
+		{
+			for (vector<CMovingBitmap*>::iterator k = layerBitmap[i].begin(); k != layerBitmap[i].end(); k++)
+			{
+				(*k)->ShowBitmap();
+			}
+
+			for (vector<CAnimation*>::iterator k = layerAnimation[i].begin(); k != layerAnimation[i].end(); k++)
+			{
+				(*k)->OnShow();
+			}
+		}
+	}
+	#pragma endregion
+
 
 }//End
