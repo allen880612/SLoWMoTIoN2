@@ -139,7 +139,7 @@ CAnimation::CAnimation(int count)
 {
 	delay_count = count;
 	delay_counter = delay_count;
-	x = y = bmp_counter = 0;
+	x = y = bmp_counter = pic_index = 0;
 }
 
 void CAnimation::AddBitmap(int IDB_BITMAP, COLORREF colorkey) 
@@ -147,6 +147,8 @@ void CAnimation::AddBitmap(int IDB_BITMAP, COLORREF colorkey)
 	CMovingBitmap add_bmp;
 	add_bmp.LoadBitmap(IDB_BITMAP, colorkey);
 	bmp.insert(bmp.end(), add_bmp);
+
+	pic.push_back(add_bmp);
 	Reset();
 }
 
@@ -155,6 +157,8 @@ void CAnimation::AddBitmap(char *filename, COLORREF colorkey)
 	CMovingBitmap add_bmp;
 	add_bmp.LoadBitmap(filename, colorkey);
 	bmp.insert(bmp.end(), add_bmp);
+
+	pic.push_back(add_bmp);
 	Reset();
 }
 
@@ -195,6 +199,46 @@ void CAnimation::OnMove()
 	}
 }
 
+void CAnimation::onMove(int dir)
+{
+	GAME_ASSERT(pic.size() != 0, "CAnimation: Bitmaps must be loaded first.");
+
+	if (dir == 0)	//Top
+	{
+		if (pic_index < 3)
+		{
+			pic_index++;
+		}
+		else
+			pic_index = 0;
+	}
+	else if (dir == 1) //Right
+	{
+		if (pic_index >= 4 && pic_index < 6)
+			pic_index++;
+		else
+			pic_index = 4;
+	}
+	else if (dir == 2) // Down
+	{
+		if (pic_index >= 7 && pic_index < 9)
+			pic_index++;
+		else
+			pic_index = 7;
+	}
+	else if (dir == 3) // Left
+	{
+		if (pic_index >= 10 && pic_index < 12)
+			pic_index++;
+		else
+			pic_index = 10;
+	}
+	else //static
+	{
+		pic_index = 0;
+	}
+}
+
 void CAnimation::Reset()
 {
 	GAME_ASSERT(bmp.size() != 0,"CAnimation: Bitmaps must be loaded first.");
@@ -218,8 +262,11 @@ void CAnimation::SetTopLeft(int nx, int ny)
 void CAnimation::OnShow()
 {
 	GAME_ASSERT(bmp.size() != 0,"CAnimation: Bitmaps must be loaded before they are shown.");
-	bmp_iter->SetTopLeft(x,y);
-	bmp_iter->ShowBitmap();
+	//bmp_iter->SetTopLeft(x,y);
+	//bmp_iter->ShowBitmap();
+
+	pic[pic_index].SetTopLeft(x, y);
+	pic[pic_index].ShowBitmap();
 }
 
 int CAnimation::Top()

@@ -73,28 +73,44 @@ namespace game_framework {
 
 	void CEraser::LoadBitmap()
 	{
-		animation.AddBitmap(IDB_ERASER1, RGB(255, 255, 255));
-		animation.AddBitmap(IDB_ERASER2, RGB(255, 255, 255));
-		animation.AddBitmap(IDB_ERASER3, RGB(255, 255, 255));
-		animation.AddBitmap(IDB_ERASER2, RGB(255, 255, 255));
+		char *role[13] = { ".\\Role\\IDB_ROLE_0.bmp", ".\\Role\\IDB_ROLE_1.bmp", ".\\Role\\IDB_ROLE_2.bmp",
+			".\\Role\\IDB_ROLE_3.bmp", ".\\Role\\MIKU_4.bmp", ".\\Role\\MIKU_5.bmp",
+			".\\Role\\MIKU_6.bmp", ".\\Role\\IDB_ROLE_7.bmp", ".\\Role\\IDB_ROLE_8.bmp",
+			".\\Role\\IDB_ROLE_9.bmp", ".\\Role\\MIKU_10.bmp", ".\\Role\\MIKU_11.bmp",
+			".\\Role\\MIKU_12.bmp" };
+
+		for (int i = 0; i < 13; i++)
+		{
+			animation.AddBitmap(role[i], RGB(255, 255, 255));
+		}
 	}
 
 	void CEraser::OnMove()
 	{
 		const int STEP_SIZE = 20;
-		animation.OnMove();
-		if (isMovingLeft)
+		int dir = -1;			//¦s¨ú
+
+		if (isMovingUp)
 		{
-				x -= STEP_SIZE;
+			dir = 0;
+			y -= STEP_SIZE;
 		}
 		if (isMovingRight)
 		{
-				x += STEP_SIZE;
+			dir = 1;
+			x += STEP_SIZE;
 		}
-		if (isMovingUp)
-			y -= STEP_SIZE;
 		if (isMovingDown)
+		{
+			dir = 2;
 			y += STEP_SIZE;
+		}
+		if (isMovingLeft)
+		{
+			dir = 3;
+			x -= STEP_SIZE;
+		}
+		animation.onMove(dir);
 	}
 
 	void CEraser::SetMovingDown(bool flag)
