@@ -315,7 +315,6 @@ namespace game_framework {
 		//
 		// 移動彈跳的球
 		//
-		gameMap.OnMove();
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -328,7 +327,6 @@ namespace game_framework {
 								//
 								// 開始載入資料
 								//
-		gameMap.LoadBitmap();
 		miku.LoadBitmap();
 		int i;
 		for (i = 0; i < NUMBALLS; i++)
@@ -379,8 +377,6 @@ namespace game_framework {
 			eraser.SetMovingUp(true);
 		if (nChar == KEY_DOWN)
 			eraser.SetMovingDown(true);
-
-		gameMap.OnKeyDown(nChar);
 	}
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -434,33 +430,27 @@ namespace game_framework {
 		//
 		//  貼上背景圖、撞擊數、球、擦子、彈跳的球
 		//
-		background.ShowBitmap();			// 貼上背景圖
-		gameMap.OnShow();					//貼上更多的背景圖
+		
+		//background.ShowBitmap();			// 貼上背景圖
 		help.ShowBitmap();					// 貼上說明圖
 		hits_left.ShowBitmap();
-		for (int i = 0; i < NUMBALLS; i++)
-			ball[i].OnShow();				// 貼上第i號球
-		bball.OnShow();						// 貼上彈跳的球
 
-
-		//mapManager.OnShow();
-		//eraser.OnShow();					// 貼上擦子
-											//
-											//  貼上左上及右下角落的圖
-											//
 		corner.SetTopLeft(0, 0);
 		corner.ShowBitmap();
 		corner.SetTopLeft(SIZE_X - corner.Width(), SIZE_Y - corner.Height());
 		corner.ShowBitmap();
 		//貼上MIKU
 		//miku.onShow();
+		#pragma region - paint object -
 		layerManager.Clear();
-		#pragma region - add object to layer -
+		#pragma region -- add object to layer --
 		layerManager.AddObject(miku.GetBitmap(), miku.GetLayer());
 		layerManager.AddObject(eraser.GetAnimation(), eraser.layer.GetLayer());
 		layerManager.AddObject(mapManager.GetBitmap(), mapManager.layer.GetLayer());
 		#pragma endregion
 		layerManager.ShowLayer();
+		#pragma endregion
+
 	}
 	CMiku::CMiku()
 	{
@@ -513,118 +503,6 @@ namespace game_framework {
 	{
 		pic.SetTopLeft(x, y);
 		pic.ShowBitmap();
-	}
-
-	CGameMap::CGameMap()
-		:X(20), Y(40), MW(120), MH(100)
-	{
-		int map_init[4][5] = { { 1,2,1,2,1 },
-		{ 0,1,2,1,0 },
-		{ 1,0,1,0,1 },
-		{ 2,1,2,1,2 } };
-		for (int i = 0; i < 4; i++)
-		{
-			for (int j = 0; j < 5; j++)
-			{
-				map[i][j] = map_init[i][j];
-			}
-		}
-		random_num = 0;
-		bballs = NULL;
-	}
-
-	void CGameMap::LoadBitmap()
-	{
-		blue.LoadBitmap(ID_BLUE);
-		green.LoadBitmap(ID_GREEN);
-		red.LoadBitmap(ID_RED);
-	}
-
-	void CGameMap::OnShow()
-	{
-		for (int i = 0; i < 5; i++)
-		{
-			for (int j = 0; j < 4; j++)
-			{
-				if (map[j][i] == 0)
-				{
-					red.SetTopLeft(X + (MW * i), Y + (MH * j));
-					red.ShowBitmap();
-				}
-				else if (map[j][i] == 1)
-				{
-					blue.SetTopLeft(X + (MW * i), Y + (MH * j));
-					blue.ShowBitmap();
-				}
-				else if (map[j][i] == 2)
-				{
-					green.SetTopLeft(X + (MW * i), Y + (MH * j));
-					green.ShowBitmap();
-				}
-				else
-					ASSERT(0);
-			}
-		}
-
-		for (int i = 0; i < random_num; i++)
-		{
-			bballs[i].OnShow();
-		}
-	}
-
-	void CGameMap::OnMove()
-	{
-		for (int i = 0; i < random_num; i++)
-		{
-			bballs[i].OnMove();
-		}
-	}
-
-	void CGameMap::OnKeyDown(UINT nCHAR)
-	{
-		const int KEY_SPACE = 0x20;
-		if (nCHAR == KEY_SPACE)
-			RandomBonucingBall();
-
-	}
-
-	void CGameMap::RandomBonucingBall()
-	{
-		const int MAX_RANDOM_NUM = 10;				//隨機最大值
-		random_num = (rand() % MAX_RANDOM_NUM) + 1;	// [1 ~ MAX_RANDOM_NUM -1]
-
-		delete[] bballs;							//先刪除之前配置的坑間
-		bballs = new CBouncingBall[random_num];		//依隨機值動態配置
-		int init_index = 0;
-
-		for (int row = 0; row < 4; row++)
-		{
-			for (int col = 0; col < 5; col++)
-			{
-				if (map[row][col] != 0 && init_index < random_num)
-				{
-					InitializeBonucingBall(init_index, row, col);
-					init_index++;
-				}
-			}
-		}
-	}
-
-	void CGameMap::InitializeBonucingBall(int init_index, int row, int col)
-	{
-		const int VELOCITY = 10;							//球之初速
-		const int BALL_PIC_HEIGHT = 15;						//球之圖片高度
-		int floor = Y + (row + 1) * MH - BALL_PIC_HEIGHT;	//設定球之落下點
-
-		bballs[init_index].LoadBitmap();
-		bballs[init_index].SetFloor(floor);
-		bballs[init_index].SetVelocity(VELOCITY + col);
-		bballs[init_index].SetXY(X + col * MW + MW / 2, floor);
-	}
-
-	CGameMap::~CGameMap()
-	{
-		delete[] bballs;
 	}
 
 	#pragma region - layerManager -

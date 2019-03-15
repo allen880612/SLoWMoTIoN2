@@ -42,6 +42,7 @@
 #include "CBall.h"
 #include "CMapManager.h"
 #include "CBouncingBall.h"
+#include "Refactor.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -73,29 +74,6 @@ namespace game_framework {
 		int layer;
 	};
 #pragma endregion
-class CBouncingBall;
-#pragma region class GameMap
-	class CGameMap
-	{
-	public:
-		CGameMap();
-		void LoadBitmap();
-		void OnShow();
-		void OnMove();
-		void OnKeyDown(UINT);
-		void RandomBonucingBall();
-		void InitializeBonucingBall(int, int, int);
-		~CGameMap();
-
-	protected:
-		CMovingBitmap blue, green, red;
-		int map[4][5];
-		const int X, Y;
-		const int MW, MH;
-		CBouncingBall *bballs;
-		int random_num;
-	};
-#pragma endregion
 
 	#pragma region - layerManager -
 	class CLayerManager
@@ -108,9 +86,8 @@ class CBouncingBall;
 			void AddObject(CAnimation*, int);
 			void ShowLayer();
 		private:
-			const int MAX_LAYER_NUMBER = 10;
-			vector <CMovingBitmap*> layerBitmap[10];
-			vector <CAnimation*> layerAnimation[10];
+			vector <CMovingBitmap*> layerBitmap[MAX_LAYER_NUMBER];
+			vector <CAnimation*> layerAnimation[MAX_LAYER_NUMBER];
 	};
 	#pragma endregion
 
@@ -156,7 +133,6 @@ class CBouncingBall;
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		CMiku miku;
-		CGameMap gameMap;
 		const int		NUMBALLS;	// 球的總數
 		CMovingBitmap	background;	// 背景圖
 		CMovingBitmap	help;		// 說明圖

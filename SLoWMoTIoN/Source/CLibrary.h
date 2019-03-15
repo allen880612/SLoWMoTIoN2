@@ -1,6 +1,7 @@
 #pragma once
 namespace game_framework
 {
+	#pragma region - CLayer -
 	class CLayer
 	{
 	public:
@@ -11,4 +12,6 @@ namespace game_framework
 	private:
 		int layer;
 	};
+	#pragma endregion
+
 }

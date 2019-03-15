@@ -1,6 +1,7 @@
 #pragma once
 #include "CBlockMap.h"
 #include "CLibrary.h"
+#include "Refactor.h"
 namespace game_framework
 {
 	class CMapManager
@@ -21,10 +22,9 @@ namespace game_framework
 		CMovingBitmap* GetBitmap();
 		CLayer layer;
 	private:
-		const int MAX_MAP_NUMBER = 3;
 		int nowMap;
 		int loadMap;
-		CBlockMap blockMap[3];
+		CBlockMap blockMap[MAX_MAP_NUMBER];
 
 		void InitializeCBlockMap();
 	};
