@@ -1,3 +1,5 @@
+#pragma once
+#include "CLibrary.h"
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class提供可以用鍵盤或滑鼠控制的擦子
@@ -25,12 +27,11 @@ namespace game_framework {
 		void SetMovingUp(bool flag);	// 設定是否正在往上移動
 		void SetXY(int nx, int ny);		// 設定擦子左上角座標
 
-		int GetLayer();
-		void SetLayer(int);
+		
 
 		void SetCanMoving(bool);
 		bool GetCanMoving();
-
+		CLayer layer;
 	protected:
 		CAnimation animation;		// 擦子的動畫
 		int x, y;					// 擦子左上角座標
@@ -38,7 +39,6 @@ namespace game_framework {
 		bool isMovingLeft;			// 是否正在往左移動
 		bool isMovingRight;			// 是否正在往右移動
 		bool isMovingUp;			// 是否正在往上移動
-		int layer;
 		bool canMoving;
 	};
 }
