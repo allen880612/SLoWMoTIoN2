@@ -4,10 +4,11 @@
 #include <ddraw.h>
 #include "audio.h"
 #include "gamelib.h"
-#include "CMapManager.h"
+#include "CManager.h"
 
 namespace game_framework
 {
+	#pragma region - mapManager -
 	CMapManager::CMapManager()
 	{
 		InitializeCBlockMap();
@@ -21,7 +22,7 @@ namespace game_framework
 	{
 	}
 
-#pragma region - GetMap -
+	#pragma region - GetMap -
 
 	int CMapManager::GetNowMap()
 	{
@@ -52,7 +53,7 @@ namespace game_framework
 	{
 		return loadMap;
 	}
-#pragma endregion
+	#pragma endregion
 
 	void CMapManager::ChangeMap(int changeMap)
 	{
@@ -105,4 +106,50 @@ namespace game_framework
 			blockMap[mapIndex].backgroundBitmap.LoadBitmapA(blockMap[mapIndex].loadMap);
 		}
 	}
+	#pragma endregion
+
+	#pragma region - layerManager -
+	CLayerManager::CLayerManager()
+	{
+		Clear();
+	}
+	CLayerManager::~CLayerManager()
+	{
+
+	}
+	void CLayerManager::Clear()
+	{
+		for (int i = 0; i < MAX_LAYER_NUMBER; i++)
+		{
+			layerBitmap[i].clear();
+			layerAnimation[i].clear();
+		}
+	}
+
+	void CLayerManager::AddObject(CMovingBitmap* object, int targetLayer)
+	{
+		layerBitmap[targetLayer].push_back(object);
+	}
+
+	void CLayerManager::AddObject(CAnimation* object, int targetLayer)
+	{
+		layerAnimation[targetLayer].push_back(object);
+	}
+
+	void CLayerManager::ShowLayer()
+	{
+		for (int i = 0; i < MAX_LAYER_NUMBER; i++)
+		{
+			for (vector<CMovingBitmap*>::iterator k = layerBitmap[i].begin(); k != layerBitmap[i].end(); k++)
+			{
+				(*k)->ShowBitmap();
+			}
+
+			for (vector<CAnimation*>::iterator k = layerAnimation[i].begin(); k != layerAnimation[i].end(); k++)
+			{
+				(*k)->OnShow();
+			}
+		}
+	}
+	#pragma endregion
 }

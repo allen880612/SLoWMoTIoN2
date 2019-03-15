@@ -8,6 +8,7 @@
 
 namespace game_framework
 {
+	#pragma region - CLayer -
 	CLayer::CLayer()
 	{
 		layer = 0;
@@ -30,4 +31,10 @@ namespace game_framework
 			_layer = 0;
 		layer = _layer;
 	}
+	#pragma endregion
+
+	#pragma region MyRegion
+
+	#pragma endregion
+
 }

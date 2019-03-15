@@ -505,50 +505,7 @@ namespace game_framework {
 		pic.ShowBitmap();
 	}
 
-	#pragma region - layerManager -
-	CLayerManager::CLayerManager()
-	{
-		Clear();
-	}
-	CLayerManager::~CLayerManager()
-	{
-
-	}
-	void CLayerManager::Clear()
-	{
-		for (int i = 0; i < MAX_LAYER_NUMBER; i++)
-		{
-			layerBitmap[i].clear();
-			layerAnimation[i].clear();
-		}
-	}
-
-	void CLayerManager::AddObject(CMovingBitmap* object, int targetLayer)
-	{
-		layerBitmap[targetLayer].push_back(object);
-	}
 	
-	void CLayerManager::AddObject(CAnimation* object, int targetLayer)
-	{
-		layerAnimation[targetLayer].push_back(object);
-	}
-
-	void CLayerManager::ShowLayer()
-	{
-		for (int i = 0; i < MAX_LAYER_NUMBER; i++)
-		{
-			for (vector<CMovingBitmap*>::iterator k = layerBitmap[i].begin(); k != layerBitmap[i].end(); k++)
-			{
-				(*k)->ShowBitmap();
-			}
-
-			for (vector<CAnimation*>::iterator k = layerAnimation[i].begin(); k != layerAnimation[i].end(); k++)
-			{
-				(*k)->OnShow();
-			}
-		}
-	}
-	#pragma endregion
 
 
 }//End

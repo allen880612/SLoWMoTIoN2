@@ -2,8 +2,10 @@
 #include "CBlockMap.h"
 #include "CLibrary.h"
 #include "Refactor.h"
+//CManager: 地圖管理者 and 圖層管理者，供mygame使用
 namespace game_framework
 {
+	#pragma region - MapManager -
 	class CMapManager
 	{
 	public:
@@ -28,4 +30,21 @@ namespace game_framework
 
 		void InitializeCBlockMap();
 	};
+	#pragma endregion
+
+	#pragma region - layerManager -
+	class CLayerManager
+	{
+	public:
+		CLayerManager();
+		~CLayerManager();
+		void Clear();
+		void AddObject(CMovingBitmap*, int);
+		void AddObject(CAnimation*, int);
+		void ShowLayer();
+	private:
+		vector <CMovingBitmap*> layerBitmap[MAX_LAYER_NUMBER];
+		vector <CAnimation*> layerAnimation[MAX_LAYER_NUMBER];
+	};
+	#pragma endregion
 }

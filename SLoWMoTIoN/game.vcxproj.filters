@@ -132,10 +132,10 @@
     <ClCompile Include="Source\CBlockMap.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
-    <ClCompile Include="Source\CMapManager.cpp">
+    <ClCompile Include="Source\CLibrary.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
-    <ClCompile Include="Source\CLibrary.cpp">
+    <ClCompile Include="Source\CManager.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
   </ItemGroup>
@@ -179,13 +179,13 @@
     <ClInclude Include="Source\CBlockMap.h">
       <Filter>MyGame</Filter>
     </ClInclude>
-    <ClInclude Include="Source\CMapManager.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
     <ClInclude Include="Source\CLibrary.h">
       <Filter>MyGame</Filter>
     </ClInclude>
     <ClInclude Include="Source\Refactor.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CManager.h">
       <Filter>MyGame</Filter>
     </ClInclude>
   </ItemGroup>

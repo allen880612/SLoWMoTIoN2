@@ -40,7 +40,7 @@
 
 #include "CEraser.h"
 #include "CBall.h"
-#include "CMapManager.h"
+#include "CManager.h"
 #include "CBouncingBall.h"
 #include "Refactor.h"
 
@@ -74,22 +74,6 @@ namespace game_framework {
 		int layer;
 	};
 #pragma endregion
-
-	#pragma region - layerManager -
-	class CLayerManager
-	{
-		public:
-			CLayerManager();
-			~CLayerManager();
-			void Clear();
-			void AddObject(CMovingBitmap*, int);
-			void AddObject(CAnimation*, int);
-			void ShowLayer();
-		private:
-			vector <CMovingBitmap*> layerBitmap[MAX_LAYER_NUMBER];
-			vector <CAnimation*> layerAnimation[MAX_LAYER_NUMBER];
-	};
-	#pragma endregion
 
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲開頭畫面物件
@@ -136,11 +120,11 @@ namespace game_framework {
 		const int		NUMBALLS;	// 球的總數
 		CMovingBitmap	background;	// 背景圖
 		CMovingBitmap	help;		// 說明圖
+		CBouncingBall bball;
 		CBall			*ball;		// 球的陣列
 		CMovingBitmap	corner;		// 角落圖
 		CEraser			eraser;		// 拍子
 		CInteger		hits_left;	// 剩下的撞擊數
-		CBouncingBall   bball;		// 反覆彈跳的球
 
 		CMapManager mapManager;
 		CLayerManager layerManager;
