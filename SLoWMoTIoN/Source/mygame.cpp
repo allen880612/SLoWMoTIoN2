@@ -269,7 +269,7 @@ namespace game_framework {
 		#pragma region -- 右邊沒有地圖且人物往右邊行走 --
 		if (eraser.GetX2() >= SIZE_X && mapManager.GetRightMap() < 0 && eraser.GetMovingRight())
 		{
-			eraser.SetMovingRight(false); //沒有地圖，卡邊界
+			eraser.SetCanMoving(false); //沒有地圖，卡邊界
 		}
 		#pragma endregion
 
@@ -289,7 +289,7 @@ namespace game_framework {
 		#pragma region -- 左邊沒有地圖且人物往左邊行走 --
 		if (eraser.GetX1() <= 0 && mapManager.GetLeftMap() < 0 && eraser.GetMovingLeft())
 		{
-			eraser.SetMovingLeft(false); //沒有地圖，卡邊界
+			eraser.SetCanMoving(false); //沒有地圖，卡邊界
 		}
 		#pragma endregion
 		#pragma endregion
@@ -457,8 +457,8 @@ namespace game_framework {
 		layerManager.Clear();
 		#pragma region - add object to layer -
 		layerManager.AddObject(miku.GetBitmap(), miku.GetLayer());
-		layerManager.AddObject(eraser.GetAnimation(), eraser.GetLayer());
-		layerManager.AddObject(mapManager.GetBitmap(), mapManager.GetLayer());
+		layerManager.AddObject(eraser.GetAnimation(), eraser.layer.GetLayer());
+		layerManager.AddObject(mapManager.GetBitmap(), mapManager.layer.GetLayer());
 		#pragma endregion
 		layerManager.ShowLayer();
 	}

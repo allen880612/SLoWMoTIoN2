@@ -13,7 +13,7 @@ namespace game_framework
 		InitializeCBlockMap();
 		nowMap = 0;
 		loadMap = blockMap[0].loadMap;
-		layer = 7;
+		layer.SetLayer(7);
 	}
 
 
@@ -51,21 +51,6 @@ namespace game_framework
 	int CMapManager::GetLoadMap()
 	{
 		return loadMap;
-	}
-
-	int CMapManager::GetLayer()
-	{
-		return layer;
-	}
-
-	void CMapManager::SetLayer(int _layer)
-	{
-		if (_layer >= 10)
-			_layer = 9;
-		else if (_layer < 0)
-			_layer = 0;
-
-		layer = _layer;
 	}
 #pragma endregion
 

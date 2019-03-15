@@ -5,6 +5,7 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "CEraser.h"
+#include "CLibrary.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -46,21 +47,6 @@ namespace game_framework {
 		return isMovingRight;
 	}
 
-	int CEraser::GetLayer()
-	{
-		return layer;
-	}
-
-	void CEraser::SetLayer(int _layer)
-	{
-		if (_layer >= 10)
-			_layer = 9;
-		else if (_layer < 0)
-			_layer = 0;
-
-		layer = _layer;
-	}
-
 	void CEraser::Initialize()
 	{
 		const int X_POS = 280;
@@ -68,7 +54,7 @@ namespace game_framework {
 		x = X_POS;
 		y = Y_POS;
 		isMovingLeft = isMovingRight = isMovingUp = isMovingDown = false;
-		layer = 8;
+		layer.SetLayer(8);
 	}
 
 	void CEraser::LoadBitmap()
