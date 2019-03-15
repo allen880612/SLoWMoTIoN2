@@ -40,8 +40,9 @@
 
 #include "CEraser.h"
 #include "CBall.h"
-#include "CMapManager.h"
+#include "CManager.h"
 #include "CBouncingBall.h"
+#include "Refactor.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -73,46 +74,6 @@ namespace game_framework {
 		int layer;
 	};
 #pragma endregion
-class CBouncingBall;
-#pragma region class GameMap
-	class CGameMap
-	{
-	public:
-		CGameMap();
-		void LoadBitmap();
-		void OnShow();
-		void OnMove();
-		void OnKeyDown(UINT);
-		void RandomBonucingBall();
-		void InitializeBonucingBall(int, int, int);
-		~CGameMap();
-
-	protected:
-		CMovingBitmap blue, green, red;
-		int map[4][5];
-		const int X, Y;
-		const int MW, MH;
-		CBouncingBall *bballs;
-		int random_num;
-	};
-#pragma endregion
-
-	#pragma region - layerManager -
-	class CLayerManager
-	{
-		public:
-			CLayerManager();
-			~CLayerManager();
-			void Clear();
-			void AddObject(CMovingBitmap*, int);
-			void AddObject(CAnimation*, int);
-			void ShowLayer();
-		private:
-			const int MAX_LAYER_NUMBER = 10;
-			vector <CMovingBitmap*> layerBitmap[10];
-			vector <CAnimation*> layerAnimation[10];
-	};
-	#pragma endregion
 
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲開頭畫面物件
@@ -156,15 +117,14 @@ class CBouncingBall;
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		CMiku miku;
-		CGameMap gameMap;
 		const int		NUMBALLS;	// 球的總數
 		CMovingBitmap	background;	// 背景圖
 		CMovingBitmap	help;		// 說明圖
+		CBouncingBall bball;
 		CBall			*ball;		// 球的陣列
 		CMovingBitmap	corner;		// 角落圖
 		CEraser			eraser;		// 拍子
 		CInteger		hits_left;	// 剩下的撞擊數
-		CBouncingBall   bball;		// 反覆彈跳的球
 
 		CMapManager mapManager;
 		CLayerManager layerManager;
