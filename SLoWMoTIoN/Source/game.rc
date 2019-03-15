@@ -128,6 +128,8 @@ IDB_MAP2                BITMAP                  "..\\RES\\IDB_MAP2.bmp"
 
 IDC_GAMECURSOR          CURSOR                  "..\\res\\gamecurs.cur"
 
+IDC_CURSOR              CURSOR                  "..\\RES\\Gamecursor.cusor.cur"
+
 #endif    // 中文 (繁體，台灣) resources
 /////////////////////////////////////////////////////////////////////////////
 

@@ -233,7 +233,7 @@ namespace game_framework {
 		//
 		// 如果希望修改cursor的樣式，則將下面程式的commment取消即可
 		//
-		SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
+		SetCursor(AfxGetApp()->LoadCursor(IDC_CURSOR));
 		//
 		// 移動背景圖的座標
 		//
