@@ -93,22 +93,26 @@ namespace game_framework {
 		if (isMovingUp)
 		{
 			dir = 0;
-			y -= STEP_SIZE;
+			if (canMoving)
+				y -= STEP_SIZE;
 		}
 		if (isMovingRight)
 		{
 			dir = 1;
-			x += STEP_SIZE;
+			if (canMoving)
+				x += STEP_SIZE;
 		}
 		if (isMovingDown)
 		{
 			dir = 2;
-			y += STEP_SIZE;
+			if (canMoving)
+				y += STEP_SIZE;
 		}
 		if (isMovingLeft)
 		{
 			dir = 3;
-			x -= STEP_SIZE;
+			if (canMoving)
+				x -= STEP_SIZE;
 		}
 		animation.onMove(dir);
 	}
@@ -116,22 +120,37 @@ namespace game_framework {
 	void CEraser::SetMovingDown(bool flag)
 	{
 		isMovingDown = flag;
+		canMoving = flag | isMovingLeft | isMovingRight | isMovingUp;
 	}
 
 	void CEraser::SetMovingLeft(bool flag)
 	{
 		isMovingLeft = flag;
+		canMoving = flag | isMovingDown | isMovingRight | isMovingUp;
 	}
 
 	void CEraser::SetMovingRight(bool flag)
 	{
 		isMovingRight = flag;
+		canMoving = flag | isMovingDown | isMovingLeft | isMovingUp;
 	}
 
 	void CEraser::SetMovingUp(bool flag)
 	{
 		isMovingUp = flag;
+		canMoving = flag | isMovingLeft | isMovingRight | isMovingDown;
 	}
+
+	void CEraser::SetCanMoving(bool _canMoving)
+	{
+		canMoving = _canMoving;
+	}
+
+	bool CEraser::GetCanMoving()
+	{
+		return canMoving;
+	}
+
 
 	void CEraser::SetXY(int nx, int ny)
 	{

@@ -302,7 +302,7 @@ namespace game_framework {
 			if (ball[i].IsAlive() && ball[i].HitEraser(&eraser)) {
 				ball[i].SetIsAlive(false);
 				CAudio::Instance()->Play(AUDIO_DING);
-				hits_left.Add(-1);
+				hits_left.Add(0);
 				//
 				// 若剩餘碰撞次數為0，則跳到Game Over狀態
 				//

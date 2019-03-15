@@ -28,6 +28,9 @@ namespace game_framework {
 		int GetLayer();
 		void SetLayer(int);
 
+		void SetCanMoving(bool);
+		bool GetCanMoving();
+
 	protected:
 		CAnimation animation;		// 擦子的動畫
 		int x, y;					// 擦子左上角座標
@@ -36,5 +39,6 @@ namespace game_framework {
 		bool isMovingRight;			// 是否正在往右移動
 		bool isMovingUp;			// 是否正在往上移動
 		int layer;
+		bool canMoving;
 	};
 }
