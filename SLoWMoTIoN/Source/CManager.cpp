@@ -53,6 +53,37 @@ namespace game_framework
 	{
 		return loadMap;
 	}
+
+	CMovingBitmap* CMapManager::GetBitmap()
+	{
+		blockMap[nowMap].backgroundBitmap.SetTopLeft(-480, 0);
+		return &(blockMap[nowMap].backgroundBitmap);
+	}
+
+	int CMapManager::GetSplitLeft()
+	{
+		return 0 + (SIZE_X / 2);
+	}
+
+	int CMapManager::GetSplitRight()
+	{
+		blockMap[nowMap].backgroundBitmap.Width() - (SIZE_X / 2);
+	}
+
+	int CMapManager::GetX1()
+	{
+		return x;
+	}
+
+	int CMapManager::GetX2()
+	{
+		return x + (SIZE_X);
+	}
+
+	int CMapManager::GetBitmapWidth()
+	{
+		return blockMap[nowMap].backgroundBitmap.Width();
+	}
 	#pragma endregion
 
 	void CMapManager::ChangeMap(int changeMap)
@@ -67,12 +98,6 @@ namespace game_framework
 		blockMap[nowMap].backgroundBitmap.ShowBitmap();
 	}
 
-	CMovingBitmap* CMapManager::GetBitmap()
-	{
-		blockMap[nowMap].backgroundBitmap.SetTopLeft(0, 0);
-		return &(blockMap[nowMap].backgroundBitmap);
-	}
-
 	void CMapManager::InitializeCBlockMap()
 	{
 		for (int mapIndex = 0; mapIndex < MAX_MAP_NUMBER; mapIndex++) //初始化blockMap的上下左右地圖資訊，增加可讀性使用switch敘述
@@ -81,7 +106,7 @@ namespace game_framework
 			{
 				//順序：目前 上 下 左 右 ， -1表示不存在
 			case 0:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 1, 2, IDB_MAP0);
+				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 1, 2, IDB_MAP0_2);
 				break;
 
 			case 1:

@@ -36,6 +36,11 @@ namespace game_framework {
 		return y + animation.Height();
 	}
 
+	int CEraser::GetX3()
+	{
+		return x + animation.Width() / 2;
+	}
+
 	bool CEraser::GetMovingLeft()
 	{
 		return isMovingLeft;
