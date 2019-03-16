@@ -17,6 +17,11 @@ namespace game_framework
 		int GetLeftMap();
 		int GetRightMap();
 		int GetLoadMap();
+		int GetSplitLeft();
+		int GetSplitRight();
+		int GetX1();
+		int GetX2();
+		int GetBitmapWidth();
 
 		void ChangeMap(int);
 		void LoadMapBitmap();
@@ -27,6 +32,7 @@ namespace game_framework
 		int nowMap;
 		int loadMap;
 		CBlockMap blockMap[MAX_MAP_NUMBER];
+		int x;
 
 		void InitializeCBlockMap();
 	};

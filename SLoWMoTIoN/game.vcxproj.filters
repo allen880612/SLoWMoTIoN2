@@ -240,5 +240,8 @@
     <Image Include="res\bitmap8.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="RES\IDB_MAP0_V2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

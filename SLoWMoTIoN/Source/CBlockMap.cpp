@@ -14,7 +14,7 @@ namespace game_framework
 		downMap = 0;
 		leftMap = 0;
 		rightMap = 0;
-		loadMap = 132;
+		loadMap = IDB_MAP0;
 	}
 
 	CBlockMap::CBlockMap(int _nowMap, int _upMap, int _downMap, int _leftMap, int _rightMap, int _loadMap)

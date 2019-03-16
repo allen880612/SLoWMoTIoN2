@@ -12,6 +12,7 @@ namespace game_framework {
 		CEraser();
 		int  GetX1();					// 擦子左上角 x 座標
 		int  GetY1();					// 擦子左上角 y 座標
+		int  GetX3();                   // 中新點 X 座標
 		int  GetX2();					// 擦子右下角 x 座標
 		int  GetY2();					// 擦子右下角 y 座標
 		bool GetMovingLeft();           // 方方是否在往左走
