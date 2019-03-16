@@ -120,7 +120,7 @@ IDB_MAP1                BITMAP                  "..\\RES\\IDB_MAP1.bmp"
 
 IDB_MAP2                BITMAP                  "..\\RES\\IDB_MAP2.bmp"
 
-IDB_MAP0_2              BITMAP                  "D:\\SLoWMoTIoN\\SLoWMoTIoN\\RES\\IDB_MAP0_V2.bmp"
+IDB_MAP0_2              BITMAP                  "..\\RES\\IDB_MAP0_V2.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////

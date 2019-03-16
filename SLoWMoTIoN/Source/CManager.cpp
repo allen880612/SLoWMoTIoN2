@@ -67,7 +67,7 @@ namespace game_framework
 
 	int CMapManager::GetSplitRight()
 	{
-		blockMap[nowMap].backgroundBitmap.Width() - (SIZE_X / 2);
+		return blockMap[nowMap].backgroundBitmap.Width() - (SIZE_X / 2);
 	}
 
 	int CMapManager::GetX1()
