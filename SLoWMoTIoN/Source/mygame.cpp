@@ -331,7 +331,8 @@ namespace game_framework {
 		int i;
 		for (i = 0; i < NUMBALLS; i++)
 			ball[i].LoadBitmap();								// 載入第i個球的圖形
-		eraser.LoadBitmap();
+		//eraser.LoadBitmap();
+		eraser.LoadBitmap("Role", "MIKU");
 		background.LoadBitmap(IDB_BACKGROUND);					// 載入背景的圖形
 																//
 																// 完成部分Loading動作，提高進度
@@ -342,9 +343,9 @@ namespace game_framework {
 					// 繼續載入其他資料
 					//
 		help.LoadBitmap(IDB_HELP, RGB(255, 255, 255));				// 載入說明的圖形
-		corner.LoadBitmap(IDB_CORNER);							// 載入角落圖形
-		corner.ShowBitmap(background);							// 將corner貼到background
-		bball.LoadBitmap();										// 載入圖形
+		corner.LoadBitmap(IDB_CORNER);								// 載入角落圖形
+		corner.ShowBitmap(background);								// 將corner貼到background
+		//bball.LoadBitmap();										// 載入圖形
 		hits_left.LoadBitmap();
 		CAudio::Instance()->Load(AUDIO_DING, "sounds\\ding.wav");	// 載入編號0的聲音ding.wav
 		CAudio::Instance()->Load(AUDIO_LAKE, "sounds\\lake.mp3");	// 載入編號1的聲音lake.mp3
@@ -445,7 +446,7 @@ namespace game_framework {
 		layerManager.Clear();
 		#pragma region -- add object to layer --
 		layerManager.AddObject(miku.GetBitmap(), miku.GetLayer());
-		layerManager.AddObject(eraser.GetAnimation(), eraser.layer.GetLayer());
+		layerManager.AddObject(eraser.GetAnimate(), eraser.layer.GetLayer());
 		layerManager.AddObject(mapManager.GetBitmap(), mapManager.layer.GetLayer());
 		#pragma endregion
 		layerManager.ShowLayer();

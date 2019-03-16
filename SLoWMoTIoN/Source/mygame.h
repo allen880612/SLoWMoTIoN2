@@ -120,7 +120,7 @@ namespace game_framework {
 		const int		NUMBALLS;	// 球的總數
 		CMovingBitmap	background;	// 背景圖
 		CMovingBitmap	help;		// 說明圖
-		CBouncingBall bball;
+		//CBouncingBall bball;
 		CBall			*ball;		// 球的陣列
 		CMovingBitmap	corner;		// 角落圖
 		CEraser			eraser;		// 拍子

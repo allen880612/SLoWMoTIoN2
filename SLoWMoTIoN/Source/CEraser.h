@@ -18,9 +18,10 @@ namespace game_framework {
 		bool GetMovingRight();          // 方方是否再往右走
 		void Initialize();				// 設定擦子為初始值
 		void LoadBitmap();				// 載入圖形
+		void LoadBitmap(string, string);				// 由路徑載入圖形
 		void OnMove();					// 移動擦子
 		void OnShow();					// 將擦子圖形貼到畫面
-		CAnimation* GetAnimation();
+		CAnimate* GetAnimate();
 		void SetMovingDown(bool flag);	// 設定是否正在往下移動
 		void SetMovingLeft(bool flag);	// 設定是否正在往左移動
 		void SetMovingRight(bool flag); // 設定是否正在往右移動
@@ -33,7 +34,7 @@ namespace game_framework {
 		bool GetCanMoving();
 		CLayer layer;
 	protected:
-		CAnimation animation;		// 擦子的動畫
+		CAnimate animation;			// 擦子的動畫
 		int x, y;					// 擦子左上角座標
 		bool isMovingDown;			// 是否正在往下移動
 		bool isMovingLeft;			// 是否正在往左移動

@@ -122,7 +122,7 @@ namespace game_framework
 		for (int i = 0; i < MAX_LAYER_NUMBER; i++)
 		{
 			layerBitmap[i].clear();
-			layerAnimation[i].clear();
+			layerAnimate[i].clear();
 		}
 	}
 
@@ -131,9 +131,9 @@ namespace game_framework
 		layerBitmap[targetLayer].push_back(object);
 	}
 
-	void CLayerManager::AddObject(CAnimation* object, int targetLayer)
+	void CLayerManager::AddObject(CAnimate* object, int targetLayer)
 	{
-		layerAnimation[targetLayer].push_back(object);
+		layerAnimate[targetLayer].push_back(object);
 	}
 
 	void CLayerManager::ShowLayer()
@@ -145,7 +145,7 @@ namespace game_framework
 				(*k)->ShowBitmap();
 			}
 
-			for (vector<CAnimation*>::iterator k = layerAnimation[i].begin(); k != layerAnimation[i].end(); k++)
+			for (vector<CAnimate*>::iterator k = layerAnimate[i].begin(); k != layerAnimate[i].end(); k++)
 			{
 				(*k)->OnShow();
 			}

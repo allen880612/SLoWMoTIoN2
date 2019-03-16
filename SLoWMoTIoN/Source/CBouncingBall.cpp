@@ -5,6 +5,7 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "CBouncingBall.h"
+#include "Clibrary.h"	//超級問號
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -24,9 +25,9 @@ namespace game_framework {
 
 	void CBouncingBall::LoadBitmap()
 	{
-		char *filename[4] = { ".\\bitmaps\\ball1.bmp",".\\bitmaps\\ball2.bmp",".\\bitmaps\\ball3.bmp",".\\bitmaps\\ball4.bmp" };
-		for (int i = 0; i < 4; i++)	// 載入動畫(由4張圖形構成)
-			animation.AddBitmap(filename[i], RGB(0, 0, 0));
+		vector<char*> filename = { ".\\bitmaps\\ball1.bmp",".\\bitmaps\\ball2.bmp",".\\bitmaps\\ball3.bmp",".\\bitmaps\\ball4.bmp" };
+
+		animation.LoadBitmap(filename, RGB(0, 0, 0));
 	}
 
 	void CBouncingBall::OnMove()
@@ -52,7 +53,7 @@ namespace game_framework {
 				velocity = initial_velocity; // 重設上升初始速度
 			}
 		}
-		animation.OnMove();		// 執行一次animation.OnMove()，animation才會換圖
+		animation.OnMove(0);		// 執行一次animation.OnMove()，animation才會換圖
 	}
 
 	void CBouncingBall::OnShow()

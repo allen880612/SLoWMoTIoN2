@@ -5,6 +5,7 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "CEraser.h"
+#include <sstream>
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -58,22 +59,37 @@ namespace game_framework {
 
 	void CEraser::LoadBitmap()
 	{
-		char *role[13] = { ".\\Role\\IDB_ROLE_0.bmp", ".\\Role\\IDB_ROLE_1.bmp", ".\\Role\\IDB_ROLE_2.bmp",
+		vector<char*> role = { ".\\Role\\IDB_ROLE_0.bmp", ".\\Role\\IDB_ROLE_1.bmp", ".\\Role\\IDB_ROLE_2.bmp",
 			".\\Role\\IDB_ROLE_3.bmp", ".\\Role\\MIKU_4.bmp", ".\\Role\\MIKU_5.bmp",
 			".\\Role\\MIKU_6.bmp", ".\\Role\\IDB_ROLE_7.bmp", ".\\Role\\IDB_ROLE_8.bmp",
 			".\\Role\\IDB_ROLE_9.bmp", ".\\Role\\MIKU_10.bmp", ".\\Role\\MIKU_11.bmp",
 			".\\Role\\MIKU_12.bmp" };
 
+		animation.LoadBitmap(role, RGB(255, 255, 255));
+	}
+
+	void CEraser::LoadBitmap(string ziliaojia, string name)
+	{
+		vector<char*> addresses;
+		string file;
+		char* address;
 		for (int i = 0; i < 13; i++)
 		{
-			animation.AddBitmap(role[i], RGB(255, 255, 255));
+			std::stringstream ss;
+			ss << i;
+			file = ".\\" + ziliaojia + "\\" + name + "_" + ss.str() + ".bmp";
+
+			address = new char[file.length() + 1];
+			strcpy(address, file.c_str());
+			addresses.push_back(address);
 		}
+		animation.LoadBitmap(addresses, RGB(255, 255, 255));
 	}
 
 	void CEraser::OnMove()
 	{
 		const int STEP_SIZE = 20;
-		int dir = -1;			//¦s¨ú
+		int dir = -1;			
 
 		if (isMovingUp)
 		{
@@ -99,7 +115,7 @@ namespace game_framework {
 			if (canMoving)
 				x -= STEP_SIZE;
 		}
-		animation.onMove(dir);
+		animation.OnMove(dir);
 	}
 
 	void CEraser::SetMovingDown(bool flag)
@@ -148,7 +164,7 @@ namespace game_framework {
 		animation.OnShow();
 	}
 
-	CAnimation* CEraser::GetAnimation()
+	CAnimate* CEraser::GetAnimate()
 	{
 		animation.SetTopLeft(x, y);
 		return &animation;

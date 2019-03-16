@@ -40,11 +40,11 @@ namespace game_framework
 		~CLayerManager();
 		void Clear();
 		void AddObject(CMovingBitmap*, int);
-		void AddObject(CAnimation*, int);
+		void AddObject(CAnimate*, int);
 		void ShowLayer();
 	private:
 		vector <CMovingBitmap*> layerBitmap[MAX_LAYER_NUMBER];
-		vector <CAnimation*> layerAnimation[MAX_LAYER_NUMBER];
+		vector <CAnimate*> layerAnimate[MAX_LAYER_NUMBER];
 	};
 	#pragma endregion
 }
