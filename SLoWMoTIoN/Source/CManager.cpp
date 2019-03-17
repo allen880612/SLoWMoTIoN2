@@ -14,6 +14,7 @@ namespace game_framework
 		InitializeCBlockMap();
 		nowMap = 0;
 		loadMap = blockMap[0].loadMap;
+		x = 0;
 		layer.SetLayer(7);
 	}
 
@@ -56,7 +57,7 @@ namespace game_framework
 
 	CMovingBitmap* CMapManager::GetBitmap()
 	{
-		blockMap[nowMap].backgroundBitmap.SetTopLeft(-480, 0);
+		blockMap[nowMap].backgroundBitmap.SetTopLeft(x, 0);
 		return &(blockMap[nowMap].backgroundBitmap);
 	}
 
@@ -90,6 +91,25 @@ namespace game_framework
 	{
 		nowMap = changeMap;
 		loadMap = blockMap[nowMap].loadMap;
+		x = -(GetBitmapWidth() - SIZE_X);
+	}
+
+	void CMapManager::SetMovingLeft(bool _flag)
+	{
+		isMovingLeft = _flag;
+	}
+
+	void CMapManager::SetMovingRight(bool _flag)
+	{
+		isMovingRight = _flag;
+	}
+
+	void CMapManager::OnMove()
+	{
+		if (isMovingLeft)
+			x += directionX;
+		if (isMovingRight)
+			x -= directionX;
 	}
 
 	void CMapManager::OnShow() //顯示對應到的blockMap圖片 (nowMap = 1, 顯示blockMap[1]的background, 類推)

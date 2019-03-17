@@ -22,6 +22,10 @@ namespace game_framework
 		int GetX1();
 		int GetX2();
 		int GetBitmapWidth();
+		void SetMovingLeft(bool);
+		void SetMovingRight(bool);
+		void OnMove();
+
 
 		void ChangeMap(int);
 		void LoadMapBitmap();
@@ -29,10 +33,13 @@ namespace game_framework
 		CMovingBitmap* GetBitmap();
 		CLayer layer;
 	private:
+		const int directionX = 20;
 		int nowMap;
 		int loadMap;
 		CBlockMap blockMap[MAX_MAP_NUMBER];
 		int x;
+		bool isMovingLeft;
+		bool isMovingRight;
 
 		void InitializeCBlockMap();
 	};

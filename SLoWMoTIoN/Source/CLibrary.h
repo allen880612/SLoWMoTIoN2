@@ -1,5 +1,10 @@
 #pragma once
 #include "Refactor.h"
+namespace myLibrary
+{
+	char* ConvertCharPointToString(string, string, int);
+	int abs(int);
+}
 namespace game_framework
 {
 	#pragma region - CLayer -

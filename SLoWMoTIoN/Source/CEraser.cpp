@@ -6,7 +6,8 @@
 #include "gamelib.h"
 #include "CEraser.h"
 #include <sstream>
-
+#include "CLibrary.h"
+using namespace myLibrary;
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 	// CEraser: Eraser class
@@ -54,7 +55,7 @@ namespace game_framework {
 
 	void CEraser::Initialize()
 	{
-		const int X_POS = 280;
+		const int X_POS = 0;
 		const int Y_POS = 400;
 		x = X_POS;
 		y = Y_POS;
@@ -76,17 +77,15 @@ namespace game_framework {
 	void CEraser::LoadBitmap(string ziliaojia, string name)
 	{
 		vector<char*> addresses;
-		string file;
-		char* address;
 		for (int i = 0; i < 13; i++)
 		{
-			std::stringstream ss;
+			/*std::stringstream ss;
 			ss << i;
 			file = ".\\" + ziliaojia + "\\" + name + "_" + ss.str() + ".bmp";
 
 			address = new char[file.length() + 1];
-			strcpy(address, file.c_str());
-			addresses.push_back(address);
+			strcpy(address, file.c_str());*/
+			addresses.push_back(ConvertCharPointToString(ziliaojia, name, i));
 		}
 		animation.LoadBitmap(addresses, RGB(255, 255, 255));
 	}

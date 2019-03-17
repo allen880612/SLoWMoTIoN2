@@ -10,7 +10,26 @@
 #include "MainFrm.h"
 #include <string.h>
 #include "mygame.h"
+#include <sstream>
 
+namespace myLibrary
+{
+	char* ConvertCharPointToString(string ziliaojia, string name, int number)
+	{
+		char* address;
+		std::stringstream ss;
+		ss << number;
+		string file = ".\\" + ziliaojia + "\\" + name + "_" + ss.str() + ".bmp";
+
+		address = new char[file.length() + 1];
+		strcpy(address, file.c_str());
+		return address;
+	}
+	int abs(int k)
+	{
+		return k > 0 ? k : -k;
+	}
+}
 namespace game_framework
 {
 	#pragma region - CLayer -
