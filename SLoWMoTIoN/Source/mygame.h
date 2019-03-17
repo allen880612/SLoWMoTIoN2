@@ -55,25 +55,25 @@ namespace game_framework {
 		AUDIO_NTUT				// 2
 	};
 
-#pragma region class CMiku
-	class CMiku
-	{
-	public:
-		CMiku();
-		void LoadBitmap();
-		void OnMove();
-		void onShow();
+	#pragma region class CMiku
+		class CMiku
+		{
+		public:
+			CMiku();
+			void LoadBitmap();
+			void OnMove();
+			void onShow();
 
-		int GetLayer();
-		CMovingBitmap* GetBitmap();
-		void SetLayer(int);
+			int GetLayer();
+			CMovingBitmap* GetBitmap();
+			void SetLayer(int);
 
-	private:
-		CMovingBitmap pic;
-		int x, y;
-		int layer;
-	};
-#pragma endregion
+		private:
+			CMovingBitmap pic;
+			int x, y;
+			int layer;
+		};
+	#pragma endregion
 
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲開頭畫面物件

@@ -117,6 +117,14 @@ using namespace std;
 
 namespace game_framework {
 
+#pragma region Function
+
+void PaintText(char*, int, int, LPCTSTR, int, COLORREF = CLR_INVALID, COLORREF = CLR_INVALID);	//String ,位置, 文字字形, 文字大小, 文字顏色, 背景顏色
+
+#pragma endregion
+
+
+
 /////////////////////////////////////////////////////////////////////////////
 // 這個class提供時間、錯誤等控制
 // 一般的遊戲並不需直接操作這個物件，因此可以不管這個class的使用方法

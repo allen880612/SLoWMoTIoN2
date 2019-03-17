@@ -8,6 +8,7 @@ namespace myLibrary
 namespace game_framework
 {
 	int ScreenX(int, int);
+
 	#pragma region - CLayer -
 	class CLayer
 	{

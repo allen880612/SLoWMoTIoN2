@@ -153,7 +153,7 @@ namespace game_framework {
 		const int BALL_GAP = 90;
 		const int BALL_XY_OFFSET = 45;
 		const int BALL_PER_ROW = 7;
-		const int TIME_LEFT = 20;
+		const int TIME_LEFT = 10;
 		const int TIME_LEFT_X = 590;
 		const int TIME_LEFT_Y = 0;
 		const int BACKGROUND_X = 60;
@@ -459,24 +459,12 @@ namespace game_framework {
 		#pragma endregion
 
 		#pragma region - paint time remain -
-		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
-		CFont f, *fp;
-		f.CreatePointFont(320, "Consolas");	// 產生 font f; 160表示16 point的字
-		fp = pDC->SelectObject(&f);					// 選用 font f
-		pDC->SetBkColor(RGB(255, 255, 255));
-		pDC->SetTextColor(RGB(255, 0, 0));
-		char str[80];								// Demo 數字對字串的轉換
-		//sprintf(str, "You have %d seconds left", counter / 30);
+		char str[100];
 		sprintf(str, "%d", counter / 30);
-
-		pDC->TextOut(300, 0, str);
-		pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
-		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+		PaintText(str, 300, 0, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 		#pragma endregion
 
-		
-		
-		//time_left.ShowBitmap();
+		//time_left.ShowBitmap();			// 原本的碰撞剩餘次數
 
 	}
 
@@ -520,6 +508,7 @@ namespace game_framework {
 
 	void CGameStateOver::OnShow()
 	{
+		/*
 		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
 		CFont f, *fp;
 		f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
@@ -531,6 +520,11 @@ namespace game_framework {
 		pDC->TextOut(240, 210, str);
 		pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
 		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+		*/
+		
+		char str[100];
+		sprintf(str, "用~心~點~，遊戲將於%d秒後重啟", counter / 30);
+		PaintText(str, 100, 180, "微軟正黑體", 20, RGB(255, 255, 255), RGB(0, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 	}
 
 

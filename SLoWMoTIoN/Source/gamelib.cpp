@@ -127,6 +127,25 @@
 
 namespace game_framework {
 
+#pragma region Function
+//				Text ,		位置x,	位置y,	 文字字形,		文字大小,	文字顏色,			背景顏色
+void PaintText(char* text, int tx, int ty, LPCTSTR font, int textSize, COLORREF textColor, COLORREF bkColor)
+{
+	CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+	CFont f, *fp;
+
+	f.CreatePointFont(textSize * 10, font);	// 產生 font f; 160表示16 point的字
+	fp = pDC->SelectObject(&f);					// 選用 font f
+	pDC->SetBkColor(bkColor);
+	pDC->SetTextColor(textColor);
+
+	pDC->TextOut(tx, ty, text);
+	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
+	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+}
+#pragma endregion
+
+
 /////////////////////////////////////////////////////////////////////////////
 // CAnimation: 提供動畫的能力
 // 1. 要懂得怎麼呼叫(運用)其各種能力，但是可以不懂下列的程式是什麼意思
