@@ -254,35 +254,30 @@ namespace game_framework {
 		//
 
 		#pragma region - Moving -
-
-		#pragma region -- Moving Right or Left --
-		//if (eraser.GetMovingRight())
-		//{
 		int screenPosX = ScreenX(mapManager.GetX1(), eraser.GetX3());
+		#pragma region -- Moving Right --
 
-		if (screenPosX >= mapManager.GetSplitLeft() && screenPosX < mapManager.GetSplitRight())
+		if (eraser.GetMovingRight())
 		{
-			mapManager.SetMovingLeft(eraser.GetMovingLeft());
-			mapManager.SetMovingRight(eraser.GetMovingRight());
-			mapManager.OnMove();
-			eraser.SetCanMoving(false);
-		}
-		else
-		{
-			mapManager.SetMovingLeft(false);
-			mapManager.SetMovingRight(false);
-			eraser.SetCanMoving(true);
-		}
-		//}
-		#pragma endregion
-
-		#pragma region -- 左右界地圖檢查 - 卡邊界or換地圖 --
-		#pragma region -- Moving Left --
-		/*if (eraser.GetMovingLeft())
-		{
-			int screenPosX = ScreenX(mapManager.GetX1(), eraser.GetX3());
-
 			if (screenPosX >= mapManager.GetSplitLeft() && screenPosX < mapManager.GetSplitRight())
+			{
+				mapManager.SetMovingLeft(false);
+				mapManager.SetMovingRight(true);
+				mapManager.OnMove();
+				eraser.SetCanMoving(false);
+			}
+			else
+			{
+				mapManager.SetMovingLeft(false);
+				mapManager.SetMovingRight(false);
+				eraser.SetCanMoving(true);
+			}
+		}
+
+		#pragma region -- Moving Left --
+		if (eraser.GetMovingLeft())
+		{
+			if (screenPosX > mapManager.GetSplitLeft() && screenPosX <= mapManager.GetSplitRight())
 			{
 				mapManager.SetMovingLeft(true);
 				mapManager.SetMovingRight(false);
@@ -295,8 +290,12 @@ namespace game_framework {
 				mapManager.SetMovingRight(false);
 				eraser.SetCanMoving(true);
 			}
-		}*/
+		}
 		#pragma endregion
+		#pragma endregion
+
+		#pragma region -- 左右界地圖檢查 - 卡邊界or換地圖 --
+		
 
 		#pragma region --- 右邊有地圖且人物往右邊行走 ---
 		if (eraser.GetX2() >= SIZE_X && mapManager.GetRightMap() >= 0 && eraser.GetMovingRight())
