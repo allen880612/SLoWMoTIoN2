@@ -37,7 +37,7 @@
  *      2. Replace the demonstration of animation as a new bouncing ball.
  *      3. Use ShowInitProgress(percent) to display loading progress.
 */
-
+#pragma once
 #include "CEraser.h"
 #include "CBall.h"
 #include "CManager.h"
@@ -125,7 +125,7 @@ namespace game_framework {
 		CMovingBitmap	corner;		// 角落圖
 		CEraser			eraser;		// 拍子
 		CInteger		time_left;	// 剩下的撞擊數
-		int				counter;
+		CTimer timer; //stateRun狀態下的timer (其實好像在什麼狀態下都無所謂)
 
 		CMapManager mapManager;
 		CLayerManager layerManager;

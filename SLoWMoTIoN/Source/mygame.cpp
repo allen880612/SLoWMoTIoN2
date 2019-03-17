@@ -50,7 +50,7 @@
 *   2010-03-23 V4.6
 *      1. Demo MP3 support: use lake.mp3 to replace lake.wav.
 */
-
+#pragma once
 #include "stdafx.h"
 #include "Resource.h"
 #include <mmsystem.h>
@@ -58,6 +58,7 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "mygame.h"
+#include "CManager.h"
 #include <vector>
 using namespace std;
 
@@ -174,14 +175,14 @@ namespace game_framework {
 		//CAudio::Instance()->Play(AUDIO_LAKE, true);			// 撥放 WAVE
 		//CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
 		//CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
-		counter = TIME_LEFT * 30;
+		timer = CTimer(TIME_LEFT); //ㄎㄧㄤ==
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
 	{
 		#pragma region - timer count down -
-		counter--;
-		if (counter < 0)
+		timer.CountDown();
+		if (timer.IsTimeOut())
 			GotoGameState(GAME_STATE_OVER);
 		/*if (counter % 30 == 0)
 			time_left.Add(-1);*/
@@ -460,7 +461,7 @@ namespace game_framework {
 
 		#pragma region - paint time remain -
 		char str[100];
-		sprintf(str, "%d", counter / 30);
+		sprintf(str, "%d", timer.GetTime());
 		PaintText(str, 300, 0, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 		#pragma endregion
 

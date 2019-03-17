@@ -2,7 +2,7 @@
 #include "CBlockMap.h"
 #include "CLibrary.h"
 #include "Refactor.h"
-//CManager: 地圖管理者 and 圖層管理者，供mygame使用
+//CManager: 地圖管理者 and 圖層管理者 and Timer，供mygame使用
 namespace game_framework
 {
 	#pragma region - MapManager -
@@ -36,6 +36,7 @@ namespace game_framework
 		const int directionX = 20;
 		int nowMap;
 		int loadMap;
+		string loadMapPath;
 		CBlockMap blockMap[MAX_MAP_NUMBER];
 		int x;
 		bool isMovingLeft;
@@ -58,6 +59,25 @@ namespace game_framework
 	private:
 		vector <CMovingBitmap*> layerBitmap[MAX_LAYER_NUMBER];
 		vector <CAnimate*> layerAnimate[MAX_LAYER_NUMBER];
+	};
+	#pragma endregion
+
+	#pragma region - timer -
+	class CTimer
+	{
+		public:
+			CTimer();
+			CTimer(int);
+			~CTimer();
+			void CountDown();
+			int GetTime();
+			bool IsTimeOut();
+			void ResetTime(int);
+
+			void operator=(CTimer); //運算子多載，方便在GameStateRun::OnBeginState中重構Timer
+		private:
+			const int reflash = (1000 / GAME_CYCLE_TIME); //一秒刷新幾次
+			int time;
 	};
 	#pragma endregion
 }

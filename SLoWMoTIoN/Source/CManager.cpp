@@ -204,4 +204,50 @@ namespace game_framework
 		}
 	}
 	#pragma endregion
+
+	#pragma region - timer -
+
+	CTimer::CTimer() //default constructor
+	{
+		ResetTime(99);
+	}
+
+	CTimer::CTimer(int _time) //給予初始時間
+	{
+		ResetTime(_time);
+	}
+
+	CTimer::~CTimer()
+	{
+
+	}
+
+	void CTimer::CountDown()
+	{
+		time--;
+	}
+
+	int CTimer::GetTime()
+	{
+		return time / reflash;
+	}
+
+	bool CTimer::IsTimeOut()
+	{
+		return time <= 0;
+	}
+
+	void CTimer::ResetTime(int _resetTime)
+	{
+		time = _resetTime * reflash;
+	}
+
+	#pragma region -- 窩4絕ㄉni最好4bu咬打開ㄊ拉 --
+	void CTimer::operator=(CTimer _timer)
+	{
+		time = _timer.time;
+	}
+	#pragma endregion
+
+	#pragma endregion
 }

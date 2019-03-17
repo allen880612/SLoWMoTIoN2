@@ -3,7 +3,7 @@
 namespace myLibrary
 {
 	char* ConvertCharPointToString(string, string, int);
-	int abs(int);
+	int GetPostive(int);
 }
 namespace game_framework
 {
