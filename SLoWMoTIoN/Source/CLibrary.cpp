@@ -40,7 +40,6 @@ namespace game_framework
 	}
 	#pragma endregion
 
-
 	#pragma region - CLayer -
 	CLayer::CLayer()
 	{
@@ -70,19 +69,17 @@ namespace game_framework
 	CAnimate::CAnimate()
 	{
 		x = y = bmp_index = bmp_amount = 0;
-		bitmaps.clear();
 		bmp.clear();
 	}
 
 	CAnimate::~CAnimate()
 	{
-		bitmaps.clear();
-		bmp.clear();
+
 	}
 
 	void CAnimate::OnMove(int dir)
 	{
-		GAME_ASSERT(bitmaps.size() != 0, "CAnimation: Bitmaps must be loaded first.");
+		GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
 
 		if (dir == 0)	//Top
 		{
@@ -127,7 +124,8 @@ namespace game_framework
 	{
 		for (vector<char*>::iterator bitmap = bmps.begin(); bitmap != bmps.end(); bitmap++)
 		{
-			bitmaps.push_back(AddBitmap(*(bitmap), colorkey));
+			//bitmaps.push_back(AddBitmap(*(bitmap), colorkey));
+			AddBitmap(*(bitmap), colorkey);
 		}
 	}
 

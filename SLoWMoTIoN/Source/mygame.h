@@ -124,7 +124,8 @@ namespace game_framework {
 		CBall			*ball;		// 球的陣列
 		CMovingBitmap	corner;		// 角落圖
 		CEraser			eraser;		// 拍子
-		CInteger		hits_left;	// 剩下的撞擊數
+		CInteger		time_left;	// 剩下的撞擊數
+		int				counter;
 
 		CMapManager mapManager;
 		CLayerManager layerManager;

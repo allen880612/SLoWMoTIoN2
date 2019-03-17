@@ -50,8 +50,9 @@ namespace game_framework
 		//vector<CMovingBitmap>::iterator bmp_iter;
 		int								bmp_amount;
 		int								x, y;			// 動畫的座標
-		vector<CMovingBitmap*>			bitmaps;
+		//vector<CMovingBitmap*>			bitmaps;
 		int								bmp_index;
 	};
 #pragma endregion
+
 }

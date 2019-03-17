@@ -263,6 +263,7 @@ public:
 	void SetInteger(int);		// 設定整數值
 	void SetTopLeft(int,int);	// 將動畫的左上角座標移至 (x,y)
 	void ShowBitmap();			// 將動畫貼到螢幕
+	void ShowBitmap(double);	// 將動畫加上倍率縮放貼到螢幕
 private:
 	const int NUMDIGITS;			// 共顯示NUMDIGITS個位數
 	static CMovingBitmap digit[11]; // 儲存0..9及負號之圖形(bitmap)

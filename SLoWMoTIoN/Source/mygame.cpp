@@ -134,59 +134,6 @@ namespace game_framework {
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
-	// 這個class為遊戲的結束狀態(Game Over)
-	/////////////////////////////////////////////////////////////////////////////
-
-	CGameStateOver::CGameStateOver(CGame *g)
-		: CGameState(g)
-	{
-	}
-
-	void CGameStateOver::OnMove()
-	{
-		counter--;
-		if (counter < 0)
-			GotoGameState(GAME_STATE_INIT);
-	}
-
-	void CGameStateOver::OnBeginState()
-	{
-		counter = 30 * 5; // 5 seconds
-	}
-
-	void CGameStateOver::OnInit()
-	{
-		//
-		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
-		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
-		//
-		ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
-								//
-								// 開始載入資料
-								//
-		Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
-								//
-								// 最終進度為100%
-								//
-		ShowInitProgress(100);
-	}
-
-	void CGameStateOver::OnShow()
-	{
-		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
-		CFont f, *fp;
-		f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
-		fp = pDC->SelectObject(&f);					// 選用 font f
-		pDC->SetBkColor(RGB(0, 0, 0));
-		pDC->SetTextColor(RGB(255, 255, 0));
-		char str[80];								// Demo 數字對字串的轉換
-		sprintf(str, "Game Over ! (%d)", counter / 30);
-		pDC->TextOut(240, 210, str);
-		pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
-		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
-	}
-
-	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
 	/////////////////////////////////////////////////////////////////////////////
 
@@ -206,11 +153,12 @@ namespace game_framework {
 		const int BALL_GAP = 90;
 		const int BALL_XY_OFFSET = 45;
 		const int BALL_PER_ROW = 7;
-		const int HITS_LEFT = 10;
-		const int HITS_LEFT_X = 590;
-		const int HITS_LEFT_Y = 0;
+		const int TIME_LEFT = 20;
+		const int TIME_LEFT_X = 590;
+		const int TIME_LEFT_Y = 0;
 		const int BACKGROUND_X = 60;
 		const int ANIMATION_SPEED = 15;
+
 		for (int i = 0; i < NUMBALLS; i++) {				// 設定球的起始座標
 			int x_pos = i % BALL_PER_ROW;
 			int y_pos = i / BALL_PER_ROW;
@@ -221,15 +169,24 @@ namespace game_framework {
 		eraser.Initialize();
 		background.SetTopLeft(BACKGROUND_X, 0);				// 設定背景的起始座標
 		help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
-		hits_left.SetInteger(HITS_LEFT);					// 指定剩下的撞擊數
-		hits_left.SetTopLeft(HITS_LEFT_X, HITS_LEFT_Y);		// 指定剩下撞擊數的座標
+		time_left.SetInteger(TIME_LEFT);					// 指定剩下的撞擊數
+		time_left.SetTopLeft(TIME_LEFT_X, TIME_LEFT_Y);		// 指定剩下撞擊數的座標
 		//CAudio::Instance()->Play(AUDIO_LAKE, true);			// 撥放 WAVE
 		//CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
 		//CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
+		counter = TIME_LEFT * 30;
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
 	{
+		#pragma region - timer count down -
+		counter--;
+		if (counter < 0)
+			GotoGameState(GAME_STATE_OVER);
+		/*if (counter % 30 == 0)
+			time_left.Add(-1);*/
+		#pragma endregion
+		
 		//
 		// 如果希望修改cursor的樣式，則將下面程式的commment取消即可
 		//
@@ -350,19 +307,17 @@ namespace game_framework {
 			if (ball[i].IsAlive() && ball[i].HitEraser(&eraser)) {
 				ball[i].SetIsAlive(false);
 				CAudio::Instance()->Play(AUDIO_DING);
-				hits_left.Add(0);
+				time_left.Add(0);
 				//
 				// 若剩餘碰撞次數為0，則跳到Game Over狀態
 				//
-				if (hits_left.GetInteger() <= 0) {
+				if (time_left.GetInteger() <= 0) {
 					CAudio::Instance()->Stop(AUDIO_LAKE);	// 停止 WAVE
 					CAudio::Instance()->Stop(AUDIO_NTUT);	// 停止 MIDI
 					GotoGameState(GAME_STATE_OVER);
 				}
 			}
-		//
-		// 移動彈跳的球
-		//
+
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -371,6 +326,7 @@ namespace game_framework {
 		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 		//
+
 		ShowInitProgress(33);	// 接個前一個狀態的進度，此處進度視為33%
 								//
 								// 開始載入資料
@@ -394,7 +350,7 @@ namespace game_framework {
 		corner.LoadBitmap(IDB_CORNER);								// 載入角落圖形
 		corner.ShowBitmap(background);								// 將corner貼到background
 		//bball.LoadBitmap();										// 載入圖形
-		hits_left.LoadBitmap();
+		time_left.LoadBitmap();
 		CAudio::Instance()->Load(AUDIO_DING, "sounds\\ding.wav");	// 載入編號0的聲音ding.wav
 		CAudio::Instance()->Load(AUDIO_LAKE, "sounds\\lake.mp3");	// 載入編號1的聲音lake.mp3
 		CAudio::Instance()->Load(AUDIO_NTUT, "sounds\\ntut.mid");	// 載入編號2的聲音ntut.mid
@@ -404,6 +360,7 @@ namespace game_framework {
 		mapManager.LoadMapBitmap();
 		
 	}
+
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		const char KEY_LEFT = 0x25; // keyboard左箭頭
@@ -482,7 +439,7 @@ namespace game_framework {
 		
 		//background.ShowBitmap();			// 貼上背景圖
 		help.ShowBitmap();					// 貼上說明圖
-		hits_left.ShowBitmap();
+		
 
 		corner.SetTopLeft(0, 0);
 		corner.ShowBitmap();
@@ -490,6 +447,7 @@ namespace game_framework {
 		corner.ShowBitmap();
 		//貼上MIKU
 		//miku.onShow();
+
 		#pragma region - paint object -
 		layerManager.Clear();
 		#pragma region -- add object to layer --
@@ -500,7 +458,82 @@ namespace game_framework {
 		layerManager.ShowLayer();
 		#pragma endregion
 
+		#pragma region - paint time remain -
+		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+		CFont f, *fp;
+		f.CreatePointFont(320, "Consolas");	// 產生 font f; 160表示16 point的字
+		fp = pDC->SelectObject(&f);					// 選用 font f
+		pDC->SetBkColor(RGB(255, 255, 255));
+		pDC->SetTextColor(RGB(255, 0, 0));
+		char str[80];								// Demo 數字對字串的轉換
+		//sprintf(str, "You have %d seconds left", counter / 30);
+		sprintf(str, "%d", counter / 30);
+
+		pDC->TextOut(300, 0, str);
+		pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
+		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+		#pragma endregion
+
+		
+		
+		//time_left.ShowBitmap();
+
 	}
+
+	/////////////////////////////////////////////////////////////////////////////
+	// 這個class為遊戲的結束狀態(Game Over)
+	/////////////////////////////////////////////////////////////////////////////
+
+	CGameStateOver::CGameStateOver(CGame *g)
+		: CGameState(g)
+	{
+	}
+
+	void CGameStateOver::OnMove()
+	{
+		counter--;
+		if (counter < 0)
+			GotoGameState(GAME_STATE_INIT);
+	}
+
+	void CGameStateOver::OnBeginState()
+	{
+		counter = 30 * 5; // 5 seconds
+	}
+
+	void CGameStateOver::OnInit()
+	{
+		//
+		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
+		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
+		//
+		ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
+								//
+								// 開始載入資料
+								//
+		Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+								//
+								// 最終進度為100%
+								//
+		ShowInitProgress(100);
+	}
+
+	void CGameStateOver::OnShow()
+	{
+		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+		CFont f, *fp;
+		f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
+		fp = pDC->SelectObject(&f);					// 選用 font f
+		pDC->SetBkColor(RGB(0, 0, 0));
+		pDC->SetTextColor(RGB(255, 255, 0));
+		char str[80];								// Demo 數字對字串的轉換
+		sprintf(str, "Game Over ! (%d)", counter / 30);
+		pDC->TextOut(240, 210, str);
+		pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
+		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+	}
+
+
 	CMiku::CMiku()
 	{
 		x = y = 0;
@@ -511,8 +544,6 @@ namespace game_framework {
 	{
 		pic.LoadBitmap(IDB_MIKU_A);
 	}
-
-
 
 	void CMiku::OnMove()
 	{
@@ -553,6 +584,8 @@ namespace game_framework {
 		pic.SetTopLeft(x, y);
 		pic.ShowBitmap();
 	}
+
+
 
 	
 
