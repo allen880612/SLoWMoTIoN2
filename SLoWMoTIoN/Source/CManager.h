@@ -27,7 +27,7 @@ namespace game_framework
 		void OnMove();
 
 
-		void ChangeMap(int);
+		void ChangeMap(int, string);
 		void LoadMapBitmap();
 		void OnShow();
 		CMovingBitmap* GetBitmap();

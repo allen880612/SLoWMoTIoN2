@@ -87,11 +87,18 @@ namespace game_framework
 	}
 	#pragma endregion
 
-	void CMapManager::ChangeMap(int changeMap)
+	void CMapManager::ChangeMap(int changeMap, string nextMap)
 	{
 		nowMap = changeMap;
 		loadMap = blockMap[nowMap].loadMap;
-		x = -(GetBitmapWidth() - SIZE_X);
+		if (nextMap == "left") //下一張地圖(要換的地圖)，在原本地圖的左邊 (移動到左邊的地圖)
+		{
+			x = -(GetBitmapWidth() - SIZE_X);
+		}
+		else if (nextMap == "right")  //下一張地圖(要換的地圖)，在原本地圖的右邊 (移動到右邊的地圖)
+		{
+			x = 0; 
+		}
 	}
 
 	void CMapManager::SetMovingLeft(bool _flag)

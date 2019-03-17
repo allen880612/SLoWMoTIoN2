@@ -25,13 +25,22 @@ namespace myLibrary
 		strcpy(address, file.c_str());
 		return address;
 	}
-	int abs(int k)
+	int GetPostive(int k)
 	{
 		return k > 0 ? k : -k;
 	}
 }
+using namespace myLibrary;
 namespace game_framework
 {
+	#pragma region - Function -
+	int ScreenX(int mapx, int rolex)
+	{
+		return GetPostive(mapx) + rolex;
+	}
+	#pragma endregion
+
+
 	#pragma region - CLayer -
 	CLayer::CLayer()
 	{
@@ -122,8 +131,6 @@ namespace game_framework
 		}
 	}
 
-	#pragma endregion
-
 	CMovingBitmap* CAnimate::AddBitmap(int IDB_BITMAP, COLORREF colorkey)
 	{
 		CMovingBitmap add_bmp;
@@ -192,5 +199,6 @@ namespace game_framework
 		return bmp[bmp_index].Width();
 		
 	}
+	#pragma endregion
 
 }

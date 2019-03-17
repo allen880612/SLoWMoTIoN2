@@ -252,72 +252,86 @@ namespace game_framework {
 		//
 		// 移動擦子
 		//
-		#pragma region - 左右界地圖檢查 - 卡邊界or換地圖 -
 
-		#pragma region -- 往右走:^) --
-		if (eraser.GetMovingRight() && mapManager.GetX2() <= 0)
+		#pragma region - Moving -
+
+		#pragma region -- Moving Right or Left --
+		//if (eraser.GetMovingRight())
+		//{
+		int screenPosX = ScreenX(mapManager.GetX1(), eraser.GetX3());
+
+		if (screenPosX >= mapManager.GetSplitLeft() && screenPosX < mapManager.GetSplitRight())
 		{
-			mapManager.SetMovingRight(false);
-			mapManager.SetMovingLeft(false);
-			eraser.SetCanMoving(true);
-		}
-		else if (eraser.GetMovingRight() && eraser.GetX3() >= mapManager.GetSplitLeft() && eraser.GetX3() < mapManager.GetSplitRight())
-		{
-			mapManager.SetMovingRight(true);
-			mapManager.SetMovingLeft(false);
+			mapManager.SetMovingLeft(eraser.GetMovingLeft());
+			mapManager.SetMovingRight(eraser.GetMovingRight());
 			mapManager.OnMove();
 			eraser.SetCanMoving(false);
 		}
+		else
+		{
+			mapManager.SetMovingLeft(false);
+			mapManager.SetMovingRight(false);
+			eraser.SetCanMoving(true);
+		}
+		//}
 		#pragma endregion
 
-		if (eraser.GetMovingLeft() && mapManager.GetX1() < 0)
+		#pragma region -- 左右界地圖檢查 - 卡邊界or換地圖 --
+		#pragma region -- Moving Left --
+		/*if (eraser.GetMovingLeft())
 		{
-			mapManager.SetMovingRight(false);
-			mapManager.SetMovingLeft(false);
-			eraser.SetCanMoving(true);
-		}
-		else if(eraser.GetMovingLeft() && eraser.GetX3() >= mapManager.GetSplitLeft() && eraser.GetX3() < mapManager.GetSplitRight() && mapManager.GetX1() < 0)
-		{
-			mapManager.SetMovingRight(false);
-			mapManager.SetMovingLeft(true);
-			mapManager.OnMove();
-			eraser.SetCanMoving(false);
-		}
+			int screenPosX = ScreenX(mapManager.GetX1(), eraser.GetX3());
 
-		#pragma region -- 右邊有地圖且人物往右邊行走 --
+			if (screenPosX >= mapManager.GetSplitLeft() && screenPosX < mapManager.GetSplitRight())
+			{
+				mapManager.SetMovingLeft(true);
+				mapManager.SetMovingRight(false);
+				mapManager.OnMove();
+				eraser.SetCanMoving(false);
+			}
+			else
+			{
+				mapManager.SetMovingLeft(false);
+				mapManager.SetMovingRight(false);
+				eraser.SetCanMoving(true);
+			}
+		}*/
+		#pragma endregion
+
+		#pragma region --- 右邊有地圖且人物往右邊行走 ---
 		if (eraser.GetX2() >= SIZE_X && mapManager.GetRightMap() >= 0 && eraser.GetMovingRight())
 		{
-			#pragma region --- 超過邊界 - 換地圖---
+			#pragma region ---- 超過邊界 - 換地圖 ----
 			if (eraser.GetX1() >= SIZE_X)
 			{
 				eraser.SetXY(0 - (eraser.GetX2() - eraser.GetX1()), eraser.GetY1());
-				mapManager.ChangeMap(mapManager.GetRightMap());
+				mapManager.ChangeMap(mapManager.GetRightMap(), "right");
 			}
 			#pragma endregion
 		}
 		#pragma endregion
 
-		#pragma region -- 右邊沒有地圖且人物往右邊行走 --
+		#pragma region --- 右邊沒有地圖且人物往右邊行走 ---
 		if (eraser.GetX2() >= SIZE_X && mapManager.GetRightMap() < 0 && eraser.GetMovingRight())
 		{
 			eraser.SetCanMoving(false); //沒有地圖，卡邊界
 		}
 		#pragma endregion
 
-		#pragma region -- 左邊有地圖且人物往左邊行走 --
+		#pragma region --- 左邊有地圖且人物往左邊行走 ---
 		if (eraser.GetX1() <= 0 && mapManager.GetLeftMap() >= 0 && eraser.GetMovingLeft())
 		{
-			#pragma region --- 超過邊界 - 換地圖---
+			#pragma region ---- 超過邊界 - 換地圖 ----
 			if (eraser.GetX2() <= 0) //超過邊界，換地圖
 			{
 				eraser.SetXY(SIZE_X + (eraser.GetX2() - eraser.GetX1()), eraser.GetY1());
-				mapManager.ChangeMap(mapManager.GetLeftMap());
+				mapManager.ChangeMap(mapManager.GetLeftMap(), "left");
 			}
 			#pragma endregion
 		}
 		#pragma endregion
 
-		#pragma region -- 左邊沒有地圖且人物往左邊行走 --
+		#pragma region --- 左邊沒有地圖且人物往左邊行走 ---
 		if (eraser.GetX1() <= 0 && mapManager.GetLeftMap() < 0 && eraser.GetMovingLeft())
 		{
 			eraser.SetCanMoving(false); //沒有地圖，卡邊界
@@ -325,7 +339,11 @@ namespace game_framework {
 		#pragma endregion
 		#pragma endregion
 
+		#pragma region -- role Moving --
 		eraser.OnMove();
+		#pragma endregion
+		#pragma endregion
+		
 		//
 		// 判斷擦子是否碰到球
 		//
