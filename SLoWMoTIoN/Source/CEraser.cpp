@@ -18,6 +18,11 @@ namespace game_framework {
 		Initialize();
 	}
 
+	CEraser::~CEraser()
+	{
+		animation.ReleaseAnimate();
+	}
+
 	void CEraser::Initialize()
 	{
 		const int X_POS = 0;
@@ -96,20 +101,25 @@ namespace game_framework {
 		animation.LoadBitmap(role, RGB(255, 255, 255));
 	}
 
-	void CEraser::LoadBitmap(string ziliaojia, string name)
+	void CEraser::LoadBitmap(string ziliaojia, string name, int number)
 	{
 		vector<char*> addresses;
-		for (int i = 0; i < 13; i++)
+		for (int i = 0; i < number; i++)
 		{
-			/*std::stringstream ss;
-			ss << i;
-			file = ".\\" + ziliaojia + "\\" + name + "_" + ss.str() + ".bmp";
-
-			address = new char[file.length() + 1];
-			strcpy(address, file.c_str());*/
 			addresses.push_back(ConvertCharPointToString(ziliaojia, name, i));
 		}
 		animation.LoadBitmap(addresses, RGB(255, 255, 255));
+
+		for (vector<char*>::iterator it = addresses.begin(); it != addresses.end(); it++)
+		{
+			if (NULL != *it)
+			{
+				delete *it;
+				*it = NULL;
+			}
+		}		
+		addresses.clear();
+		
 
 		height = animation.Height();
 		width = animation.Width();

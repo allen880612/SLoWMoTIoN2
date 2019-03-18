@@ -355,7 +355,7 @@ namespace game_framework {
 		for (i = 0; i < NUMBALLS; i++)
 			ball[i].LoadBitmap();								// 載入第i個球的圖形
 		//eraser.LoadBitmap();
-		eraser.LoadBitmap("Role", "MIKU");
+		eraser.LoadBitmap("Role", "MIKU", 13);
 		background.LoadBitmap(IDB_BACKGROUND);					// 載入背景的圖形
 																//
 																// 完成部分Loading動作，提高進度

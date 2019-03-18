@@ -44,14 +44,14 @@ namespace game_framework
 		int   Top();					// 取得動畫的左上角的 y 座標
 		int   Width();					// 取得動畫的寬度
 
+		void  ReleaseAnimate();
+
 
 	private:
 
 		vector<CMovingBitmap>			bmp;
-		//vector<CMovingBitmap>::iterator bmp_iter;
 		int								bmp_amount;
 		int								x, y;			// 動畫的座標
-		//vector<CMovingBitmap*>			bitmaps;
 		int								bmp_index;
 	};
 #pragma endregion

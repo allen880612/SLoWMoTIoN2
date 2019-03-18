@@ -10,6 +10,7 @@ namespace game_framework {
 	{
 	public:
 		CEraser();
+		~CEraser();
 		int  GetX1();					// 擦子左上角 x 座標
 		int  GetY1();					// 擦子左上角 y 座標
 		int  GetX3();                   // 中新點 X 座標
@@ -21,7 +22,9 @@ namespace game_framework {
 		bool GetMovingRight();          // 方方是否再往右走
 		void Initialize();				// 設定擦子為初始值
 		void LoadBitmap();				// 載入圖形
-		void LoadBitmap(string, string);				// 由路徑載入圖形
+		// 由路徑載入圖形(資料結, name, 張數)
+		void LoadBitmap(string, string, int);
+		
 		void OnMove();					// 移動擦子
 		void OnShow();					// 將擦子圖形貼到畫面
 		CAnimate* GetAnimate();
@@ -48,12 +51,12 @@ namespace game_framework {
 		bool isMovingLeft;			// 是否正在往左移動
 		bool isMovingRight;			// 是否正在往右移動
 		bool isMovingUp;			// 是否正在往上移動
-		bool canMoving;
+		bool canMoving;				// 是否可以移動
 
-		bool isJumping;
-		bool canJumping;
-		int init_velocity;
-		int velocity;
-		int gravity;
+		bool isJumping;				// 是否正在跳躍
+		bool canJumping;			// 是否可以跳躍
+		int init_velocity;			// 往上的初速度
+		int velocity;				// 速度
+		int gravity;				// 重力
 	};
 }

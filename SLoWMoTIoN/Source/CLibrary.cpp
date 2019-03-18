@@ -23,8 +23,11 @@ namespace myLibrary
 
 		address = new char[file.length() + 1];
 		strcpy(address, file.c_str());
+
+
 		return address;
 	}
+
 	int GetPostive(int k)
 	{
 		return k > 0 ? k : -k;
@@ -74,7 +77,7 @@ namespace game_framework
 
 	CAnimate::~CAnimate()
 	{
-
+		ReleaseAnimate();
 	}
 
 	void CAnimate::OnMove(int dir)
@@ -196,6 +199,13 @@ namespace game_framework
 		//return bitmaps[bmp_index]->Width();
 		return bmp[bmp_index].Width();
 		
+	}
+
+	void CAnimate::ReleaseAnimate()
+	{
+		vector<CMovingBitmap> del_vector;
+		bmp.swap(del_vector);
+		bmp.clear();
 	}
 	#pragma endregion
 
