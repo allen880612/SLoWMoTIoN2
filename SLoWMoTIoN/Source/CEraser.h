@@ -15,6 +15,8 @@ namespace game_framework {
 		int  GetX3();                   // 中新點 X 座標
 		int  GetX2();					// 擦子右下角 x 座標
 		int  GetY2();					// 擦子右下角 y 座標
+		int  Height();
+		int  Width();
 		bool GetMovingLeft();           // 方方是否在往左走
 		bool GetMovingRight();          // 方方是否再往右走
 		void Initialize();				// 設定擦子為初始值
@@ -29,18 +31,29 @@ namespace game_framework {
 		void SetMovingUp(bool flag);	// 設定是否正在往上移動
 		void SetXY(int nx, int ny);		// 設定擦子左上角座標
 
+		bool GetMovingJump();
+		void SetMovingJump(bool);
+		bool GetCanJumping();
+		void SetCanJumping(bool);
 		
-
 		void SetCanMoving(bool);
 		bool GetCanMoving();
 		CLayer layer;
+
 	protected:
 		CAnimate animation;			// 擦子的動畫
+		int height, width;			// 擦子的高、寬
 		int x, y;					// 擦子左上角座標
 		bool isMovingDown;			// 是否正在往下移動
 		bool isMovingLeft;			// 是否正在往左移動
 		bool isMovingRight;			// 是否正在往右移動
 		bool isMovingUp;			// 是否正在往上移動
 		bool canMoving;
+
+		bool isJumping;
+		bool canJumping;
+		int init_velocity;
+		int velocity;
+		int gravity;
 	};
 }

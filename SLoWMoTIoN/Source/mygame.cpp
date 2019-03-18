@@ -300,6 +300,24 @@ namespace game_framework {
 		eraser.OnMove();
 		#pragma endregion
 		#pragma endregion
+
+		#pragma region - Jump -
+		if (eraser.GetMovingJump())
+		{
+			if (eraser.GetY2() > SIZE_Y)
+			{
+				eraser.SetMovingJump(false);
+				eraser.SetCanJumping(true);
+				eraser.SetXY(eraser.GetX1(), SIZE_Y - eraser.Height() - 1);
+			}
+			else
+			{
+				eraser.SetMovingJump(true);
+				eraser.SetCanJumping(false);
+			}
+
+		}
+		#pragma endregion
 		
 		//
 		// 判斷擦子是否碰到球

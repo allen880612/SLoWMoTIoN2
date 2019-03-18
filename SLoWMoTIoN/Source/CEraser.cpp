@@ -18,6 +18,23 @@ namespace game_framework {
 		Initialize();
 	}
 
+	void CEraser::Initialize()
+	{
+		const int X_POS = 0;
+		const int Y_POS = 320;
+		x = X_POS;
+		y = Y_POS;
+		isMovingLeft = isMovingRight = isMovingUp = isMovingDown = isJumping = false;
+		canJumping = canMoving = true;
+
+		const int INIT_VELOCITY = 40;				//設定初速度
+		const int GRAVITY = 4;						//設定重力
+		init_velocity = velocity = INIT_VELOCITY;
+		gravity = GRAVITY;
+
+		layer.SetLayer(8);
+	}
+
 	int CEraser::GetX1()
 	{
 		return x;
@@ -43,6 +60,16 @@ namespace game_framework {
 		return x + animation.Width() / 2;
 	}
 
+	int CEraser::Height()
+	{
+		return height;
+	}
+
+	int CEraser::Width()
+	{
+		return width;
+	}
+
 	bool CEraser::GetMovingLeft()
 	{
 		return isMovingLeft;
@@ -53,14 +80,9 @@ namespace game_framework {
 		return isMovingRight;
 	}
 
-	void CEraser::Initialize()
+	bool CEraser::GetMovingJump()
 	{
-		const int X_POS = 0;
-		const int Y_POS = 400;
-		x = X_POS;
-		y = Y_POS;
-		isMovingLeft = isMovingRight = isMovingUp = isMovingDown = false;
-		layer.SetLayer(8);
+		return isJumping;
 	}
 
 	void CEraser::LoadBitmap()
@@ -88,6 +110,9 @@ namespace game_framework {
 			addresses.push_back(ConvertCharPointToString(ziliaojia, name, i));
 		}
 		animation.LoadBitmap(addresses, RGB(255, 255, 255));
+
+		height = animation.Height();
+		width = animation.Width();
 	}
 
 	void CEraser::OnMove()
@@ -98,8 +123,11 @@ namespace game_framework {
 		if (isMovingUp)
 		{
 			dir = 0;
-			if (canMoving)
-				y -= STEP_SIZE;
+			if (canMoving && canJumping)
+			{
+				isJumping = true;
+				//y -= STEP_SIZE;
+			}
 		}
 		if (isMovingRight)
 		{
@@ -119,6 +147,28 @@ namespace game_framework {
 			if (canMoving)
 				x -= STEP_SIZE;
 		}
+		if (isJumping)
+		{
+			if (canJumping)
+			{
+				velocity = init_velocity;
+			}
+			else
+			{
+				//jump
+				if (velocity > 0)
+				{
+					velocity -= gravity;
+					y -= velocity;
+				}
+				else
+				{
+					velocity -= gravity;
+					y -= velocity;
+				}
+			}
+		}
+
 		animation.OnMove(dir);
 	}
 
@@ -146,6 +196,21 @@ namespace game_framework {
 		canMoving = flag | isMovingLeft | isMovingRight | isMovingDown;
 	}
 
+	void CEraser::SetMovingJump(bool flag)
+	{
+		isJumping = flag;
+	}
+
+	bool CEraser::GetCanJumping()
+	{
+		return canJumping;
+	}
+
+	void CEraser::SetCanJumping(bool flag)
+	{
+		canJumping = flag;
+	}
+
 	void CEraser::SetCanMoving(bool _canMoving)
 	{
 		canMoving = _canMoving;
@@ -155,7 +220,6 @@ namespace game_framework {
 	{
 		return canMoving;
 	}
-
 
 	void CEraser::SetXY(int nx, int ny)
 	{
