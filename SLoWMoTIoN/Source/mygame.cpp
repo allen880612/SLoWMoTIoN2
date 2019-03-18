@@ -26,7 +26,7 @@
 *         demonstrate the use of states.
 *      2. Demo the use of CInteger in CGameStateRun.
 *   2005-09-13
-*      Rewrite the codes for CBall and CEraser.
+*      Rewrite the codes for CBall and Crole.
 *   2005-09-20 V4.2Beta1.
 *   2005-09-29 V4.2Beta2.
 *      1. Add codes to display IDC_GAMECURSOR in GameStateRun.
@@ -167,7 +167,7 @@ namespace game_framework {
 			ball[i].SetDelay(x_pos);
 			ball[i].SetIsAlive(true);
 		}
-		eraser.Initialize();
+		role.Initialize();
 		background.SetTopLeft(BACKGROUND_X, 0);				// 設定背景的起始座標
 		help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
 		time_left.SetInteger(TIME_LEFT);					// 指定剩下的撞擊數
@@ -212,41 +212,41 @@ namespace game_framework {
 		//
 
 		#pragma region - Moving -
-		int screenPosX = ScreenX(mapManager.GetX1(), eraser.GetX3());
+		int screenPosX = ScreenX(mapManager.GetX1(), role.GetX3());
 		#pragma region -- Moving Right --
 
-		if (eraser.GetMovingRight())
+		if (role.GetMovingRight())
 		{
 			if (screenPosX >= mapManager.GetSplitLeft() && screenPosX < mapManager.GetSplitRight())
 			{
 				mapManager.SetMovingLeft(false);
 				mapManager.SetMovingRight(true);
 				mapManager.OnMove();
-				eraser.SetCanMoving(false);
+				role.SetCanMoving(false);
 			}
 			else
 			{
 				mapManager.SetMovingLeft(false);
 				mapManager.SetMovingRight(false);
-				eraser.SetCanMoving(true);
+				role.SetCanMoving(true);
 			}
 		}
 
 		#pragma region -- Moving Left --
-		if (eraser.GetMovingLeft())
+		if (role.GetMovingLeft())
 		{
 			if (screenPosX > mapManager.GetSplitLeft() && screenPosX <= mapManager.GetSplitRight())
 			{
 				mapManager.SetMovingLeft(true);
 				mapManager.SetMovingRight(false);
 				mapManager.OnMove();
-				eraser.SetCanMoving(false);
+				role.SetCanMoving(false);
 			}
 			else
 			{
 				mapManager.SetMovingLeft(false);
 				mapManager.SetMovingRight(false);
-				eraser.SetCanMoving(true);
+				role.SetCanMoving(true);
 			}
 		}
 		#pragma endregion
@@ -256,12 +256,12 @@ namespace game_framework {
 		
 
 		#pragma region --- 右邊有地圖且人物往右邊行走 ---
-		if (eraser.GetX2() >= SIZE_X && mapManager.GetRightMap() >= 0 && eraser.GetMovingRight())
+		if (role.GetX2() >= SIZE_X && mapManager.GetRightMap() >= 0 && role.GetMovingRight())
 		{
 			#pragma region ---- 超過邊界 - 換地圖 ----
-			if (eraser.GetX1() >= SIZE_X)
+			if (role.GetX1() >= SIZE_X)
 			{
-				eraser.SetXY(0 - (eraser.GetX2() - eraser.GetX1()), eraser.GetY1());
+				role.SetXY(0 - (role.GetX2() - role.GetX1()), role.GetY1());
 				mapManager.ChangeMap(mapManager.GetRightMap(), "right");
 			}
 			#pragma endregion
@@ -269,19 +269,19 @@ namespace game_framework {
 		#pragma endregion
 
 		#pragma region --- 右邊沒有地圖且人物往右邊行走 ---
-		if (eraser.GetX2() >= SIZE_X && mapManager.GetRightMap() < 0 && eraser.GetMovingRight())
+		if (role.GetX2() >= SIZE_X && mapManager.GetRightMap() < 0 && role.GetMovingRight())
 		{
-			eraser.SetCanMoving(false); //沒有地圖，卡邊界
+			role.SetCanMoving(false); //沒有地圖，卡邊界
 		}
 		#pragma endregion
 
 		#pragma region --- 左邊有地圖且人物往左邊行走 ---
-		if (eraser.GetX1() <= 0 && mapManager.GetLeftMap() >= 0 && eraser.GetMovingLeft())
+		if (role.GetX1() <= 0 && mapManager.GetLeftMap() >= 0 && role.GetMovingLeft())
 		{
 			#pragma region ---- 超過邊界 - 換地圖 ----
-			if (eraser.GetX2() <= 0) //超過邊界，換地圖
+			if (role.GetX2() <= 0) //超過邊界，換地圖
 			{
-				eraser.SetXY(SIZE_X + (eraser.GetX2() - eraser.GetX1()), eraser.GetY1());
+				role.SetXY(SIZE_X + (role.GetX2() - role.GetX1()), role.GetY1());
 				mapManager.ChangeMap(mapManager.GetLeftMap(), "left");
 			}
 			#pragma endregion
@@ -289,31 +289,31 @@ namespace game_framework {
 		#pragma endregion
 
 		#pragma region --- 左邊沒有地圖且人物往左邊行走 ---
-		if (eraser.GetX1() <= 0 && mapManager.GetLeftMap() < 0 && eraser.GetMovingLeft())
+		if (role.GetX1() <= 0 && mapManager.GetLeftMap() < 0 && role.GetMovingLeft())
 		{
-			eraser.SetCanMoving(false); //沒有地圖，卡邊界
+			role.SetCanMoving(false); //沒有地圖，卡邊界
 		}
 		#pragma endregion
 		#pragma endregion
 
 		#pragma region -- role Moving --
-		eraser.OnMove();
+		role.OnMove();
 		#pragma endregion
 		#pragma endregion
 
 		#pragma region - Jump -
-		if (eraser.GetMovingJump())
+		if (role.GetMovingJump())
 		{
-			if (eraser.GetY2() > SIZE_Y)
+			if (role.GetY2() > SIZE_Y)
 			{
-				eraser.SetMovingJump(false);
-				eraser.SetCanJumping(true);
-				eraser.SetXY(eraser.GetX1(), SIZE_Y - eraser.Height() - 1);
+				role.SetMovingJump(false);
+				role.SetCanJumping(true);
+				role.SetXY(role.GetX1(), SIZE_Y - role.Height() - 1);
 			}
 			else
 			{
-				eraser.SetMovingJump(true);
-				eraser.SetCanJumping(false);
+				role.SetMovingJump(true);
+				role.SetCanJumping(false);
 			}
 
 		}
@@ -323,7 +323,7 @@ namespace game_framework {
 		// 判斷擦子是否碰到球
 		//
 		for (i = 0; i < NUMBALLS; i++)
-			if (ball[i].IsAlive() && ball[i].HitEraser(&eraser)) {
+			if (ball[i].IsAlive() && ball[i].HitEraser(&role)) {
 				ball[i].SetIsAlive(false);
 				CAudio::Instance()->Play(AUDIO_DING);
 				time_left.Add(0);
@@ -354,8 +354,8 @@ namespace game_framework {
 		int i;
 		for (i = 0; i < NUMBALLS; i++)
 			ball[i].LoadBitmap();								// 載入第i個球的圖形
-		//eraser.LoadBitmap();
-		eraser.LoadBitmap("Role", "MIKU", 13);
+		//role.LoadBitmap();
+		role.LoadBitmap("Role", "MIKU", 13);
 		background.LoadBitmap(IDB_BACKGROUND);					// 載入背景的圖形
 																//
 																// 完成部分Loading動作，提高進度
@@ -390,18 +390,18 @@ namespace game_framework {
 									//或者是在人物裡面做判斷可否行走(?)函數
 		if (nChar == KEY_LEFT)
 		{
-			eraser.SetMovingLeft(true);
+			role.SetMovingLeft(true);
 			//mapManager.ChangeMap(mapManager.GetLeftMap());
 		}
 		if (nChar == KEY_RIGHT)
 		{
-			eraser.SetMovingRight(true);
+			role.SetMovingRight(true);
 			//mapManager.ChangeMap(mapManager.GetRightMap());
 		}
 		if (nChar == KEY_UP)
-			eraser.SetMovingUp(true);
+			role.SetMovingUp(true);
 		if (nChar == KEY_DOWN)
-			eraser.SetMovingDown(true);
+			role.SetMovingDown(true);
 	}
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -411,23 +411,23 @@ namespace game_framework {
 		const char KEY_RIGHT = 0x27; // keyboard右箭頭
 		const char KEY_DOWN = 0x28; // keyboard下箭頭
 		if (nChar == KEY_LEFT)
-			eraser.SetMovingLeft(false);
+			role.SetMovingLeft(false);
 		if (nChar == KEY_RIGHT)
-			eraser.SetMovingRight(false);
+			role.SetMovingRight(false);
 		if (nChar == KEY_UP)
-			eraser.SetMovingUp(false);
+			role.SetMovingUp(false);
 		if (nChar == KEY_DOWN)
-			eraser.SetMovingDown(false);
+			role.SetMovingDown(false);
 	}
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
-		eraser.SetMovingLeft(true);
+		role.SetMovingLeft(true);
 	}
 
 	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
-		eraser.SetMovingLeft(false);
+		role.SetMovingLeft(false);
 	}
 
 	void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -437,12 +437,12 @@ namespace game_framework {
 
 	void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
-		eraser.SetMovingRight(true);
+		role.SetMovingRight(true);
 	}
 
 	void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
-		eraser.SetMovingRight(false);
+		role.SetMovingRight(false);
 	}
 
 	void CGameStateRun::OnShow()
@@ -471,7 +471,7 @@ namespace game_framework {
 		layerManager.Clear();
 		#pragma region -- add object to layer --
 		layerManager.AddObject(miku.GetBitmap(), miku.GetLayer());
-		layerManager.AddObject(eraser.GetAnimate(), eraser.layer.GetLayer());
+		layerManager.AddObject(role.GetAnimate(), role.layer.GetLayer());
 		layerManager.AddObject(mapManager.GetBitmap(), mapManager.layer.GetLayer());
 		#pragma endregion
 		layerManager.ShowLayer();

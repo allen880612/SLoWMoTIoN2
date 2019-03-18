@@ -6,6 +6,7 @@ namespace game_framework {
 	// 看懂就可以改寫成自己的程式了
 	/////////////////////////////////////////////////////////////////////////////
 	
+	#pragma region - CEraser -
 	class CEraser
 	{
 	public:
@@ -34,11 +35,6 @@ namespace game_framework {
 		void SetMovingUp(bool flag);	// 設定是否正在往上移動
 		void SetXY(int nx, int ny);		// 設定擦子左上角座標
 
-		bool GetMovingJump();
-		void SetMovingJump(bool);
-		bool GetCanJumping();
-		void SetCanJumping(bool);
-		
 		void SetCanMoving(bool);
 		bool GetCanMoving();
 		CLayer layer;
@@ -47,16 +43,33 @@ namespace game_framework {
 		CAnimate animation;			// 擦子的動畫
 		int height, width;			// 擦子的高、寬
 		int x, y;					// 擦子左上角座標
+
 		bool isMovingDown;			// 是否正在往下移動
 		bool isMovingLeft;			// 是否正在往左移動
 		bool isMovingRight;			// 是否正在往右移動
 		bool isMovingUp;			// 是否正在往上移動
 		bool canMoving;				// 是否可以移動
+	};
+	#pragma endregion
 
+	#pragma region - CRole -
+	class CRole : public CEraser
+	{
+	public:
+		CRole();
+		~CRole();
+		void OnMove();
+		bool GetMovingJump();
+		void SetMovingJump(bool);
+		bool GetCanJumping();
+		void SetCanJumping(bool);
+
+	protected:
 		bool isJumping;				// 是否正在跳躍
 		bool canJumping;			// 是否可以跳躍
 		int init_velocity;			// 往上的初速度
 		int velocity;				// 速度
 		int gravity;				// 重力
 	};
+	#pragma endregion
 }

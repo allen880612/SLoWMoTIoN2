@@ -29,13 +29,8 @@ namespace game_framework {
 		const int Y_POS = 320;
 		x = X_POS;
 		y = Y_POS;
-		isMovingLeft = isMovingRight = isMovingUp = isMovingDown = isJumping = false;
-		canJumping = canMoving = true;
-
-		const int INIT_VELOCITY = 40;				//設定初速度
-		const int GRAVITY = 4;						//設定重力
-		init_velocity = velocity = INIT_VELOCITY;
-		gravity = GRAVITY;
+		isMovingLeft = isMovingRight = isMovingUp = isMovingDown = false;
+		canMoving = true;
 
 		layer.SetLayer(8);
 	}
@@ -79,15 +74,10 @@ namespace game_framework {
 	{
 		return isMovingLeft;
 	}
-
+	
 	bool CEraser::GetMovingRight()
 	{
 		return isMovingRight;
-	}
-
-	bool CEraser::GetMovingJump()
-	{
-		return isJumping;
 	}
 
 	void CEraser::LoadBitmap()
@@ -129,6 +119,103 @@ namespace game_framework {
 	{
 		const int STEP_SIZE = 20;
 		int dir = -1;			
+
+		if (isMovingUp)
+		{
+			dir = 0;
+		}
+		if (isMovingRight)
+		{
+			dir = 1;
+			if (canMoving)
+				x += STEP_SIZE;
+		}
+		if (isMovingDown)
+		{
+			dir = 2;
+			if (canMoving)
+				y += STEP_SIZE;
+		}
+		if (isMovingLeft)
+		{
+			dir = 3;
+			if (canMoving)
+				x -= STEP_SIZE;
+		}
+
+		animation.OnMove(dir);
+	}
+
+	void CEraser::SetMovingDown(bool flag)
+	{
+		isMovingDown = flag;
+		canMoving = flag | isMovingLeft | isMovingRight | isMovingUp;
+	}
+
+	void CEraser::SetMovingLeft(bool flag)
+	{
+		isMovingLeft = flag;
+		canMoving = flag | isMovingDown | isMovingRight | isMovingUp;
+	}
+
+	void CEraser::SetMovingRight(bool flag)
+	{
+		isMovingRight = flag;
+		canMoving = flag | isMovingDown | isMovingLeft | isMovingUp;
+	}
+
+	void CEraser::SetMovingUp(bool flag)
+	{
+		isMovingUp = flag;
+		canMoving = flag | isMovingLeft | isMovingRight | isMovingDown;
+	}
+
+	void CEraser::SetCanMoving(bool _canMoving)
+	{
+		canMoving = _canMoving;
+	}
+
+	bool CEraser::GetCanMoving()
+	{
+		return canMoving;
+	}
+
+	void CEraser::SetXY(int nx, int ny)
+	{
+		x = nx; y = ny;
+	}
+
+	void CEraser::OnShow()
+	{
+		animation.SetTopLeft(x, y);
+		animation.OnShow();
+	}
+
+	CAnimate* CEraser::GetAnimate()
+	{
+		animation.SetTopLeft(x, y);
+		return &animation;
+	}
+
+	#pragma region - CRole -
+	CRole::CRole() : CEraser()
+	{
+		isJumping = false;
+		canJumping = true;
+		const int INIT_VELOCITY = 40;				//設定初速度
+		const int GRAVITY = 4;						//設定重力
+		init_velocity = velocity = INIT_VELOCITY;
+		gravity = GRAVITY;
+	}
+	CRole::~CRole()
+	{
+
+	}
+
+	void CRole::OnMove()
+	{
+		const int STEP_SIZE = 20;
+		int dir = -1;
 
 		if (isMovingUp)
 		{
@@ -182,69 +269,24 @@ namespace game_framework {
 		animation.OnMove(dir);
 	}
 
-	void CEraser::SetMovingDown(bool flag)
+	bool CRole::GetMovingJump()
 	{
-		isMovingDown = flag;
-		canMoving = flag | isMovingLeft | isMovingRight | isMovingUp;
+		return isJumping;
 	}
 
-	void CEraser::SetMovingLeft(bool flag)
-	{
-		isMovingLeft = flag;
-		canMoving = flag | isMovingDown | isMovingRight | isMovingUp;
-	}
-
-	void CEraser::SetMovingRight(bool flag)
-	{
-		isMovingRight = flag;
-		canMoving = flag | isMovingDown | isMovingLeft | isMovingUp;
-	}
-
-	void CEraser::SetMovingUp(bool flag)
-	{
-		isMovingUp = flag;
-		canMoving = flag | isMovingLeft | isMovingRight | isMovingDown;
-	}
-
-	void CEraser::SetMovingJump(bool flag)
+	void CRole::SetMovingJump(bool flag)
 	{
 		isJumping = flag;
 	}
 
-	bool CEraser::GetCanJumping()
+	bool CRole::GetCanJumping()
 	{
 		return canJumping;
 	}
 
-	void CEraser::SetCanJumping(bool flag)
+	void CRole::SetCanJumping(bool flag)
 	{
 		canJumping = flag;
 	}
-
-	void CEraser::SetCanMoving(bool _canMoving)
-	{
-		canMoving = _canMoving;
-	}
-
-	bool CEraser::GetCanMoving()
-	{
-		return canMoving;
-	}
-
-	void CEraser::SetXY(int nx, int ny)
-	{
-		x = nx; y = ny;
-	}
-
-	void CEraser::OnShow()
-	{
-		animation.SetTopLeft(x, y);
-		animation.OnShow();
-	}
-
-	CAnimate* CEraser::GetAnimate()
-	{
-		animation.SetTopLeft(x, y);
-		return &animation;
-	}
+	#pragma endregion
 }
