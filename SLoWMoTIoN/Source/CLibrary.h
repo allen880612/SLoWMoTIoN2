@@ -5,6 +5,7 @@ namespace myLibrary
 	char* ConvertCharPointToString(string, string, int);
 	void DeleteCharPoint(vector<char*>);
 	int GetPostive(int);
+	int GetRandom(int, int); //得到Random數字，min <= k < max
 }
 namespace game_framework
 {
@@ -56,5 +57,24 @@ namespace game_framework
 		int								bmp_index;
 	};
 #pragma endregion
+
+	#pragma region - timer -
+	class CTimer
+	{
+	public:
+		CTimer();
+		CTimer(int);
+		~CTimer();
+		void CountDown();
+		int GetTime();
+		bool IsTimeOut();
+		void ResetTime(int);
+
+		void operator=(CTimer); //運算子多載，方便在GameStateRun::OnBeginState中重構Timer
+	private:
+		const int reflash = (1000 / GAME_CYCLE_TIME); //一秒刷新幾次
+		int time;
+	};
+	#pragma endregion
 
 }

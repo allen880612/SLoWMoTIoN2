@@ -293,25 +293,37 @@ namespace game_framework {
 	#pragma region - CNPC -
 	CNPC::CNPC() : CEraser()
 	{
-		InitX = 0;
-		x = InitX;
+		initX = 0;
+		x = initX;
+		y = 300;
 		layer.SetLayer(6);
 
+		isValid = true;
 		//LoadBitmap("Role", "LUKA", 2);
 	}
-	CNPC::CNPC(int _x, string ziliaojia, string name, int number) : CEraser()
+
+	CNPC::CNPC(int _x, int _y, string ziliaojia, string name, int number) : CEraser()
 	{
-		InitX = _x;
-		x = InitX;
+		initX = _x;
+		x = initX;
+		y = _y;
 		layer.SetLayer(6);
 
+		isValid = true;
 		//LoadBitmap(ziliaojia, name, number);
 	}
+
 	void CNPC::SetXY(int _x, int _y)
 	{
 		CEraser::SetXY(_x, _y);
 		animation.SetTopLeft(x, y);
 	}
+
+	bool CNPC::IsValid()
+	{
+		return isValid;
+	}
+
 	CNPC::~CNPC()
 	{
 

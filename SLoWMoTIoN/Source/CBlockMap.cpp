@@ -32,6 +32,18 @@ namespace game_framework
 		npc.clear();
 	}
 
+	CBlockMap::CBlockMap(int _nowMap, int _upMap, int _downMap, int _leftMap, int _rightMap, string _ziliaojia, string _name, int _number)
+	{
+		nowMap = _nowMap;
+		upMap = _upMap;
+		downMap = _downMap;
+		leftMap = _leftMap;
+		rightMap = _rightMap;
+		ziliaojia = _ziliaojia;
+		name = _name;
+		number = _number;
+		npc.clear();
+	}
 
 	CBlockMap::~CBlockMap()
 	{

@@ -59,6 +59,7 @@
 #include "gamelib.h"
 #include "mygame.h"
 #include "CManager.h"
+#include "CLibrary.h"
 #include <vector>
 using namespace std;
 
@@ -480,7 +481,8 @@ namespace game_framework {
 		layerManager.AddObject(mapManager.GetBitmap(), mapManager.layer.GetLayer());
 		for (int i = 0; i < mapManager.GetNpcNumber(); i++)
 		{
-			layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));
+			if(mapManager.GetNpcValid(i))
+				layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));
 		}
 		#pragma endregion
 		layerManager.ShowLayer();

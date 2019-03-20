@@ -116,11 +116,11 @@ ID_RED                  BITMAP                  "..\\res\\id_green.bmp"
 
 IDB_MAP0                BITMAP                  "..\\RES\\IDB_MAP0.bmp"
 
-IDB_MAP1                BITMAP                  "..\\RES\\IDB_MAP1.bmp"
+IDB_MAP1                BITMAP                  "..\\RES\\IDB_MAP_1.bmp"
 
-IDB_MAP2                BITMAP                  "..\\RES\\IDB_MAP2.bmp"
+IDB_MAP2                BITMAP                  "..\\RES\\IDB_MAP_2.bmp"
 
-IDB_MAP0_2              BITMAP                  "..\\RES\\IDB_MAP0_V2.bmp"
+IDB_MAP0_2              BITMAP                  "..\\RES\\IDB_MAP_0.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////

@@ -1,3 +1,4 @@
+#pragma once
 #include "stdafx.h"
 #include "Resource.h"
 #include <mmsystem.h>
@@ -10,6 +11,7 @@
 #include "MainFrm.h"
 #include <string.h>
 #include "mygame.h"
+#include <time.h>
 #include <sstream>
 
 namespace myLibrary
@@ -45,6 +47,13 @@ namespace myLibrary
 	{
 		return k > 0 ? k : -k;
 	}
+
+	int GetRandom(int minNumber, int maxNumber)
+	{
+		//srand(time(NULL));
+		int random = rand() % (maxNumber - minNumber + 1) + minNumber;
+		return random;
+	}
 }
 using namespace myLibrary;
 namespace game_framework
@@ -54,7 +63,7 @@ namespace game_framework
 	{
 		return GetPostive(mapx) + rolex;
 	}
-	#pragma endregion
+#pragma endregion
 
 	#pragma region - CLayer -
 	CLayer::CLayer()
@@ -79,7 +88,7 @@ namespace game_framework
 			_layer = 0;
 		layer = _layer;
 	}
-	#pragma endregion
+#pragma endregion
 
 	#pragma region - CAnimate -
 	CAnimate::CAnimate()
@@ -131,7 +140,7 @@ namespace game_framework
 		{
 			bmp_index = 0;
 		}
-		
+
 		//bitmaps[bmp_index]->SetTopLeft(x, y);
 		bmp[bmp_index].SetTopLeft(x, y);
 	}
@@ -182,8 +191,8 @@ namespace game_framework
 		GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded before they are shown.");
 		//bitmaps[bmp_index]->ShowBitmap();
 		bmp[bmp_index].ShowBitmap();
-		
-		
+
+
 	}
 
 	int CAnimate::Top()
@@ -203,7 +212,7 @@ namespace game_framework
 		GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
 		//return bitmaps[bmp_index]->Height();
 		return bmp[bmp_index].Height();
-		
+
 	}
 
 	int CAnimate::Width()
@@ -211,7 +220,7 @@ namespace game_framework
 		GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
 		//return bitmaps[bmp_index]->Width();
 		return bmp[bmp_index].Width();
-		
+
 	}
 
 	void CAnimate::ReleaseAnimate()
@@ -220,6 +229,51 @@ namespace game_framework
 		bmp.swap(del_vector);
 		bmp.clear();
 	}
+#pragma endregion
+
+	#pragma region - timer -
+
+	CTimer::CTimer() //default constructor
+	{
+		ResetTime(99);
+	}
+
+	CTimer::CTimer(int _time) //給予初始時間
+	{
+		ResetTime(_time);
+	}
+
+	CTimer::~CTimer()
+	{
+
+	}
+
+	void CTimer::CountDown()
+	{
+		time--;
+	}
+
+	int CTimer::GetTime()
+	{
+		return time / reflash;
+	}
+
+	bool CTimer::IsTimeOut()
+	{
+		return time <= 0;
+	}
+
+	void CTimer::ResetTime(int _resetTime)
+	{
+		time = _resetTime * reflash;
+	}
+
+	#pragma region -- 窩4絕ㄉni最好4bu咬打開ㄊ拉 --
+	void CTimer::operator=(CTimer _timer)
+	{
+		time = _timer.time;
+	}
 	#pragma endregion
 
+	#pragma endregion
 }

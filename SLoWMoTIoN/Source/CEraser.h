@@ -78,11 +78,13 @@ namespace game_framework {
 	{
 	public:
 		CNPC();
-		CNPC(int, string, string, int);
+		CNPC(int, int, string, string, int);
 		void SetXY(int, int);
+		bool IsValid();
 		~CNPC();
 	private:
-		int InitX;
+		int initX;
+		bool isValid;
 	};
 	#pragma endregion
 }

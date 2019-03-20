@@ -24,6 +24,8 @@ namespace game_framework
 		int GetBitmapWidth();
 		int GetNpcNumber();
 		int GetNpcLayer(int);
+		bool GetNpcValid(int);
+
 		void SetMovingLeft(bool);
 		void SetMovingRight(bool);
 		void OnMove();
@@ -65,25 +67,6 @@ namespace game_framework
 	private:
 		vector <CMovingBitmap*> layerBitmap[MAX_LAYER_NUMBER];
 		vector <CAnimate*> layerAnimate[MAX_LAYER_NUMBER];
-	};
-	#pragma endregion
-
-	#pragma region - timer -
-	class CTimer
-	{
-		public:
-			CTimer();
-			CTimer(int);
-			~CTimer();
-			void CountDown();
-			int GetTime();
-			bool IsTimeOut();
-			void ResetTime(int);
-
-			void operator=(CTimer); //運算子多載，方便在GameStateRun::OnBeginState中重構Timer
-		private:
-			const int reflash = (1000 / GAME_CYCLE_TIME); //一秒刷新幾次
-			int time;
 	};
 	#pragma endregion
 }

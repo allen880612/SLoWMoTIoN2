@@ -5,6 +5,8 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "CManager.h"
+#include "CLibrary.h"
+using namespace myLibrary;
 
 namespace game_framework
 {
@@ -68,6 +70,11 @@ namespace game_framework
 	int CMapManager::GetNpcLayer(int npcIndex)
 	{
 		return blockMap[nowMap].npc[npcIndex].layer.GetLayer();
+	}
+
+	bool CMapManager::GetNpcValid(int npcIndex)
+	{
+		return blockMap[nowMap].npc[npcIndex].IsValid();
 	}
 
 	CMovingBitmap* CMapManager::GetBitmap()
@@ -137,13 +144,13 @@ namespace game_framework
 		{
 			x += directionX;
 			for(unsigned int npcIndex = 0; npcIndex < blockMap[nowMap].npc.size(); npcIndex++)
-				blockMap[nowMap].npc[npcIndex].SetXY(blockMap[nowMap].npc[npcIndex].GetX1() + directionX, 300);
+				blockMap[nowMap].npc[npcIndex].SetXY(blockMap[nowMap].npc[npcIndex].GetX1() + directionX, blockMap[nowMap].npc[npcIndex].GetY1());
 		}
 		if (isMovingRight)
 		{
 			x -= directionX;
 			for (unsigned int npcIndex = 0; npcIndex < blockMap[nowMap].npc.size(); npcIndex++)
-				blockMap[nowMap].npc[npcIndex].SetXY(blockMap[nowMap].npc[npcIndex].GetX1() - directionX, 300);
+				blockMap[nowMap].npc[npcIndex].SetXY(blockMap[nowMap].npc[npcIndex].GetX1() - directionX, blockMap[nowMap].npc[npcIndex].GetY1());
 		}
 	}
 
@@ -160,24 +167,24 @@ namespace game_framework
 			switch (mapIndex)
 			{				//順序：目前 上 下 左 右 ， -1表示不存在
 			case 0:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 1, 2, IDB_MAP0_2);
-				blockMap[mapIndex].npc.push_back(CNPC(200, "Role\\NPC", "LUKA", 2));
+				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 1, 2, "RES", "IDB_MAP", mapIndex);
+				blockMap[mapIndex].npc.push_back(CNPC(200, 300, "Role\\NPC", "LUKA", 2));
 				break;
 
 			case 1:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, -1, 0, IDB_MAP1);
-				blockMap[mapIndex].npc.push_back(CNPC(400, "Role", "LUKA", 2));
+				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, -1, 0, "RES", "IDB_MAP", mapIndex);
+				blockMap[mapIndex].npc.push_back(CNPC(400, 300, "Role", "LUKA", 2));
 				break;
 
 			case 2:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 0, -1, IDB_MAP2);
-				blockMap[mapIndex].npc.push_back(CNPC(800, "Role", "LUKA", 2));
+				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 0, -1, "RES", "IDB_MAP", mapIndex);
+				blockMap[mapIndex].npc.push_back(CNPC(800, 300, "Role", "LUKA", 2));
 				break;
 
 			default:
-				blockMap[mapIndex] = CBlockMap(-1, -1, -1, -1, -1, IDB_MAP0);
+				blockMap[mapIndex] = CBlockMap(-1, -1, -1, -1, -1, "RES", "IDB_MAP", 0);
 
-				blockMap[mapIndex].npc.push_back(CNPC(0, "Role", "LUKA", 2));
+				blockMap[mapIndex].npc.push_back(CNPC(0, 300, "Role", "LUKA", 2));
 				break;
 			}
 		}
@@ -187,7 +194,7 @@ namespace game_framework
 	{
 		for (int mapIndex = 0; mapIndex < MAX_MAP_NUMBER; mapIndex++)
 		{
-			blockMap[mapIndex].backgroundBitmap.LoadBitmapA(blockMap[mapIndex].loadMap);
+			blockMap[mapIndex].backgroundBitmap.LoadBitmapA(ConvertCharPointToString(blockMap[mapIndex].ziliaojia, blockMap[mapIndex].name, blockMap[mapIndex].number));
 			for (unsigned int npcIndex = 0; npcIndex < blockMap[mapIndex].npc.size(); npcIndex++)
 			{
 				blockMap[mapIndex].npc[npcIndex].LoadBitmapA("Role", "LUKA", 2);
@@ -239,51 +246,5 @@ namespace game_framework
 			}
 		}
 	}
-	#pragma endregion
-
-	#pragma region - timer -
-
-	CTimer::CTimer() //default constructor
-	{
-		ResetTime(99);
-	}
-
-	CTimer::CTimer(int _time) //給予初始時間
-	{
-		ResetTime(_time);
-	}
-
-	CTimer::~CTimer()
-	{
-
-	}
-
-	void CTimer::CountDown()
-	{
-		time--;
-	}
-
-	int CTimer::GetTime()
-	{
-		return time / reflash;
-	}
-
-	bool CTimer::IsTimeOut()
-	{
-		return time <= 0;
-	}
-
-	void CTimer::ResetTime(int _resetTime)
-	{
-		time = _resetTime * reflash;
-	}
-
-	#pragma region -- 窩4絕ㄉni最好4bu咬打開ㄊ拉 --
-	void CTimer::operator=(CTimer _timer)
-	{
-		time = _timer.time;
-	}
-	#pragma endregion
-
 	#pragma endregion
 }
