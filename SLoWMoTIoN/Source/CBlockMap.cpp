@@ -2,9 +2,12 @@
 #include "Resource.h"
 #include <mmsystem.h>
 #include <ddraw.h>
+#include <vector>
 #include "audio.h"
 #include "gamelib.h"
 #include "CBlockMap.h"
+#include "CEraser.h"
+using namespace std;
 namespace game_framework
 {
 	CBlockMap::CBlockMap()
@@ -15,6 +18,7 @@ namespace game_framework
 		leftMap = 0;
 		rightMap = 0;
 		loadMap = IDB_MAP0;
+		npc.clear();
 	}
 
 	CBlockMap::CBlockMap(int _nowMap, int _upMap, int _downMap, int _leftMap, int _rightMap, int _loadMap)
@@ -25,6 +29,7 @@ namespace game_framework
 		leftMap = _leftMap;
 		rightMap = _rightMap;
 		loadMap = _loadMap;
+		npc.clear();
 	}
 
 

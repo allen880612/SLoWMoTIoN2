@@ -15,7 +15,7 @@ namespace game_framework
 		nowMap = 0;
 		loadMap = blockMap[0].loadMap;
 		x = 0;
-		layer.SetLayer(7);
+		layer.SetLayer(1);
 	}
 
 
@@ -55,10 +55,26 @@ namespace game_framework
 		return loadMap;
 	}
 
+	int CMapManager::GetNpcNumber()
+	{
+		return blockMap[nowMap].npc.size();
+	}
+
+	int CMapManager::GetNpcLayer(int npcIndex)
+	{
+		return blockMap[nowMap].npc[npcIndex].layer.GetLayer();
+	}
+
 	CMovingBitmap* CMapManager::GetBitmap()
 	{
 		blockMap[nowMap].backgroundBitmap.SetTopLeft(x, 0);
 		return &(blockMap[nowMap].backgroundBitmap);
+	}
+
+	CAnimate* CMapManager::GetNpc(int npcIndex)
+	{
+		blockMap[nowMap].npc[npcIndex].SetXY(blockMap[nowMap].npc[npcIndex].GetX1(), 300);
+		return (blockMap[nowMap].npc[npcIndex].GetAnimate());
 	}
 
 	int CMapManager::GetSplitLeft()
@@ -130,22 +146,26 @@ namespace game_framework
 		for (int mapIndex = 0; mapIndex < MAX_MAP_NUMBER; mapIndex++) //初始化blockMap的上下左右地圖資訊，增加可讀性使用switch敘述
 		{
 			switch (mapIndex)
-			{
-				//順序：目前 上 下 左 右 ， -1表示不存在
+			{				//順序：目前 上 下 左 右 ， -1表示不存在
 			case 0:
 				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 1, 2, IDB_MAP0_2);
+				blockMap[mapIndex].npc.push_back(CNPC(200, "Role", "LUKA", 2));
 				break;
 
 			case 1:
 				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, -1, 0, IDB_MAP1);
+				blockMap[mapIndex].npc.push_back(CNPC(400, "Role", "LUKA", 2));
 				break;
 
 			case 2:
 				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 0, -1, IDB_MAP2);
+				blockMap[mapIndex].npc.push_back(CNPC(800, "Role", "LUKA", 2));
 				break;
 
 			default:
 				blockMap[mapIndex] = CBlockMap(-1, -1, -1, -1, -1, IDB_MAP0);
+
+				blockMap[mapIndex].npc.push_back(CNPC(0, "Role", "LUKA", 2));
 				break;
 			}
 		}
@@ -156,6 +176,10 @@ namespace game_framework
 		for (int mapIndex = 0; mapIndex < MAX_MAP_NUMBER; mapIndex++)
 		{
 			blockMap[mapIndex].backgroundBitmap.LoadBitmapA(blockMap[mapIndex].loadMap);
+			for (unsigned int npcIndex = 0; npcIndex < blockMap[mapIndex].npc.size(); npcIndex++)
+			{
+				blockMap[mapIndex].npc[npcIndex].LoadBitmapA("Role", "LUKA", 2);
+			}
 		}
 	}
 	#pragma endregion

@@ -3,6 +3,7 @@
 namespace myLibrary
 {
 	char* ConvertCharPointToString(string, string, int);
+	void DeleteCharPoint(vector<char*>);
 	int GetPostive(int);
 }
 namespace game_framework

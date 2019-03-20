@@ -28,6 +28,19 @@ namespace myLibrary
 		return address;
 	}
 
+	void DeleteCharPoint(vector<char*> addresses)
+	{
+		for (vector<char*>::iterator it = addresses.begin(); it != addresses.end(); it++)
+		{
+			if (NULL != *it)
+			{
+				delete *it;
+				*it = NULL;
+			}
+		}
+		addresses.clear();
+	}
+
 	int GetPostive(int k)
 	{
 		return k > 0 ? k : -k;

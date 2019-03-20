@@ -22,6 +22,8 @@ namespace game_framework
 		int GetX1();
 		int GetX2();
 		int GetBitmapWidth();
+		int GetNpcNumber();
+		int GetNpcLayer(int);
 		void SetMovingLeft(bool);
 		void SetMovingRight(bool);
 		void OnMove();
@@ -31,6 +33,7 @@ namespace game_framework
 		void LoadMapBitmap();
 		void OnShow();
 		CMovingBitmap* GetBitmap();
+		CAnimate* GetNpc(int);
 		CLayer layer;
 	private:
 		const int directionX = 20;
@@ -41,6 +44,7 @@ namespace game_framework
 		int x;
 		bool isMovingLeft;
 		bool isMovingRight;
+		int npcNumber;
 
 		void InitializeCBlockMap();
 	};

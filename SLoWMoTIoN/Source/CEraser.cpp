@@ -99,8 +99,8 @@ namespace game_framework {
 			addresses.push_back(ConvertCharPointToString(ziliaojia, name, i));
 		}
 		animation.LoadBitmap(addresses, RGB(255, 255, 255));
-
-		for (vector<char*>::iterator it = addresses.begin(); it != addresses.end(); it++)
+		DeleteCharPoint(addresses);
+		/*for (vector<char*>::iterator it = addresses.begin(); it != addresses.end(); it++)
 		{
 			if (NULL != *it)
 			{
@@ -108,7 +108,7 @@ namespace game_framework {
 				*it = NULL;
 			}
 		}		
-		addresses.clear();
+		addresses.clear();*/
 		
 
 		height = animation.Height();
@@ -287,6 +287,29 @@ namespace game_framework {
 	void CRole::SetCanJumping(bool flag)
 	{
 		canJumping = flag;
+	}
+	#pragma endregion
+
+	#pragma region - CNPC -
+	CNPC::CNPC() : CEraser()
+	{
+		InitX = 0;
+		x = InitX;
+		layer.SetLayer(6);
+
+		//LoadBitmap("Role", "LUKA", 2);
+	}
+	CNPC::CNPC(int _x, string ziliaojia, string name, int number) : CEraser()
+	{
+		InitX = _x;
+		x = InitX;
+		layer.SetLayer(6);
+
+		//LoadBitmap(ziliaojia, name, number);
+	}
+	CNPC::~CNPC()
+	{
+
 	}
 	#pragma endregion
 }

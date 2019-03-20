@@ -72,4 +72,16 @@ namespace game_framework {
 		int gravity;				// ­«¤O
 	};
 	#pragma endregion
+
+	#pragma region - CNPC -
+	class CNPC : public CEraser
+	{
+	public:
+		CNPC();
+		CNPC(int, string, string, int);
+		~CNPC();
+	private:
+		int InitX;
+	};
+	#pragma endregion
 }

@@ -111,6 +111,9 @@ namespace game_framework {
 
 	void CGameStateInit::OnShow()
 	{
+		/*CEraser *fuck;
+		CNPC ddd;
+		fuck = &ddd;*/
 		//
 		// ¶K¤Wlogo
 		//
@@ -473,6 +476,10 @@ namespace game_framework {
 		layerManager.AddObject(miku.GetBitmap(), miku.GetLayer());
 		layerManager.AddObject(role.GetAnimate(), role.layer.GetLayer());
 		layerManager.AddObject(mapManager.GetBitmap(), mapManager.layer.GetLayer());
+		for (int i = 0; i < mapManager.GetNpcNumber(); i++)
+		{
+			layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));
+		}
 		#pragma endregion
 		layerManager.ShowLayer();
 		#pragma endregion
