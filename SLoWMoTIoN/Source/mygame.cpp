@@ -170,6 +170,7 @@ namespace game_framework {
 			ball[i].SetDelay(x_pos);
 			ball[i].SetIsAlive(true);
 		}
+		mapManager.Initialize();
 		role.Initialize();
 		background.SetTopLeft(BACKGROUND_X, 0);				// 設定背景的起始座標
 		help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
@@ -179,6 +180,48 @@ namespace game_framework {
 		//CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
 		//CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
 		timer = CTimer(TIME_LEFT); //ㄎㄧㄤ==
+	}
+
+	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
+	{
+		//
+		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
+		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
+		//
+
+		ShowInitProgress(33);	// 接個前一個狀態的進度，此處進度視為33%
+								//
+								// 開始載入資料
+								//
+		miku.LoadBitmap();
+		int i;
+		for (i = 0; i < NUMBALLS; i++)
+			ball[i].LoadBitmap();								// 載入第i個球的圖形
+																//role.LoadBitmap();
+		role.LoadBitmap("Role", "MIKU", 13);
+		background.LoadBitmap(IDB_BACKGROUND);					// 載入背景的圖形
+																//
+																// 完成部分Loading動作，提高進度
+																//
+		ShowInitProgress(50);
+		Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+					//
+					// 繼續載入其他資料
+					//
+		help.LoadBitmap(IDB_HELP, RGB(255, 255, 255));				// 載入說明的圖形
+		corner.LoadBitmap(IDB_CORNER);								// 載入角落圖形
+		corner.ShowBitmap(background);								// 將corner貼到background
+																	//bball.LoadBitmap();										// 載入圖形
+		time_left.LoadBitmap();
+		CAudio::Instance()->Load(AUDIO_DING, "sounds\\ding.wav");	// 載入編號0的聲音ding.wav
+		CAudio::Instance()->Load(AUDIO_LAKE, "sounds\\lake.mp3");	// 載入編號1的聲音lake.mp3
+		CAudio::Instance()->Load(AUDIO_NTUT, "sounds\\ntut.mid");	// 載入編號2的聲音ntut.mid
+																	//
+																	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
+																	//
+		#pragma region - Initialize - MapManager -
+		mapManager.LoadMapBitmap();
+		#pragma endregion
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -340,47 +383,6 @@ namespace game_framework {
 				}
 			}
 
-	}
-
-	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
-	{
-		//
-		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
-		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
-		//
-
-		ShowInitProgress(33);	// 接個前一個狀態的進度，此處進度視為33%
-								//
-								// 開始載入資料
-								//
-		miku.LoadBitmap();
-		int i;
-		for (i = 0; i < NUMBALLS; i++)
-			ball[i].LoadBitmap();								// 載入第i個球的圖形
-		//role.LoadBitmap();
-		role.LoadBitmap("Role", "MIKU", 13);
-		background.LoadBitmap(IDB_BACKGROUND);					// 載入背景的圖形
-																//
-																// 完成部分Loading動作，提高進度
-																//
-		ShowInitProgress(50);
-		Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
-					//
-					// 繼續載入其他資料
-					//
-		help.LoadBitmap(IDB_HELP, RGB(255, 255, 255));				// 載入說明的圖形
-		corner.LoadBitmap(IDB_CORNER);								// 載入角落圖形
-		corner.ShowBitmap(background);								// 將corner貼到background
-		//bball.LoadBitmap();										// 載入圖形
-		time_left.LoadBitmap();
-		CAudio::Instance()->Load(AUDIO_DING, "sounds\\ding.wav");	// 載入編號0的聲音ding.wav
-		CAudio::Instance()->Load(AUDIO_LAKE, "sounds\\lake.mp3");	// 載入編號1的聲音lake.mp3
-		CAudio::Instance()->Load(AUDIO_NTUT, "sounds\\ntut.mid");	// 載入編號2的聲音ntut.mid
-																	//
-																	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
-																	//
-		mapManager.LoadMapBitmap();
-		
 	}
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)

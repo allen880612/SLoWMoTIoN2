@@ -35,6 +35,8 @@ namespace game_framework
 		CMovingBitmap* GetBitmap();
 		CAnimate* GetNpc(int);
 		CLayer layer;
+
+		void Initialize();
 	private:
 		const int directionX = 20;
 		int nowMap;

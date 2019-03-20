@@ -12,15 +12,20 @@ namespace game_framework
 	CMapManager::CMapManager()
 	{
 		InitializeCBlockMap();
-		nowMap = 0;
-		loadMap = blockMap[0].loadMap;
-		x = 0;
-		layer.SetLayer(1);
+		Initialize();
 	}
 
 
 	CMapManager::~CMapManager()
 	{
+	}
+
+	void CMapManager::Initialize()
+	{
+		nowMap = 0;
+		loadMap = blockMap[0].loadMap;
+		x = 0;
+		layer.SetLayer(1);
 	}
 
 	#pragma region - GetMap -
@@ -73,7 +78,6 @@ namespace game_framework
 
 	CAnimate* CMapManager::GetNpc(int npcIndex)
 	{
-		blockMap[nowMap].npc[npcIndex].SetXY(blockMap[nowMap].npc[npcIndex].GetX1(), 300);
 		return (blockMap[nowMap].npc[npcIndex].GetAnimate());
 	}
 
@@ -130,9 +134,17 @@ namespace game_framework
 	void CMapManager::OnMove()
 	{
 		if (isMovingLeft)
+		{
 			x += directionX;
+			for(unsigned int npcIndex = 0; npcIndex < blockMap[nowMap].npc.size(); npcIndex++)
+				blockMap[nowMap].npc[npcIndex].SetXY(blockMap[nowMap].npc[npcIndex].GetX1() + directionX, 300);
+		}
 		if (isMovingRight)
+		{
 			x -= directionX;
+			for (unsigned int npcIndex = 0; npcIndex < blockMap[nowMap].npc.size(); npcIndex++)
+				blockMap[nowMap].npc[npcIndex].SetXY(blockMap[nowMap].npc[npcIndex].GetX1() - directionX, 300);
+		}
 	}
 
 	void CMapManager::OnShow() //顯示對應到的blockMap圖片 (nowMap = 1, 顯示blockMap[1]的background, 類推)
@@ -149,7 +161,7 @@ namespace game_framework
 			{				//順序：目前 上 下 左 右 ， -1表示不存在
 			case 0:
 				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 1, 2, IDB_MAP0_2);
-				blockMap[mapIndex].npc.push_back(CNPC(200, "Role", "LUKA", 2));
+				blockMap[mapIndex].npc.push_back(CNPC(200, "Role\\NPC", "LUKA", 2));
 				break;
 
 			case 1:

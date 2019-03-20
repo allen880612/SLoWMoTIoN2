@@ -79,6 +79,7 @@ namespace game_framework {
 	public:
 		CNPC();
 		CNPC(int, string, string, int);
+		void SetXY(int, int);
 		~CNPC();
 	private:
 		int InitX;

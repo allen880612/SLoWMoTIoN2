@@ -307,6 +307,11 @@ namespace game_framework {
 
 		//LoadBitmap(ziliaojia, name, number);
 	}
+	void CNPC::SetXY(int _x, int _y)
+	{
+		CEraser::SetXY(_x, _y);
+		animation.SetTopLeft(x, y);
+	}
 	CNPC::~CNPC()
 	{
 
