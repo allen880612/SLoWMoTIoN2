@@ -2,6 +2,7 @@
 #include "CBlockMap.h"
 #include "CLibrary.h"
 #include "Refactor.h"
+#include "CEraser.h"
 //CManager: 地圖管理者 and 圖層管理者 and Timer，供mygame使用
 namespace game_framework
 {
@@ -69,4 +70,21 @@ namespace game_framework
 		vector <CAnimate*> layerAnimate[MAX_LAYER_NUMBER];
 	};
 	#pragma endregion
+
+	#pragma region - passerbyManager -
+	class CPasserbyManager
+	{
+	public:
+		CPasserbyManager();
+		~CPasserbyManager();
+		void Clear();
+		void AddPasserbyManager(CNPC*);
+		void CreatePasserby(int, vector<int>, int);
+	private:
+		string ziliaojia = "Role\\NPC";
+		string name[10] = {"LUKA", "KALU"};
+		vector<CNPC*> passerbyManager;
+	};
+	#pragma endregion
+
 }

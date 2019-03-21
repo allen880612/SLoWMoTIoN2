@@ -247,4 +247,43 @@ namespace game_framework
 		}
 	}
 	#pragma endregion
+
+	#pragma region - passerbyManager -
+	CPasserbyManager::CPasserbyManager()
+	{
+
+	}
+	CPasserbyManager::~CPasserbyManager()
+	{
+
+	}
+	void CPasserbyManager::Clear()
+	{
+		for (vector<CNPC*>::iterator it = passerbyManager.begin(); it != passerbyManager.end(); it++)
+		{
+			if (NULL != *it)
+			{
+				delete *it;
+				*it = NULL;
+			}
+		}
+		passerbyManager.clear();
+	}
+	void CPasserbyManager::AddPasserbyManager(CNPC *passerby)
+	{
+		passerbyManager.push_back(passerby);
+	}
+	void CPasserbyManager::CreatePasserby(int createNumber, vector<int> id, int mapWidth)
+	{
+		for (int i = 0; i < createNumber; i++)
+		{
+			CNPC *passerby = new CNPC();
+			int randomID = GetRandom(0, id.size());
+			passerby->LoadBitmapA(ziliaojia, name[id[randomID]], 1);
+			int randomX = GetRandom(0, mapWidth - passerby->GetX1());
+			passerby->SetXY(randomX, 300);
+			AddPasserbyManager(passerby);
+		}
+	}
+	#pragma endregion
 }

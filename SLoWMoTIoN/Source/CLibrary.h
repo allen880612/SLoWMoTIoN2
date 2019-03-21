@@ -3,7 +3,7 @@
 namespace myLibrary
 {
 	char* ConvertCharPointToString(string, string, int);
-	void DeleteCharPoint(vector<char*>);
+	void DeleteCharPoint(vector<char*>&);
 	int GetPostive(int);
 	int GetRandom(int, int); //±o®ÏRandomº∆¶r°Amin <= k < max
 }
