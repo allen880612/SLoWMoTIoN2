@@ -29,6 +29,7 @@ namespace game_framework
 		leftMap = _leftMap;
 		rightMap = _rightMap;
 		loadMap = _loadMap;
+		passerbyMaxSize = 5;
 		npc.clear();
 	}
 
@@ -42,6 +43,7 @@ namespace game_framework
 		ziliaojia = _ziliaojia;
 		name = _name;
 		number = _number;
+		passerbyMaxSize = 5;
 		npc.clear();
 	}
 

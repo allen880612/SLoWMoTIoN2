@@ -12,3 +12,14 @@
 1. CTimer 移到CLibrary (by 彩鏡)
 2. CBlockMap 可以用 "資料夾" + "名字" + 數字 LoadBitmap了 (新增CBlockMap建構子) (by 彩鏡)
 3. CNPC可以用isValid屬性決定要不要在螢幕上顯示 (by 彩鏡)
+
+==============================================================
+2019/3/22
+1. 新增passerbyManager，管理地圖上的神秘LUKA，隸屬於mapManager (by 彩鏡)
+2. passerbyManager產出的passerbyManager，位置隨機，NPC編號隨機 (by 彩鏡)
+3. CLibrary 新增GetRandom(int, int)，第一個參數給予min值，第二個參數給予max值，產出的結果會落在[min, max]，當然type = int (by 彩鏡)
+4. blockMap底下的CNPC尚未刪除，預計之後刪除
+5. CLayer 是否要移動到 CMovingBitmap / CAnimate ? (by 彩鏡)
+移動好處: 之後創建class 有使用到CMovingBitmap / CAnimate時，不必同時新增Layer屬性
+移動壞處: 具有CMovingBitmap / CAnimate的物件，且該物件是private/protected時，要傳遞給上級必須製作GetLayer()
+值得思考

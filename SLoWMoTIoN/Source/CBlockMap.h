@@ -16,6 +16,8 @@ namespace game_framework
 		int leftMap, rightMap, upMap, downMap; //目前地圖，其上下左右地圖的編號 ( < 0代表不存在)
 		int loadMap; //載入的地圖資訊 (IDB_???好像是用#define成數字存的??不確定)
 		CMovingBitmap backgroundBitmap; //背景圖片 (用LoadBitmap讀取loadMap)
+		int passerbyMaxSize;
+		vector<int> passerbyID = {0, 1};
 		vector<CNPC> npc;
 		string ziliaojia, name;
 		int number;

@@ -64,17 +64,20 @@ namespace game_framework
 
 	int CMapManager::GetNpcNumber()
 	{
-		return blockMap[nowMap].npc.size();
+		return passerbyManager.passerby.size();
+		//return blockMap[nowMap].npc.size();
 	}
 
 	int CMapManager::GetNpcLayer(int npcIndex)
 	{
-		return blockMap[nowMap].npc[npcIndex].layer.GetLayer();
+		return 6;
+		//return blockMap[nowMap].npc[npcIndex].layer.GetLayer();
 	}
 
 	bool CMapManager::GetNpcValid(int npcIndex)
 	{
-		return blockMap[nowMap].npc[npcIndex].IsValid();
+		return true;
+		//return blockMap[nowMap].npc[npcIndex].IsValid();
 	}
 
 	CMovingBitmap* CMapManager::GetBitmap()
@@ -85,7 +88,8 @@ namespace game_framework
 
 	CAnimate* CMapManager::GetNpc(int npcIndex)
 	{
-		return (blockMap[nowMap].npc[npcIndex].GetAnimate());
+		return (passerbyManager.passerby[npcIndex]->GetAnimate());
+		//return (blockMap[nowMap].npc[npcIndex].GetAnimate());
 	}
 
 	int CMapManager::GetSplitLeft()
@@ -143,14 +147,16 @@ namespace game_framework
 		if (isMovingLeft)
 		{
 			x += directionX;
-			for(unsigned int npcIndex = 0; npcIndex < blockMap[nowMap].npc.size(); npcIndex++)
-				blockMap[nowMap].npc[npcIndex].SetXY(blockMap[nowMap].npc[npcIndex].GetX1() + directionX, blockMap[nowMap].npc[npcIndex].GetY1());
+			//for(unsigned int npcIndex = 0; npcIndex < blockMap[nowMap].npc.size(); npcIndex++)
+				//blockMap[nowMap].npc[npcIndex].SetXY(blockMap[nowMap].npc[npcIndex].GetX1() + directionX, blockMap[nowMap].npc[npcIndex].GetY1());
+			for (unsigned int npcIndex = 0; npcIndex < passerbyManager.passerby.size(); npcIndex++)
+				passerbyManager.passerby[npcIndex]->SetXY(passerbyManager.passerby[npcIndex]->GetX1() + directionX, passerbyManager.passerby[npcIndex]->GetY1());
 		}
 		if (isMovingRight)
 		{
 			x -= directionX;
-			for (unsigned int npcIndex = 0; npcIndex < blockMap[nowMap].npc.size(); npcIndex++)
-				blockMap[nowMap].npc[npcIndex].SetXY(blockMap[nowMap].npc[npcIndex].GetX1() - directionX, blockMap[nowMap].npc[npcIndex].GetY1());
+			for (unsigned int npcIndex = 0; npcIndex < passerbyManager.passerby.size(); npcIndex++)
+				passerbyManager.passerby[npcIndex]->SetXY(passerbyManager.passerby[npcIndex]->GetX1() - directionX, passerbyManager.passerby[npcIndex]->GetY1());
 		}
 	}
 
@@ -168,7 +174,7 @@ namespace game_framework
 			{				//順序：目前 上 下 左 右 ， -1表示不存在
 			case 0:
 				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 1, 2, "RES", "IDB_MAP", mapIndex);
-				blockMap[mapIndex].npc.push_back(CNPC(200, 300, "Role\\NPC", "LUKA", 2));
+				blockMap[mapIndex].npc.push_back(CNPC(400, 300, "Role", "LUKA", 2));
 				break;
 
 			case 1:
@@ -200,6 +206,8 @@ namespace game_framework
 				blockMap[mapIndex].npc[npcIndex].LoadBitmapA("Role", "LUKA", 2);
 			}
 		}
+
+		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
 
 	}
 	#pragma endregion
@@ -245,6 +253,45 @@ namespace game_framework
 			{
 				(*k)->OnShow();
 			}
+		}
+	}
+	#pragma endregion
+
+	#pragma region - passerbyManager -
+	CPasserbyManager::CPasserbyManager()
+	{
+		passerby.clear();
+	}
+	CPasserbyManager::~CPasserbyManager()
+	{
+
+	}
+	void CPasserbyManager::Clear()
+	{
+		for (vector<CNPC*>::iterator it = passerby.begin(); it != passerby.end(); it++)
+		{
+			if (NULL != *it)
+			{
+				delete *it;
+				*it = NULL;
+			}
+		}
+		passerby.clear();
+	}
+	void CPasserbyManager::AddPasserbyManager(CNPC *newPasserby)
+	{
+		passerby.push_back(newPasserby);
+	}
+	void CPasserbyManager::CreatePasserby(int createNumber, vector<int> id, int mapWidth)
+	{
+		for (int i = 0; i < createNumber; i++)
+		{
+			CNPC *newPasserby = new CNPC();
+			int randomID = GetRandom(0, id.size() - 1);
+			newPasserby->LoadBitmap(ziliaojia, name[id[randomID]], 1);
+			int randomX = GetRandom(0, mapWidth - newPasserby->GetX1());
+			newPasserby->SetXY(randomX, 300);
+			passerby.push_back(newPasserby);
 		}
 	}
 	#pragma endregion

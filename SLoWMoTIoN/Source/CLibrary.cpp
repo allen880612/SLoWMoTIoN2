@@ -30,7 +30,7 @@ namespace myLibrary
 		return address;
 	}
 
-	void DeleteCharPoint(vector<char*> addresses)
+	void DeleteCharPoint(vector<char*> &addresses)
 	{
 		for (vector<char*>::iterator it = addresses.begin(); it != addresses.end(); it++)
 		{
@@ -52,6 +52,7 @@ namespace myLibrary
 	{
 		//srand(time(NULL));
 		int random = rand() % (maxNumber - minNumber + 1) + minNumber;
+
 		return random;
 	}
 }
