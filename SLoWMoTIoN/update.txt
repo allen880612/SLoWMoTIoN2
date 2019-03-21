@@ -23,3 +23,10 @@
 移動好處: 之後創建class 有使用到CMovingBitmap / CAnimate時，不必同時新增Layer屬性
 移動壞處: 具有CMovingBitmap / CAnimate的物件，且該物件是private/protected時，要傳遞給上級必須製作GetLayer()
 值得思考
+
+6. Role新增Shoot，目前以滑鼠左鍵發射(因為空白鍵抓不到)，不過連發有點高，可能還要加上射擊冷卻；
+   另外還有動畫的切換速度，若能修改也會比有彈性。(by HIBIYA)
+7. CScallion(蔥)主要以Animate來動作，建構時需傳入CScallion(資料夾,名字,張數,初始x,初始y,初速x,初速y,以及方向) (by HIBIYA)
+
+==============================================================
+若在物件中加入Layer，並且Friend class Layer，是否就不用寫GetLayer()，而能夠直接獲取Layer的屬性?
