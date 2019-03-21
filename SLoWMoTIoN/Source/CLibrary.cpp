@@ -52,6 +52,7 @@ namespace myLibrary
 	{
 		//srand(time(NULL));
 		int random = rand() % (maxNumber - minNumber + 1) + minNumber;
+
 		return random;
 	}
 }

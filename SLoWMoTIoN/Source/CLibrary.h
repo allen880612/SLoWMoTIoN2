@@ -5,7 +5,7 @@ namespace myLibrary
 	char* ConvertCharPointToString(string, string, int);
 	void DeleteCharPoint(vector<char*>&);
 	int GetPostive(int);
-	int GetRandom(int, int); //得到Random數字，min <= k < max
+	int GetRandom(int, int); //得到Random數字，min <= k <= max
 }
 namespace game_framework
 {
@@ -47,7 +47,6 @@ namespace game_framework
 		int   Width();					// 取得動畫的寬度
 
 		void  ReleaseAnimate();
-
 
 	private:
 
