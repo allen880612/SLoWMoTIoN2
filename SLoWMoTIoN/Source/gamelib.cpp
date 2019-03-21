@@ -153,32 +153,27 @@ void PaintText(char* text, int tx, int ty, LPCTSTR font, int textSize, COLORREF 
 // 3. 如果需要修改或擴充CAnimation的功能時，請用繼承或直接拷貝的方式，最好
 //    不要直接改CAnimation。
 /////////////////////////////////////////////////////////////////////////////
-/*
 CAnimation::CAnimation(int count)
 {
 	delay_count = count;
 	delay_counter = delay_count;
-	x = y = bmp_counter = pic_index = bmp_amount =  0;
+	x = y = bmp_counter = 0;
 }
 
-CMovingBitmap* CAnimation::AddBitmap(int IDB_BITMAP, COLORREF colorkey)
+void CAnimation::AddBitmap(int IDB_BITMAP, COLORREF colorkey)
 {
 	CMovingBitmap add_bmp;
 	add_bmp.LoadBitmap(IDB_BITMAP, colorkey);
-	bmp.push_back(add_bmp);
+	bmp.insert(bmp.end(), add_bmp);
 	Reset();
-	return &(bmp[bmp.size() - 1]);
-	
 }
 
-CMovingBitmap* CAnimation::AddBitmap(char *filename, COLORREF colorkey)
+void CAnimation::AddBitmap(char *filename, COLORREF colorkey)
 {
 	CMovingBitmap add_bmp;
 	add_bmp.LoadBitmap(filename, colorkey);
-	//bmp.insert(bmp.end(), add_bmp);
-	bmp.push_back(add_bmp);
+	bmp.insert(bmp.end(), add_bmp);
 	Reset();
-	return &(bmp[bmp.size() - 1]);
 }
 
 int CAnimation::GetCurrentBitmapNumber()
@@ -188,26 +183,26 @@ int CAnimation::GetCurrentBitmapNumber()
 
 int CAnimation::Height()
 {
-	GAME_ASSERT(bmp.size() != 0,"CAnimation: Bitmaps must be loaded first.");
+	GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
 	return bmp_iter->Height();
 }
 
 bool CAnimation::IsFinalBitmap()
 {
-	GAME_ASSERT(bmp.size() != 0,"CAnimation: Bitmaps must be loaded first.");
-	return bmp_counter == (bmp.size()-1);
+	GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
+	return bmp_counter == (bmp.size() - 1);
 }
 
 int CAnimation::Left()
 {
-	GAME_ASSERT(bmp.size() != 0,"CAnimation: Bitmaps must be loaded first.");
+	GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
 	return x;
 }
 
 void CAnimation::OnMove()
 {
-	GAME_ASSERT(bmp.size() != 0,"CAnimation: Bitmaps must be loaded first.");
-	if (--delay_counter <= 0)  {
+	GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
+	if (--delay_counter <= 0) {
 		delay_counter = delay_count;
 		bmp_iter++;
 		bmp_counter++;
@@ -218,10 +213,9 @@ void CAnimation::OnMove()
 	}
 }
 
-
 void CAnimation::Reset()
 {
-	GAME_ASSERT(bmp.size() != 0,"CAnimation: Bitmaps must be loaded first.");
+	GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
 	delay_counter = delay_count;
 	bmp_iter = bmp.begin();
 	bmp_counter = 0;
@@ -241,25 +235,22 @@ void CAnimation::SetTopLeft(int nx, int ny)
 
 void CAnimation::OnShow()
 {
-	GAME_ASSERT(bmp.size() != 0,"CAnimation: Bitmaps must be loaded before they are shown.");
-	//bmp_iter->SetTopLeft(x,y);
-	//bmp_iter->ShowBitmap();
-
-	bmp[pic_index].SetTopLeft(x, y);
-	bmp[pic_index].ShowBitmap();
+	GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded before they are shown.");
+	bmp_iter->SetTopLeft(x, y);
+	bmp_iter->ShowBitmap();
 }
 
 int CAnimation::Top()
 {
-	GAME_ASSERT(bmp.size() != 0,"CAnimation: Bitmaps must be loaded first.");
+	GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
 	return y;
 }
 
 int CAnimation::Width()
 {
-	GAME_ASSERT(bmp.size() != 0,"CAnimation: Bitmaps must be loaded first.");
+	GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
 	return bmp_iter->Width();
-}*/
+}
 
 /////////////////////////////////////////////////////////////////////////////
 // CInteger: 這個class提供顯示整數圖形的能力

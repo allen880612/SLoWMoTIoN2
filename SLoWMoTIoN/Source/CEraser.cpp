@@ -1,3 +1,4 @@
+#pragma once
 #include "stdafx.h"
 #include "Resource.h"
 #include <mmsystem.h>
@@ -5,6 +6,7 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "CEraser.h"
+#include "CBall.h"
 #include <sstream>
 #include "CLibrary.h"
 using namespace myLibrary;
@@ -185,11 +187,7 @@ namespace game_framework {
 		x = nx; y = ny;
 	}
 
-	void CEraser::OnShow()
-	{
-		animation.SetTopLeft(x, y);
-		animation.OnShow();
-	}
+	
 
 	CAnimate* CEraser::GetAnimate()
 	{
@@ -202,10 +200,14 @@ namespace game_framework {
 	{
 		isJumping = false;
 		canJumping = true;
+		isFire = false;
 		const int INIT_VELOCITY = 40;				//設定初速度
 		const int GRAVITY = 4;						//設定重力
 		init_velocity = velocity = INIT_VELOCITY;
 		gravity = GRAVITY;
+		last_right_left = 'r';
+
+		
 	}
 	CRole::~CRole()
 	{
@@ -229,20 +231,23 @@ namespace game_framework {
 		if (isMovingRight)
 		{
 			dir = 1;
+			last_right_left = 'r';
 			if (canMoving)
 				x += STEP_SIZE;
+		}
+		if (isMovingLeft)
+		{
+			dir = 3;
+			last_right_left = 'l';
+			if (canMoving)
+				x -= STEP_SIZE;
 		}
 		if (isMovingDown)
 		{
 			dir = 2;
 			if (canMoving)
-				y += STEP_SIZE;
-		}
-		if (isMovingLeft)
-		{
-			dir = 3;
-			if (canMoving)
-				x -= STEP_SIZE;
+			y += STEP_SIZE;
+			
 		}
 		if (isJumping)
 		{
@@ -265,9 +270,28 @@ namespace game_framework {
 				}
 			}
 		}
+		if (isFire)
+		{
+			Fire();
+		}
 
 		animation.OnMove(dir);
+		for (unsigned int i = 0; i < scallion.size(); i++)
+		{
+			scallion[i].OnMove();
+		}
 	}
+
+	void CRole::OnShow()
+		{
+			animation.SetTopLeft(x, y);
+			animation.OnShow();
+
+			for (unsigned int i = 0; i < scallion.size(); i++)
+			{
+				scallion[i].OnShow();
+			}
+		}
 
 	bool CRole::GetMovingJump()
 	{
@@ -288,6 +312,22 @@ namespace game_framework {
 	{
 		canJumping = flag;
 	}
+
+	bool CRole::GetIsFire()
+	{
+		return isFire;
+	}
+
+	void CRole::SetIsFire(bool flag)
+	{
+		isFire = flag;
+	}
+
+	void CRole::Fire()
+	{
+		scallion.push_back(CScallion("Role", "scallion", 4, GetX3(), GetY1(), 60, 10, last_right_left));
+	}
+
 	#pragma endregion
 
 	#pragma region - CNPC -

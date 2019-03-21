@@ -40,6 +40,7 @@ namespace game_framework
 		int   Height();					// 取得動畫的高度
 		int   Left();					// 取得動畫的左上角的 x 座標
 		void  OnMove(int);				// 依照方向更換bitmap
+		void  OnMove();
 		void  OnShow();					// 將動畫貼到螢幕
 		void  Reset();					// 重設播放順序回到第一張圖形
 		void  SetTopLeft(int, int);		// 將動畫的左上角座標移至 (x,y)

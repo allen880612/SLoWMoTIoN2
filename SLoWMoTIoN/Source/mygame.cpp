@@ -98,7 +98,7 @@ namespace game_framework {
 	void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		const char KEY_ESC = 27;
-		const char KEY_SPACE = ' ';
+
 		if (nChar == KEY_SPACE)
 			GotoGameState(GAME_STATE_RUN);						// 切換至GAME_STATE_RUN
 		else if (nChar == KEY_ESC)								// Demo 關閉遊戲的方法
@@ -251,9 +251,9 @@ namespace game_framework {
 
 		// 移動球
 		//
-		int i;
-		for (i = 0; i < NUMBALLS; i++)
-			ball[i].OnMove();
+		//int i;
+		//for (i = 0; i < NUMBALLS; i++)
+		//	ball[i].OnMove();
 		//
 		// 移動擦子
 		//
@@ -369,31 +369,26 @@ namespace game_framework {
 		//
 		// 判斷擦子是否碰到球
 		//
-		for (i = 0; i < NUMBALLS; i++)
-			if (ball[i].IsAlive() && ball[i].HitEraser(&role)) {
-				ball[i].SetIsAlive(false);
-				CAudio::Instance()->Play(AUDIO_DING);
-				time_left.Add(0);
-				//
-				// 若剩餘碰撞次數為0，則跳到Game Over狀態
-				//
-				if (time_left.GetInteger() <= 0) {
-					CAudio::Instance()->Stop(AUDIO_LAKE);	// 停止 WAVE
-					CAudio::Instance()->Stop(AUDIO_NTUT);	// 停止 MIDI
-					GotoGameState(GAME_STATE_OVER);
-				}
-			}
+		//for (i = 0; i < NUMBALLS; i++)
+		//	if (ball[i].IsAlive() && ball[i].HitEraser(&role)) {
+		//		ball[i].SetIsAlive(false);
+		//		CAudio::Instance()->Play(AUDIO_DING);
+		//		time_left.Add(0);
+		//		//
+		//		// 若剩餘碰撞次數為0，則跳到Game Over狀態
+		//		//
+		//		if (time_left.GetInteger() <= 0) {
+		//			CAudio::Instance()->Stop(AUDIO_LAKE);	// 停止 WAVE
+		//			CAudio::Instance()->Stop(AUDIO_NTUT);	// 停止 MIDI
+		//			GotoGameState(GAME_STATE_OVER);
+		//		}
+		//	}
 
 	}
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		const char KEY_LEFT = 0x25; // keyboard左箭頭
-		const char KEY_UP = 0x26; // keyboard上箭頭
-		const char KEY_RIGHT = 0x27; // keyboard右箭頭
-		const char KEY_DOWN = 0x28; // keyboard下箭頭
-									//對人物左右行走的地方要留在主程式判斷or在人物行走的時候判斷?
-									//或者是在人物裡面做判斷可否行走(?)函數
+		
 		if (nChar == KEY_LEFT)
 		{
 			role.SetMovingLeft(true);
@@ -407,15 +402,15 @@ namespace game_framework {
 		if (nChar == KEY_UP)
 			role.SetMovingUp(true);
 		if (nChar == KEY_DOWN)
+		{
 			role.SetMovingDown(true);
+		}
+			
 	}
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		const char KEY_LEFT = 0x25; // keyboard左箭頭
-		const char KEY_UP = 0x26; // keyboard上箭頭
-		const char KEY_RIGHT = 0x27; // keyboard右箭頭
-		const char KEY_DOWN = 0x28; // keyboard下箭頭
+
 		if (nChar == KEY_LEFT)
 			role.SetMovingLeft(false);
 		if (nChar == KEY_RIGHT)
@@ -423,17 +418,21 @@ namespace game_framework {
 		if (nChar == KEY_UP)
 			role.SetMovingUp(false);
 		if (nChar == KEY_DOWN)
+		{
+			role.SetIsFire(false);
 			role.SetMovingDown(false);
+		}
+
 	}
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
-		role.SetMovingLeft(true);
+		role.SetIsFire(true);
 	}
 
 	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
-		role.SetMovingLeft(false);
+		role.SetIsFire(false);
 	}
 
 	void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -443,12 +442,13 @@ namespace game_framework {
 
 	void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
-		role.SetMovingRight(true);
+		
+		
 	}
 
 	void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
-		role.SetMovingRight(false);
+
 	}
 
 	void CGameStateRun::OnShow()
@@ -487,6 +487,8 @@ namespace game_framework {
 		#pragma endregion
 		layerManager.ShowLayer();
 		#pragma endregion
+
+		role.OnShow();
 
 		#pragma region - paint time remain -
 		char str[100];

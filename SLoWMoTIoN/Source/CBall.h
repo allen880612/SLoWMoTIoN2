@@ -1,14 +1,17 @@
+#pragma once
+#include "CLibrary.h"
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class提供繞圈圈的球
 	// 看懂就可以改寫成自己的程式了
 	/////////////////////////////////////////////////////////////////////////////
 
+	#pragma region - ball -
 	class CBall
 	{
 	public:
 		CBall();
-		bool HitEraser(CEraser *eraser);						// 是否碰到擦子
+		//bool HitEraser(CEraser *eraser);						// 是否碰到擦子
 		bool IsAlive();											// 是否活著
 		void LoadBitmap();										// 載入圖形
 		void OnMove();											// 移動
@@ -26,6 +29,28 @@ namespace game_framework {
 		int delay;					// 旋轉的速度
 		bool is_alive;				// 是否活著
 	private:
-		bool HitRectangle(int tx1, int ty1, int tx2, int ty2);	// 是否碰到參數範圍的矩形
+		//bool HitRectangle(int tx1, int ty1, int tx2, int ty2);	// 是否碰到參數範圍的矩形
+	};
+	#pragma endregion
+
+	class CScallion : public CBall
+	{
+		friend class CBall;
+
+		public:
+			CScallion();
+			CScallion(string, string, int,  int, int, int, int, char);
+			~CScallion();
+			void LoadBitmap(string, string, int);
+			void OnMove();
+			void OnShow();
+			void SetInitVelocity(int, int, char);
+
+		protected:
+			CAnimate animation;
+			int velocity_x;
+			int velocity_y;
+			int gravity;
+			int direction;		//丟出時面對的方向
 	};
 }

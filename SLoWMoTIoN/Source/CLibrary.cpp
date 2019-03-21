@@ -102,6 +102,23 @@ namespace game_framework
 		ReleaseAnimate();
 	}
 
+	void CAnimate::OnMove()
+	{
+		GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
+
+		if (bmp_index < (int)bmp.size() - 1)
+		{
+			bmp_index++;
+		}
+		else
+		{
+			bmp_index = 0;
+		}
+
+		//bitmaps[bmp_index]->SetTopLeft(x, y);
+		bmp[bmp_index].SetTopLeft(x, y);
+	}
+
 	void CAnimate::OnMove(int dir)
 	{
 		GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");

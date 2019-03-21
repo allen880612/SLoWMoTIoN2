@@ -55,21 +55,31 @@ namespace game_framework {
 	#pragma region - CRole -
 	class CRole : public CEraser
 	{
+		friend class CScallion;
 	public:
 		CRole();
 		~CRole();
 		void OnMove();
+		void OnShow();
 		bool GetMovingJump();
 		void SetMovingJump(bool);
 		bool GetCanJumping();
 		void SetCanJumping(bool);
 
+		bool GetIsFire();
+		void SetIsFire(bool);
+		void Fire();
+		
+
 	protected:
+		vector<CScallion>	scallion;
 		bool isJumping;				// 是否正在跳躍
 		bool canJumping;			// 是否可以跳躍
+		bool isFire;				// 是否正在射擊
 		int init_velocity;			// 往上的初速度
 		int velocity;				// 速度
 		int gravity;				// 重力
+		char last_right_left;
 	};
 	#pragma endregion
 

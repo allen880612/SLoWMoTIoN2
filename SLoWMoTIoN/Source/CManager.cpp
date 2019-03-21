@@ -200,6 +200,7 @@ namespace game_framework
 				blockMap[mapIndex].npc[npcIndex].LoadBitmapA("Role", "LUKA", 2);
 			}
 		}
+
 	}
 	#pragma endregion
 
