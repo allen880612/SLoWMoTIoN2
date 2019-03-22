@@ -324,7 +324,7 @@ namespace game_framework {
 
 	void CRole::Fire()
 	{
-		scallion.push_back(CScallion("Role", "scallion", 4, GetX3(), GetY1(), 60, 10, last_right_left));
+		scallion.push_back(CScallion("Role", "scallion", 4, GetX3(), GetY1(), 40, 20, last_right_left));
 	}
 
 	#pragma endregion

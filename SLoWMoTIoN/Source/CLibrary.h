@@ -46,7 +46,7 @@ namespace game_framework
 		void  SetTopLeft(int, int);		// 將動畫的左上角座標移至 (x,y)
 		int   Top();					// 取得動畫的左上角的 y 座標
 		int   Width();					// 取得動畫的寬度
-
+		bool   IsNull();
 		void  ReleaseAnimate();
 
 	private:

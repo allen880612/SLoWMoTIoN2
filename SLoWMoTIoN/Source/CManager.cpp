@@ -128,6 +128,7 @@ namespace game_framework
 			x = 0; 
 		}
 		background.SetTopLeft(x, 0);
+		passerbyManager.Clear();
 	}
 
 	void CMapManager::SetMovingLeft(bool _flag)
@@ -239,9 +240,17 @@ namespace game_framework
 				(*k)->ShowBitmap();
 			}
 
-			for (vector<CAnimate*>::iterator k = layerAnimate[i].begin(); k != layerAnimate[i].end(); k++)
+			for (vector<CAnimate*>::iterator k = layerAnimate[i].begin(); k != layerAnimate[i].end();)
 			{
-				(*k)->OnShow();
+				if ((*k)->IsNull())
+				{
+					k = layerAnimate[i].erase(k);
+				}
+				else
+				{
+					(*k)->OnShow();
+					k++;
+				}
 			}
 		}
 	}
@@ -260,13 +269,12 @@ namespace game_framework
 	{
 		for (vector<CNPC*>::iterator it = passerby.begin(); it != passerby.end(); it++)
 		{
-			if (NULL != *it)
-			{
-				delete *it;
-				*it = NULL;
-			}
+			delete *it;
 		}
+		vector<CNPC*> del;
+		passerby.swap(del);
 		passerby.clear();
+
 	}
 	void CPasserbyManager::AddPasserbyManager(CNPC *newPasserby)
 	{

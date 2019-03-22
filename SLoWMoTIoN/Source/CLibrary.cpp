@@ -241,6 +241,11 @@ namespace game_framework
 
 	}
 
+	bool CAnimate::IsNull()
+	{
+		return bmp.size() == 0;
+	}
+
 	void CAnimate::ReleaseAnimate()
 	{
 		vector<CMovingBitmap> del_vector;
