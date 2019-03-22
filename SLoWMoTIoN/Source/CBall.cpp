@@ -110,14 +110,14 @@ namespace game_framework {
 		const int GRAVITY = 4;
 		x = INIT_X;
 		y = INIT_Y;
-		gravity = GRAVITY;
+		gravity = GRAVITY; 
 		animation.SetTopLeft(INIT_X, INIT_Y);
 
 		is_alive = true;
 		LoadBitmap("Role", "scallion", 4);
 	}
 
-	CScallion::CScallion(string ziliaojia, string name, int number, int _x, int _y, int v_x, int v_y, int f_x, int f_y)
+	CScallion::CScallion(string ziliaojia, string name, int number, int _x, int _y, int f_x, int f_y)
 	{
 		dx = dy = index = delay_counter = 0;	//暫時無用，只是確保繼承不會出問題
 		
@@ -183,14 +183,11 @@ namespace game_framework {
 
 	void CScallion::SetInitVelocity(int b_x, int b_y, int f_x, int f_y)
 	{
-		
 		int dx = (f_x - b_x) / 5;
 		int dy = GetPostive((f_y - b_y)) / 5;
 
 		velocity_x = dx;
 		velocity_y = dy;
-		
-
 	}
 
 

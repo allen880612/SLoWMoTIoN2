@@ -399,19 +399,28 @@ namespace game_framework {
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		
-		if (nChar == KEY_LEFT)
-		{
+		//if (nChar == KEY_LEFT)
+		//{
+		//	role.SetMovingLeft(true);
+		//}
+		//if (nChar == KEY_RIGHT)
+		//{
+		//	role.SetMovingRight(true);
+		//}
+		//if (nChar == KEY_UP)
+		//	role.SetMovingUp(true);
+		//if (nChar == KEY_DOWN)
+		//{
+		//	role.SetMovingDown(true);
+		//}
+
+		if (nChar == KEY_A)
 			role.SetMovingLeft(true);
-			//mapManager.ChangeMap(mapManager.GetLeftMap());
-		}
-		if (nChar == KEY_RIGHT)
-		{
+		if (nChar == KEY_D)
 			role.SetMovingRight(true);
-			//mapManager.ChangeMap(mapManager.GetRightMap());
-		}
-		if (nChar == KEY_UP)
+		if (nChar == KEY_W)
 			role.SetMovingUp(true);
-		if (nChar == KEY_DOWN)
+		if (nChar == KEY_S)
 		{
 			role.SetMovingDown(true);
 		}
@@ -421,13 +430,24 @@ namespace game_framework {
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 
-		if (nChar == KEY_LEFT)
+		//if (nChar == KEY_LEFT)
+		//	role.SetMovingLeft(false);
+		//if (nChar == KEY_RIGHT)
+		//	role.SetMovingRight(false);
+		//if (nChar == KEY_UP)
+		//	role.SetMovingUp(false);
+		//if (nChar == KEY_DOWN)
+		//{
+		//	role.SetMovingDown(false);
+		//}
+
+		if (nChar == KEY_A)
 			role.SetMovingLeft(false);
-		if (nChar == KEY_RIGHT)
+		if (nChar == KEY_D)
 			role.SetMovingRight(false);
-		if (nChar == KEY_UP)
+		if (nChar == KEY_W)
 			role.SetMovingUp(false);
-		if (nChar == KEY_DOWN)
+		if (nChar == KEY_S)
 		{
 			role.SetMovingDown(false);
 		}

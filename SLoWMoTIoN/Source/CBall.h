@@ -35,11 +35,9 @@ namespace game_framework {
 
 	class CScallion : public CBall
 	{
-		//friend class CBall;
-
 		public:
 			CScallion();
-			CScallion(string, string, int,  int, int, int, int, int, int);
+			CScallion(string, string, int,  int, int, int, int);
 			~CScallion();
 			void LoadBitmap(string, string, int);
 			void OnMove();
@@ -51,6 +49,6 @@ namespace game_framework {
 			int velocity_x;
 			int velocity_y;
 			int gravity;
-			int direction;		//丟出時面對的方向
+			int direction;			//丟出時面對的方向
 	};
 }
