@@ -95,14 +95,14 @@ namespace game_framework {
 
 	void CEraser::LoadBitmap(string ziliaojia, string name, int number)
 	{
-		vector<char*> addresses;
+		/*vector<char*> addresses;
 		for (int i = 0; i < number; i++)
 		{
 			addresses.push_back(ConvertCharPointToString(ziliaojia, name, i));
 		}
 		animation.LoadBitmap(addresses, RGB(255, 255, 255));
 		DeleteCharPoint(addresses);
-		/*for (vector<char*>::iterator it = addresses.begin(); it != addresses.end(); it++)
+		for (vector<char*>::iterator it = addresses.begin(); it != addresses.end(); it++)
 		{
 			if (NULL != *it)
 			{
@@ -111,7 +111,13 @@ namespace game_framework {
 			}
 		}		
 		addresses.clear();*/
-		
+
+		for (int i = 0; i < number; i++)
+		{
+			char* address = ConvertCharPointToString(ziliaojia, name, i);
+			animation.AddBitmap(address, RGB(255, 255, 255));
+			delete address;
+		}
 
 		height = animation.Height();
 		width = animation.Width();
@@ -336,11 +342,9 @@ namespace game_framework {
 	{		
 		if (shoot_cd.IsTimeOut())
 		{
-			scallion.push_back(CScallion("Role", "scallion", 4, GetX3(), GetY1(), 40, 20, mx, my));
+			scallion.push_back(CScallion("Role", "scallion", 4, GetX3(), GetY1(), mx, my));
 			shoot_cd.ResetTime(0.33);
 		}
-		
-		
 	}
 
 	void CRole::SetFirePosition(int _x, int _y)
