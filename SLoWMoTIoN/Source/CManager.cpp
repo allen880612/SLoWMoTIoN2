@@ -272,11 +272,11 @@ namespace game_framework
 		for (vector<CNPC*>::iterator it = passerby.begin(); it != passerby.end(); it++)
 		{
 			delete *it;
+			(*it) = NULL;
 		}
 		vector<CNPC*> del;
 		passerby.swap(del);
 		passerby.clear();
-
 	}
 	void CPasserbyManager::AddPasserbyManager(CNPC *newPasserby)
 	{

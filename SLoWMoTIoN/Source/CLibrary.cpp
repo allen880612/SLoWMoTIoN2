@@ -64,7 +64,12 @@ namespace game_framework
 	{
 		return GetPostive(mapx) + rolex;
 	}
-#pragma endregion
+
+	bool IsPointInRect(CPoint point, CRect rect)
+	{
+		return (rect.left <= point.x && point.x <= rect.right && rect.top <= point.y && rect.bottom);
+	}
+	#pragma endregion
 
 	#pragma region - CLayer -
 	CLayer::CLayer()
@@ -252,6 +257,11 @@ namespace game_framework
 		bmp.swap(del_vector);
 		bmp.clear();
 	}
+
+	CRect CAnimate::GetRect()
+	{
+		return bmp[bmp_index].GetRect();
+	}
 #pragma endregion
 
 	#pragma region - timer -
@@ -310,4 +320,25 @@ namespace game_framework
 	#pragma endregion
 
 	#pragma endregion
+
+	/*#pragma region - CRectangle -
+	CRectangle::CRectangle()
+	{
+		leftTop = CPoint();
+		leftBottom = CPoint();
+		rightTop = CPoint();
+		rightBottom = CPoint();
+	}
+	CRectangle::CRectangle(CPoint _leftTop, CPoint _rightTop, CPoint _rightBottom, CPoint _leftBottom)
+	{
+		leftTop = _leftTop;
+		rightTop = _rightTop;
+		rightBottom = _rightBottom;
+		leftBottom = _leftBottom;
+	}
+	CRectangle::~CRectangle()
+	{
+
+	}
+	#pragma endregion*/
 }

@@ -113,6 +113,7 @@
 */
 
 //#define	 INITGUID
+#pragma once
 #include "stdafx.h"
 #include "game.h"
 #include "MainFrm.h"
@@ -451,6 +452,11 @@ int CMovingBitmap::Width()
 {
 	GAME_ASSERT(isBitmapLoaded,"A bitmap must be loaded before Width() is called !!!");
 	return location.right - location.left;
+}
+
+CRect CMovingBitmap::GetRect()
+{
+	return location;
 }
 
 /////////////////////////////////////////////////////////////////////////////

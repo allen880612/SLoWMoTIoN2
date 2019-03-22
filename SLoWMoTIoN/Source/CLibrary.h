@@ -6,10 +6,13 @@ namespace myLibrary
 	void DeleteCharPoint(vector<char*>&);
 	int GetPostive(int);
 	int GetRandom(int, int); //得到Random數字，min <= k <= max
+
 }
 namespace game_framework
 {
 	int ScreenX(int, int);
+
+	bool IsPointInRect(CPoint, CRect);
 
 	#pragma region - CLayer -
 	class CLayer
@@ -48,7 +51,8 @@ namespace game_framework
 		int   Width();					// 取得動畫的寬度
 		bool  IsNull();
 		void  ReleaseAnimate();
-
+		
+		CRect GetRect();
 	private:
 
 		vector<CMovingBitmap>			bmp;

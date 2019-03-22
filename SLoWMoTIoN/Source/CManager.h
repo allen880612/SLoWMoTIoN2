@@ -9,14 +9,15 @@ namespace game_framework
 	#pragma region - passerbyManager -
 	class CPasserbyManager
 	{
+		friend class CMapManager;
 	public:
 		CPasserbyManager();
 		~CPasserbyManager();
 		void Clear();
 		void AddPasserbyManager(CNPC*);
 		void CreatePasserby(int, vector<int>, int);
-		vector<CNPC*> passerby;
 	private:
+		vector<CNPC*> passerby;
 		string ziliaojia = "Role\\NPC";
 		string name[10] = { "LUKA", "KALU" };
 	};

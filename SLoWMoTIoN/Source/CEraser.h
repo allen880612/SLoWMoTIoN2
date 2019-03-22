@@ -90,6 +90,7 @@ namespace game_framework {
 	#pragma region - CNPC -
 	class CNPC : public CEraser
 	{
+		friend class CScallion;
 	public:
 		CNPC();
 		CNPC(int, int, string, string, int);

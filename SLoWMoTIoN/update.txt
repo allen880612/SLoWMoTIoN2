@@ -40,10 +40,12 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
 	   有些沒彈性，可能改為傳入毫秒?(或參數改double?)
 ==============================================================
 2019/3/23
-<<<<<<< HEAD
-1. con-j last Question: 好解決，現在可以進行毫秒為單位的Timer運算
+1. con-j last Question: 好解決，現在可以進行毫秒為單位的Timer運算 (by 彩鏡)
 
 2. Memory leaks問題，在建構式中或LoadBitmap中，直接把ConvertCharPointToString()放在當中，
    造成沒有把回傳到game.cpp的 char* 刪除，而導致Memory leaks，
    解決：在主程式中將回傳值取出，並在LoadBitmap或建構式後， 將其delete即可。(by Hibiya)
 
+3. con-j 3/22 -4. blockMap底下的CNPC已刪除 (by 彩鏡)
+
+4. 小做碰撞 in CLibrary (by 彩鏡)

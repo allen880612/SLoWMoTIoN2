@@ -1,5 +1,7 @@
 #pragma once
 #include "CLibrary.h"
+#include "CEraser.h"
+
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class提供繞圈圈的球
@@ -43,6 +45,7 @@ namespace game_framework {
 			void OnMove();
 			void OnShow();
 			void SetInitVelocity(int, int, int, int);
+			bool IsCollision(CNPC);
 
 		protected:
 			CAnimate animation;

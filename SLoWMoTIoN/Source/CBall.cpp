@@ -6,6 +6,7 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "CBall.h"
+#include "CEraser.h"
 
 
 using namespace myLibrary;
@@ -192,9 +193,10 @@ namespace game_framework {
 		velocity_y = dy;
 	}
 
-
-
-
-
+	bool CScallion::IsCollision(CNPC passerby)
+	{
+		return false;
+		return IsPointInRect(CPoint(x + animation.Width(), y), passerby.animation.GetRect());
+	}
 
 }
