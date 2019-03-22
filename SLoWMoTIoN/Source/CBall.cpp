@@ -142,7 +142,9 @@ namespace game_framework {
 	{
 		for (int i = 0; i < number; i++)
 		{
-			animation.AddBitmap(ConvertCharPointToString(ziliaojia, name, i), RGB(255, 255, 255));
+			char *address = ConvertCharPointToString(ziliaojia, name, i);
+			animation.AddBitmap(address, RGB(255, 255, 255));
+			delete address;
 		}
 	}
 

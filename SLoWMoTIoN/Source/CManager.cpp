@@ -195,7 +195,9 @@ namespace game_framework
 	{
 		for (int mapIndex = 0; mapIndex < MAX_MAP_NUMBER; mapIndex++)
 		{
-			blockMap[mapIndex].backgroundBitmap.LoadBitmapA(ConvertCharPointToString(blockMap[mapIndex].ziliaojia, blockMap[mapIndex].name, blockMap[mapIndex].number));
+			char *address = ConvertCharPointToString(blockMap[mapIndex].ziliaojia, blockMap[mapIndex].name, blockMap[mapIndex].number);
+			blockMap[mapIndex].backgroundBitmap.LoadBitmap(address);
+			delete address;
 		}
 
 		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
