@@ -18,7 +18,6 @@ namespace game_framework
 		leftMap = 0;
 		rightMap = 0;
 		loadMap = IDB_MAP0;
-		npc.clear();
 	}
 
 	CBlockMap::CBlockMap(int _nowMap, int _upMap, int _downMap, int _leftMap, int _rightMap, int _loadMap)
@@ -30,7 +29,6 @@ namespace game_framework
 		rightMap = _rightMap;
 		loadMap = _loadMap;
 		passerbyMaxSize = 5;
-		npc.clear();
 	}
 
 	CBlockMap::CBlockMap(int _nowMap, int _upMap, int _downMap, int _leftMap, int _rightMap, string _ziliaojia, string _name, int _number)
@@ -40,11 +38,10 @@ namespace game_framework
 		downMap = _downMap;
 		leftMap = _leftMap;
 		rightMap = _rightMap;
+		passerbyMaxSize = 5;
 		ziliaojia = _ziliaojia;
 		name = _name;
 		number = _number;
-		passerbyMaxSize = 5;
-		npc.clear();
 	}
 
 	CBlockMap::~CBlockMap()

@@ -144,7 +144,7 @@ namespace game_framework {
 			if (canMoving)
 				x -= STEP_SIZE;
 		}
-
+		animation.SetTopLeft(x, y);
 		animation.OnMove(dir);
 	}
 
@@ -191,7 +191,6 @@ namespace game_framework {
 
 	CAnimate* CEraser::GetAnimate()
 	{
-		animation.SetTopLeft(x, y);
 		return &animation;
 	}
 

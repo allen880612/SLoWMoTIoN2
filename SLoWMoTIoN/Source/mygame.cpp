@@ -223,6 +223,16 @@ namespace game_framework {
 		#pragma region - Initialize - MapManager -
 		mapManager.LoadMapBitmap();
 		#pragma endregion
+
+		#pragma region - layerManager - AddObject -
+		layerManager.AddObject(role.GetAnimate(), role.layer.GetLayer());
+		layerManager.AddObject(mapManager.GetBitmap(), mapManager.layer.GetLayer());
+		for (int i = 0; i < mapManager.GetNpcNumber(); i++)
+		{
+			layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));
+		}
+		#pragma endregion
+
 	}
 
 	void CGameStateRun::OnMove()							// ²¾°Ê¹CÀ¸¤¸¯À
@@ -474,16 +484,16 @@ namespace game_framework {
 		//miku.onShow();
 
 		#pragma region - paint object -
-		layerManager.Clear();
+		//layerManager.Clear();
 		#pragma region -- add object to layer --
-		layerManager.AddObject(miku.GetBitmap(), miku.GetLayer());
-		layerManager.AddObject(role.GetAnimate(), role.layer.GetLayer());
-		layerManager.AddObject(mapManager.GetBitmap(), mapManager.layer.GetLayer());
-		for (int i = 0; i < mapManager.GetNpcNumber(); i++)
+		//layerManager.AddObject(miku.GetBitmap(), miku.GetLayer());
+		//layerManager.AddObject(role.GetAnimate(), role.layer.GetLayer());
+		//layerManager.AddObject(mapManager.GetBitmap(), mapManager.layer.GetLayer());
+		/*for (int i = 0; i < mapManager.GetNpcNumber(); i++)
 		{
 			if(mapManager.GetNpcValid(i))
 				layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));
-		}
+		}*/
 		#pragma endregion
 		layerManager.ShowLayer();
 		#pragma endregion

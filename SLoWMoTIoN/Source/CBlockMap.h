@@ -18,7 +18,6 @@ namespace game_framework
 		CMovingBitmap backgroundBitmap; //背景圖片 (用LoadBitmap讀取loadMap)
 		int passerbyMaxSize;
 		vector<int> passerbyID = {0, 1};
-		vector<CNPC> npc;
 		string ziliaojia, name;
 		int number;
 	};

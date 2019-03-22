@@ -28,5 +28,9 @@
    另外還有動畫的切換速度，若能修改也會比有彈性。(by HIBIYA)
 7. CScallion(蔥)主要以Animate來動作，建構時需傳入CScallion(資料夾,名字,張數,初始x,初始y,初速x,初速y,以及方向) (by HIBIYA)
 
+8. 若在物件中加入Layer，並且Friend class Layer，是否就不用寫GetLayer()，而能夠直接獲取Layer的屬性?
+Answer: 4, friend class大師 4ni
+
+9. uhua layerManager a part (by rainbowjin)
 ==============================================================
-若在物件中加入Layer，並且Friend class Layer，是否就不用寫GetLayer()，而能夠直接獲取Layer的屬性?
+

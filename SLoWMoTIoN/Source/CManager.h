@@ -62,6 +62,7 @@ namespace game_framework
 		int loadMap;
 		string loadMapPath;
 		CBlockMap blockMap[MAX_MAP_NUMBER];
+		CMovingBitmap background;
 		CPasserbyManager passerbyManager;
 		int x;
 		bool isMovingLeft;

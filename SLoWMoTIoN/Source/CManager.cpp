@@ -25,9 +25,10 @@ namespace game_framework
 	void CMapManager::Initialize()
 	{
 		nowMap = 0;
-		loadMap = blockMap[0].loadMap;
+		loadMap = blockMap[nowMap].loadMap;
 		x = 0;
 		layer.SetLayer(1);
+		background = blockMap[nowMap].backgroundBitmap;
 	}
 
 	#pragma region - GetMap -
@@ -65,31 +66,26 @@ namespace game_framework
 	int CMapManager::GetNpcNumber()
 	{
 		return passerbyManager.passerby.size();
-		//return blockMap[nowMap].npc.size();
 	}
 
 	int CMapManager::GetNpcLayer(int npcIndex)
 	{
-		return 6;
-		//return blockMap[nowMap].npc[npcIndex].layer.GetLayer();
+		return passerbyManager.passerby[npcIndex]->layer.GetLayer();
 	}
 
 	bool CMapManager::GetNpcValid(int npcIndex)
 	{
-		return true;
-		//return blockMap[nowMap].npc[npcIndex].IsValid();
+		return passerbyManager.passerby[npcIndex]->IsValid();
 	}
 
 	CMovingBitmap* CMapManager::GetBitmap()
 	{
-		blockMap[nowMap].backgroundBitmap.SetTopLeft(x, 0);
-		return &(blockMap[nowMap].backgroundBitmap);
+		return &background;
 	}
 
 	CAnimate* CMapManager::GetNpc(int npcIndex)
 	{
 		return (passerbyManager.passerby[npcIndex]->GetAnimate());
-		//return (blockMap[nowMap].npc[npcIndex].GetAnimate());
 	}
 
 	int CMapManager::GetSplitLeft()
@@ -99,7 +95,7 @@ namespace game_framework
 
 	int CMapManager::GetSplitRight()
 	{
-		return blockMap[nowMap].backgroundBitmap.Width() - (SIZE_X / 2);
+		return background.Width() - (SIZE_X / 2);
 	}
 
 	int CMapManager::GetX1()
@@ -114,7 +110,7 @@ namespace game_framework
 
 	int CMapManager::GetBitmapWidth()
 	{
-		return blockMap[nowMap].backgroundBitmap.Width();
+		return background.Width();
 	}
 	#pragma endregion
 
@@ -122,6 +118,7 @@ namespace game_framework
 	{
 		nowMap = changeMap;
 		loadMap = blockMap[nowMap].loadMap;
+		background = blockMap[nowMap].backgroundBitmap;
 		if (nextMap == "left") //下一張地圖(要換的地圖)，在原本地圖的左邊 (移動到左邊的地圖)
 		{
 			x = -(GetBitmapWidth() - SIZE_X);
@@ -130,6 +127,7 @@ namespace game_framework
 		{
 			x = 0; 
 		}
+		background.SetTopLeft(x, 0);
 	}
 
 	void CMapManager::SetMovingLeft(bool _flag)
@@ -158,12 +156,13 @@ namespace game_framework
 			for (unsigned int npcIndex = 0; npcIndex < passerbyManager.passerby.size(); npcIndex++)
 				passerbyManager.passerby[npcIndex]->SetXY(passerbyManager.passerby[npcIndex]->GetX1() - directionX, passerbyManager.passerby[npcIndex]->GetY1());
 		}
+		background.SetTopLeft(x, 0);
 	}
 
 	void CMapManager::OnShow() //顯示對應到的blockMap圖片 (nowMap = 1, 顯示blockMap[1]的background, 類推)
 	{
-		blockMap[nowMap].backgroundBitmap.SetTopLeft(0, 0);
-		blockMap[nowMap].backgroundBitmap.ShowBitmap();
+		background.SetTopLeft(0, 0);
+		background.ShowBitmap();
 	}
 
 	void CMapManager::InitializeCBlockMap()
@@ -174,23 +173,18 @@ namespace game_framework
 			{				//順序：目前 上 下 左 右 ， -1表示不存在
 			case 0:
 				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 1, 2, "RES", "IDB_MAP", mapIndex);
-				blockMap[mapIndex].npc.push_back(CNPC(400, 300, "Role", "LUKA", 2));
 				break;
 
 			case 1:
 				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, -1, 0, "RES", "IDB_MAP", mapIndex);
-				blockMap[mapIndex].npc.push_back(CNPC(400, 300, "Role", "LUKA", 2));
 				break;
 
 			case 2:
 				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 0, -1, "RES", "IDB_MAP", mapIndex);
-				blockMap[mapIndex].npc.push_back(CNPC(800, 300, "Role", "LUKA", 2));
 				break;
 
 			default:
 				blockMap[mapIndex] = CBlockMap(-1, -1, -1, -1, -1, "RES", "IDB_MAP", 0);
-
-				blockMap[mapIndex].npc.push_back(CNPC(0, 300, "Role", "LUKA", 2));
 				break;
 			}
 		}
@@ -201,10 +195,6 @@ namespace game_framework
 		for (int mapIndex = 0; mapIndex < MAX_MAP_NUMBER; mapIndex++)
 		{
 			blockMap[mapIndex].backgroundBitmap.LoadBitmapA(ConvertCharPointToString(blockMap[mapIndex].ziliaojia, blockMap[mapIndex].name, blockMap[mapIndex].number));
-			for (unsigned int npcIndex = 0; npcIndex < blockMap[mapIndex].npc.size(); npcIndex++)
-			{
-				blockMap[mapIndex].npc[npcIndex].LoadBitmapA("Role", "LUKA", 2);
-			}
 		}
 
 		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
