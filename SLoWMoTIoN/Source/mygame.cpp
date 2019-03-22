@@ -429,7 +429,6 @@ namespace game_framework {
 			role.SetMovingUp(false);
 		if (nChar == KEY_DOWN)
 		{
-			role.SetIsFire(false);
 			role.SetMovingDown(false);
 		}
 
@@ -438,11 +437,14 @@ namespace game_framework {
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
 		role.SetIsFire(true);
+		role.SetMouseXY(point.x, point.y);
+
 	}
 
 	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
 		role.SetIsFire(false);
+		role.SetMouseXY(point.x, point.y);
 	}
 
 	void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -452,7 +454,6 @@ namespace game_framework {
 
 	void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
-		
 		
 	}
 

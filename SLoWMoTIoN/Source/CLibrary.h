@@ -46,7 +46,7 @@ namespace game_framework
 		void  SetTopLeft(int, int);		// 將動畫的左上角座標移至 (x,y)
 		int   Top();					// 取得動畫的左上角的 y 座標
 		int   Width();					// 取得動畫的寬度
-		bool   IsNull();
+		bool  IsNull();
 		void  ReleaseAnimate();
 
 	private:
@@ -64,11 +64,14 @@ namespace game_framework
 	public:
 		CTimer();
 		CTimer(int);
+		//CTimer(double);
 		~CTimer();
 		void CountDown();
 		int GetTime();
+		//double GetTime();
 		bool IsTimeOut();
 		void ResetTime(int);
+		//void ResetTime(double);
 
 		void operator=(CTimer); //運算子多載，方便在GameStateRun::OnBeginState中重構Timer
 	private:

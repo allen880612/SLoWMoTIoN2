@@ -117,7 +117,7 @@ namespace game_framework {
 		LoadBitmap("Role", "scallion", 4);
 	}
 
-	CScallion::CScallion(string ziliaojia, string name, int number, int _x, int _y, int v_x, int v_y, char _dir)
+	CScallion::CScallion(string ziliaojia, string name, int number, int _x, int _y, int v_x, int v_y, int f_x, int f_y)
 	{
 		dx = dy = index = delay_counter = 0;	//暫時無用，只是確保繼承不會出問題
 		
@@ -130,7 +130,7 @@ namespace game_framework {
 		is_alive = true;
 		LoadBitmap(ziliaojia, name, number);
 		animation.SetTopLeft(x, y);
-		SetInitVelocity(v_x, v_y, _dir);
+		SetInitVelocity(_x, _y, f_x, f_y);
 	}
 
 	CScallion::~CScallion()
@@ -181,14 +181,15 @@ namespace game_framework {
 		animation.OnShow();
 	}
 
-	void CScallion::SetInitVelocity(int v_x, int v_y, char _dir)
+	void CScallion::SetInitVelocity(int b_x, int b_y, int f_x, int f_y)
 	{
-		if (_dir == 'r')
-			velocity_x = v_x;
-		else
-			velocity_x = -v_x;
+		
+		int dx = (f_x - b_x) / 5;
+		int dy = GetPostive((f_y - b_y)) / 5;
 
-		velocity_y = v_y;
+		velocity_x = dx;
+		velocity_y = dy;
+		
 
 	}
 

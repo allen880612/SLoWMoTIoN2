@@ -32,5 +32,11 @@
 Answer: 4, friend class大師 4ni
 
 9. uhua layerManager a part (by rainbowjin)
+
+10. 將射擊方向、力量，改為以(滑鼠座標、腳色位置)之差給定初速度，
+    並加入CTimer，作為射擊的冷卻時間 (by Hibiya)
+
+Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
+	   有些沒彈性，可能改為傳入毫秒?(或參數改double?)
 ==============================================================
 

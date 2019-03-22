@@ -204,7 +204,10 @@ namespace game_framework {
 		const int GRAVITY = 4;						//設定重力
 		init_velocity = velocity = INIT_VELOCITY;
 		gravity = GRAVITY;
-		last_right_left = 'r';
+		mouse_x, mouse_y = 0;
+
+		shoot_cd = CTimer(0);						//初始化射擊冷卻時間
+		//last_right_left = 'r';
 
 		
 	}
@@ -271,9 +274,10 @@ namespace game_framework {
 		}
 		if (isFire)
 		{
-			Fire();
+			Fire(mouse_x, mouse_y);
 		}
 
+		shoot_cd.CountDown();	//設置射擊的 CD時間
 		animation.OnMove(dir);
 		for (unsigned int i = 0; i < scallion.size(); i++)
 		{
@@ -312,6 +316,12 @@ namespace game_framework {
 		canJumping = flag;
 	}
 
+	void CRole::SetMouseXY(int _x, int _y)
+	{
+		mouse_x = _x;
+		mouse_y = _y;
+	}
+
 	bool CRole::GetIsFire()
 	{
 		return isFire;
@@ -322,9 +332,20 @@ namespace game_framework {
 		isFire = flag;
 	}
 
-	void CRole::Fire()
+	void CRole::Fire(int mx, int my)
+	{		
+		if (shoot_cd.IsTimeOut())
+		{
+			scallion.push_back(CScallion("Role", "scallion", 4, GetX3(), GetY1(), 40, 20, mx, my));
+			shoot_cd.ResetTime(1);
+		}
+		
+		
+	}
+
+	void CRole::SetFirePosition(int _x, int _y)
 	{
-		scallion.push_back(CScallion("Role", "scallion", 4, GetX3(), GetY1(), 40, 20, last_right_left));
+		
 	}
 
 	#pragma endregion

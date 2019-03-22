@@ -35,16 +35,16 @@ namespace game_framework {
 
 	class CScallion : public CBall
 	{
-		friend class CBall;
+		//friend class CBall;
 
 		public:
 			CScallion();
-			CScallion(string, string, int,  int, int, int, int, char);
+			CScallion(string, string, int,  int, int, int, int, int, int);
 			~CScallion();
 			void LoadBitmap(string, string, int);
 			void OnMove();
 			void OnShow();
-			void SetInitVelocity(int, int, char);
+			void SetInitVelocity(int, int, int, int);
 
 		protected:
 			CAnimate animation;

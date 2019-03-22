@@ -65,10 +65,12 @@ namespace game_framework {
 		void SetMovingJump(bool);
 		bool GetCanJumping();
 		void SetCanJumping(bool);
+		void SetMouseXY(int, int);
 
 		bool GetIsFire();
 		void SetIsFire(bool);
-		void Fire();
+		void Fire(int, int);			//傳入滑鼠座標
+		void SetFirePosition(int, int);
 		
 
 	protected:
@@ -80,6 +82,8 @@ namespace game_framework {
 		int velocity;				// 速度
 		int gravity;				// 重力
 		char last_right_left;
+		int mouse_x, mouse_y;
+		CTimer shoot_cd;
 	};
 	#pragma endregion
 
