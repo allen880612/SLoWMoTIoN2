@@ -503,7 +503,7 @@ namespace game_framework {
 
 		#pragma region - paint time remain -
 		char str[100];
-		sprintf(str, "%d", timer.GetTime());
+		sprintf(str, "%d", timer.GetTime(2));
 		PaintText(str, 300, 0, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 		#pragma endregion
 

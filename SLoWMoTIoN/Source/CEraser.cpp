@@ -337,7 +337,7 @@ namespace game_framework {
 		if (shoot_cd.IsTimeOut())
 		{
 			scallion.push_back(CScallion("Role", "scallion", 4, GetX3(), GetY1(), 40, 20, mx, my));
-			shoot_cd.ResetTime(1);
+			shoot_cd.ResetTime(0.33);
 		}
 		
 		

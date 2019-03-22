@@ -64,19 +64,18 @@ namespace game_framework
 	public:
 		CTimer();
 		CTimer(int);
-		//CTimer(double);
+		CTimer(double);
 		~CTimer();
 		void CountDown();
-		int GetTime();
-		//double GetTime();
+		double GetTime();
+		int GetTime(int);
 		bool IsTimeOut();
-		void ResetTime(int);
-		//void ResetTime(double);
+		void ResetTime(double);
 
 		void operator=(CTimer); //運算子多載，方便在GameStateRun::OnBeginState中重構Timer
 	private:
-		const int reflash = (1000 / GAME_CYCLE_TIME); //一秒刷新幾次
-		int time;
+		const double reflash = (1000 / GAME_CYCLE_TIME); //一秒刷新幾次
+		double time;
 	};
 	#pragma endregion
 

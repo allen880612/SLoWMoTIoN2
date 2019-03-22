@@ -258,10 +258,16 @@ namespace game_framework
 
 	CTimer::CTimer() //default constructor
 	{
-		ResetTime(99);
+		ResetTime(99.0);
 	}
 
-	CTimer::CTimer(int _time) //給予初始時間
+	CTimer::CTimer(int _time)
+	{
+		ResetTime(_time);
+		time = (int)time;
+	}
+
+	CTimer::CTimer(double _time) //給予初始時間
 	{
 		ResetTime(_time);
 	}
@@ -276,17 +282,22 @@ namespace game_framework
 		time--;
 	}
 
-	int CTimer::GetTime()
+	int CTimer::GetTime(int k)
+	{
+		return (int)time / (int)reflash;
+	}
+
+	double CTimer::GetTime()
 	{
 		return time / reflash;
 	}
 
 	bool CTimer::IsTimeOut()
 	{
-		return time <= 0;
+		return time <= 0.00;
 	}
 
-	void CTimer::ResetTime(int _resetTime)
+	void CTimer::ResetTime(double _resetTime)
 	{
 		time = _resetTime * reflash;
 	}
