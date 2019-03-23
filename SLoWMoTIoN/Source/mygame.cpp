@@ -279,19 +279,12 @@ namespace game_framework {
 				mapManager.SetMovingLeft(false);
 				mapManager.SetMovingRight(true);
 				mapManager.OnMove();
-
-				passerbyManager.SetMapMovingLeft(false);
-				passerbyManager.SetMapMovingRight(true);
-				passerbyManager.OnMapMove();
-
 				role.SetCanMoving(false);
 			}
 			else
 			{
 				mapManager.SetMovingLeft(false);
 				mapManager.SetMovingRight(false);
-				passerbyManager.SetMapMovingLeft(false);
-				passerbyManager.SetMapMovingRight(false);
 				role.SetCanMoving(true);
 			}
 		}
@@ -304,19 +297,12 @@ namespace game_framework {
 				mapManager.SetMovingLeft(true);
 				mapManager.SetMovingRight(false);
 				mapManager.OnMove();
-
-				passerbyManager.SetMapMovingLeft(true);
-				passerbyManager.SetMapMovingRight(false);
-				passerbyManager.OnMapMove();
-
 				role.SetCanMoving(false);
 			}
 			else
 			{
 				mapManager.SetMovingLeft(false);
 				mapManager.SetMovingRight(false);
-				passerbyManager.SetMapMovingLeft(false);
-				passerbyManager.SetMapMovingRight(false);
 				role.SetCanMoving(true);
 			}
 		}
@@ -334,7 +320,6 @@ namespace game_framework {
 			{
 				role.SetXY(0 - (role.GetX2() - role.GetX1()), role.GetY1());
 				mapManager.ChangeMap(mapManager.GetRightMap(), "right");
-				passerbyManager.Clear();
 			}
 			#pragma endregion
 		}
@@ -355,7 +340,6 @@ namespace game_framework {
 			{
 				role.SetXY(SIZE_X + (role.GetX2() - role.GetX1()), role.GetY1());
 				mapManager.ChangeMap(mapManager.GetLeftMap(), "left");
-				passerbyManager.Clear();
 			}
 			#pragma endregion
 		}

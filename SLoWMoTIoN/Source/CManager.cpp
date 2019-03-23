@@ -261,8 +261,6 @@ namespace game_framework
 	#pragma region - passerbyManager -
 	CPasserbyManager::CPasserbyManager()
 	{
-		isMapMovingLeft = false;
-		isMapMovingRight = false;
 		passerby.clear();
 	}
 	CPasserbyManager::~CPasserbyManager()
