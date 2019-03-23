@@ -49,3 +49,5 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
 3. con-j 3/22 -4. blockMap底下的CNPC已刪除 (by 彩鏡)
 
 4. 小做碰撞 in CLibrary (by 彩鏡)
+
+5. 將passerbyManager 自 MapManager中獨立出來，放置在mygame.cpp

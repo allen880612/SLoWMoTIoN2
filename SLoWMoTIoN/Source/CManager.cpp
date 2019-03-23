@@ -63,29 +63,9 @@ namespace game_framework
 		return loadMap;
 	}
 
-	int CMapManager::GetNpcNumber()
-	{
-		return passerbyManager.passerby.size();
-	}
-
-	int CMapManager::GetNpcLayer(int npcIndex)
-	{
-		return passerbyManager.passerby[npcIndex]->layer.GetLayer();
-	}
-
-	bool CMapManager::GetNpcValid(int npcIndex)
-	{
-		return passerbyManager.passerby[npcIndex]->IsValid();
-	}
-
 	CMovingBitmap* CMapManager::GetBitmap()
 	{
 		return &background;
-	}
-
-	CAnimate* CMapManager::GetNpc(int npcIndex)
-	{
-		return (passerbyManager.passerby[npcIndex]->GetAnimate());
 	}
 
 	int CMapManager::GetSplitLeft()
@@ -112,6 +92,14 @@ namespace game_framework
 	{
 		return background.Width();
 	}
+	int CMapManager::GetMaxPasserbySize()
+	{
+		return blockMap[nowMap].passerbyMaxSize;
+	}
+	vector<int> CMapManager::GetCanShowPasserbyIDOnThisMap()
+	{
+		return blockMap[nowMap].passerbyID;
+	}
 	#pragma endregion
 
 	void CMapManager::ChangeMap(int changeMap, string nextMap)
@@ -128,7 +116,6 @@ namespace game_framework
 			x = 0; 
 		}
 		background.SetTopLeft(x, 0);
-		passerbyManager.Clear();
 	}
 
 	void CMapManager::SetMovingLeft(bool _flag)
@@ -146,16 +133,10 @@ namespace game_framework
 		if (isMovingLeft)
 		{
 			x += directionX;
-			//for(unsigned int npcIndex = 0; npcIndex < blockMap[nowMap].npc.size(); npcIndex++)
-				//blockMap[nowMap].npc[npcIndex].SetXY(blockMap[nowMap].npc[npcIndex].GetX1() + directionX, blockMap[nowMap].npc[npcIndex].GetY1());
-			for (unsigned int npcIndex = 0; npcIndex < passerbyManager.passerby.size(); npcIndex++)
-				passerbyManager.passerby[npcIndex]->SetXY(passerbyManager.passerby[npcIndex]->GetX1() + directionX, passerbyManager.passerby[npcIndex]->GetY1());
 		}
 		if (isMovingRight)
 		{
 			x -= directionX;
-			for (unsigned int npcIndex = 0; npcIndex < passerbyManager.passerby.size(); npcIndex++)
-				passerbyManager.passerby[npcIndex]->SetXY(passerbyManager.passerby[npcIndex]->GetX1() - directionX, passerbyManager.passerby[npcIndex]->GetY1());
 		}
 		background.SetTopLeft(x, 0);
 	}
@@ -199,9 +180,6 @@ namespace game_framework
 			blockMap[mapIndex].backgroundBitmap.LoadBitmap(address);
 			delete address;
 		}
-
-		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
-
 	}
 	#pragma endregion
 
@@ -294,5 +272,50 @@ namespace game_framework
 			passerby.push_back(newPasserby);
 		}
 	}
+
+	int CPasserbyManager::GetNpcNumber()
+	{
+		return passerby.size();
+	}
+
+	int CPasserbyManager::GetNpcLayer(int npcIndex)
+	{
+		return passerby[npcIndex]->layer.GetLayer();
+	}
+
+	bool CPasserbyManager::GetNpcValid(int npcIndex)
+	{
+		return passerby[npcIndex]->IsValid();
+	}
+
+	CAnimate* CPasserbyManager::GetNpc(int npcIndex)
+	{
+		return (passerby[npcIndex]->GetAnimate());
+	}
+
+	void CPasserbyManager::SetMapMovingLeft(bool _flag)
+	{
+		isMapMovingLeft = _flag;
+	}
+	void CPasserbyManager::SetMapMovingRight(bool _flag)
+	{
+		isMapMovingRight = _flag;
+	}
+
+	void CPasserbyManager::OnMapMove()
+	{
+		const int directionX = 20;
+		if (isMapMovingLeft)
+		{
+			for (unsigned int npcIndex = 0; npcIndex < passerby.size(); npcIndex++)
+				passerby[npcIndex]->SetXY(passerby[npcIndex]->GetX1() + directionX, passerby[npcIndex]->GetY1());
+		}
+		if (isMapMovingRight)
+		{
+			for (unsigned int npcIndex = 0; npcIndex < passerby.size(); npcIndex++)
+				passerby[npcIndex]->SetXY(passerby[npcIndex]->GetX1() - directionX, passerby[npcIndex]->GetY1());
+		}
+	}
+
 	#pragma endregion
 }

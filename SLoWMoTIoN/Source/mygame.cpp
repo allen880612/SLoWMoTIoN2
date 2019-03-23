@@ -223,13 +223,16 @@ namespace game_framework {
 		#pragma region - Initialize - MapManager -
 		mapManager.LoadMapBitmap();
 		#pragma endregion
+		#pragma region - Initialize - PasserbyManager -
+		passerbyManager.CreatePasserby(mapManager.GetMaxPasserbySize(), mapManager.GetCanShowPasserbyIDOnThisMap(), mapManager.GetBitmapWidth());
+		#pragma endregion
 
 		#pragma region - layerManager - AddObject -
 		layerManager.AddObject(role.GetAnimate(), role.layer.GetLayer());
 		layerManager.AddObject(mapManager.GetBitmap(), mapManager.layer.GetLayer());
-		for (int i = 0; i < mapManager.GetNpcNumber(); i++)
+		for (int i = 0; i < passerbyManager.GetNpcNumber(); i++)
 		{
-			layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));
+			layerManager.AddObject(passerbyManager.GetNpc(i), passerbyManager.GetNpcLayer(i));
 		}
 		#pragma endregion
 

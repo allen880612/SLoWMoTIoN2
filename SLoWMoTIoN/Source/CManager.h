@@ -6,23 +6,6 @@
 //CManager: 地圖管理者 and 圖層管理者 and Timer，供mygame使用
 namespace game_framework
 {
-	#pragma region - passerbyManager -
-	class CPasserbyManager
-	{
-		friend class CMapManager;
-	public:
-		CPasserbyManager();
-		~CPasserbyManager();
-		void Clear();
-		void AddPasserbyManager(CNPC*);
-		void CreatePasserby(int, vector<int>, int);
-	private:
-		vector<CNPC*> passerby;
-		string ziliaojia = "Role\\NPC";
-		string name[10] = { "LUKA", "KALU" };
-	};
-	#pragma endregion
-	
 	#pragma region - MapManager -
 	class CMapManager
 	{
@@ -40,9 +23,9 @@ namespace game_framework
 		int GetX1();
 		int GetX2();
 		int GetBitmapWidth();
-		int GetNpcNumber();
-		int GetNpcLayer(int);
-		bool GetNpcValid(int);
+
+		int GetMaxPasserbySize();
+		vector<int> GetCanShowPasserbyIDOnThisMap();
 
 		void SetMovingLeft(bool);
 		void SetMovingRight(bool);
@@ -53,7 +36,6 @@ namespace game_framework
 		void LoadMapBitmap();
 		void OnShow();
 		CMovingBitmap* GetBitmap();
-		CAnimate* GetNpc(int);
 		CLayer layer;
 
 		void Initialize();
@@ -64,7 +46,6 @@ namespace game_framework
 		string loadMapPath;
 		CBlockMap blockMap[MAX_MAP_NUMBER];
 		CMovingBitmap background;
-		CPasserbyManager passerbyManager;
 		int x;
 		bool isMovingLeft;
 		bool isMovingRight;
@@ -87,6 +68,33 @@ namespace game_framework
 	private:
 		vector <CMovingBitmap*> layerBitmap[MAX_LAYER_NUMBER];
 		vector <CAnimate*> layerAnimate[MAX_LAYER_NUMBER];
+	};
+	#pragma endregion
+
+	#pragma region - passerbyManager -
+	class CPasserbyManager
+	{
+		friend class CMapManager;
+	public:
+		CPasserbyManager();
+		~CPasserbyManager();
+		void Clear();
+		void AddPasserbyManager(CNPC*);
+		void CreatePasserby(int, vector<int>, int);
+		int GetNpcNumber();
+		int GetNpcLayer(int);
+		bool GetNpcValid(int);
+		CAnimate* GetNpc(int);
+		void OnMapMove();
+
+		void SetMapMovingLeft(bool);
+		void SetMapMovingRight(bool);
+	private:
+		vector<CNPC*> passerby;
+		string ziliaojia = "Role\\NPC";
+		string name[10] = { "LUKA", "KALU" };
+
+		bool isMapMovingLeft, isMapMovingRight;
 	};
 	#pragma endregion
 
