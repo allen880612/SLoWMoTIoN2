@@ -130,7 +130,6 @@ namespace game_framework {
 
 		CMapManager mapManager;
 		CLayerManager layerManager;
-		CPasserbyManager passerbyManager;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
