@@ -69,6 +69,16 @@ namespace game_framework
 	{
 		return (rect.left <= point.x && point.x <= rect.right && rect.top <= point.y && rect.bottom);
 	}
+
+	bool IsRectCollision(CRect rect1, CRect rect2)
+	{
+		CPoint leftTop = CPoint(rect1.left, rect1.top);
+		CPoint rightTop = CPoint(rect1.right, rect1.top);
+		CPoint leftBottom = CPoint(rect1.left, rect1.bottom);
+		CPoint rightBottom = CPoint(rect1.right, rect1.bottom);
+		return (IsPointInRect(leftTop, rect2) || IsPointInRect(rightTop, rect2) ||
+			IsPointInRect(leftBottom, rect2) || IsPointInRect(rightBottom, rect2));
+	}
 	#pragma endregion
 
 	#pragma region - CLayer -
@@ -319,25 +329,4 @@ namespace game_framework
 	#pragma endregion
 
 	#pragma endregion
-
-	/*#pragma region - CRectangle -
-	CRectangle::CRectangle()
-	{
-		leftTop = CPoint();
-		leftBottom = CPoint();
-		rightTop = CPoint();
-		rightBottom = CPoint();
-	}
-	CRectangle::CRectangle(CPoint _leftTop, CPoint _rightTop, CPoint _rightBottom, CPoint _leftBottom)
-	{
-		leftTop = _leftTop;
-		rightTop = _rightTop;
-		rightBottom = _rightBottom;
-		leftBottom = _leftBottom;
-	}
-	CRectangle::~CRectangle()
-	{
-
-	}
-	#pragma endregion*/
 }

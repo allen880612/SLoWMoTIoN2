@@ -270,7 +270,7 @@ namespace game_framework
 	}
 	CPasserbyManager::~CPasserbyManager()
 	{
-
+		Clear();
 	}
 	void CPasserbyManager::Clear()
 	{
@@ -294,8 +294,9 @@ namespace game_framework
 			CNPC *newPasserby = new CNPC();
 			int randomID = GetRandom(0, id.size() - 1);
 			newPasserby->LoadBitmap(ziliaojia, name[id[randomID]], 1);
-			int randomX = GetRandom(0, mapWidth - newPasserby->GetX1());
+			int randomX = GetRandom(0, mapWidth - newPasserby->Width());
 			newPasserby->SetXY(randomX, 300);
+			newPasserby->SetScore(id[randomID] * 10);
 			passerby.push_back(newPasserby);
 		}
 	}

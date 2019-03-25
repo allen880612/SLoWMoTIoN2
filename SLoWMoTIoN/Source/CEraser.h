@@ -17,6 +17,7 @@ namespace game_framework {
 		int  GetX3();                   // 中新點 X 座標
 		int  GetX2();					// 擦子右下角 x 座標
 		int  GetY2();					// 擦子右下角 y 座標
+		int GetScore();
 		int  Height();
 		int  Width();
 		bool GetMovingLeft();           // 方方是否在往左走
@@ -43,6 +44,7 @@ namespace game_framework {
 		CAnimate animation;			// 擦子的動畫
 		int height, width;			// 擦子的高、寬
 		int x, y;					// 擦子左上角座標
+		int score;
 
 		bool isMovingDown;			// 是否正在往下移動
 		bool isMovingLeft;			// 是否正在往左移動
@@ -66,6 +68,7 @@ namespace game_framework {
 		bool GetCanJumping();
 		void SetCanJumping(bool);
 		void SetMouseXY(int, int);
+		void AddScore(int);
 
 		bool GetIsFire();
 		void SetIsFire(bool);
@@ -94,10 +97,11 @@ namespace game_framework {
 		friend class CScallion;
 	public:
 		CNPC();
-		CNPC(int, int, string, string, int);
+		CNPC(int, int, string, string, int, int);
 		void SetXY(int, int);
 		bool IsValid();
 		void SetValid(bool);
+		void SetScore(int);
 		~CNPC();
 	private:
 		int initX;

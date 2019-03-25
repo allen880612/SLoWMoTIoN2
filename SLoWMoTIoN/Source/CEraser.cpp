@@ -9,6 +9,8 @@
 #include "CBall.h"
 #include <sstream>
 #include "CLibrary.h"
+#include "CManager.h"
+
 using namespace myLibrary;
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -36,6 +38,7 @@ namespace game_framework {
 		canMoving = true;
 
 		layer.SetLayer(8);
+		score = 0;
 	}
 
 	int CEraser::GetX1()
@@ -56,6 +59,11 @@ namespace game_framework {
 	int CEraser::GetY2()
 	{
 		return y + animation.Height();
+	}
+
+	int CEraser::GetScore()
+	{
+		return score;
 	}
 
 	int CEraser::GetX3()
@@ -336,6 +344,11 @@ namespace game_framework {
 		}
 	}
 
+	void CRole::AddScore(int _score)
+	{
+		score += _score;
+	}
+
 	vector<CScallion*> CRole::GetScallion()
 	{
 		return scallion;
@@ -351,18 +364,18 @@ namespace game_framework {
 		x = initX;
 		y = 300;
 		layer.SetLayer(6);
-
+		score = 0;
 		isValid = true;
 		//LoadBitmap("Role", "LUKA", 2);
 	}
 
-	CNPC::CNPC(int _x, int _y, string ziliaojia, string name, int number) : CEraser()
+	CNPC::CNPC(int _x, int _y, string ziliaojia, string name, int number, int _score) : CEraser()
 	{
 		initX = _x;
 		x = initX;
 		y = _y;
 		layer.SetLayer(6);
-
+		score = _score;
 		isValid = true;
 		//LoadBitmap(ziliaojia, name, number);
 	}
@@ -383,9 +396,14 @@ namespace game_framework {
 		isValid = flag;
 	}
 
+	void CNPC::SetScore(int _score)
+	{
+		score = _score;
+	}
+
 	CNPC::~CNPC()
 	{
-
+		
 	}
 	#pragma endregion
 }

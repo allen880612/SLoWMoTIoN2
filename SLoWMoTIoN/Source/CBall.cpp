@@ -214,7 +214,7 @@ namespace game_framework {
 
 	bool CScallion::IsCollision(CNPC* passerby)
 	{
-		return IsPointInRect(CPoint(x + animation.Width(), y), passerby->animation.GetRect());
+		return IsRectCollision(animation.GetRect(), passerby->animation.GetRect());
 	}
 
 }

@@ -13,6 +13,7 @@ namespace game_framework
 	int ScreenX(int, int);
 
 	bool IsPointInRect(CPoint, CRect);
+	bool IsRectCollision(CRect, CRect);
 
 	#pragma region - CLayer -
 	class CLayer

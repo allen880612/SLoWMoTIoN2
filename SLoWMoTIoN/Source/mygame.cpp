@@ -59,6 +59,7 @@
 #include "gamelib.h"
 #include "mygame.h"
 #include "CManager.h"
+#include "CBall.h"
 #include "CLibrary.h"
 #include <vector>
 using namespace std;
@@ -388,20 +389,44 @@ namespace game_framework {
 		#pragma region - Collision -
 		scallions = role.GetScallion();			//取出蔥的指標做碰撞
 		passerbys = mapManager.GetPasserby();	//取出passerby指標碰撞
-		for (unsigned int i = 0; i < scallions.size(); i++)
+		int aaa = 0;
+		for (vector<CScallion*>::iterator scallionk = scallions.begin(); scallionk != scallions.end(); scallionk++)
 		{
-			for (unsigned int j = 0; j < passerbys.size(); j++)
+			for (vector<CNPC*>::iterator passerbyj = passerbys.begin(); passerbyj != passerbys.end(); passerbyj++)
 			{
-				if (scallions[i]->IsCollision(passerbys[j]))
+				if ((*scallionk)->IsCollision(*passerbyj) && *passerbyj != NULL)
 				{
-					scallions[i]->SetIsAlive(false);
-					//刪掉蔥
+					role.AddScore((*passerbyj)->GetScore());
+					/*delete *scallionk;
+					*scallionk = NULL;
+					scallionk = scallions.erase(scallionk);
+					flag = false;
+					break;*/
+					//scallionk = scallions.erase(scallionk);
+					
+					delete *passerbyj;
+					*passerbyj = NULL;
+					aaa++;
 
-					//把NPC殺了刪除
-					passerbys[j]->SetValid(false);
 				}
 			}
 		}
+
+		//for (unsigned int i = 0; i < scallions.size(); i++)
+		//{
+		//	for (unsigned int j = 0; j < passerbys.size(); j++)
+		//	{
+		//		if (scallions[i]->IsCollision(passerbys[j]))
+		//		{
+		//			role.AddScore(passerbys[j]->GetScore());
+		//			//scallions[i]->SetIsAlive(false);
+		//			//刪掉蔥
+		//			scallions[i]->~CScallion(); //這裡沒有指定成NULL 危險?
+		//			//把NPC殺了刪除
+		//			//passerbys[j]->SetValid(false);
+		//		}
+		//	}
+		//}
 		#pragma endregion
 		
 		//
@@ -550,9 +575,11 @@ namespace game_framework {
 		role.OnShow();
 
 		#pragma region - paint time remain -
-		char str[100];
+		char str[100], roleScore[100];
 		sprintf(str, "%d", timer.GetTime(2));
+		sprintf(roleScore, "%d", role.GetScore());
 		PaintText(str, 300, 0, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+		PaintText(roleScore, 500, 0, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 		#pragma endregion
 
 		//time_left.ShowBitmap();			// 原本的碰撞剩餘次數
