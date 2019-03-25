@@ -155,6 +155,11 @@ namespace game_framework {
 	CGameStateRun::~CGameStateRun()
 	{
 		delete[] ball;
+		scallions.clear();
+		passerbys.clear();
+		vector<CScallion*>().swap(scallions);
+		vector<CNPC*>().swap(passerbys);
+		
 	}
 
 	void CGameStateRun::OnBeginState()
@@ -397,12 +402,6 @@ namespace game_framework {
 				}
 			}
 		}
-		vector<CScallion*> delS;
-		vector<CNPC*> delN;
-		scallions.swap(delS);
-		passerbys.swap(delN);
-		scallions.clear();
-		passerbys.clear();
 		#pragma endregion
 		
 		//

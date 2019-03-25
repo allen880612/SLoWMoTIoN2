@@ -160,6 +160,13 @@ namespace game_framework {
 		if (!IsAlive())
 			return;
 
+		if (x > SIZE_X || y > SIZE_Y)	//超出螢幕
+		{
+			SetIsAlive(false);
+			return;
+		}
+
+		#pragma region - 重力計算 -
 		if (velocity_y > 0)
 		{
 			velocity_y -= gravity;
@@ -170,16 +177,15 @@ namespace game_framework {
 			velocity_y -= gravity;
 			y -= velocity_y;
 		}
+		#pragma endregion
+
 
 		animation.OnMove();
 		animation.SetTopLeft(x + velocity_x, y);
 
 		SetXY(x + velocity_x, y);
 
-		if (x > SIZE_X || y > SIZE_Y)	//超出螢幕
-		{
-			SetIsAlive(false);
-		}
+		
 	}
 
 	void CScallion::OnShow()

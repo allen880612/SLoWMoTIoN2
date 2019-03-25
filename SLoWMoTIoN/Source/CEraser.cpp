@@ -204,12 +204,10 @@ namespace game_framework {
 	{
 		for (vector<CScallion*>::iterator it = scallion.begin(); it != scallion.end(); it++)
 		{
-			delete *it;
+			delete (*it);
 			(*it) = NULL;
 		}
-		vector<CScallion*> del;
-		scallion.swap(del);
-		scallion.clear();
+		vector<CScallion*>().swap(scallion);
 	}
 
 	void CRole::OnMove()
