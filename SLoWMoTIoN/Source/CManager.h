@@ -16,6 +16,7 @@ namespace game_framework
 		void Clear();
 		void AddPasserbyManager(CNPC*);
 		void CreatePasserby(int, vector<int>, int);
+		vector<CNPC*> GetPasserby();
 	private:
 		vector<CNPC*> passerby;
 		string ziliaojia = "Role\\NPC";
@@ -55,6 +56,8 @@ namespace game_framework
 		CMovingBitmap* GetBitmap();
 		CAnimate* GetNpc(int);
 		CLayer layer;
+
+		vector<CNPC*> GetPasserby();
 
 		void Initialize();
 	private:

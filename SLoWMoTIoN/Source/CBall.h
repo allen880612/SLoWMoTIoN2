@@ -46,6 +46,8 @@ namespace game_framework {
 			void OnShow();
 			void SetInitVelocity(int, int, int, int);
 			bool IsCollision(CNPC);
+			bool IsCollision(CNPC*);
+			void Clear();
 
 		protected:
 			CAnimate animation;

@@ -136,7 +136,13 @@ namespace game_framework {
 
 	CScallion::~CScallion()
 	{
-		
+		//animation.~CAnimate();
+		//delete this;
+	}
+
+	void CScallion::Clear()
+	{
+		this->~CScallion();
 	}
 
 	void CScallion::LoadBitmap(string ziliaojia, string name, int number)
@@ -191,12 +197,18 @@ namespace game_framework {
 
 		velocity_x = dx;
 		velocity_y = dy;
+		
 	}
-
+	
 	bool CScallion::IsCollision(CNPC passerby)
 	{
 		return false;
 		return IsPointInRect(CPoint(x + animation.Width(), y), passerby.animation.GetRect());
+	}
+
+	bool CScallion::IsCollision(CNPC* passerby)
+	{
+		return IsPointInRect(CPoint(x + animation.Width(), y), passerby->animation.GetRect());
 	}
 
 }

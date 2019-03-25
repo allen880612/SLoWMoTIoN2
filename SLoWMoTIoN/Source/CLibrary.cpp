@@ -253,8 +253,8 @@ namespace game_framework
 
 	void CAnimate::ReleaseAnimate()
 	{
-		vector<CMovingBitmap> del_vector;
-		bmp.swap(del_vector);
+		//vector<CMovingBitmap> del_vector;
+		//bmp.swap(del_vector);
 		bmp.clear();
 	}
 

@@ -70,11 +70,12 @@ namespace game_framework {
 		bool GetIsFire();
 		void SetIsFire(bool);
 		void Fire(int, int);			//傳入滑鼠座標
-		void SetFirePosition(int, int);
+
+		vector<CScallion*> GetScallion();
 		
 
 	protected:
-		vector<CScallion>	scallion;
+		vector<CScallion*>	scallion;
 		bool isJumping;				// 是否正在跳躍
 		bool canJumping;			// 是否可以跳躍
 		bool isFire;				// 是否正在射擊
@@ -96,6 +97,7 @@ namespace game_framework {
 		CNPC(int, int, string, string, int);
 		void SetXY(int, int);
 		bool IsValid();
+		void SetValid(bool);
 		~CNPC();
 	private:
 		int initX;

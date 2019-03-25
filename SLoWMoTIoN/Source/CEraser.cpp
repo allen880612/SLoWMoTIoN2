@@ -15,6 +15,7 @@ namespace game_framework {
 	// CEraser: Eraser class
 	/////////////////////////////////////////////////////////////////////////////
 
+	#pragma region - CEraser
 	CEraser::CEraser()
 	{
 		Initialize();
@@ -28,7 +29,7 @@ namespace game_framework {
 	void CEraser::Initialize()
 	{
 		const int X_POS = 0;
-		const int Y_POS = 320;
+		const int Y_POS = -160;
 		x = X_POS;
 		y = Y_POS;
 		isMovingLeft = isMovingRight = isMovingUp = isMovingDown = false;
@@ -76,7 +77,7 @@ namespace game_framework {
 	{
 		return isMovingLeft;
 	}
-	
+
 	bool CEraser::GetMovingRight()
 	{
 		return isMovingRight;
@@ -95,23 +96,6 @@ namespace game_framework {
 
 	void CEraser::LoadBitmap(string ziliaojia, string name, int number)
 	{
-		/*vector<char*> addresses;
-		for (int i = 0; i < number; i++)
-		{
-			addresses.push_back(ConvertCharPointToString(ziliaojia, name, i));
-		}
-		animation.LoadBitmap(addresses, RGB(255, 255, 255));
-		DeleteCharPoint(addresses);
-		for (vector<char*>::iterator it = addresses.begin(); it != addresses.end(); it++)
-		{
-			if (NULL != *it)
-			{
-				delete *it;
-				*it = NULL;
-			}
-		}		
-		addresses.clear();*/
-
 		for (int i = 0; i < number; i++)
 		{
 			char* address = ConvertCharPointToString(ziliaojia, name, i);
@@ -126,7 +110,7 @@ namespace game_framework {
 	void CEraser::OnMove()
 	{
 		const int STEP_SIZE = 20;
-		int dir = -1;			
+		int dir = -1;
 
 		if (isMovingUp)
 		{
@@ -193,18 +177,17 @@ namespace game_framework {
 		x = nx; y = ny;
 	}
 
-	
-
 	CAnimate* CEraser::GetAnimate()
 	{
 		return &animation;
 	}
+	#pragma endregion
 
 	#pragma region - CRole -
 	CRole::CRole() : CEraser()
 	{
-		isJumping = false;
-		canJumping = true;
+		isJumping = true;
+		canJumping = false;
 		isFire = false;
 		const int INIT_VELOCITY = 40;				//設定初速度
 		const int GRAVITY = 4;						//設定重力
@@ -219,7 +202,14 @@ namespace game_framework {
 	}
 	CRole::~CRole()
 	{
-
+		for (vector<CScallion*>::iterator it = scallion.begin(); it != scallion.end(); it++)
+		{
+			delete *it;
+			(*it) = NULL;
+		}
+		vector<CScallion*> del;
+		scallion.swap(del);
+		scallion.clear();
 	}
 
 	void CRole::OnMove()
@@ -287,7 +277,7 @@ namespace game_framework {
 		animation.OnMove(dir);
 		for (unsigned int i = 0; i < scallion.size(); i++)
 		{
-			scallion[i].OnMove();
+			scallion[i]->OnMove();
 		}
 	}
 
@@ -298,7 +288,7 @@ namespace game_framework {
 
 			for (unsigned int i = 0; i < scallion.size(); i++)
 			{
-				scallion[i].OnShow();
+				scallion[i]->OnShow();
 			}
 		}
 
@@ -332,7 +322,7 @@ namespace game_framework {
 	{
 		return isFire;
 	}
-
+	
 	void CRole::SetIsFire(bool flag)
 	{
 		isFire = flag;
@@ -340,17 +330,19 @@ namespace game_framework {
 
 	void CRole::Fire(int mx, int my)
 	{		
+		//ClearScallion();
 		if (shoot_cd.IsTimeOut())
 		{
-			scallion.push_back(CScallion("Role", "scallion", 4, GetX3(), GetY1(), mx, my));
+			scallion.push_back(new CScallion("Role", "scallion", 4, GetX3(), GetY1(), mx, my));
 			shoot_cd.ResetTime(0.33);
 		}
 	}
 
-	void CRole::SetFirePosition(int _x, int _y)
+	vector<CScallion*> CRole::GetScallion()
 	{
-		
+		return scallion;
 	}
+
 
 	#pragma endregion
 
@@ -386,6 +378,11 @@ namespace game_framework {
 	bool CNPC::IsValid()
 	{
 		return isValid;
+	}
+
+	void CNPC::SetValid(bool flag)
+	{
+		isValid = flag;
 	}
 
 	CNPC::~CNPC()

@@ -22,6 +22,11 @@ namespace game_framework
 	{
 	}
 
+	vector<CNPC*> CMapManager::GetPasserby()
+	{
+		return passerbyManager.GetPasserby();
+	}
+
 	void CMapManager::Initialize()
 	{
 		nowMap = 0;
@@ -293,6 +298,10 @@ namespace game_framework
 			newPasserby->SetXY(randomX, 300);
 			passerby.push_back(newPasserby);
 		}
+	}
+	vector<CNPC*> CPasserbyManager::GetPasserby()
+	{
+		return passerby;
 	}
 	#pragma endregion
 }

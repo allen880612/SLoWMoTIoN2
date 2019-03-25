@@ -162,7 +162,7 @@ namespace game_framework {
 		const int BALL_GAP = 90;
 		const int BALL_XY_OFFSET = 45;
 		const int BALL_PER_ROW = 7;
-		const int TIME_LEFT = 10;
+		const int TIME_LEFT = 10;			//遊戲秒數
 		const int TIME_LEFT_X = 590;
 		const int TIME_LEFT_Y = 0;
 		const int BACKGROUND_X = 60;
@@ -198,7 +198,7 @@ namespace game_framework {
 								//
 								// 開始載入資料
 								//
-		miku.LoadBitmap();
+		//miku.LoadBitmap();
 		int i;
 		for (i = 0; i < NUMBALLS; i++)
 			ball[i].LoadBitmap();								// 載入第i個球的圖形
@@ -209,10 +209,10 @@ namespace game_framework {
 																// 完成部分Loading動作，提高進度
 																//
 		ShowInitProgress(50);
-		Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
-					//
-					// 繼續載入其他資料
-					//
+		//Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+		//			//
+		//			// 繼續載入其他資料
+		//			//
 		help.LoadBitmap(IDB_HELP, RGB(255, 255, 255));				// 載入說明的圖形
 		corner.LoadBitmap(IDB_CORNER);								// 載入角落圖形
 		corner.ShowBitmap(background);								// 將corner貼到background
@@ -259,9 +259,9 @@ namespace game_framework {
 		if (background.Top() > SIZE_Y)
 			background.SetTopLeft(60, -background.Height());
 		background.SetTopLeft(background.Left(), background.Top() + 1);
-
+		
 		// 移動MIKU
-		miku.OnMove();
+		//miku.OnMove();
 
 		// 移動球
 		//
@@ -378,6 +378,31 @@ namespace game_framework {
 			}
 
 		}
+		#pragma endregion
+		
+		#pragma region - Collision -
+		scallions = role.GetScallion();			//取出蔥的指標做碰撞
+		passerbys = mapManager.GetPasserby();	//取出passerby指標碰撞
+		for (unsigned int i = 0; i < scallions.size(); i++)
+		{
+			for (unsigned int j = 0; j < passerbys.size(); j++)
+			{
+				if (scallions[i]->IsCollision(passerbys[j]))
+				{
+					scallions[i]->SetIsAlive(false);
+					//刪掉蔥
+
+					//把NPC殺了刪除
+					passerbys[j]->SetValid(false);
+				}
+			}
+		}
+		vector<CScallion*> delS;
+		vector<CNPC*> delN;
+		scallions.swap(delS);
+		passerbys.swap(delN);
+		scallions.clear();
+		passerbys.clear();
 		#pragma endregion
 		
 		//
@@ -498,23 +523,23 @@ namespace game_framework {
 		//
 		
 		//background.ShowBitmap();			// 貼上背景圖
-		help.ShowBitmap();					// 貼上說明圖
-		
+		//help.ShowBitmap();					// 貼上說明圖
+		//
 
-		corner.SetTopLeft(0, 0);
-		corner.ShowBitmap();
-		corner.SetTopLeft(SIZE_X - corner.Width(), SIZE_Y - corner.Height());
-		corner.ShowBitmap();
+		//corner.SetTopLeft(0, 0);
+		//corner.ShowBitmap();
+		//corner.SetTopLeft(SIZE_X - corner.Width(), SIZE_Y - corner.Height());
+		//corner.ShowBitmap();
 		//貼上MIKU
 		//miku.onShow();
 
 		#pragma region - paint object -
 		//layerManager.Clear();
 		#pragma region -- add object to layer --
-		//layerManager.AddObject(miku.GetBitmap(), miku.GetLayer());
-		//layerManager.AddObject(role.GetAnimate(), role.layer.GetLayer());
-		//layerManager.AddObject(mapManager.GetBitmap(), mapManager.layer.GetLayer());
-		/*for (int i = 0; i < mapManager.GetNpcNumber(); i++)
+		/*layerManager.AddObject(miku.GetBitmap(), miku.GetLayer());
+		layerManager.AddObject(role.GetAnimate(), role.layer.GetLayer());
+		layerManager.AddObject(mapManager.GetBitmap(), mapManager.layer.GetLayer());
+		for (int i = 0; i < mapManager.GetNpcNumber(); i++)
 		{
 			if(mapManager.GetNpcValid(i))
 				layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));

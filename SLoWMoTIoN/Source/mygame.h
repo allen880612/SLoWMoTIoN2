@@ -128,8 +128,10 @@ namespace game_framework {
 		CInteger		time_left;	// 剩下的撞擊數
 		CTimer timer; //stateRun狀態下的timer (其實好像在什麼狀態下都無所謂)
 
-		CMapManager mapManager;
-		CLayerManager layerManager;
+		vector<CScallion*>	scallions;
+		vector<CNPC*>		passerbys;
+		CMapManager			mapManager;
+		CLayerManager		layerManager;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
