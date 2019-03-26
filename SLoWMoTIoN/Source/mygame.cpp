@@ -404,9 +404,7 @@ namespace game_framework {
 					delete *scallionk;
 					*scallionk = NULL;
 					
-					delete *passerbyj;
-					*passerbyj = NULL;
-					passerbyj = passerbys->erase(passerbyj);
+					mapManager.DeletePasserby(passerbyj); //從mapManager的passerbyManager中移除passerby
 					break;
 				}
 				else

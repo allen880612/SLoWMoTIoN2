@@ -16,6 +16,7 @@ namespace game_framework
 		void Clear();
 		void AddPasserbyManager(CNPC*);
 		void CreatePasserby(int, vector<int>, int);
+		void DeletePasserby(vector<CNPC*>::iterator);
 		vector<CNPC*> GetPasserby();
 	private:
 		vector<CNPC*> passerby;
@@ -58,7 +59,7 @@ namespace game_framework
 		CLayer layer;
 
 		vector<CNPC*>* GetPasserby();
-
+		void DeletePasserby(vector<CNPC*>::iterator); //temp
 		void Initialize();
 	private:
 		const int directionX = 20;

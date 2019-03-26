@@ -27,6 +27,11 @@ namespace game_framework
 		return &passerbyManager.passerby;
 	}
 
+	void CMapManager::DeletePasserby(vector<CNPC*>::iterator passerbyj)
+	{
+		passerbyManager.DeletePasserby(passerbyj);
+	}
+
 	void CMapManager::Initialize()
 	{
 		nowMap = 0;
@@ -301,6 +306,14 @@ namespace game_framework
 			passerby.push_back(newPasserby);
 		}
 	}
+
+	void CPasserbyManager::DeletePasserby(vector<CNPC*>::iterator passerbyj)
+	{
+		delete *passerbyj;
+		*passerbyj = NULL;
+		passerbyj = passerby.erase(passerbyj);
+	}
+
 	vector<CNPC*> CPasserbyManager::GetPasserby()
 	{
 		return passerby;
