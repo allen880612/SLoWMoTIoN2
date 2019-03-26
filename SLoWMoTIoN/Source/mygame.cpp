@@ -155,12 +155,7 @@ namespace game_framework {
 
 	CGameStateRun::~CGameStateRun()
 	{
-		delete[] ball;
-		scallions.clear();
-		//passerbys.clear();
-		vector<CScallion*>().swap(scallions);
-		//vector<CNPC*>().swap(passerbys);
-		
+		delete[] ball;		
 	}
 
 	void CGameStateRun::OnBeginState()
@@ -390,46 +385,37 @@ namespace game_framework {
 		scallions = role.GetScallion();			//取出蔥的指標做碰撞
 		passerbys = mapManager.GetPasserby();	//取出passerby指標碰撞
 		int aaa = 0;
-		for (vector<CScallion*>::iterator scallionk = scallions.begin(); scallionk != scallions.end(); scallionk++)
+		for (vector<CScallion*>::iterator scallionk = scallions->begin(); scallionk != scallions->end(); )
 		{
 			for (vector<CNPC*>::iterator passerbyj = passerbys->begin(); passerbyj != passerbys->end(); )
 			{
-				if ((*scallionk)->IsCollision(*passerbyj) && *passerbyj != NULL)
+				if ((*scallionk)->IsCollision(*passerbyj))
 				{
 					role.AddScore((*passerbyj)->GetScore());
-					/*delete *scallionk;
+
+					delete *scallionk;
 					*scallionk = NULL;
-					scallionk = scallions.erase(scallionk);
-					flag = false;
-					break;*/
-					//scallionk = scallions.erase(scallionk);
 					
 					delete *passerbyj;
 					*passerbyj = NULL;
 					passerbyj = passerbys->erase(passerbyj);
+					break;
 				}
 				else
 				{
 					passerbyj++;
 				}
 			}
-		}
 
-		//for (unsigned int i = 0; i < scallions.size(); i++)
-		//{
-		//	for (unsigned int j = 0; j < passerbys.size(); j++)
-		//	{
-		//		if (scallions[i]->IsCollision(passerbys[j]))
-		//		{
-		//			role.AddScore(passerbys[j]->GetScore());
-		//			//scallions[i]->SetIsAlive(false);
-		//			//刪掉蔥
-		//			scallions[i]->~CScallion(); //這裡沒有指定成NULL 危險?
-		//			//把NPC殺了刪除
-		//			//passerbys[j]->SetValid(false);
-		//		}
-		//	}
-		//}
+			if (*scallionk == NULL)
+			{
+				scallionk = scallions->erase(scallionk);
+			}
+			else
+			{
+				scallionk++;
+			}
+		}
 		#pragma endregion
 		
 		//

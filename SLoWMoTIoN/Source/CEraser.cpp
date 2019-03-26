@@ -349,9 +349,9 @@ namespace game_framework {
 		score += _score;
 	}
 
-	vector<CScallion*> CRole::GetScallion()
+	vector<CScallion*>* CRole::GetScallion()
 	{
-		return scallion;
+		return &scallion;
 	}
 
 

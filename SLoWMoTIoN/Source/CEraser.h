@@ -74,7 +74,7 @@ namespace game_framework {
 		void SetIsFire(bool);
 		void Fire(int, int);			//¶Ç¤J·Æ¹«®y¼Ð
 
-		vector<CScallion*> GetScallion();
+		vector<CScallion*>* GetScallion();
 		
 
 	protected:

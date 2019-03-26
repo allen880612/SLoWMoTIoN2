@@ -263,8 +263,8 @@ namespace game_framework
 
 	void CAnimate::ReleaseAnimate()
 	{
-		vector<CMovingBitmap>().swap(bmp);
 		bmp.clear();
+		vector<CMovingBitmap>().swap(bmp);
 	}
 
 	CRect CAnimate::GetRect()

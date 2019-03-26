@@ -136,7 +136,7 @@ namespace game_framework {
 
 	CScallion::~CScallion()
 	{
-		//animation.~CAnimate();
+		//animation.ReleaseAnimate();
 		//delete this;
 	}
 
