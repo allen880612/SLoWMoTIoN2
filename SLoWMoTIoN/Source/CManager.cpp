@@ -22,9 +22,9 @@ namespace game_framework
 	{
 	}
 
-	vector<CNPC*> CMapManager::GetPasserby()
+	vector<CNPC*>* CMapManager::GetPasserby()
 	{
-		return passerbyManager.GetPasserby();
+		return &passerbyManager.passerby;
 	}
 
 	void CMapManager::Initialize()

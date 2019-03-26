@@ -57,7 +57,7 @@ namespace game_framework
 		CAnimate* GetNpc(int);
 		CLayer layer;
 
-		vector<CNPC*> GetPasserby();
+		vector<CNPC*>* GetPasserby();
 
 		void Initialize();
 	private:

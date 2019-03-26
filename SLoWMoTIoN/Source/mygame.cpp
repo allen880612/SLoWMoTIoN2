@@ -157,9 +157,9 @@ namespace game_framework {
 	{
 		delete[] ball;
 		scallions.clear();
-		passerbys.clear();
+		//passerbys.clear();
 		vector<CScallion*>().swap(scallions);
-		vector<CNPC*>().swap(passerbys);
+		//vector<CNPC*>().swap(passerbys);
 		
 	}
 
@@ -392,7 +392,7 @@ namespace game_framework {
 		int aaa = 0;
 		for (vector<CScallion*>::iterator scallionk = scallions.begin(); scallionk != scallions.end(); scallionk++)
 		{
-			for (vector<CNPC*>::iterator passerbyj = passerbys.begin(); passerbyj != passerbys.end(); passerbyj++)
+			for (vector<CNPC*>::iterator passerbyj = passerbys->begin(); passerbyj != passerbys->end(); )
 			{
 				if ((*scallionk)->IsCollision(*passerbyj) && *passerbyj != NULL)
 				{
@@ -406,8 +406,11 @@ namespace game_framework {
 					
 					delete *passerbyj;
 					*passerbyj = NULL;
-					aaa++;
-
+					passerbyj = passerbys->erase(passerbyj);
+				}
+				else
+				{
+					passerbyj++;
 				}
 			}
 		}
