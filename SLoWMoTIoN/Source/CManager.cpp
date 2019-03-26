@@ -134,6 +134,7 @@ namespace game_framework
 		}
 		background.SetTopLeft(x, 0);
 		passerbyManager.Clear();
+		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
 	}
 
 	void CMapManager::SetMovingLeft(bool _flag)
@@ -176,21 +177,21 @@ namespace game_framework
 		for (int mapIndex = 0; mapIndex < MAX_MAP_NUMBER; mapIndex++) //初始化blockMap的上下左右地圖資訊，增加可讀性使用switch敘述
 		{
 			switch (mapIndex)
-			{				//順序：目前 上 下 左 右 ， -1表示不存在
+			{				//順序：目前 上 下 左 右 地圖上有幾個passerby存在， -1表示不存在
 			case 0:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 1, 2, "RES", "IDB_MAP", mapIndex);
+				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 1, 2, 5, "RES", "IDB_MAP", mapIndex);
 				break;
 
 			case 1:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, -1, 0, "RES", "IDB_MAP", mapIndex);
+				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, -1, 0, 2, "RES", "IDB_MAP", mapIndex);
 				break;
 
 			case 2:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 0, -1, "RES", "IDB_MAP", mapIndex);
+				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 0, -1, 3, "RES", "IDB_MAP", mapIndex);
 				break;
 
 			default:
-				blockMap[mapIndex] = CBlockMap(-1, -1, -1, -1, -1, "RES", "IDB_MAP", 0);
+				blockMap[mapIndex] = CBlockMap(-1, -1, -1, -1, -1, 0, "RES", "IDB_MAP", 0);
 				break;
 			}
 		}

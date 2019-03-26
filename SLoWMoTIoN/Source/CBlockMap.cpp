@@ -31,14 +31,14 @@ namespace game_framework
 		passerbyMaxSize = 5;
 	}
 
-	CBlockMap::CBlockMap(int _nowMap, int _upMap, int _downMap, int _leftMap, int _rightMap, string _ziliaojia, string _name, int _number)
+	CBlockMap::CBlockMap(int _nowMap, int _upMap, int _downMap, int _leftMap, int _rightMap, int _passerbyMaxSize, string _ziliaojia, string _name, int _number)
 	{
 		nowMap = _nowMap;
 		upMap = _upMap;
 		downMap = _downMap;
 		leftMap = _leftMap;
 		rightMap = _rightMap;
-		passerbyMaxSize = 5;
+		passerbyMaxSize = _passerbyMaxSize;
 		ziliaojia = _ziliaojia;
 		name = _name;
 		number = _number;

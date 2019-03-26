@@ -325,6 +325,10 @@ namespace game_framework {
 			{
 				role.SetXY(0 - (role.GetX2() - role.GetX1()), role.GetY1());
 				mapManager.ChangeMap(mapManager.GetRightMap(), "right");
+				for (int i = 0; i < mapManager.GetNpcNumber(); i++)
+				{
+					layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));
+				}
 			}
 			#pragma endregion
 		}
@@ -345,6 +349,10 @@ namespace game_framework {
 			{
 				role.SetXY(SIZE_X + (role.GetX2() - role.GetX1()), role.GetY1());
 				mapManager.ChangeMap(mapManager.GetLeftMap(), "left");
+				for (int i = 0; i < mapManager.GetNpcNumber(); i++)
+				{
+					layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));
+				}
 			}
 			#pragma endregion
 		}
