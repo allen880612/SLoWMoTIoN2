@@ -19,6 +19,7 @@ namespace game_framework
 		void CreatePasserby(int, vector<int>, int);
 		void DeletePasserby(vector<CNPC*>::iterator);
 		vector<CNPC*> GetPasserby();
+		CLayer layer; //為了layerManager做的髒髒東東
 	private:
 		vector<CNPC*> passerby;
 		string ziliaojia = "Role\\NPC";
@@ -89,6 +90,7 @@ namespace game_framework
 		void AddObject(CMovingBitmap*, int);
 		void AddObject(CAnimate*, int);
 		void ShowLayer();
+		void Initialize();
 	private:
 		vector <CMovingBitmap*> layerBitmap[MAX_LAYER_NUMBER];
 		vector <CAnimate*> layerAnimate[MAX_LAYER_NUMBER];

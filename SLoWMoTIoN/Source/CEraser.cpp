@@ -268,6 +268,8 @@ namespace game_framework {
 		}
 
 		shoot_cd.CountDown();	//設置射擊的 CD時間
+
+		animation.SetTopLeft(x, y);
 		animation.OnMove(dir);
 		for (unsigned int i = 0; i < scallion.size(); i++)
 		{
@@ -327,7 +329,9 @@ namespace game_framework {
 		//ClearScallion();
 		if (shoot_cd.IsTimeOut())
 		{
-			scallion.push_back(new CScallion("Role", "scallion", 4, GetX3(), GetY1(), mx, my));
+			CScallion *newCScallion = new CScallion("Role", "scallion", 4, GetX3(), GetY1(), mx, my); //先創建一個蔥的物件
+			layer.AddObjectToManager(newCScallion->GetAnimate()); //將蔥的動畫以指標的形式傳給layerManager
+			scallion.push_back(newCScallion); //將蔥放進vector
 			shoot_cd.ResetTime(0.33);
 		}
 	}
@@ -351,6 +355,7 @@ namespace game_framework {
 		y = -Height();
 		score = 0;
 		shoot_cd = CTimer(0);						//初始化射擊冷卻時間
+		layer.AddObjectToManager(&animation);
 	}
 
 	vector<CScallion*>* CRole::GetScallion()
@@ -409,11 +414,8 @@ namespace game_framework {
 
 	void CNPC::SetMoving()
 	{
-		
-		
 		if ( !moveTimer.IsTimeOut())
 		{
-			
 			moveTimer.CountDown();
 		}
 		else
@@ -440,6 +442,7 @@ namespace game_framework {
 				stopTimer.ResetTime(resetStopTime);
 			}
 		}
+		animation.SetTopLeft(x, y);
 	}
 
 	CNPC::~CNPC()

@@ -65,3 +65,8 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
 1. 碰撞可以刪掉低能passerby了，之後恢復蔥的刪除 (by 彩鏡)
 2. 刪除scallion *>*(by Hibiya)
 3. 切換地圖使passerby重生
+
+==============================================================
+2019/3/28
+1. *CLayerManager in CLayer
+2. 顯示物件歸入CLayerManager (passerby未完成)

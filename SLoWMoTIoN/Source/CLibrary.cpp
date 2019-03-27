@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "Resource.h"
+#include "Refactor.h"
 #include <mmsystem.h>
 #include <ddraw.h>
 #include "audio.h"
@@ -80,31 +81,6 @@ namespace game_framework
 			IsPointInRect(leftBottom, rect2) || IsPointInRect(rightBottom, rect2));
 	}
 	#pragma endregion
-
-	#pragma region - CLayer -
-	CLayer::CLayer()
-	{
-		layer = 0;
-	}
-
-	CLayer::~CLayer()
-	{
-	}
-
-	int CLayer::GetLayer()
-	{
-		return layer;
-	}
-
-	void CLayer::SetLayer(int _layer)
-	{
-		if (_layer >= 10)
-			_layer = 9;
-		else if (_layer < 0)
-			_layer = 0;
-		layer = _layer;
-	}
-#pragma endregion
 
 	#pragma region - CAnimate -
 	CAnimate::CAnimate()
@@ -275,6 +251,67 @@ namespace game_framework
 		return bmp[bmp_index].GetRect();
 	}
 #pragma endregion
+
+	#pragma region - CLayer -
+	CLayer::CLayer()
+	{
+		layer = 0;
+		layerManager = NULL;
+	}
+
+	CLayer::~CLayer()
+	{
+	}
+
+	int CLayer::GetLayer()
+	{
+		return layer;
+	}
+
+	void CLayer::SetLayerManager(CLayerManager *_layerManager)
+	{
+		if (layerManager == NULL && _layerManager != NULL)
+			layerManager = _layerManager;
+	}
+
+	CLayerManager * CLayer::GetLayerManager()
+	{
+		return layerManager;
+	}
+
+	void CLayer::SetLayer(int _layer)
+	{
+		if (_layer >= MAX_LAYER_NUMBER)
+			_layer = MAX_LAYER_NUMBER - 1;
+		else if (_layer < 0)
+			_layer = 0;
+		layer = _layer;
+	}
+
+	void CLayer::AddObjectToManager(CMovingBitmap *object)
+	{
+		if(layerManager != NULL)
+			layerManager->AddObject(object, layer);
+	}
+
+	void CLayer::AddObjectToManager(CMovingBitmap *object, int _layer)
+	{
+		if (layerManager != NULL)
+			layerManager->AddObject(object, _layer);
+	}
+
+	void CLayer::AddObjectToManager(CAnimate *object)
+	{
+		if (layerManager != NULL)
+			layerManager->AddObject(object, layer);
+	}
+
+	void CLayer::AddObjectToManager(CAnimate *object, int _layer)
+	{
+		if (layerManager != NULL)
+			layerManager->AddObject(object, _layer);
+	}
+	#pragma endregion
 
 	#pragma region - timer -
 

@@ -6,7 +6,6 @@ namespace myLibrary
 	void DeleteCharPoint(vector<char*>&);
 	int GetPostive(int);
 	int GetRandom(int, int); //±o®ÏRandomº∆¶r°Amin <= k <= max
-
 }
 namespace game_framework
 {
@@ -14,23 +13,6 @@ namespace game_framework
 
 	bool IsPointInRect(CPoint, CRect);
 	bool IsRectCollision(CRect, CRect);
-
-	#pragma region - CLayer -
-
-	class CLayerManager;
-
-	class CLayer
-	{
-		public:
-			CLayer();
-			~CLayer();
-			void SetLayer(int);
-			int GetLayer();
-		private:
-			int layer;
-			CLayerManager* layerManger;
-	};
-	#pragma endregion
 
 	#pragma region - CAnimate -
 	class CAnimate
@@ -66,6 +48,29 @@ namespace game_framework
 		int								bmp_index;
 	};
 #pragma endregion
+
+	#pragma region - CLayer -
+
+	class CLayerManager;
+
+	class CLayer
+	{
+	public:
+		CLayer();
+		~CLayer();
+		void SetLayer(int);
+		int GetLayer();
+		void SetLayerManager(CLayerManager*);
+		CLayerManager* GetLayerManager();
+		void AddObjectToManager(CMovingBitmap*);
+		void AddObjectToManager(CMovingBitmap*, int);
+		void AddObjectToManager(CAnimate*);
+		void AddObjectToManager(CAnimate*, int);
+	private:
+		int layer;
+		CLayerManager *layerManager;
+	};
+	#pragma endregion
 
 	#pragma region - timer -
 	class CTimer

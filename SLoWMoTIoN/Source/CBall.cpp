@@ -155,6 +155,11 @@ namespace game_framework {
 		}
 	}
 
+	CAnimate * CScallion::GetAnimate()
+	{
+		return &animation;
+	}
+
 	void CScallion::OnMove()
 	{
 		if (!IsAlive())

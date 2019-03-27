@@ -21,6 +21,7 @@ namespace game_framework {
 		void SetXY(int nx, int ny);								// 設定圓心的座標
 		void SetIsAlive(bool alive);							// 設定是否活著
 		void SetDelay(int d);									// 設定旋轉的速度
+		CLayer layer;
 	protected:
 		CMovingBitmap bmp;			// 球的圖
 		CMovingBitmap bmp_center;	// 圓心的圖			
@@ -42,6 +43,7 @@ namespace game_framework {
 			CScallion(string, string, int,  int, int, int, int);
 			~CScallion();
 			void LoadBitmap(string, string, int);
+			CAnimate* GetAnimate();
 			void OnMove();
 			void OnShow();
 			void SetInitVelocity(int, int, int, int);

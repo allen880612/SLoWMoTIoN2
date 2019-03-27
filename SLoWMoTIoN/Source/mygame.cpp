@@ -63,7 +63,7 @@
 #include "CLibrary.h"
 #include <vector>
 using namespace std;
-
+using namespace myLibrary;
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲開頭畫面物件
@@ -178,8 +178,11 @@ namespace game_framework {
 			ball[i].SetDelay(x_pos);
 			ball[i].SetIsAlive(true);
 		}
+
+		layerManager.Initialize();
 		mapManager.Initialize();
 		role.Initialize();
+
 		background.SetTopLeft(BACKGROUND_X, 0);				// 設定背景的起始座標
 		help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
 		time_left.SetInteger(TIME_LEFT);					// 指定剩下的撞擊數
@@ -227,17 +230,19 @@ namespace game_framework {
 																	//
 																	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 																	//
+
+		SetLayerManager();
 		#pragma region - Initialize - MapManager -
 		mapManager.LoadMapBitmap();
 		#pragma endregion
-
+		
 		#pragma region - layerManager - AddObject -
-		layerManager.AddObject(role.GetAnimate(), role.layer.GetLayer());
-		layerManager.AddObject(mapManager.GetBitmap(), mapManager.layer.GetLayer());
-		for (int i = 0; i < mapManager.GetNpcNumber(); i++)
-		{
-			layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));
-		}
+		//layerManager.AddObject(role.GetAnimate(), role.layer.GetLayer());
+		//layerManager.AddObject(mapManager.GetBitmap(), mapManager.layer.GetLayer());
+		//for (int i = 0; i < mapManager.GetNpcNumber(); i++)
+		//{
+		//	layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));
+		//}
 		#pragma endregion
 
 	}
@@ -330,10 +335,10 @@ namespace game_framework {
 			{
 				role.SetXY(0 - (role.GetX2() - role.GetX1()), role.GetY1());
 				mapManager.ChangeMap(mapManager.GetRightMap(), "right");
-				for (int i = 0; i < mapManager.GetNpcNumber(); i++)
-				{
-					layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));
-				}
+				//for (int i = 0; i < mapManager.GetNpcNumber(); i++)
+				//{
+				//	layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));
+				//}
 			}
 			#pragma endregion
 		}
@@ -354,10 +359,10 @@ namespace game_framework {
 			{
 				role.SetXY(SIZE_X + (role.GetX2() - role.GetX1()), role.GetY1());
 				mapManager.ChangeMap(mapManager.GetLeftMap(), "left");
-				for (int i = 0; i < mapManager.GetNpcNumber(); i++)
-				{
-					layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));
-				}
+				//for (int i = 0; i < mapManager.GetNpcNumber(); i++)
+				//{
+				//	layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));
+				//}
 			}
 			#pragma endregion
 		}
@@ -543,6 +548,12 @@ namespace game_framework {
 
 	}
 
+	void CGameStateRun::SetLayerManager() //將layerManager傳給各物件
+	{
+		role.layer.SetLayerManager(&layerManager);
+		mapManager.layer.SetLayerManager(&layerManager);
+	}
+
 	void CGameStateRun::OnShow()
 	{
 		//
@@ -580,7 +591,7 @@ namespace game_framework {
 		layerManager.ShowLayer();
 		#pragma endregion
 
-		role.OnShow();
+		//role.OnShow();
 
 		#pragma region - paint time remain -
 		char str[100], roleScore[100];
