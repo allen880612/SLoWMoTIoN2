@@ -16,6 +16,9 @@ namespace game_framework
 	bool IsRectCollision(CRect, CRect);
 
 	#pragma region - CLayer -
+
+	class CLayerManager;
+
 	class CLayer
 	{
 		public:
@@ -25,6 +28,7 @@ namespace game_framework
 			int GetLayer();
 		private:
 			int layer;
+			CLayerManager* layerManger;
 	};
 	#pragma endregion
 

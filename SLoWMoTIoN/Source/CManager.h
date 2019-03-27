@@ -1,8 +1,9 @@
 #pragma once
 #include "CBlockMap.h"
-#include "CLibrary.h"
 #include "Refactor.h"
 #include "CEraser.h"
+
+#include "CLibrary.h"
 //CManager: 地圖管理者 and 圖層管理者 and Timer，供mygame使用
 namespace game_framework
 {

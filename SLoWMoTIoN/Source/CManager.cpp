@@ -5,7 +5,6 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "CManager.h"
-#include "CLibrary.h"
 using namespace myLibrary;
 
 namespace game_framework
