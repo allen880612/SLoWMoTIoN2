@@ -203,8 +203,6 @@ namespace game_framework
 		GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded before they are shown.");
 		//bitmaps[bmp_index]->ShowBitmap();
 		bmp[bmp_index].ShowBitmap();
-
-
 	}
 
 	int CAnimate::Top()

@@ -13,7 +13,7 @@ namespace game_framework
 	CMapManager::CMapManager()
 	{
 		InitializeCBlockMap();
-		Initialize();
+		//Initialize();
 	}
 
 
@@ -36,10 +36,10 @@ namespace game_framework
 		nowMap = 0;
 		loadMap = blockMap[nowMap].loadMap;
 		x = 0;
-		layer.SetLayer(1);
+		layer.SetLayer(0);
 		background = blockMap[nowMap].backgroundBitmap;
 		layer.AddObjectToManager(&background);
-		passerbyManager.layer.SetLayerManager(layer.GetLayerManager()); //§âlayerManager¶Ç¨ìpasserbyManager
+		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
 	}
 
 	#pragma region - GetMap -
@@ -211,9 +211,6 @@ namespace game_framework
 			blockMap[mapIndex].backgroundBitmap.LoadBitmap(address);
 			delete address;
 		}
-
-		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
-
 	}
 	#pragma endregion
 
@@ -277,6 +274,7 @@ namespace game_framework
 	#pragma region - passerbyManager -
 	CPasserbyManager::CPasserbyManager()
 	{
+		layer.SetLayer(6);
 		passerby.clear();
 	}
 	CPasserbyManager::~CPasserbyManager()

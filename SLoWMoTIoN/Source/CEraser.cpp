@@ -146,6 +146,12 @@ namespace game_framework {
 		animation.OnMove(dir);
 	}
 
+	void CEraser::OnShow()
+	{
+		animation.SetTopLeft(x, y);
+		animation.OnShow();
+	}
+
 	void CEraser::SetMovingDown(bool flag)
 	{
 		isMovingDown = flag;
@@ -187,6 +193,7 @@ namespace game_framework {
 
 	CAnimate* CEraser::GetAnimate()
 	{
+		animation.SetTopLeft(x, y);
 		return &animation;
 	}
 	#pragma endregion

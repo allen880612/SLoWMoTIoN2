@@ -165,7 +165,7 @@ namespace game_framework {
 		const int BALL_GAP = 90;
 		const int BALL_XY_OFFSET = 45;
 		const int BALL_PER_ROW = 7;
-		const int TIME_LEFT = 8;			//遊戲秒數
+		const int TIME_LEFT = 20;			//遊戲秒數
 		const int TIME_LEFT_X = 590;
 		const int TIME_LEFT_Y = 0;
 		const int BACKGROUND_X = 60;
@@ -552,6 +552,7 @@ namespace game_framework {
 	{
 		role.layer.SetLayerManager(&layerManager);
 		mapManager.layer.SetLayerManager(&layerManager);
+		mapManager.passerbyManager.layer.SetLayerManager(&layerManager);
 	}
 
 	void CGameStateRun::OnShow()
@@ -588,7 +589,14 @@ namespace game_framework {
 				layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));
 		}*/
 		#pragma endregion
+		
 		layerManager.ShowLayer();
+
+		/*passerbys = mapManager.GetPasserby();
+		for (vector<CNPC*>::iterator passerbyj = passerbys->begin(); passerbyj != passerbys->end(); passerbyj++)
+		{
+			(*passerbyj)->OnShow();
+		}*/
 		#pragma endregion
 
 		//role.OnShow();

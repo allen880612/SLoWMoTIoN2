@@ -63,6 +63,7 @@ namespace game_framework
 		vector<CNPC*>* GetPasserby();
 		void DeletePasserby(vector<CNPC*>::iterator); //temp
 		void Initialize();
+		CPasserbyManager passerbyManager; //temp
 	private:
 		const int directionX = 20;
 		int nowMap;
@@ -70,7 +71,6 @@ namespace game_framework
 		string loadMapPath;
 		CBlockMap blockMap[MAX_MAP_NUMBER];
 		CMovingBitmap background;
-		CPasserbyManager passerbyManager;
 		int x;
 		bool isMovingLeft;
 		bool isMovingRight;
