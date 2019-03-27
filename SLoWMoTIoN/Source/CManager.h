@@ -15,7 +15,7 @@ namespace game_framework
 		CPasserbyManager();
 		~CPasserbyManager();
 		void Clear();
-		void AddPasserbyManager(CNPC*);
+		CNPC* AddPasserby(vector<int> , int );
 		void CreatePasserby(int, vector<int>, int);
 		void DeletePasserby(vector<CNPC*>::iterator);
 		vector<CNPC*> GetPasserby();

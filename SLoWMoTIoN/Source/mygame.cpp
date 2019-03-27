@@ -523,19 +523,18 @@ namespace game_framework {
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
 		role.SetIsFire(true);
-		role.SetMouseXY(point.x, point.y);
 
 	}
 
 	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
 		role.SetIsFire(false);
-		role.SetMouseXY(point.x, point.y);
 	}
 
 	void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
 		// 沒事。如果需要處理滑鼠移動的話，寫code在這裡
+		role.SetMouseXY(point.x, point.y);
 	}
 
 	void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作

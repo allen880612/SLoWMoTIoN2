@@ -292,25 +292,25 @@ namespace game_framework
 		passerby.swap(del);
 		passerby.clear();
 	}
-	void CPasserbyManager::AddPasserbyManager(CNPC *newPasserby)
+	CNPC* CPasserbyManager::AddPasserby(vector<int> id, int mapWidth)
 	{
-		passerby.push_back(newPasserby);
+		#pragma region Create a Passerby
+		CNPC *newPasserby = new CNPC(); //先創建一個default passerby
+		int randomID = GetRandom(0, id.size() - 1); //random 決定 passerby種類 (1號or2號)
+		newPasserby->LoadBitmap(ziliaojia, name[id[randomID]], 1); //load passerby的圖片
+		int randomX = GetRandom(0, mapWidth - newPasserby->Width()); //random 決定passerby的出現位置
+		newPasserby->SetXY(randomX, 480 - newPasserby->Height()); //set passerby x, y
+		newPasserby->SetScore((id[randomID] + 1) * 10); //set passerby score
+
+		layer.AddObjectToManager(newPasserby->GetAnimate(), newPasserby->layer.GetLayer()); //passerby add to layerManager
+		return newPasserby;
+		#pragma endregion
 	}
 	void CPasserbyManager::CreatePasserby(int createNumber, vector<int> id, int mapWidth)
 	{
 		for (int i = 0; i < createNumber; i++)
 		{
-			#pragma region Create a Passerby
-			CNPC *newPasserby = new CNPC(); //先創建一個default passerby
-			int randomID = GetRandom(0, id.size() - 1); //random 決定 passerby種類 (1號or2號)
-			newPasserby->LoadBitmap(ziliaojia, name[id[randomID]], 1); //load passerby的圖片
-			int randomX = GetRandom(0, mapWidth - newPasserby->Width()); //random 決定passerby的出現位置
-			newPasserby->SetXY(randomX, 480 - newPasserby->Height()); //set passerby x, y
-			newPasserby->SetScore((id[randomID] + 1 ) * 10); //set passerby score
-
-			layer.AddObjectToManager(newPasserby->GetAnimate(), 6); //passerby add to layerManager
-			#pragma endregion
-			passerby.push_back(newPasserby);
+			passerby.push_back(AddPasserby(id, mapWidth));
 		}
 	}
 

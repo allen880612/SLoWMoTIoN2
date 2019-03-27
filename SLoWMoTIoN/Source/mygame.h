@@ -113,6 +113,8 @@ namespace game_framework {
 		vector<CNPC*>*		passerbys;
 		CMapManager			mapManager;
 		CLayerManager		layerManager;
+
+		
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
