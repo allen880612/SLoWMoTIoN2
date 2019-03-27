@@ -55,26 +55,6 @@ namespace game_framework {
 		AUDIO_NTUT				// 2
 	};
 
-	#pragma region class CMiku
-		class CMiku
-		{
-		public:
-			CMiku();
-			void LoadBitmap();
-			void OnMove();
-			void onShow();
-
-			int GetLayer();
-			CMovingBitmap* GetBitmap();
-			void SetLayer(int);
-
-		private:
-			CMovingBitmap pic;
-			int x, y;
-			int layer;
-		};
-	#pragma endregion
-
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲開頭畫面物件
 	// 每個Member function的Implementation都要弄懂
@@ -116,7 +96,6 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
-		CMiku miku;
 		const int		NUMBALLS;	// 球的總數
 		CMovingBitmap	background;	// 背景圖
 		CMovingBitmap	help;		// 說明圖

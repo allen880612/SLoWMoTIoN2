@@ -51,6 +51,8 @@ namespace game_framework {
 		bool isMovingRight;			// 是否正在往右移動
 		bool isMovingUp;			// 是否正在往上移動
 		bool canMoving;				// 是否可以移動
+	private:
+		int move_distance = 20;
 	};
 	#pragma endregion
 
@@ -69,6 +71,7 @@ namespace game_framework {
 		void SetCanJumping(bool);
 		void SetMouseXY(int, int);
 		void AddScore(int);
+		void Initialize();
 
 		bool GetIsFire();
 		void SetIsFire(bool);
@@ -102,10 +105,14 @@ namespace game_framework {
 		bool IsValid();
 		void SetValid(bool);
 		void SetScore(int);
+		void SetMoving();
 		~CNPC();
 	private:
 		int initX;
 		bool isValid;
+		CTimer moveTimer;
+		CTimer stopTimer;
+		int move_distance = 5;
 	};
 	#pragma endregion
 }

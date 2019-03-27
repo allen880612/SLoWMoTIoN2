@@ -135,10 +135,12 @@ namespace game_framework
 		bmp[bmp_index].SetTopLeft(x, y);
 	}
 
+	
+
 	void CAnimate::OnMove(int dir)
 	{
 		GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
-
+		dir %= bmp.size();
 		if (dir == 0)	//Top
 		{
 			if (bmp_index < 3)
@@ -175,6 +177,7 @@ namespace game_framework
 		}
 
 		//bitmaps[bmp_index]->SetTopLeft(x, y);
+		bmp_index %= bmp.size();
 		bmp[bmp_index].SetTopLeft(x, y);
 	}
 

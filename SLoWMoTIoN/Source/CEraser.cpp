@@ -117,7 +117,7 @@ namespace game_framework {
 
 	void CEraser::OnMove()
 	{
-		const int STEP_SIZE = 20;
+		const int STEP_SIZE = move_distance;
 		int dir = -1;
 
 		if (isMovingUp)
@@ -194,19 +194,7 @@ namespace game_framework {
 	#pragma region - CRole -
 	CRole::CRole() : CEraser()
 	{
-		isJumping = true;
-		canJumping = false;
-		isFire = false;
-		const int INIT_VELOCITY = 40;				//設定初速度
-		const int GRAVITY = 4;						//設定重力
-		init_velocity = velocity = INIT_VELOCITY;
-		gravity = GRAVITY;
-		mouse_x, mouse_y = 0;
-
-		shoot_cd = CTimer(0);						//初始化射擊冷卻時間
-		//last_right_left = 'r';
-
-		
+		Initialize();		
 	}
 	CRole::~CRole()
 	{
@@ -349,6 +337,22 @@ namespace game_framework {
 		score += _score;
 	}
 
+	void CRole::Initialize()
+	{
+		isJumping = true;
+		canJumping = false;
+		isFire = false;
+		const int INIT_VELOCITY = 40;				//設定初速度
+		const int GRAVITY = 4;						//設定重力
+		init_velocity = velocity = INIT_VELOCITY;
+		gravity = GRAVITY;
+		mouse_x, mouse_y = 0;
+		x = 0;
+		y = -Height();
+		score = 0;
+		shoot_cd = CTimer(0);						//初始化射擊冷卻時間
+	}
+
 	vector<CScallion*>* CRole::GetScallion()
 	{
 		return &scallion;
@@ -366,6 +370,8 @@ namespace game_framework {
 		layer.SetLayer(6);
 		score = 0;
 		isValid = true;
+		moveTimer = CTimer(1);
+		stopTimer = CTimer(2);
 		//LoadBitmap("Role", "LUKA", 2);
 	}
 
@@ -399,6 +405,41 @@ namespace game_framework {
 	void CNPC::SetScore(int _score)
 	{
 		score = _score;
+	}
+
+	void CNPC::SetMoving()
+	{
+		
+		
+		if ( !moveTimer.IsTimeOut())
+		{
+			
+			moveTimer.CountDown();
+		}
+		else
+		{
+			SetCanMoving(false);
+			
+			stopTimer.CountDown();
+			if (stopTimer.IsTimeOut())
+			{
+				int randomNumber = GetRandom(1, 10);
+				if (randomNumber % 2 == 0)
+				{
+					SetMovingLeft(true);
+					SetMovingRight(false);
+				}
+				else
+				{
+					SetMovingRight(true);
+					SetMovingLeft(false);
+				}
+				double resetStopTime = GetRandom(1, 10) / 10;
+				SetCanMoving(true);
+				moveTimer.ResetTime(0.1);
+				stopTimer.ResetTime(resetStopTime);
+			}
+		}
 	}
 
 	CNPC::~CNPC()

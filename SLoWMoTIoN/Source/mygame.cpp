@@ -68,6 +68,7 @@ namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲開頭畫面物件
 	/////////////////////////////////////////////////////////////////////////////
+	int finalScore = 0;
 
 	CGameStateInit::CGameStateInit(CGame *g)
 		: CGameState(g)
@@ -160,10 +161,11 @@ namespace game_framework {
 
 	void CGameStateRun::OnBeginState()
 	{
+		finalScore = 0;
 		const int BALL_GAP = 90;
 		const int BALL_XY_OFFSET = 45;
 		const int BALL_PER_ROW = 7;
-		const int TIME_LEFT = 10;			//遊戲秒數
+		const int TIME_LEFT = 8;			//遊戲秒數
 		const int TIME_LEFT_X = 590;
 		const int TIME_LEFT_Y = 0;
 		const int BACKGROUND_X = 60;
@@ -245,7 +247,10 @@ namespace game_framework {
 		#pragma region - timer count down -
 		timer.CountDown();
 		if (timer.IsTimeOut())
+		{
+			finalScore = role.GetScore();
 			GotoGameState(GAME_STATE_OVER);
+		}
 		/*if (counter % 30 == 0)
 			time_left.Add(-1);*/
 		#pragma endregion
@@ -421,6 +426,14 @@ namespace game_framework {
 			{
 				scallionk++;
 			}
+		}
+		#pragma endregion
+
+		#pragma region - NPC Moving -
+		for (vector<CNPC*>::iterator passerbyj = passerbys->begin(); passerbyj != passerbys->end(); passerbyj++)
+		{
+			(*passerbyj)->SetMoving();
+			(*passerbyj)->OnMove();
 		}
 		#pragma endregion
 		
@@ -638,66 +651,9 @@ namespace game_framework {
 		
 		overBitmap.SetTopLeft(0, 0);
 		overBitmap.ShowBitmap();
-		//char str[100];
-		//sprintf(str, "用~心~點~，遊戲將於%d秒後重啟", counter / 30);
-		//PaintText(str, 100, 180, "微軟正黑體", 20, RGB(255, 255, 255), RGB(0, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+		char str[100];
+		sprintf(str, "Score: %d", finalScore);
+		PaintText(str, 100, 360, "微軟正黑體", 20, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 	}
-
-
-	CMiku::CMiku()
-	{
-		x = y = 0;
-		layer = 9;
-	}
-
-	void CMiku::LoadBitmap()
-	{
-		pic.LoadBitmap(IDB_MIKU_A);
-	}
-
-	void CMiku::OnMove()
-	{
-		if (y <= SIZE_Y)
-		{
-			x += 3;
-			y += 3;
-		}
-		else
-		{
-			x = y = 0;
-		}
-	}
-
-	CMovingBitmap* CMiku::GetBitmap()
-	{
-		pic.SetTopLeft(x, y);
-		return &pic;
-	}
-
-	int CMiku::GetLayer()
-	{
-		return layer;
-	}
-
-	void CMiku::SetLayer(int _layer)
-	{
-		if (_layer >= 10)
-			_layer = 9;
-		else if (_layer < 0)
-			_layer = 0;
-
-		layer = _layer;
-	}
-
-	void CMiku::onShow()
-	{
-		pic.SetTopLeft(x, y);
-		pic.ShowBitmap();
-	}
-
-
-
-	
-
 
 }//End

@@ -302,7 +302,7 @@ namespace game_framework
 			newPasserby->LoadBitmap(ziliaojia, name[id[randomID]], 1);
 			int randomX = GetRandom(0, mapWidth - newPasserby->Width());
 			newPasserby->SetXY(randomX, 300);
-			newPasserby->SetScore(id[randomID] * 10);
+			newPasserby->SetScore((id[randomID] + 1 ) * 10);
 			passerby.push_back(newPasserby);
 		}
 	}

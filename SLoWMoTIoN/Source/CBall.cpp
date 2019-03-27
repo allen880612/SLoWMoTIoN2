@@ -199,7 +199,7 @@ namespace game_framework {
 	void CScallion::SetInitVelocity(int b_x, int b_y, int f_x, int f_y)
 	{
 		int dx = (f_x - b_x) / 5;
-		int dy = GetPostive((f_y - b_y)) / 5;
+		int dy = -(f_y - b_y) / 5;
 
 		velocity_x = dx;
 		velocity_y = dy;
