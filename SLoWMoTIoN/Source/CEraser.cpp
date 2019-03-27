@@ -381,9 +381,10 @@ namespace game_framework {
 		y = 300;
 		layer.SetLayer(6);
 		score = 0;
-		isValid = true;
-		moveTimer = CTimer(1);
+		isValid = false;
+		moveTimer = CTimer(0.33);
 		stopTimer = CTimer(2);
+		//recreateTimer = CTimer(2);
 		//LoadBitmap("Role", "LUKA", 2);
 	}
 
@@ -394,7 +395,10 @@ namespace game_framework {
 		y = _y;
 		layer.SetLayer(6);
 		score = _score;
-		isValid = true;
+		isValid = false;
+		moveTimer = CTimer(0.33);
+		stopTimer = CTimer(2);
+		//recreateTimer = CTimer(2);
 		//LoadBitmap(ziliaojia, name, number);
 	}
 
@@ -404,7 +408,7 @@ namespace game_framework {
 		animation.SetTopLeft(x, y);
 	}
 
-	bool CNPC::IsValid()
+	bool CNPC::GetValid()
 	{
 		return isValid;
 	}
@@ -421,6 +425,16 @@ namespace game_framework {
 
 	void CNPC::SetMoving()
 	{
+		/*if (isValid == false && !recreateTimer.IsTimeOut())
+		{
+			recreateTimer.CountDown();
+			if (recreateTimer.IsTimeOut())
+			{
+				isValid = true;
+				layer.AddObjectToManager(&animation, layer.GetLayer());
+			}
+			return;
+		}*/
 		if ( !moveTimer.IsTimeOut())
 		{
 			moveTimer.CountDown();

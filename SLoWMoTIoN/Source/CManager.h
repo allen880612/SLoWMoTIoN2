@@ -62,6 +62,7 @@ namespace game_framework
 
 		vector<CNPC*>* GetPasserby();
 		void DeletePasserby(vector<CNPC*>::iterator); //temp
+		void AddPasserby();
 		void Initialize();
 		CPasserbyManager passerbyManager; //temp
 	private:

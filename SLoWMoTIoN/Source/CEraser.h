@@ -102,7 +102,7 @@ namespace game_framework {
 		CNPC();
 		CNPC(int, int, string, string, int, int);
 		void SetXY(int, int);
-		bool IsValid();
+		bool GetValid();
 		void SetValid(bool);
 		void SetScore(int);
 		void SetMoving();
@@ -112,6 +112,7 @@ namespace game_framework {
 		bool isValid;
 		CTimer moveTimer;
 		CTimer stopTimer;
+		//CTimer recreateTimer;
 		int move_distance = 5;
 	};
 	#pragma endregion

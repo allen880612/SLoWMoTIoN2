@@ -31,6 +31,11 @@ namespace game_framework
 		passerbyManager.DeletePasserby(passerbyj);
 	}
 
+	void CMapManager::AddPasserby()
+	{
+		passerbyManager.passerby.push_back(passerbyManager.AddPasserby(blockMap[nowMap].passerbyID, background.Width()));
+	}
+
 	void CMapManager::Initialize()
 	{
 		nowMap = 0;
@@ -86,7 +91,7 @@ namespace game_framework
 
 	bool CMapManager::GetNpcValid(int npcIndex)
 	{
-		return passerbyManager.passerby[npcIndex]->IsValid();
+		return passerbyManager.passerby[npcIndex]->GetValid();
 	}
 
 	CMovingBitmap* CMapManager::GetBitmap()
@@ -302,6 +307,7 @@ namespace game_framework
 		newPasserby->SetXY(randomX, 480 - newPasserby->Height()); //set passerby x, y
 		newPasserby->SetScore((id[randomID] + 1) * 10); //set passerby score
 
+		newPasserby->layer.SetLayerManager(layer.GetLayerManager());
 		layer.AddObjectToManager(newPasserby->GetAnimate(), newPasserby->layer.GetLayer()); //passerby add to layerManager
 		return newPasserby;
 		#pragma endregion

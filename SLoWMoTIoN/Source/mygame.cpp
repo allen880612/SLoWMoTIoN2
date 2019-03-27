@@ -407,7 +407,7 @@ namespace game_framework {
 		{
 			for (vector<CNPC*>::iterator passerbyj = passerbys->begin(); passerbyj != passerbys->end(); )
 			{
-				if ((*scallionk)->IsCollision(*passerbyj))
+				if ((*scallionk)->IsCollision(*passerbyj) /*&& (*passerbyj)->GetValid()*/)
 				{
 					role.AddScore((*passerbyj)->GetScore());
 
@@ -415,6 +415,7 @@ namespace game_framework {
 					*scallionk = NULL;
 					
 					mapManager.DeletePasserby(passerbyj); //從mapManager的passerbyManager中移除passerby
+					mapManager.AddPasserby();
 					break;
 				}
 				else
