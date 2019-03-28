@@ -40,6 +40,9 @@ namespace game_framework {
 		bool GetCanMoving();
 		CLayer layer;
 
+		bool GetValid();
+		void SetValid(bool);
+
 	protected:
 		CAnimate animation;			// 擦子的動畫
 		int height, width;			// 擦子的高、寬
@@ -51,6 +54,7 @@ namespace game_framework {
 		bool isMovingRight;			// 是否正在往右移動
 		bool isMovingUp;			// 是否正在往上移動
 		bool canMoving;				// 是否可以移動
+
 	private:
 		int move_distance = 20;
 	};
@@ -102,18 +106,16 @@ namespace game_framework {
 		CNPC();
 		CNPC(int, int, string, string, int, int);
 		void SetXY(int, int);
-		bool GetValid();
-		void SetValid(bool);
 		void SetScore(int);
 		void SetMoving();
+		//void Initialize();
 		~CNPC();
 	private:
 		int initX;
-		bool isValid;
 		CTimer moveTimer;
 		CTimer stopTimer;
-		//CTimer recreateTimer;
-		int move_distance = 5;
+		CTimer recreateTimer;
+		int move_distance = 2;
 	};
 	#pragma endregion
 }

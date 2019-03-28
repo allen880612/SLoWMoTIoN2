@@ -72,3 +72,5 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
 2. 顯示物件歸入CLayerManager (passerbyManager現在智障的跟什麼一樣，之後在從mapManager中拿出來==)
 3. 射出的蔥的方向會隨著滑鼠座標改變
 4. 可以殺一隻生一隻了，但中間的delay沒做(不知道為什麼，用了recreateTimer了直接爆炸)
+5. 將Valid屬於Animate，並在LayerManger中的ShowLayer中多了valid判斷
+6. 使passerby在建構的時候，竟賦予其delay，要將delay Timer跑完，才將其Valid 設為True (by Hibiya&*)

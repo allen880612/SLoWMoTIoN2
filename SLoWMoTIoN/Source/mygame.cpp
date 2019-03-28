@@ -407,7 +407,7 @@ namespace game_framework {
 		{
 			for (vector<CNPC*>::iterator passerbyj = passerbys->begin(); passerbyj != passerbys->end(); )
 			{
-				if ((*scallionk)->IsCollision(*passerbyj) /*&& (*passerbyj)->GetValid()*/)
+				if ((*scallionk)->IsCollision(*passerbyj) && (*passerbyj)->GetValid())
 				{
 					role.AddScore((*passerbyj)->GetScore());
 

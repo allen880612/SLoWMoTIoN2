@@ -86,6 +86,7 @@ namespace game_framework
 	CAnimate::CAnimate()
 	{
 		x = y = bmp_index = bmp_amount = 0;
+		SetValid(true);
 		bmp.clear();
 	}
 
@@ -110,8 +111,6 @@ namespace game_framework
 		//bitmaps[bmp_index]->SetTopLeft(x, y);
 		bmp[bmp_index].SetTopLeft(x, y);
 	}
-
-	
 
 	void CAnimate::OnMove(int dir)
 	{
@@ -244,6 +243,16 @@ namespace game_framework
 		vector<CMovingBitmap>().swap(bmp);
 	}
 
+	void CAnimate::SetValid(bool flag)
+	{
+		isValid = flag;
+	}
+
+	bool CAnimate::GetValid()
+	{
+		return isValid;
+	}
+
 	CRect CAnimate::GetRect()
 	{
 		return bmp[bmp_index].GetRect();
@@ -326,6 +335,7 @@ namespace game_framework
 
 	CTimer::CTimer(double _time) //給予初始時間
 	{
+		initTime = _time;
 		ResetTime(_time);
 	}
 
@@ -357,6 +367,11 @@ namespace game_framework
 	void CTimer::ResetTime(double _resetTime)
 	{
 		time = _resetTime * reflash;
+	}
+
+	void CTimer::ResetTime()
+	{
+		ResetTime(initTime);
 	}
 
 	#pragma region -- 窩4絕ㄉni最好4bu咬打開ㄊ拉 --

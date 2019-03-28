@@ -186,6 +186,16 @@ namespace game_framework {
 		return canMoving;
 	}
 
+	bool CEraser::GetValid()
+	{
+		return animation.GetValid();
+	}
+
+	void CEraser::SetValid(bool flag)
+	{
+		animation.SetValid(flag);
+	}
+
 	void CEraser::SetXY(int nx, int ny)
 	{
 		x = nx; y = ny;
@@ -289,10 +299,6 @@ namespace game_framework {
 			animation.SetTopLeft(x, y);
 			animation.OnShow();
 
-			for (unsigned int i = 0; i < scallion.size(); i++)
-			{
-				scallion[i]->OnShow();
-			}
 		}
 
 	bool CRole::GetMovingJump()
@@ -333,7 +339,6 @@ namespace game_framework {
 
 	void CRole::Fire(int mx, int my)
 	{		
-		//ClearScallion();
 		if (shoot_cd.IsTimeOut())
 		{
 			CScallion *newCScallion = new CScallion("Role", "scallion", 4, GetX3(), GetY1(), mx, my); //先創建一個蔥的物件
@@ -381,10 +386,10 @@ namespace game_framework {
 		y = 300;
 		layer.SetLayer(6);
 		score = 0;
-		isValid = false;
 		moveTimer = CTimer(0.33);
 		stopTimer = CTimer(2);
-		//recreateTimer = CTimer(2);
+		SetValid(false);
+		recreateTimer = CTimer(GetRandom(10, 16) / 4);
 		//LoadBitmap("Role", "LUKA", 2);
 	}
 
@@ -395,10 +400,10 @@ namespace game_framework {
 		y = _y;
 		layer.SetLayer(6);
 		score = _score;
-		isValid = false;
 		moveTimer = CTimer(0.33);
 		stopTimer = CTimer(2);
-		//recreateTimer = CTimer(2);
+		SetValid(false);
+		recreateTimer = CTimer(GetRandom(10, 16) / 4);
 		//LoadBitmap(ziliaojia, name, number);
 	}
 
@@ -408,16 +413,6 @@ namespace game_framework {
 		animation.SetTopLeft(x, y);
 	}
 
-	bool CNPC::GetValid()
-	{
-		return isValid;
-	}
-
-	void CNPC::SetValid(bool flag)
-	{
-		isValid = flag;
-	}
-
 	void CNPC::SetScore(int _score)
 	{
 		score = _score;
@@ -425,16 +420,19 @@ namespace game_framework {
 
 	void CNPC::SetMoving()
 	{
-		/*if (isValid == false && !recreateTimer.IsTimeOut())
+		if (GetValid() == false /*&& !recreateTimer.IsTimeOut()*/)
 		{
 			recreateTimer.CountDown();
 			if (recreateTimer.IsTimeOut())
 			{
-				isValid = true;
+				SetValid(true);
 				layer.AddObjectToManager(&animation, layer.GetLayer());
 			}
-			return;
-		}*/
+			else
+			{
+				return;
+			}
+		}
 		if ( !moveTimer.IsTimeOut())
 		{
 			moveTimer.CountDown();

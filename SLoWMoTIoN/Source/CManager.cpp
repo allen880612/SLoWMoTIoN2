@@ -264,7 +264,10 @@ namespace game_framework
 				}
 				else
 				{
-					(*k)->OnShow();
+					if ((*k)->GetValid())	//if valid then show
+					{
+						(*k)->OnShow();
+					}
 					k++;
 				}
 			}

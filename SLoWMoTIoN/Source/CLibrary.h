@@ -38,6 +38,8 @@ namespace game_framework
 		int   Width();					// 取得動畫的寬度
 		bool  IsNull();
 		void  ReleaseAnimate();
+		void  SetValid(bool);
+		bool  GetValid();
 		
 		CRect GetRect();
 	private:
@@ -46,6 +48,7 @@ namespace game_framework
 		int								bmp_amount;
 		int								x, y;			// 動畫的座標
 		int								bmp_index;
+		bool							isValid;
 	};
 #pragma endregion
 
@@ -85,11 +88,13 @@ namespace game_framework
 		int GetTime(int);
 		bool IsTimeOut();
 		void ResetTime(double);
+		void ResetTime();
 
 		void operator=(CTimer); //運算子多載，方便在GameStateRun::OnBeginState中重構Timer
 	private:
 		const double reflash = (1000 / GAME_CYCLE_TIME); //一秒刷新幾次
 		double time;
+		double initTime;
 	};
 	#pragma endregion
 
