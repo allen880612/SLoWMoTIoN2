@@ -222,6 +222,7 @@ bool CAudio::Load(unsigned id, char *lpzFileName)
 	if (i != info.end()) {
 		string str;
 		str.append("Can not load audio file \"").append(lpzFileName);
+		return true; //fuck you
 		GAME_ASSERT(false, str.append("\": the same audio ID cannot be loaded twice!").c_str());
 	}
 	//

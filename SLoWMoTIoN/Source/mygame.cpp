@@ -87,7 +87,8 @@ namespace game_framework {
 								// 開始載入資料
 								//
 		logo.LoadBitmap(".\\RES\\Menu.bmp");
-		//CAudio::Instance()->Load(AUDIO_MENU, "sounds\\SLoWMoTIoN_Menu.wav");
+		
+		
 		//Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 								//
 								// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
@@ -96,7 +97,8 @@ namespace game_framework {
 
 	void CGameStateInit::OnBeginState()
 	{
-		//CAudio::Instance()->Play(AUDIO_MENU, true);
+		CAudio::Instance()->Load(AUDIO_MENU, "sounds\\SLoWMoTIoN_Menu.wav");
+		CAudio::Instance()->Play(AUDIO_MENU);
 	}
 
 	void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -197,7 +199,7 @@ namespace game_framework {
 		//CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
 		//CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
 		timer = CTimer(TIME_LEFT); //ㄎㄧㄤ==
-
+		CAudio::Instance()->Stop(AUDIO_MENU);
 		CAudio::Instance()->Play(AUDIO_GAMEING);
 	}
 
