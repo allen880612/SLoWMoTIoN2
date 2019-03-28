@@ -87,8 +87,8 @@ namespace game_framework
 	{
 		x = y = bmp_index = bmp_amount = 0;
 		SetValid(true);
-		//delayTime = GetRandom(4, 7) / 5;
-		delayTimer = CTimer(0.5);
+		double wiatTime = GetRandom(2, 4) / 5;
+		delayTimer = CTimer(wiatTime);
 		bmp.clear();
 	}
 
@@ -104,7 +104,7 @@ namespace game_framework
 		
 		if (delayTimer.IsTimeOut())
 		{
-			delayTimer.ResetTime(0.5);
+			delayTimer.ResetTime((double)GetRandom(2, 4) / 5.0 );	//隨機使每 0.4~0.8 秒更新一次
 
 			if (bmp_index < (int)bmp.size() - 1)
 			{

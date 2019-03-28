@@ -50,9 +50,12 @@ namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 
 	enum AUDIO_ID {				// 定義各種音效的編號
-		AUDIO_DING,				// 0
-		AUDIO_LAKE,				// 1
-		AUDIO_NTUT				// 2
+		AUDIO_MENU,				
+		AUDIO_GAMEING,			
+		AUDIO_GAMEOVER,
+		AUDIO_THROW,
+		AUDIO_JUMP,
+		AUDIO_HIT
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

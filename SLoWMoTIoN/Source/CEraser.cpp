@@ -210,7 +210,7 @@ namespace game_framework {
 	#pragma region - CRole -
 	CRole::CRole() : CEraser()
 	{
-		Initialize();		
+		//Initialize();		
 	}
 	CRole::~CRole()
 	{
@@ -232,6 +232,7 @@ namespace game_framework {
 			dir = 0;
 			if (canMoving && canJumping)
 			{
+				CAudio::Instance()->Play(AUDIO_JUMP);
 				isJumping = true;
 				//y -= STEP_SIZE;
 			}
@@ -336,10 +337,11 @@ namespace game_framework {
 		isFire = flag;
 	}
 
-	void CRole::Fire(int mx, int my)
+	void CRole::Fire(int mx, int my)	
 	{		
 		if (shoot_cd.IsTimeOut())
 		{
+			CAudio::Instance()->Play(AUDIO_THROW);
 			CScallion *newCScallion = new CScallion("Role", "scallion", 4, GetX3(), GetY1(), mx, my); //先創建一個蔥的物件
 			layer.AddObjectToManager(newCScallion->GetAnimate()); //將蔥的動畫以指標的形式傳給layerManager
 			scallion.push_back(newCScallion); //將蔥放進vector
@@ -352,8 +354,9 @@ namespace game_framework {
 		score += _score;
 	}
 
-	void CRole::Initialize()
+	void CRole::Initialize(unsigned _AUDIO_THROW, unsigned _AUDIO_JUMP)
 	{
+		CEraser::Initialize();
 		isJumping = true;
 		canJumping = false;
 		isFire = false;
@@ -366,6 +369,8 @@ namespace game_framework {
 		y = -Height();
 		score = 0;
 		shoot_cd = CTimer(0);						//初始化射擊冷卻時間
+		AUDIO_THROW = _AUDIO_THROW;
+		AUDIO_JUMP = _AUDIO_JUMP;
 		layer.AddObjectToManager(&animation);
 	}
 
@@ -385,10 +390,10 @@ namespace game_framework {
 		y = 300;
 		layer.SetLayer(6);
 		score = 0;
-		moveTimer = CTimer(0.33);
-		stopTimer = CTimer(2);
+		moveTimer = CTimer(0.5);
+		stopTimer = CTimer(1.5);
 		SetValid(false);
-		recreateTimer = CTimer(GetRandom(10, 16) / 4);
+		recreateTimer = CTimer((double)GetRandom(1, 4) / 2.0);
 		//LoadBitmap("Role", "LUKA", 2);
 	}
 
@@ -465,6 +470,27 @@ namespace game_framework {
 
 	void CNPC::OnMove()
 	{
+		const int STEP_SIZE = move_distance;
+
+		if (isMovingUp)
+		{
+			
+		}
+		if (isMovingRight)
+		{
+			if (canMoving)
+				x += STEP_SIZE;
+		}
+		if (isMovingDown)
+		{
+			if (canMoving)
+				y += STEP_SIZE;
+		}
+		if (isMovingLeft)
+		{
+			if (canMoving)
+				x -= STEP_SIZE;
+		}
 		animation.SetTopLeft(x, y);
 		animation.OnMove();
 	}

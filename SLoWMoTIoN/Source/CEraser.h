@@ -75,7 +75,7 @@ namespace game_framework {
 		void SetCanJumping(bool);
 		void SetMouseXY(int, int);
 		void AddScore(int);
-		void Initialize();
+		void Initialize(unsigned, unsigned);
 
 		bool GetIsFire();
 		void SetIsFire(bool);
@@ -95,6 +95,10 @@ namespace game_framework {
 		char last_right_left;
 		int mouse_x, mouse_y;
 		CTimer shoot_cd;
+	private:
+		unsigned AUDIO_THROW;
+		unsigned AUDIO_JUMP;
+
 	};
 	#pragma endregion
 

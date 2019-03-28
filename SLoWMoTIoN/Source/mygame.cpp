@@ -73,6 +73,7 @@ namespace game_framework {
 	CGameStateInit::CGameStateInit(CGame *g)
 		: CGameState(g)
 	{
+		
 	}
 
 	void CGameStateInit::OnInit()
@@ -85,9 +86,9 @@ namespace game_framework {
 								//
 								// 開始載入資料
 								//
-
 		logo.LoadBitmap(".\\RES\\Menu.bmp");
-		Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+		//CAudio::Instance()->Load(AUDIO_MENU, "sounds\\SLoWMoTIoN_Menu.wav");
+		//Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 								//
 								// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 								//
@@ -95,6 +96,7 @@ namespace game_framework {
 
 	void CGameStateInit::OnBeginState()
 	{
+		//CAudio::Instance()->Play(AUDIO_MENU, true);
 	}
 
 	void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -102,13 +104,17 @@ namespace game_framework {
 		const char KEY_ESC = 27;
 
 		if (nChar == KEY_SPACE)
-			GotoGameState(GAME_STATE_RUN);						// 切換至GAME_STATE_RUN
+		{
+			//CAudio::Instance()->Stop(AUDIO_MENU);
+			GotoGameState(GAME_STATE_RUN);			// 切換至GAME_STATE_RUN
+		}						
 		else if (nChar == KEY_ESC)								// Demo 關閉遊戲的方法
 			PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0);	// 關閉遊戲
 	}
 
 	void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 	{
+		//CAudio::Instance()->Stop(AUDIO_MENU);
 		GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 	}
 
@@ -181,7 +187,7 @@ namespace game_framework {
 
 		layerManager.Initialize();
 		mapManager.Initialize();
-		role.Initialize();
+		role.Initialize(AUDIO_THROW, AUDIO_JUMP);
 
 		background.SetTopLeft(BACKGROUND_X, 0);				// 設定背景的起始座標
 		help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
@@ -191,6 +197,8 @@ namespace game_framework {
 		//CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
 		//CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
 		timer = CTimer(TIME_LEFT); //ㄎㄧㄤ==
+
+		CAudio::Instance()->Play(AUDIO_GAMEING);
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -224,13 +232,15 @@ namespace game_framework {
 		corner.ShowBitmap(background);								// 將corner貼到background
 																	//bball.LoadBitmap();										// 載入圖形
 		time_left.LoadBitmap();
-		CAudio::Instance()->Load(AUDIO_DING, "sounds\\ding.wav");	// 載入編號0的聲音ding.wav
-		CAudio::Instance()->Load(AUDIO_LAKE, "sounds\\lake.mp3");	// 載入編號1的聲音lake.mp3
-		CAudio::Instance()->Load(AUDIO_NTUT, "sounds\\ntut.mid");	// 載入編號2的聲音ntut.mid
-																	//
+		;	// 載入編號0的聲音ding.wav
+		//CAudio::Instance()->Load(AUDIO_LAKE, "sounds\\lake.mp3");	// 載入編號1的聲音lake.mp3
+		CAudio::Instance()->Load(AUDIO_GAMEING, "sounds\\SLoWMoTIoN_Game.wav");
+		CAudio::Instance()->Load(AUDIO_THROW, "sounds\\throw.wav");
+		CAudio::Instance()->Load(AUDIO_JUMP, "sounds\\jump.wav"); 
+		CAudio::Instance()->Load(AUDIO_HIT, "sounds\\hit.wav");
+												
 																	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 																	//
-
 		SetLayerManager();
 		#pragma region - Initialize - MapManager -
 		mapManager.LoadMapBitmap();
@@ -254,6 +264,7 @@ namespace game_framework {
 		if (timer.IsTimeOut())
 		{
 			finalScore = role.GetScore();
+			CAudio::Instance()->Stop(AUDIO_GAMEING);
 			GotoGameState(GAME_STATE_OVER);
 		}
 		/*if (counter % 30 == 0)
@@ -406,10 +417,10 @@ namespace game_framework {
 		{
 			for (vector<CNPC*>::iterator passerbyj = passerbys->begin(); passerbyj != passerbys->end(); )
 			{
-				if ((*scallionk)->IsCollision(*passerbyj) && (*passerbyj)->GetValid())
+				if ((*scallionk)->IsCollision(*passerbyj) && (*passerbyj)->GetValid() && (*scallionk)->IsAlive())
 				{
+					CAudio::Instance()->Play(AUDIO_HIT);
 					role.AddScore((*passerbyj)->GetScore());
-
 					delete *scallionk;
 					*scallionk = NULL;
 					
@@ -625,12 +636,16 @@ namespace game_framework {
 	{
 		counter--;
 		if (counter < 0)
+		{
+			CAudio::Instance()->Stop(AUDIO_GAMEOVER);
 			GotoGameState(GAME_STATE_INIT);
+		}
 	}
 
 	void CGameStateOver::OnBeginState()
 	{
 		counter = 30 * 5; // 5 seconds
+		CAudio::Instance()->Play(AUDIO_GAMEOVER);
 	}
 
 	void CGameStateOver::OnInit()
@@ -639,6 +654,7 @@ namespace game_framework {
 		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 		//
+		CAudio::Instance()->Load(AUDIO_GAMEOVER, "sounds\\SLoWMoTIoN_Gameover.wav");
 		overBitmap.LoadBitmap(".\\RES\\Gameover.bmp");
 		ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
 								//
