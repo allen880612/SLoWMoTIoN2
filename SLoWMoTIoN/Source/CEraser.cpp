@@ -102,15 +102,14 @@ namespace game_framework {
 		animation.LoadBitmap(role, RGB(255, 255, 255));
 	}
 
-	void CEraser::LoadBitmap(string ziliaojia, string name, int number)
+	void CEraser::LoadBitmap(string ziliaojia, string name, int number, COLORREF color)
 	{
 		for (int i = 0; i < number; i++)
 		{
 			char* address = ConvertCharPointToString(ziliaojia, name, i);
-			animation.AddBitmap(address, RGB(255, 255, 255));
+			animation.AddBitmap(address, color);
 			delete address;
 		}
-
 		height = animation.Height();
 		width = animation.Width();
 	}
@@ -462,6 +461,12 @@ namespace game_framework {
 			}
 		}
 		animation.SetTopLeft(x, y);
+	}
+
+	void CNPC::OnMove()
+	{
+		animation.SetTopLeft(x, y);
+		animation.OnMove();
 	}
 
 	CNPC::~CNPC()

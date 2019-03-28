@@ -87,6 +87,8 @@ namespace game_framework
 	{
 		x = y = bmp_index = bmp_amount = 0;
 		SetValid(true);
+		//delayTime = GetRandom(4, 7) / 5;
+		delayTimer = CTimer(0.5);
 		bmp.clear();
 	}
 
@@ -99,15 +101,24 @@ namespace game_framework
 	{
 		GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
 
-		if (bmp_index < (int)bmp.size() - 1)
+		
+		if (delayTimer.IsTimeOut())
 		{
-			bmp_index++;
+			delayTimer.ResetTime(0.5);
+
+			if (bmp_index < (int)bmp.size() - 1)
+			{
+				bmp_index++;
+			}
+			else
+			{
+				bmp_index = 0;
+			}
 		}
 		else
 		{
-			bmp_index = 0;
+			delayTimer.CountDown();
 		}
-
 		//bitmaps[bmp_index]->SetTopLeft(x, y);
 		bmp[bmp_index].SetTopLeft(x, y);
 	}
@@ -115,7 +126,7 @@ namespace game_framework
 	void CAnimate::OnMove(int dir)
 	{
 		GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
-		dir %= bmp.size();
+		//dir %= bmp.size();
 		if (dir == 0)	//Top
 		{
 			if (bmp_index < 3)
@@ -152,7 +163,7 @@ namespace game_framework
 		}
 
 		//bitmaps[bmp_index]->SetTopLeft(x, y);
-		bmp_index %= bmp.size();
+		//bmp_index %= bmp.size();
 		bmp[bmp_index].SetTopLeft(x, y);
 	}
 
@@ -330,6 +341,7 @@ namespace game_framework
 	CTimer::CTimer(int _time)
 	{
 		ResetTime(_time);
+		initTime = _time;
 		time = (int)time;
 	}
 

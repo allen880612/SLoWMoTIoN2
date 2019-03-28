@@ -25,7 +25,7 @@ namespace game_framework {
 		void Initialize();				// 設定擦子為初始值
 		void LoadBitmap();				// 載入圖形
 		// 由路徑載入圖形(資料結, name, 張數)
-		void LoadBitmap(string, string, int);
+		void LoadBitmap(string, string, int, COLORREF);
 		
 		void OnMove();					// 移動擦子
 		void OnShow();					// 將擦子圖形貼到畫面
@@ -108,6 +108,7 @@ namespace game_framework {
 		void SetXY(int, int);
 		void SetScore(int);
 		void SetMoving();
+		void OnMove();
 		//void Initialize();
 		~CNPC();
 	private:

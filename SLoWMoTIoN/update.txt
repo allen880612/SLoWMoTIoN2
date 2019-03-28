@@ -74,3 +74,4 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
 4. 可以殺一隻生一隻了，但中間的delay沒做(不知道為什麼，用了recreateTimer了直接爆炸)
 5. 將Valid屬於Animate，並在LayerManger中的ShowLayer中多了valid判斷
 6. 使passerby在建構的時候，竟賦予其delay，要將delay Timer跑完，才將其Valid 設為True (by Hibiya&*)
+7. 更改NPC的OnMove，Override Eraser的，暫時讓他循環跑圖。

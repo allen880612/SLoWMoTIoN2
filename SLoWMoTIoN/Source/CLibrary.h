@@ -14,6 +14,29 @@ namespace game_framework
 	bool IsPointInRect(CPoint, CRect);
 	bool IsRectCollision(CRect, CRect);
 
+	#pragma region - timer -
+	class CTimer
+	{
+	public:
+		CTimer();
+		CTimer(int);
+		CTimer(double);
+		~CTimer();
+		void CountDown();
+		double GetTime();
+		int GetTime(int);
+		bool IsTimeOut();
+		void ResetTime(double);
+		void ResetTime();
+
+		void operator=(CTimer); //運算子多載，方便在GameStateRun::OnBeginState中重構Timer
+	private:
+		const double reflash = (1000 / GAME_CYCLE_TIME); //一秒刷新幾次
+		double time;
+		double initTime;
+	};
+	#pragma endregion
+
 	#pragma region - CAnimate -
 	class CAnimate
 	{
@@ -49,6 +72,8 @@ namespace game_framework
 		int								x, y;			// 動畫的座標
 		int								bmp_index;
 		bool							isValid;
+		CTimer							delayTimer;
+		double							delayTime;
 	};
 #pragma endregion
 
@@ -75,27 +100,5 @@ namespace game_framework
 	};
 	#pragma endregion
 
-	#pragma region - timer -
-	class CTimer
-	{
-	public:
-		CTimer();
-		CTimer(int);
-		CTimer(double);
-		~CTimer();
-		void CountDown();
-		double GetTime();
-		int GetTime(int);
-		bool IsTimeOut();
-		void ResetTime(double);
-		void ResetTime();
-
-		void operator=(CTimer); //運算子多載，方便在GameStateRun::OnBeginState中重構Timer
-	private:
-		const double reflash = (1000 / GAME_CYCLE_TIME); //一秒刷新幾次
-		double time;
-		double initTime;
-	};
-	#pragma endregion
 
 }

@@ -305,7 +305,7 @@ namespace game_framework
 		#pragma region Create a Passerby
 		CNPC *newPasserby = new CNPC(); //先創建一個default passerby
 		int randomID = GetRandom(0, id.size() - 1); //random 決定 passerby種類 (1號or2號)
-		newPasserby->LoadBitmap(ziliaojia, name[id[randomID]], 1); //load passerby的圖片
+		newPasserby->LoadBitmap(ziliaojia, name[id[randomID]], 2, RGB(255, 255, 255)); //load passerby的圖片
 		int randomX = GetRandom(0, mapWidth - newPasserby->Width()); //random 決定passerby的出現位置
 		newPasserby->SetXY(randomX, 480 - newPasserby->Height()); //set passerby x, y
 		newPasserby->SetScore((id[randomID] + 1) * 10); //set passerby score
@@ -319,7 +319,9 @@ namespace game_framework
 	{
 		for (int i = 0; i < createNumber; i++)
 		{
-			passerby.push_back(AddPasserby(id, mapWidth));
+			CNPC* newPasserby = AddPasserby(id, mapWidth);
+			newPasserby->SetValid(true);
+			passerby.push_back(newPasserby);
 		}
 	}
 

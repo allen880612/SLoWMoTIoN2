@@ -23,7 +23,7 @@ namespace game_framework
 	private:
 		vector<CNPC*> passerby;
 		string ziliaojia = "Role\\NPC";
-		string name[10] = { "LUKA", "KALU" };
+		string name[10] = { "LUKA", "RIN" };
 	};
 	#pragma endregion
 	

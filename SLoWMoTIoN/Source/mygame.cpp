@@ -209,7 +209,7 @@ namespace game_framework {
 		for (i = 0; i < NUMBALLS; i++)
 			ball[i].LoadBitmap();								// 載入第i個球的圖形
 																//role.LoadBitmap();
-		role.LoadBitmap("Role", "MIKU", 13);
+		role.LoadBitmap("Role", "MIKU", 13, RGB(255, 255, 255));
 		background.LoadBitmap(IDB_BACKGROUND);					// 載入背景的圖形
 																//
 																// 完成部分Loading動作，提高進度
@@ -402,7 +402,6 @@ namespace game_framework {
 		#pragma region - Collision -
 		scallions = role.GetScallion();			//取出蔥的指標做碰撞
 		passerbys = mapManager.GetPasserby();	//取出passerby指標碰撞
-		int aaa = 0;
 		for (vector<CScallion*>::iterator scallionk = scallions->begin(); scallionk != scallions->end(); )
 		{
 			for (vector<CNPC*>::iterator passerbyj = passerbys->begin(); passerbyj != passerbys->end(); )
