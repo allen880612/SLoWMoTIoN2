@@ -75,3 +75,15 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
 5. 將Valid屬於Animate，並在LayerManger中的ShowLayer中多了valid判斷
 6. 使passerby在建構的時候，竟賦予其delay，要將delay Timer跑完，才將其Valid 設為True (by Hibiya&*)
 7. 更改NPC的OnMove，Override Eraser的，暫時讓他循環跑圖。
+
+==============================================================
+2019/3/29
+1. layerManager v4，thank to CAudio!
+   How to use layerManager
+   Step1: include "CManager.h"
+   Step2: confirm your animate or cmovingbitmap is correctly Load
+   Step3: write "CLayerManager::Instance()->AddObject( (animate/cmovingbitmap), layer )"
+          Maybe the statement can write anywhere if Step 2 is true!
+   by the way, Notice your Step3 can't Add same animate or cmovingbitmap repeatly
+               Notice If your animate or comvingbitmap is move, you must reset there point (use SetTopLeft(x, y))
+   The explanation also write in CManager.h - region - CLayerManager

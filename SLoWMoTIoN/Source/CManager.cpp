@@ -43,7 +43,7 @@ namespace game_framework
 		x = 0;
 		layer.SetLayer(0);
 		background = blockMap[nowMap].backgroundBitmap;
-		layer.AddObjectToManager(&background);
+		CLayerManager::Instance()->AddObject(&background, layer.GetLayer());
 		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
 	}
 
@@ -144,6 +144,7 @@ namespace game_framework
 			x = 0; 
 		}
 		background.SetTopLeft(x, 0);
+
 		passerbyManager.Clear();
 		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
 	}
@@ -220,6 +221,7 @@ namespace game_framework
 	#pragma endregion
 
 	#pragma region - layerManager -
+	CLayerManager CLayerManager::layerManager;
 	CLayerManager::CLayerManager()
 	{
 		Clear();
@@ -273,6 +275,10 @@ namespace game_framework
 			}
 		}
 	}
+	CLayerManager * CLayerManager::Instance()
+	{
+		return &layerManager;
+	}
 	void CLayerManager::Initialize()
 	{
 		Clear();
@@ -303,15 +309,11 @@ namespace game_framework
 	CNPC* CPasserbyManager::AddPasserby(vector<int> id, int mapWidth)
 	{
 		#pragma region Create a Passerby
-		CNPC *newPasserby = new CNPC(); //先創建一個default passerby
 		int randomID = GetRandom(0, id.size() - 1); //random 決定 passerby種類 (1號or2號)
-		newPasserby->LoadBitmap(ziliaojia, name[id[randomID]], 2, RGB(255, 255, 255)); //load passerby的圖片
+		CNPC *newPasserby = new CNPC(0, 0, ziliaojia, name[id[randomID]], 2, id[randomID] + 1 * 10); //先創建一個default passerby
+		//newPasserby->LoadBitmap(ziliaojia, name[id[randomID]], 2, RGB(255, 255, 255)); //load passerby的圖片
 		int randomX = GetRandom(0, mapWidth - newPasserby->Width()); //random 決定passerby的出現位置
 		newPasserby->SetXY(randomX, 480 - newPasserby->Height()); //set passerby x, y
-		newPasserby->SetScore((id[randomID] + 1) * 10); //set passerby score
-
-		newPasserby->layer.SetLayerManager(layer.GetLayerManager());
-		layer.AddObjectToManager(newPasserby->GetAnimate(), newPasserby->layer.GetLayer()); //passerby add to layerManager
 		return newPasserby;
 		#pragma endregion
 	}

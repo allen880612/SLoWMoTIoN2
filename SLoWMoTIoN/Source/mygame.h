@@ -96,7 +96,6 @@ namespace game_framework {
 		void OnRButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
 		void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
 
-		void SetLayerManager();
 	protected:
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
@@ -115,8 +114,6 @@ namespace game_framework {
 		vector<CScallion*>*	scallions;
 		vector<CNPC*>*		passerbys;
 		CMapManager			mapManager;
-		CLayerManager		layerManager;
-
 		
 	};
 

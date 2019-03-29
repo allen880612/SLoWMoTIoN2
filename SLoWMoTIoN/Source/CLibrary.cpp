@@ -27,7 +27,6 @@ namespace myLibrary
 		address = new char[file.length() + 1];
 		strcpy(address, file.c_str());
 
-
 		return address;
 	}
 
@@ -56,6 +55,7 @@ namespace myLibrary
 
 		return random;
 	}
+
 }
 using namespace myLibrary;
 namespace game_framework
@@ -274,7 +274,6 @@ namespace game_framework
 	CLayer::CLayer()
 	{
 		layer = 0;
-		layerManager = NULL;
 	}
 
 	CLayer::~CLayer()
@@ -286,17 +285,6 @@ namespace game_framework
 		return layer;
 	}
 
-	void CLayer::SetLayerManager(CLayerManager *_layerManager)
-	{
-		if (layerManager == NULL && _layerManager != NULL)
-			layerManager = _layerManager;
-	}
-
-	CLayerManager * CLayer::GetLayerManager()
-	{
-		return layerManager;
-	}
-
 	void CLayer::SetLayer(int _layer)
 	{
 		if (_layer >= MAX_LAYER_NUMBER)
@@ -304,30 +292,6 @@ namespace game_framework
 		else if (_layer < 0)
 			_layer = 0;
 		layer = _layer;
-	}
-
-	void CLayer::AddObjectToManager(CMovingBitmap *object)
-	{
-		if(layerManager != NULL)
-			layerManager->AddObject(object, layer);
-	}
-
-	void CLayer::AddObjectToManager(CMovingBitmap *object, int _layer)
-	{
-		if (layerManager != NULL)
-			layerManager->AddObject(object, _layer);
-	}
-
-	void CLayer::AddObjectToManager(CAnimate *object)
-	{
-		if (layerManager != NULL)
-			layerManager->AddObject(object, layer);
-	}
-
-	void CLayer::AddObjectToManager(CAnimate *object, int _layer)
-	{
-		if (layerManager != NULL)
-			layerManager->AddObject(object, _layer);
 	}
 	#pragma endregion
 

@@ -8,8 +8,8 @@
 #include "CEraser.h"
 #include "CBall.h"
 #include <sstream>
-#include "CLibrary.h"
 #include "CManager.h"
+#include "CLibrary.h"
 
 using namespace myLibrary;
 namespace game_framework {
@@ -110,6 +110,8 @@ namespace game_framework {
 			animation.AddBitmap(address, color);
 			delete address;
 		}
+		
+		animation.SetTopLeft(x, y);
 		height = animation.Height();
 		width = animation.Width();
 	}
@@ -287,6 +289,7 @@ namespace game_framework {
 		shoot_cd.CountDown();	//設置射擊的 CD時間
 
 		animation.SetTopLeft(x, y);
+
 		animation.OnMove(dir);
 		for (unsigned int i = 0; i < scallion.size(); i++)
 		{
@@ -343,7 +346,6 @@ namespace game_framework {
 		{
 			CAudio::Instance()->Play(AUDIO_THROW);
 			CScallion *newCScallion = new CScallion("Role", "scallion", 4, GetX3(), GetY1(), mx, my); //先創建一個蔥的物件
-			layer.AddObjectToManager(newCScallion->GetAnimate()); //將蔥的動畫以指標的形式傳給layerManager
 			scallion.push_back(newCScallion); //將蔥放進vector
 			shoot_cd.ResetTime(0.33);
 		}
@@ -371,7 +373,14 @@ namespace game_framework {
 		shoot_cd = CTimer(0);						//初始化射擊冷卻時間
 		AUDIO_THROW = _AUDIO_THROW;
 		AUDIO_JUMP = _AUDIO_JUMP;
-		layer.AddObjectToManager(&animation);
+
+		SetValid(true);
+
+		if (animation.IsNull())
+		{
+			LoadBitmap("Role", "MIKU", 13, RGB(255, 255, 255));
+		}
+		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 	}
 
 	vector<CScallion*>* CRole::GetScallion()
@@ -403,12 +412,14 @@ namespace game_framework {
 		x = initX;
 		y = _y;
 		layer.SetLayer(6);
+		LoadBitmap(ziliaojia, name, number, RGB(255, 255, 255));
+		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
+
 		score = _score;
-		moveTimer = CTimer(0.33);
-		stopTimer = CTimer(2);
+		moveTimer = CTimer(0.5);
+		stopTimer = CTimer(1.5);
 		SetValid(false);
-		recreateTimer = CTimer(GetRandom(10, 16) / 4);
-		//LoadBitmap(ziliaojia, name, number);
+		recreateTimer = CTimer((double)GetRandom(1, 4) / 2.0);
 	}
 
 	void CNPC::SetXY(int _x, int _y)
@@ -430,7 +441,7 @@ namespace game_framework {
 			if (recreateTimer.IsTimeOut())
 			{
 				SetValid(true);
-				layer.AddObjectToManager(&animation, layer.GetLayer());
+				//CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 			}
 			else
 			{

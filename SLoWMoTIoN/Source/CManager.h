@@ -82,6 +82,15 @@ namespace game_framework
 	#pragma endregion
 
 	#pragma region - layerManager -
+	#pragma region - layerManager - How to use -
+	//How to use layerManager
+	//Step1 : include "CManager.h"
+	//Step2 : confirm your animate or cmovingbitmap is correctly Load
+	//Step3 : write "CLayerManager::Instance()->AddObject( (animate/cmovingbitmap), layer )"
+	//Maybe the statement can write anywhere if Step 2 is true!
+	//by the way, Notice your Step3 can't Add same animate or cmovingbitmap repeatly
+    //            Notice If your animate or comvingbitmap is move, you must reset there point(use SetTopLeft(x, y))
+	#pragma endregion
 	class CLayerManager
 	{
 	public:
@@ -91,10 +100,12 @@ namespace game_framework
 		void AddObject(CMovingBitmap*, int);
 		void AddObject(CAnimate*, int);
 		void ShowLayer();
+		static CLayerManager* Instance();
 		void Initialize();
 	private:
 		vector <CMovingBitmap*> layerBitmap[MAX_LAYER_NUMBER];
 		vector <CAnimate*> layerAnimate[MAX_LAYER_NUMBER];
+		static CLayerManager layerManager;
 	};
 	#pragma endregion
 

@@ -79,8 +79,6 @@ namespace game_framework
 
 	#pragma region - CLayer -
 
-	class CLayerManager;
-
 	class CLayer
 	{
 	public:
@@ -88,15 +86,8 @@ namespace game_framework
 		~CLayer();
 		void SetLayer(int);
 		int GetLayer();
-		void SetLayerManager(CLayerManager*);
-		CLayerManager* GetLayerManager();
-		void AddObjectToManager(CMovingBitmap*);
-		void AddObjectToManager(CMovingBitmap*, int);
-		void AddObjectToManager(CAnimate*);
-		void AddObjectToManager(CAnimate*, int);
 	private:
 		int layer;
-		CLayerManager *layerManager;
 	};
 	#pragma endregion
 

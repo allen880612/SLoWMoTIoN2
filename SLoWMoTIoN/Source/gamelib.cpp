@@ -125,6 +125,7 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "mygame.h"
+#include <sstream>
 
 namespace game_framework {
 
@@ -143,6 +144,24 @@ void PaintText(char* text, int tx, int ty, LPCTSTR font, int textSize, COLORREF 
 	pDC->TextOut(tx, ty, text);
 	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
 	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+}
+void DebugText(string debugText)
+{
+	char* address;
+	std::stringstream ss;
+
+	address = new char[debugText.length() + 1];
+	strcpy(address, debugText.c_str());
+
+	PaintText(address, 0, 150, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+	delete address;
+}
+void DebugText(int debugInt)
+{
+	char str[100];
+	sprintf(str, "%d", debugInt);
+
+	PaintText(str, 0, 150, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 }
 #pragma endregion
 

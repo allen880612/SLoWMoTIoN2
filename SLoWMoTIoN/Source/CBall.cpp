@@ -7,6 +7,7 @@
 #include "gamelib.h"
 #include "CBall.h"
 #include "CEraser.h"
+#include "CManager.h"
 
 
 using namespace myLibrary;
@@ -111,11 +112,13 @@ namespace game_framework {
 		const int GRAVITY = 4;
 		x = INIT_X;
 		y = INIT_Y;
-		gravity = GRAVITY; 
+		gravity = GRAVITY;
+		layer.SetLayer(6);
 		animation.SetTopLeft(INIT_X, INIT_Y);
 
 		is_alive = true;
 		LoadBitmap("Role", "scallion", 4);
+		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 	}
 
 	CScallion::CScallion(string ziliaojia, string name, int number, int _x, int _y, int f_x, int f_y)
@@ -127,10 +130,12 @@ namespace game_framework {
 		x = INIT_X;
 		y = INIT_Y;
 		gravity = GRAVITY;
+		layer.SetLayer(6);
 
 		is_alive = true;
 		LoadBitmap(ziliaojia, name, number);
 		animation.SetTopLeft(x, y);
+		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 		SetInitVelocity(_x, _y, f_x, f_y);
 	}
 

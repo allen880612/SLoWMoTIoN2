@@ -187,7 +187,7 @@ namespace game_framework {
 			ball[i].SetIsAlive(true);
 		}
 
-		layerManager.Initialize();
+		CLayerManager::Instance()->Initialize();
 		mapManager.Initialize();
 		role.Initialize(AUDIO_THROW, AUDIO_JUMP);
 
@@ -219,7 +219,8 @@ namespace game_framework {
 		for (i = 0; i < NUMBALLS; i++)
 			ball[i].LoadBitmap();								// 載入第i個球的圖形
 																//role.LoadBitmap();
-		role.LoadBitmap("Role", "MIKU", 13, RGB(255, 255, 255));
+		//role.LoadBitmap("Role", "MIKU", 13, RGB(255, 255, 255));
+		
 		background.LoadBitmap(IDB_BACKGROUND);					// 載入背景的圖形
 																//
 																// 完成部分Loading動作，提高進度
@@ -243,20 +244,10 @@ namespace game_framework {
 												
 																	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 																	//
-		SetLayerManager();
 		#pragma region - Initialize - MapManager -
 		mapManager.LoadMapBitmap();
+		role.Initialize(AUDIO_THROW, AUDIO_JUMP);
 		#pragma endregion
-		
-		#pragma region - layerManager - AddObject -
-		//layerManager.AddObject(role.GetAnimate(), role.layer.GetLayer());
-		//layerManager.AddObject(mapManager.GetBitmap(), mapManager.layer.GetLayer());
-		//for (int i = 0; i < mapManager.GetNpcNumber(); i++)
-		//{
-		//	layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));
-		//}
-		#pragma endregion
-
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -348,10 +339,6 @@ namespace game_framework {
 			{
 				role.SetXY(0 - (role.GetX2() - role.GetX1()), role.GetY1());
 				mapManager.ChangeMap(mapManager.GetRightMap(), "right");
-				//for (int i = 0; i < mapManager.GetNpcNumber(); i++)
-				//{
-				//	layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));
-				//}
 			}
 			#pragma endregion
 		}
@@ -372,10 +359,6 @@ namespace game_framework {
 			{
 				role.SetXY(SIZE_X + (role.GetX2() - role.GetX1()), role.GetY1());
 				mapManager.ChangeMap(mapManager.GetLeftMap(), "left");
-				//for (int i = 0; i < mapManager.GetNpcNumber(); i++)
-				//{
-				//	layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));
-				//}
 			}
 			#pragma endregion
 		}
@@ -561,13 +544,6 @@ namespace game_framework {
 
 	}
 
-	void CGameStateRun::SetLayerManager() //將layerManager傳給各物件
-	{
-		role.layer.SetLayerManager(&layerManager);
-		mapManager.layer.SetLayerManager(&layerManager);
-		mapManager.passerbyManager.layer.SetLayerManager(&layerManager);
-	}
-
 	void CGameStateRun::OnShow()
 	{
 		//
@@ -591,25 +567,9 @@ namespace game_framework {
 		//miku.onShow();
 
 		#pragma region - paint object -
-		//layerManager.Clear();
-		#pragma region -- add object to layer --
-		/*layerManager.AddObject(miku.GetBitmap(), miku.GetLayer());
-		layerManager.AddObject(role.GetAnimate(), role.layer.GetLayer());
-		layerManager.AddObject(mapManager.GetBitmap(), mapManager.layer.GetLayer());
-		for (int i = 0; i < mapManager.GetNpcNumber(); i++)
-		{
-			if(mapManager.GetNpcValid(i))
-				layerManager.AddObject(mapManager.GetNpc(i), mapManager.GetNpcLayer(i));
-		}*/
-		#pragma endregion
 		
-		layerManager.ShowLayer();
+		CLayerManager::Instance()->ShowLayer();
 
-		/*passerbys = mapManager.GetPasserby();
-		for (vector<CNPC*>::iterator passerbyj = passerbys->begin(); passerbyj != passerbys->end(); passerbyj++)
-		{
-			(*passerbyj)->OnShow();
-		}*/
 		#pragma endregion
 
 		//role.OnShow();
