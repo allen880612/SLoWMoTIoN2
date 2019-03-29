@@ -87,7 +87,7 @@ namespace game_framework
 	{
 		x = y = bmp_index = bmp_amount = 0;
 		SetValid(true);
-		double wiatTime = GetRandom(2, 4) / 5;
+		double wiatTime = (double)GetRandom(2, 4) / 5.0;
 		delayTimer = CTimer(wiatTime);
 		bmp.clear();
 	}
@@ -104,7 +104,7 @@ namespace game_framework
 		
 		if (delayTimer.IsTimeOut())
 		{
-			delayTimer.ResetTime((double)GetRandom(2, 4) / 5.0 );	//隨機使每 0.4~0.8 秒更新一次
+			delayTimer.ResetTime();
 
 			if (bmp_index < (int)bmp.size() - 1)
 			{
@@ -264,6 +264,11 @@ namespace game_framework
 		return isValid;
 	}
 
+	void CAnimate::ResetDelayTime(double _time)
+	{
+		delayTimer.ResetTime(_time);
+	}
+
 	CRect CAnimate::GetRect()
 	{
 		return bmp[bmp_index].GetRect();
@@ -305,13 +310,11 @@ namespace game_framework
 	CTimer::CTimer(int _time)
 	{
 		ResetTime(_time);
-		initTime = _time;
 		time = (int)time;
 	}
 
 	CTimer::CTimer(double _time) //給予初始時間
 	{
-		initTime = _time;
 		ResetTime(_time);
 	}
 
@@ -342,18 +345,19 @@ namespace game_framework
 
 	void CTimer::ResetTime(double _resetTime)
 	{
-		time = _resetTime * reflash;
+		time = initTime = _resetTime * reflash;
 	}
 
 	void CTimer::ResetTime()
 	{
-		ResetTime(initTime);
+		time = initTime;
 	}
 
 	#pragma region -- 窩4絕ㄉni最好4bu咬打開ㄊ拉 --
 	void CTimer::operator=(CTimer _timer)
 	{
 		time = _timer.time;
+		initTime = _timer.time;
 	}
 	#pragma endregion
 

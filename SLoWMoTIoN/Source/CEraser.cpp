@@ -403,6 +403,7 @@ namespace game_framework {
 		stopTimer = CTimer(1.5);
 		SetValid(false);
 		recreateTimer = CTimer((double)GetRandom(1, 4) / 2.0);
+		//animation.ResetWaitTime((double)GetRandom(2, 4) / 5.0);
 		//LoadBitmap("Role", "LUKA", 2);
 	}
 

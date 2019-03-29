@@ -123,7 +123,6 @@ namespace game_framework {
 
 	CScallion::CScallion(string ziliaojia, string name, int number, int _x, int _y, int f_x, int f_y)
 	{
-		dx = dy = index = delay_counter = 0;	//暫時無用，只是確保繼承不會出問題
 		
 		const int INIT_X = _x, INIT_Y = _y;
 		const int GRAVITY = 4;
@@ -135,7 +134,9 @@ namespace game_framework {
 		is_alive = true;
 		LoadBitmap(ziliaojia, name, number);
 		animation.SetTopLeft(x, y);
+		animation.ResetDelayTime(0.1);
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
+		
 		SetInitVelocity(_x, _y, f_x, f_y);
 	}
 

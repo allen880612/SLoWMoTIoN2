@@ -43,6 +43,7 @@ namespace game_framework
 		x = 0;
 		layer.SetLayer(0);
 		background = blockMap[nowMap].backgroundBitmap;
+		//background.SetTopLeft(0, 0);
 		CLayerManager::Instance()->AddObject(&background, layer.GetLayer());
 		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
 	}
@@ -310,7 +311,7 @@ namespace game_framework
 	{
 		#pragma region Create a Passerby
 		int randomID = GetRandom(0, id.size() - 1); //random 決定 passerby種類 (1號or2號)
-		CNPC *newPasserby = new CNPC(0, 0, ziliaojia, name[id[randomID]], 2, id[randomID] + 1 * 10); //先創建一個default passerby
+		CNPC *newPasserby = new CNPC(0, 0, ziliaojia, name[id[randomID]], 2, (id[randomID] + 1) * 10); //先創建一個default passerby
 		//newPasserby->LoadBitmap(ziliaojia, name[id[randomID]], 2, RGB(255, 255, 255)); //load passerby的圖片
 		int randomX = GetRandom(0, mapWidth - newPasserby->Width()); //random 決定passerby的出現位置
 		newPasserby->SetXY(randomX, 480 - newPasserby->Height()); //set passerby x, y

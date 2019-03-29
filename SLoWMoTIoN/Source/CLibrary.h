@@ -22,12 +22,12 @@ namespace game_framework
 		CTimer(int);
 		CTimer(double);
 		~CTimer();
-		void CountDown();
-		double GetTime();
-		int GetTime(int);
-		bool IsTimeOut();
-		void ResetTime(double);
-		void ResetTime();
+		void	CountDown();
+		double	GetTime();
+		int		GetTime(int);
+		bool	IsTimeOut();
+		void	ResetTime(double);
+		void	ResetTime();
 
 		void operator=(CTimer); //運算子多載，方便在GameStateRun::OnBeginState中重構Timer
 	private:
@@ -64,6 +64,7 @@ namespace game_framework
 		void  SetValid(bool);
 		bool  GetValid();
 		
+		void  ResetDelayTime(double);
 		CRect GetRect();
 	private:
 

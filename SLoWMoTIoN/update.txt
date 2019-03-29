@@ -87,3 +87,7 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
    by the way, Notice your Step3 can't Add same animate or cmovingbitmap repeatly
                Notice If your animate or comvingbitmap is move, you must reset there point (use SetTopLeft(x, y))
    The explanation also write in CManager.h - region - CLayerManager
+2. Except map, resize everything.
+3. add ResetDelayTime in Animate, so we can chage the delay time in the object constructor which use Animate.
+4. add ResetTime() in CTimer, make timer reset time more convenient.
+   (reset time by the initTime = parameter with constructor or operation overload.)
