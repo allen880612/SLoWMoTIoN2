@@ -165,7 +165,7 @@ namespace game_framework {
 		if (!IsAlive())
 			return;
 
-		if (x > SIZE_X || y > SIZE_Y)	//¶W¥X¿Ã¹õ
+		if (x > SIZE_X || x < 0 ||  y > SIZE_Y )	//¶W¥X¿Ã¹õ
 		{
 			SetIsAlive(false);
 			return;

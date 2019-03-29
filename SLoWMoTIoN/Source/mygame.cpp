@@ -423,8 +423,7 @@ namespace game_framework {
 				{
 					CAudio::Instance()->Play(AUDIO_HIT);
 					role.AddScore((*passerbyj)->GetScore());
-					delete *scallionk;
-					*scallionk = NULL;
+					(*scallionk)->SetIsAlive(false);
 					
 					mapManager.DeletePasserby(passerbyj); //從mapManager的passerbyManager中移除passerby
 					mapManager.AddPasserby();
@@ -436,8 +435,10 @@ namespace game_framework {
 				}
 			}
 
-			if (*scallionk == NULL)
+			if (!(*scallionk)->IsAlive())
 			{
+				delete *scallionk;
+				*scallionk = NULL;
 				scallionk = scallions->erase(scallionk);
 			}
 			else
