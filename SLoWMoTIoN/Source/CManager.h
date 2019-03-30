@@ -51,6 +51,7 @@ namespace game_framework
 		void SetMovingLeft(bool);
 		void SetMovingRight(bool);
 		void OnMove();
+		void SetXY(int, int);
 
 
 		void ChangeMap(int, string);
@@ -66,7 +67,7 @@ namespace game_framework
 		void Initialize();
 		CPasserbyManager passerbyManager; //temp
 	private:
-		const int directionX = 20;
+		const int directionX = MOVE_DISTANCE;
 		int nowMap;
 		int loadMap;
 		string loadMapPath;

@@ -226,7 +226,7 @@ namespace game_framework {
 
 	void CRole::OnMove()
 	{
-		const int STEP_SIZE = 20;
+		const int STEP_SIZE = move_distance;
 		int dir = -1;
 
 		if (isMovingUp)

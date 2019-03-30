@@ -56,7 +56,7 @@ namespace game_framework {
 		bool canMoving;				// 是否可以移動
 
 	private:
-		int move_distance = 20;
+		int move_distance = MOVE_DISTANCE;
 	};
 	#pragma endregion
 
@@ -94,6 +94,7 @@ namespace game_framework {
 		int gravity;				// 重力
 		char last_right_left;
 		int mouse_x, mouse_y;
+		int move_distance = MOVE_DISTANCE; //每次移動的距離
 		CTimer shoot_cd;
 	private:
 		unsigned AUDIO_THROW;

@@ -148,7 +148,6 @@ void PaintText(char* text, int tx, int ty, LPCTSTR font, int textSize, COLORREF 
 void DebugText(string debugText)
 {
 	char* address;
-	std::stringstream ss;
 
 	address = new char[debugText.length() + 1];
 	strcpy(address, debugText.c_str());

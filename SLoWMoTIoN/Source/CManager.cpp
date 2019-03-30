@@ -43,7 +43,7 @@ namespace game_framework
 		x = 0;
 		layer.SetLayer(0);
 		background = blockMap[nowMap].backgroundBitmap;
-		//background.SetTopLeft(0, 0);
+		background.SetTopLeft(0, 0);
 		CLayerManager::Instance()->AddObject(&background, layer.GetLayer());
 		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
 	}
@@ -176,7 +176,17 @@ namespace game_framework
 			for (unsigned int npcIndex = 0; npcIndex < passerbyManager.passerby.size(); npcIndex++)
 				passerbyManager.passerby[npcIndex]->SetXY(passerbyManager.passerby[npcIndex]->GetX1() - directionX, passerbyManager.passerby[npcIndex]->GetY1());
 		}
-		background.SetTopLeft(x, 0);
+		SetXY(x, 0);
+	}
+
+	void CMapManager::SetXY(int _x, int _y)
+	{
+		x = _x;
+		if (x <= -((background.Width()) - 640))
+			x = -((background.Width()) - 640);
+		if (x >= 0)
+			x = 0;
+		background.SetTopLeft(x, _y);
 	}
 
 	void CMapManager::OnShow() //顯示對應到的blockMap圖片 (nowMap = 1, 顯示blockMap[1]的background, 類推)

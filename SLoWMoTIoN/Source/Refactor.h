@@ -3,6 +3,7 @@
 ////////////////////////////
 #pragma once
 #define MAX_LAYER_NUMBER 10
+#define MOVE_DISTANCE 15
 #define MAX_MAP_NUMBER 3
 #define KEY_SPACE 32
 #define KEY_LEFT 37		// keyboard¥ª½bÀY

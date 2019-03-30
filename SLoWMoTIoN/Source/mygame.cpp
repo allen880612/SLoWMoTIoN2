@@ -271,9 +271,6 @@ namespace game_framework {
 		//
 		// 移動背景圖的座標
 		//
-		if (background.Top() > SIZE_Y)
-			background.SetTopLeft(60, -background.Height());
-		background.SetTopLeft(background.Left(), background.Top() + 1);
 		
 		// 移動MIKU
 		//miku.OnMove();
@@ -311,6 +308,7 @@ namespace game_framework {
 		#pragma region -- Moving Left --
 		if (role.GetMovingLeft())
 		{
+
 			if (screenPosX > mapManager.GetSplitLeft() && screenPosX <= mapManager.GetSplitRight())
 			{
 				mapManager.SetMovingLeft(true);
