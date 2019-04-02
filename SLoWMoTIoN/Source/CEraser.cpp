@@ -227,11 +227,11 @@ namespace game_framework {
 	void CRole::OnMove()
 	{
 		const int STEP_SIZE = move_distance;
-		int dir = -1;
+		int dir = 0;
 
 		if (isMovingUp)
 		{
-			dir = 0;
+			dir = 1;
 			if (canMoving && canJumping)
 			{
 				CAudio::Instance()->Play(AUDIO_JUMP);
@@ -241,24 +241,21 @@ namespace game_framework {
 		}
 		if (isMovingRight)
 		{
-			dir = 1;
-			last_right_left = 'r';
+			dir = 2;
 			if (canMoving)
 				x += STEP_SIZE;
 		}
-		if (isMovingLeft)
-		{
-			dir = 3;
-			last_right_left = 'l';
-			if (canMoving)
-				x -= STEP_SIZE;
-		}
 		if (isMovingDown)
 		{
-			dir = 2;
+			dir = 3;
 			if (canMoving)
-			y += STEP_SIZE;
-			
+				y += STEP_SIZE;
+		}
+		if (isMovingLeft)
+		{
+			dir = 4;
+			if (canMoving)
+				x -= STEP_SIZE;
 		}
 		if (isJumping)
 		{
@@ -345,7 +342,8 @@ namespace game_framework {
 		if (shoot_cd.IsTimeOut())
 		{
 			CAudio::Instance()->Play(AUDIO_THROW);
-			CScallion *newCScallion = new CScallion("Role", "scallion", 4, GetX3(), GetY1(), mx, my); //先創建一個蔥的物件
+			//CScallion *newCScallion = new CScallion("Role\\Scallions", "scallion", 4, GetX3(), GetY1(), mx, my); //先創建一個蔥的物件
+			CScallion *newCScallion = new CScallion("Role\\books", "book", 4, GetX3(), GetY1(), mx, my); //先創建一個蔥的物件
 			scallion.push_back(newCScallion); //將蔥放進vector
 			shoot_cd.ResetTime(0.33);
 		}

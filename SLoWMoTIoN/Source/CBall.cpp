@@ -102,8 +102,6 @@ namespace game_framework {
 	}
 	#pragma endregion
 
-	
-
 	CScallion::CScallion()
 	{
 		dx = dy = index = delay_counter = 0;	//暫時無用，只是確保繼承不會出問題

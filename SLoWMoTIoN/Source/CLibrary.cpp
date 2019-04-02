@@ -126,44 +126,55 @@ namespace game_framework
 	void CAnimate::OnMove(int dir)
 	{
 		GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
-		//dir %= bmp.size();
-		if (dir == 0)	//Top
+		int upperLimit = (bmp_amount - 1) / 4;
+		if (dir != 0)	//Move
 		{
-			if (bmp_index < 3)
+			if (bmp_index >= (dir - 1) * upperLimit + 1 && bmp_index < upperLimit * dir)
 			{
 				bmp_index++;
 			}
 			else
-				bmp_index = 0;
-		}
-		else if (dir == 1) //Right
-		{
-			if (bmp_index >= 4 && bmp_index < 6)
-				bmp_index++;
-			else
-				bmp_index = 4;
-		}
-		else if (dir == 2) // Down
-		{
-			if (bmp_index >= 7 && bmp_index < 9)
-				bmp_index++;
-			else
-				bmp_index = 7;
-		}
-		else if (dir == 3) // Left
-		{
-			if (bmp_index >= 10 && bmp_index < 12)
-				bmp_index++;
-			else
-				bmp_index = 10;
+				bmp_index = (dir - 1) * upperLimit + 1;
 		}
 		else //static
 		{
 			bmp_index = 0;
 		}
+		// dir = 1 , 1  - 3		(dir - 1) * upperLimit + 1	/ upperLimit * dir - (upperLimit - 1)
+		// dir = 2 , 4  - 6
+		// dir = 3 , 7  - 9
+		// dir = 4 , 10 - 12
 
 		//bitmaps[bmp_index]->SetTopLeft(x, y);
 		//bmp_index %= bmp.size();
+		//if (dir == 1) //Top
+		//{
+		//	if (bmp_index >= 1 && bmp_index < 2)
+		//		bmp_index++;
+		//	else
+		//		bmp_index = 1;
+		//}
+		//else if (dir == 2) //Right
+		//{
+		//	if (bmp_index >= 4 && bmp_index < 6)
+		//		bmp_index++;
+		//	else
+		//		bmp_index = 4;
+		//}
+		//else if (dir == 3) // Down
+		//{
+		//	if (bmp_index >= 7 && bmp_index < 9)
+		//		bmp_index++;
+		//	else
+		//		bmp_index = 7;
+		//}
+		//else if (dir == 4) // Left
+		//{
+		//	if (bmp_index >= 10 && bmp_index < 12)
+		//		bmp_index++;
+		//	else
+		//		bmp_index = 10;
+		//}
 		bmp[bmp_index].SetTopLeft(x, y);
 	}
 
@@ -181,7 +192,8 @@ namespace game_framework
 		CMovingBitmap add_bmp;
 		add_bmp.LoadBitmap(IDB_BITMAP, colorkey);
 		bmp.push_back(add_bmp);
-		Reset();
+		bmp_amount++;
+		//Reset();
 		return &(bmp[bmp.size() - 1]);
 
 	}
@@ -191,7 +203,8 @@ namespace game_framework
 		CMovingBitmap add_bmp;
 		add_bmp.LoadBitmap(filename, colorkey);
 		bmp.push_back(add_bmp);
-		Reset();
+		bmp_amount++;
+		//Reset();
 		return &(bmp[bmp.size() - 1]);
 	}
 
