@@ -377,6 +377,7 @@ void CInteger::ShowBitmap(double factor)
 
 CMovingBitmap::CMovingBitmap()
 {
+	Valid = false; //Loadßπ ≈‹¶®true
 	isBitmapLoaded = false;
 }
 
@@ -407,6 +408,7 @@ void CMovingBitmap::LoadBitmap(int IDB_BITMAP, COLORREF color)
 	location.bottom = ny+bitmapSize.bmHeight;
 	SurfaceID = CDDraw::RegisterBitmap(IDB_BITMAP, color);
 	isBitmapLoaded = true;
+	Valid = true;
 }
 
 void CMovingBitmap::LoadBitmap(char *filename, COLORREF color)
@@ -470,6 +472,16 @@ int CMovingBitmap::Width()
 {
 	GAME_ASSERT(isBitmapLoaded,"A bitmap must be loaded before Width() is called !!!");
 	return location.right - location.left;
+}
+
+void CMovingBitmap::SetValid(bool flag)
+{
+	Valid = flag;
+}
+
+bool CMovingBitmap::GetValid()
+{
+	return Valid;
 }
 
 CRect CMovingBitmap::GetRect()

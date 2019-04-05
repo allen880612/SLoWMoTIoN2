@@ -14,3 +14,5 @@
 #define KEY_A 65
 #define KEY_S 83
 #define KEY_D 68
+
+#define MARGIN_DIALOG_AVATAR 16

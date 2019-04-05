@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "Resource.h"
+#include "Refactor.h"
 #include <mmsystem.h>
 #include <ddraw.h>
 #include "audio.h"
 #include "gamelib.h"
+#include <map>
 #include "CManager.h"
 using namespace myLibrary;
 
@@ -266,7 +268,10 @@ namespace game_framework
 		{
 			for (vector<CMovingBitmap*>::iterator k = layerBitmap[i].begin(); k != layerBitmap[i].end(); k++)
 			{
-				(*k)->ShowBitmap();
+				if ((*k)->GetValid())
+				{
+					(*k)->ShowBitmap();
+				}
 			}
 
 			for (vector<CAnimate*>::iterator k = layerAnimate[i].begin(); k != layerAnimate[i].end();)
@@ -299,7 +304,7 @@ namespace game_framework
 	#pragma region - passerbyManager -
 	CPasserbyManager::CPasserbyManager()
 	{
-		layer.SetLayer(6);
+		layer.SetLayer(4);
 		passerby.clear();
 	}
 	CPasserbyManager::~CPasserbyManager()
@@ -348,6 +353,97 @@ namespace game_framework
 	vector<CNPC*> CPasserbyManager::GetPasserby()
 	{
 		return passerby;
+	}
+	#pragma endregion
+
+	#pragma region - DialogManager -
+	CDialogManager CDialogManager::dialogManager;
+	CDialogManager::CDialogManager()
+	{
+		Load_Image();
+		avatar_null.SetValid(false);
+		avatar = &avatar_null;
+
+		#pragma region - Initialize - Image's Point(x, y) -
+		dialog_background.SetTopLeft(0, SIZE_Y - dialog_background.Height()); //reset dbg's xy
+		avatar_role.SetTopLeft(dialog_background.Left() + MARGIN_DIALOG_AVATAR, dialog_background.Top() + MARGIN_DIALOG_AVATAR);
+		avatar_xingting.SetTopLeft(dialog_background.Left() + MARGIN_DIALOG_AVATAR, dialog_background.Top() + MARGIN_DIALOG_AVATAR);
+		#pragma endregion
+
+		backgroundLayer.SetLayer(8);
+		avatarLayer.SetLayer(backgroundLayer.GetLayer() + 1);
+
+		CLayerManager::Instance()->AddObject(&dialog_background, backgroundLayer.GetLayer());
+		CLayerManager::Instance()->AddObject(avatar, avatarLayer.GetLayer());
+
+		step = 0;
+	}
+
+	CDialogManager::~CDialogManager()
+	{
+		avatar = NULL;
+	}
+
+	void CDialogManager::Load_Image()
+	{
+		char *address;
+		#pragma region - load dialog background -
+		address = ConvertCharPointToString("Dialog", "ground", 1);
+		dialog_background.LoadBitmap(address);
+		delete address;
+		#pragma endregion
+
+		#pragma region - load xingting - avatar -
+		address = ConvertCharPointToString("Dialog", "xingting", 1);
+		avatar_xingting.LoadBitmap(address);
+		delete address;
+		#pragma endregion
+
+
+		#pragma region - load role avatar -
+		address = ConvertCharPointToString("Dialog", "miku", 1);
+		avatar_xingting.LoadBitmap(address);
+		delete address;
+		#pragma endregion
+
+		#pragma region - load null -
+		address = ConvertCharPointToString("Dialog", "bmp", 1);
+		avatar_null.LoadBitmap(address);
+		delete address;
+		#pragma endregion
+
+	}
+
+	CDialogManager * CDialogManager::Instance()
+	{
+		return &dialogManager;
+	}
+
+	void CDialogManager::Start(string mode)
+	{
+		if (mode == "roleVsBoss")
+		{
+			if (step == 0)
+			{
+				
+			}
+			else if (step == 1)
+			{
+
+			}
+			else if (step == 2)
+			{
+
+			}
+			else
+			{
+				step = 0;
+			}
+		}
+	}
+	void CDialogManager::Next()
+	{
+		step++;
 	}
 	#pragma endregion
 }

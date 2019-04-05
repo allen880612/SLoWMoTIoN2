@@ -37,7 +37,7 @@ namespace game_framework {
 		isMovingLeft = isMovingRight = isMovingUp = isMovingDown = false;
 		canMoving = true;
 
-		layer.SetLayer(8);
+		layer.SetLayer(5);
 		score = 0;
 	}
 
@@ -395,7 +395,7 @@ namespace game_framework {
 		initX = 0;
 		x = initX;
 		y = 300;
-		layer.SetLayer(6);
+		layer.SetLayer(4);
 		score = 0;
 		moveTimer = CTimer(0.5);
 		stopTimer = CTimer(1.5);
@@ -410,7 +410,7 @@ namespace game_framework {
 		initX = _x;
 		x = initX;
 		y = _y;
-		layer.SetLayer(6);
+		layer.SetLayer(4);
 		LoadBitmap(ziliaojia, name, number, RGB(255, 255, 255));
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 

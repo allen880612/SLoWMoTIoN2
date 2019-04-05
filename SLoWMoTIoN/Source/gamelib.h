@@ -215,11 +215,15 @@ public:
 	int   Top();						// 取得圖形的左上角的 y 座標
 	int   Width();						// 取得圖形的寬度
 
+	void  SetValid(bool);
+	bool  GetValid();
+
 	CRect GetRect();
 protected:
 	CRect    location;			// location of the bitmap
 	bool     isBitmapLoaded;	// whether a bitmap has been loaded
 	unsigned SurfaceID;			// the surface id of this bitmap
+	bool Valid;
 };
 
 /////////////////////////////////////////////////////////////////////////////

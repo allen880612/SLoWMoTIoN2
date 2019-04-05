@@ -110,5 +110,30 @@ namespace game_framework
 	};
 	#pragma endregion
 
+	#pragma region - DialogManager -
+	class CDialogManager
+	{
+	public:
+		CDialogManager();
+		~CDialogManager();
+		void Load_Image();
+		static CDialogManager* Instance();
+		void Start(string);
+		void Next();
+	private:
+		map<string, string[]> test;
+		CMovingBitmap dialog_background;
 
+		CMovingBitmap avatar_role;
+		CMovingBitmap avatar_xingting;
+		CMovingBitmap avatar_null; //隨便load一張圖，給予他valid = false屬性，對話結束的時候將avatar指向這傢伙，使LayerManager不顯示avatar
+
+		CLayer backgroundLayer;
+		CLayer avatarLayer;
+
+		CMovingBitmap* avatar;
+		static CDialogManager dialogManager;
+		int step;
+	};
+	#pragma endregion
 }
