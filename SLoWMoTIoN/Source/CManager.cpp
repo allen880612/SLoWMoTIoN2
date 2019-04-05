@@ -40,7 +40,7 @@ namespace game_framework
 
 	void CMapManager::Initialize()
 	{
-		nowMap = 0;
+		nowMap = 2;
 		loadMap = blockMap[nowMap].loadMap;
 		x = 0;
 		layer.SetLayer(0);
@@ -149,7 +149,7 @@ namespace game_framework
 		background.SetTopLeft(x, 0);
 
 		passerbyManager.Clear();
-		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
+		//passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
 	}
 
 	void CMapManager::SetMovingLeft(bool _flag)
@@ -212,7 +212,11 @@ namespace game_framework
 				break;
 
 			case 2:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 0, -1, 3, "RES", "IDB_MAP", mapIndex);
+				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 0, 3, 3, "RES", "IDB_MAP", mapIndex);
+				break;
+
+			case 3:
+				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 2, -1, 0, "RES", "IDB_MAP", mapIndex);
 				break;
 
 			default:
@@ -358,13 +362,73 @@ namespace game_framework
 
 	#pragma region - DialogManager -
 	CDialogManager CDialogManager::dialogManager;
+
 	CDialogManager::CDialogManager()
 	{
-		Load_Image();
-		avatar_null.SetValid(false);
-		avatar = &avatar_null;
+		IsBitmapLoaded = false;
+		IsTxtLoaded = false;
+		IsDialoging = false;
+		mode = "";
+		txt.clear();
+	}
 
-		#pragma region - Initialize - Image's Point(x, y) -
+	CDialogManager::~CDialogManager()
+	{
+		
+	}
+
+	void CDialogManager::Load_Image()
+	{
+		char *address;
+		#pragma region - load dialog background -
+		address = ConvertCharPointToString("Dialog", "ground", 0);
+		dialog_background.LoadBitmap(address, RGB(255, 255, 255));
+		delete address;
+		#pragma endregion
+
+		#pragma region - load xingting - avatar -
+		address = ConvertCharPointToString("Dialog", "xingting", 0);
+		avatar_xingting.LoadBitmap(address);
+		delete address;
+		#pragma endregion
+
+		#pragma region - load role avatar -
+		address = ConvertCharPointToString("Dialog", "mikuAvatar", 0);
+		avatar_role.LoadBitmap(address);
+		delete address;
+		#pragma endregion
+
+		#pragma region - load null -
+		address = ConvertCharPointToString("Dialog", "bmp", 0);
+		avatar_null.LoadBitmap(address);
+		delete address;
+		#pragma endregion
+
+		IsBitmapLoaded = true;
+	}
+
+	void CDialogManager::LoadText()
+	{
+		txt[RoleVSBoss].push_back("Ahhh~~");
+		txt[RoleVSBoss].push_back("Bhhh~~");
+		txt[RoleVSBoss].push_back("Chhh~~");
+	}
+
+	void CDialogManager::Initialize()
+	{
+		if (IsBitmapLoaded == false)
+		{
+			Load_Image();
+		}
+		if (IsTxtLoaded == false)
+		{
+			LoadText();
+		}
+		avatar_null.SetValid(false);
+		dialog_background.SetValid(false);
+		avatar = avatar_null;
+
+		#pragma region - Init - Image Point -
 		dialog_background.SetTopLeft(0, SIZE_Y - dialog_background.Height()); //reset dbg's xy
 		avatar_role.SetTopLeft(dialog_background.Left() + MARGIN_DIALOG_AVATAR, dialog_background.Top() + MARGIN_DIALOG_AVATAR);
 		avatar_xingting.SetTopLeft(dialog_background.Left() + MARGIN_DIALOG_AVATAR, dialog_background.Top() + MARGIN_DIALOG_AVATAR);
@@ -374,44 +438,9 @@ namespace game_framework
 		avatarLayer.SetLayer(backgroundLayer.GetLayer() + 1);
 
 		CLayerManager::Instance()->AddObject(&dialog_background, backgroundLayer.GetLayer());
-		CLayerManager::Instance()->AddObject(avatar, avatarLayer.GetLayer());
+		CLayerManager::Instance()->AddObject(&avatar, avatarLayer.GetLayer());
 
 		step = 0;
-	}
-
-	CDialogManager::~CDialogManager()
-	{
-		avatar = NULL;
-	}
-
-	void CDialogManager::Load_Image()
-	{
-		char *address;
-		#pragma region - load dialog background -
-		address = ConvertCharPointToString("Dialog", "ground", 1);
-		dialog_background.LoadBitmap(address);
-		delete address;
-		#pragma endregion
-
-		#pragma region - load xingting - avatar -
-		address = ConvertCharPointToString("Dialog", "xingting", 1);
-		avatar_xingting.LoadBitmap(address);
-		delete address;
-		#pragma endregion
-
-
-		#pragma region - load role avatar -
-		address = ConvertCharPointToString("Dialog", "miku", 1);
-		avatar_xingting.LoadBitmap(address);
-		delete address;
-		#pragma endregion
-
-		#pragma region - load null -
-		address = ConvertCharPointToString("Dialog", "bmp", 1);
-		avatar_null.LoadBitmap(address);
-		delete address;
-		#pragma endregion
-
 	}
 
 	CDialogManager * CDialogManager::Instance()
@@ -419,31 +448,58 @@ namespace game_framework
 		return &dialogManager;
 	}
 
-	void CDialogManager::Start(string mode)
+	void CDialogManager::Start(string _mode)
 	{
-		if (mode == "roleVsBoss")
+		IsDialoging = true;
+		dialog_background.SetValid(true);
+		mode = _mode;
+		Dialog();
+	}
+
+	void CDialogManager::Next()
+	{
+		if(IsDialoging)
+		{
+			step++;
+			Dialog();
+		}	
+	}
+
+	void CDialogManager::Stop()
+	{
+		avatar = avatar_null;
+		dialog_background.SetValid(false);
+		IsDialoging = false;
+	}
+
+	bool CDialogManager::GetDialogState()
+	{
+		return IsDialoging;
+	}
+
+	void CDialogManager::Dialog()
+	{
+		if (mode == RoleVSBoss)
 		{
 			if (step == 0)
 			{
-				
+				avatar = avatar_xingting;
 			}
 			else if (step == 1)
 			{
-
+				avatar = avatar_role;
 			}
 			else if (step == 2)
 			{
-
+				avatar = avatar_xingting;
 			}
 			else
 			{
 				step = 0;
+				Stop();
 			}
 		}
-	}
-	void CDialogManager::Next()
-	{
-		step++;
+
 	}
 	#pragma endregion
 }

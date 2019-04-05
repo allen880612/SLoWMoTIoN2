@@ -188,6 +188,7 @@ namespace game_framework {
 		}
 
 		CLayerManager::Instance()->Initialize();
+		CDialogManager::Instance()->Initialize();
 		mapManager.Initialize();
 		role.Initialize(AUDIO_THROW, AUDIO_JUMP);
 
@@ -198,7 +199,7 @@ namespace game_framework {
 		//CAudio::Instance()->Play(AUDIO_LAKE, true);			// 撥放 WAVE
 		//CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
 		//CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
-		timer = CTimer(TIME_LEFT); //ㄎㄧㄤ==
+		timer = CTimer(GAME_TIME); //ㄎㄧㄤ==
 		CAudio::Instance()->Stop(AUDIO_MENU);
 		CAudio::Instance()->Play(AUDIO_GAMEING);
 	}
@@ -483,9 +484,13 @@ namespace game_framework {
 			role.SetMovingUp(true);
 		if (nChar == KEY_S)
 		{
-			role.SetMovingDown(true);
+			role.SetMovingDown(false);
 		}
-			
+		
+		if (nChar == KEY_Q)
+		{
+			CDialogManager::Instance()->Start(RoleVSBoss);
+		}
 	}
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -517,8 +522,11 @@ namespace game_framework {
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
-		role.SetIsFire(true);
-
+		if (CDialogManager::Instance()->GetDialogState())
+		{
+			CDialogManager::Instance()->Next();
+		}
+		role.SetIsFire(true & !CDialogManager::Instance()->GetDialogState());
 	}
 
 	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作

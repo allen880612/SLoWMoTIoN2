@@ -117,11 +117,16 @@ namespace game_framework
 		CDialogManager();
 		~CDialogManager();
 		void Load_Image();
+		void LoadText();
+		void Initialize();
 		static CDialogManager* Instance();
 		void Start(string);
 		void Next();
+		void Stop();
+		bool GetDialogState();
 	private:
-		map<string, string[]> test;
+		void Dialog();
+		map<string, vector<string> > txt;
 		CMovingBitmap dialog_background;
 
 		CMovingBitmap avatar_role;
@@ -131,9 +136,13 @@ namespace game_framework
 		CLayer backgroundLayer;
 		CLayer avatarLayer;
 
-		CMovingBitmap* avatar;
+		CMovingBitmap avatar;
 		static CDialogManager dialogManager;
 		int step;
+		bool IsBitmapLoaded = false;
+		bool IsTxtLoaded = false;
+		bool IsDialoging = false;
+		string mode = "";
 	};
 	#pragma endregion
 }

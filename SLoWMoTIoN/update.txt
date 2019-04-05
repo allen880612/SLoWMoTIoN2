@@ -103,3 +103,8 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
 2019/4/2
 1. add yuan dong book(temporarily use with role fire object to test)
 2. improve onMove(dir) in Animate, now can use image in any number with 4 * n(4 diraction) + 1(static)
+
+==============================================================
+2019/4/6
+1. the first step of Dialog, can do more and more (key "Q" and click mouse left) (It is ordinary that no text show now)
+2. MOVE_DISTANCE 15 can't solve problem, Fuck

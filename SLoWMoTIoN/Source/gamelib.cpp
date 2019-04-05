@@ -377,7 +377,7 @@ void CInteger::ShowBitmap(double factor)
 
 CMovingBitmap::CMovingBitmap()
 {
-	Valid = false; //Load完 變成true
+	SetValid(false); //Load完 變成true
 	isBitmapLoaded = false;
 }
 
@@ -408,7 +408,7 @@ void CMovingBitmap::LoadBitmap(int IDB_BITMAP, COLORREF color)
 	location.bottom = ny+bitmapSize.bmHeight;
 	SurfaceID = CDDraw::RegisterBitmap(IDB_BITMAP, color);
 	isBitmapLoaded = true;
-	Valid = true;
+	SetValid(true);
 }
 
 void CMovingBitmap::LoadBitmap(char *filename, COLORREF color)
@@ -430,6 +430,7 @@ void CMovingBitmap::LoadBitmap(char *filename, COLORREF color)
 	location.bottom = ny+bitmapSize.bmHeight;
 	SurfaceID = CDDraw::RegisterBitmap(filename, color);
 	isBitmapLoaded = true;
+	SetValid(true);
 }
 
 void CMovingBitmap::SetTopLeft(int x, int y)
