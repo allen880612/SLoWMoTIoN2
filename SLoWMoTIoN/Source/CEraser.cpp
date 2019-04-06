@@ -288,6 +288,14 @@ namespace game_framework {
 		animation.SetTopLeft(x, y);
 
 		animation.OnMove(dir);
+		
+		#pragma region -- Reset collision rect --
+		collisionRect.left = x - move_distance;
+		collisionRect.right = x + width + move_distance;
+		collisionRect.top = y - move_distance;
+		collisionRect.left = y + height + move_distance;
+		#pragma endregion
+
 		for (unsigned int i = 0; i < scallion.size(); i++)
 		{
 			scallion[i]->OnMove();
@@ -383,6 +391,8 @@ namespace game_framework {
 		AUDIO_JUMP = _AUDIO_JUMP;
 
 		SetValid(true);
+
+		collisionRect = CRect(CPoint(x - move_distance, y - move_distance), CPoint(x + Width() + move_distance, y + Height() + move_distance));
 
 		if (animation.IsNull())
 		{

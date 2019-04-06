@@ -54,6 +54,7 @@ namespace game_framework {
 		bool isMovingRight;			// 是否正在往右移動
 		bool isMovingUp;			// 是否正在往上移動
 		bool canMoving;				// 是否可以移動
+		CRect collisionRect;
 
 	private:
 		int move_distance = MOVE_DISTANCE;

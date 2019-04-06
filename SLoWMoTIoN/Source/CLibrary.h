@@ -6,6 +6,19 @@ namespace myLibrary
 	void DeleteCharPoint(vector<char*>&);
 	int GetPostive(int);
 	int GetRandom(int, int); //±o®ÏRandomº∆¶r°Amin <= k <= max
+
+	class BitmapPath
+	{
+	public:
+		BitmapPath() {};
+		BitmapPath(string _fold, string _name, int _number){
+			ziliaojia = _fold; name = _name; number = _number;
+		};
+		~BitmapPath() {};
+		string ziliaojia;
+		string name;
+		int number;
+	};
 }
 namespace game_framework
 {

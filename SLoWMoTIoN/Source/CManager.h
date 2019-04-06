@@ -2,7 +2,7 @@
 #include "CBlockMap.h"
 #include "Refactor.h"
 #include "CEraser.h"
-
+#include "CBoss.h"
 #include "CLibrary.h"
 //CManager: 地圖管理者 and 圖層管理者 and Timer，供mygame使用
 namespace game_framework
@@ -144,6 +144,18 @@ namespace game_framework
 		bool IsTxtLoaded = false;
 		bool IsDialoging = false;
 		string mode = "";
+	};
+	#pragma endregion
+
+	#pragma region - BossManager -
+	class CBossManager
+	{
+	public:
+		CBossManager();
+		~CBossManager();
+		void Initialize();
+	private:
+		map<string, CBoss> bossInformation;
 	};
 	#pragma endregion
 }

@@ -21,4 +21,12 @@
 
 #define MARGIN_DIALOG_AVATAR 16
 
+#pragma region - diolog -
 #define RoleVSBoss "roleVsBoss"
+#pragma endregion
+
+
+
+#pragma region - boss name -
+#define BOSS_XINGTING "xingting"
+#pragma endregion

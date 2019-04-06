@@ -507,4 +507,22 @@ namespace game_framework
 
 	}
 	#pragma endregion
+
+	#pragma region - BossManager -
+	CBossManager::CBossManager()
+	{
+	}
+
+	CBossManager::~CBossManager()
+	{
+	}
+
+	void CBossManager::Initialize()
+	{
+		#pragma region -- Create Boss --
+		bossInformation[BOSS_XINGTING] = CBoss(0, 0, 8787, BitmapPath("Role", "IDB_ROLE", 13), RGB(255, 255, 255));
+		#pragma endregion
+	}
+	#pragma endregion
+	
 }
