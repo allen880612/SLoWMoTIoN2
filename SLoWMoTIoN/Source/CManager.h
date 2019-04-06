@@ -53,6 +53,7 @@ namespace game_framework
 		void OnMove();
 		void SetXY(int, int);
 
+		bool IsMapEnd();
 
 		void ChangeMap(int, string);
 		void LoadMapBitmap();

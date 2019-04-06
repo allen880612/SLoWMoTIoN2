@@ -349,6 +349,16 @@ namespace game_framework {
 		}
 	}
 
+	bool CRole::GetDrop()
+	{
+		return velocity <= 0;
+	}
+
+	int CRole::GetVelocity()
+	{
+		return velocity;
+	}
+
 	void CRole::AddScore(int _score)
 	{
 		score += _score;

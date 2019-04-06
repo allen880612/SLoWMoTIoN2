@@ -149,7 +149,7 @@ namespace game_framework
 		background.SetTopLeft(x, 0);
 
 		passerbyManager.Clear();
-		//passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
+		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
 	}
 
 	void CMapManager::SetMovingLeft(bool _flag)
@@ -189,6 +189,11 @@ namespace game_framework
 		if (x >= 0)
 			x = 0;
 		background.SetTopLeft(x, _y);
+	}
+
+	bool CMapManager::IsMapEnd()
+	{
+		return x >= 0 || x <= -((background.Width()) - 640);
 	}
 
 	void CMapManager::OnShow() //顯示對應到的blockMap圖片 (nowMap = 1, 顯示blockMap[1]的background, 類推)

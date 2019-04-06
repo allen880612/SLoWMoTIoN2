@@ -285,6 +285,11 @@ namespace game_framework {
 		// ²¾°ÊÀ¿¤l
 		//
 
+
+
+
+
+
 		#pragma region - Moving -
 		int screenPosX = ScreenX(mapManager.GetX1(), role.GetX3());
 		#pragma region -- Moving Right --
@@ -379,7 +384,7 @@ namespace game_framework {
 		#pragma region - Jump -
 		if (role.GetMovingJump())
 		{
-			if (role.GetY2() > SIZE_Y)
+			if (role.GetY2() - role.GetVelocity() >= SIZE_Y && role.GetDrop())
 			{
 				role.SetMovingJump(false);
 				role.SetCanJumping(true);
