@@ -30,3 +30,7 @@
 #pragma region - boss name -
 #define BOSS_XINGTING "xingting"
 #pragma endregion
+
+#pragma region - Layer -
+#define BOSS_LAYER 5
+#pragma endregion

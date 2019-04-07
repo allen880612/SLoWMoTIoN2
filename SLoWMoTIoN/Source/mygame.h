@@ -115,8 +115,7 @@ namespace game_framework {
 		vector<CScallion*>*	scallions;
 		vector<CNPC*>*		passerbys;
 		CMapManager			mapManager;
-		CBossManager        bossManager; //偏向儲存boss的資訊拉
-		CBoss               *targetBoss; //boss的指標標標標
+		CBossManager        bossManager;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

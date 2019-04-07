@@ -86,6 +86,7 @@ namespace game_framework {
 								//
 								// 開始載入資料
 								//
+
 		logo.LoadBitmap(".\\RES\\Menu.bmp");
 		
 		
@@ -190,6 +191,7 @@ namespace game_framework {
 		CLayerManager::Instance()->Initialize();
 		CDialogManager::Instance()->Initialize();
 		mapManager.Initialize();
+		bossManager.Initialize();
 		role.Initialize(AUDIO_THROW, AUDIO_JUMP);
 
 		background.SetTopLeft(BACKGROUND_X, 0);				// 設定背景的起始座標
@@ -343,6 +345,7 @@ namespace game_framework {
 			{
 				role.SetXY(0 - (role.GetX2() - role.GetX1()), role.GetY1());
 				mapManager.ChangeMap(mapManager.GetRightMap(), "right");
+				bossManager.TargetBoss(mapManager.GetNowMap());
 			}
 			#pragma endregion
 		}
@@ -363,6 +366,7 @@ namespace game_framework {
 			{
 				role.SetXY(SIZE_X + (role.GetX2() - role.GetX1()), role.GetY1());
 				mapManager.ChangeMap(mapManager.GetLeftMap(), "left");
+				bossManager.TargetBoss(mapManager.GetNowMap());
 			}
 			#pragma endregion
 		}

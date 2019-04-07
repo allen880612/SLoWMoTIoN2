@@ -108,3 +108,10 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
 2019/4/6
 1. the first step of Dialog, can do more and more (key "Q" and click mouse left) (It is ordinary that no text show now)
 2. MOVE_DISTANCE 15 can't solve problem, Fuck
+
+==============================================================
+2019/4/8
+ 1. add class - CBoss and CBossManager, mygame.h add bossManager
+!2. CLibrary add class - BitmapPath, now we can let path(string ziliaojia, string name, int number) be a BitmapPath
+    (the advantage is we can reduce constructor parameter)
+ 3. I forgot what I did other thing

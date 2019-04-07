@@ -154,6 +154,10 @@ namespace game_framework
 		CBossManager();
 		~CBossManager();
 		void Initialize();
+		void Clear();
+		void TargetBoss(int);
+
+		CBoss *targetBoss;
 	private:
 		map<string, CBoss> bossInformation;
 	};

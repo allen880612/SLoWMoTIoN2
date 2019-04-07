@@ -17,33 +17,50 @@ namespace game_framework
 {
 	CBoss::CBoss()
 	{
-		SetXY(0, 0);
-		hp = 0;
+		initHp = 0;
+		initx = 0;
+		inity = 0;
 	}
 
-	CBoss::CBoss(int _x, int _y, int _hp, BitmapPath loadPath, COLORREF color)
+	CBoss::CBoss(int _x, int _y, int _hp, BitmapPath _loadPath, COLORREF color)
 	{
-		SetXY(_x, _y);
-		hp = _hp;
-		LoadBitmap(loadPath, color);
+		initx = _x;
+		inity = _y;
+		initHp = _hp;
+		loadPath = _loadPath;
+		transparentColor = color;
 	}
 
 	CBoss::~CBoss()
 	{
 	}
 
-	void CBoss::LoadBitmap(BitmapPath loadPath, COLORREF color)
+	void CBoss::LoadBitmap()
 	{
 		for (int i = 0; i < loadPath.number; i++)
 		{
 			char* address = ConvertCharPointToString(loadPath.ziliaojia, loadPath.name, i);
-			animation.AddBitmap(address, color);
+			animation.AddBitmap(address, transparentColor);
 			delete address;
 		}
 
 		animation.SetTopLeft(x, y);
 		height = animation.Height();
 		width = animation.Width();
+	}
+
+	void CBoss::Initialize()
+	{
+		#pragma region - 僅一次的載入圖片 -
+		if (animation.IsNull())
+		{
+			LoadBitmap();
+		}
+		#pragma endregion
+
+		SetXY(initx, inity);
+		hp = initHp;
+		layer.SetLayer(BOSS_LAYER);
 	}
 
 	void CBoss::SetXY(int _x, int _y)
@@ -55,5 +72,13 @@ namespace game_framework
 	void CBoss::SetHp(int _hp)
 	{
 		hp = _hp;
+	}
+	void CBoss::SetIsAlive(bool flag)
+	{
+		IsAlive = flag;
+	}
+	CAnimate * CBoss::GetAnimate()
+	{
+		return &animation;
 	}
 }

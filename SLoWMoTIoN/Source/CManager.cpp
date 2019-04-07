@@ -511,17 +511,38 @@ namespace game_framework
 	#pragma region - BossManager -
 	CBossManager::CBossManager()
 	{
+		#pragma region -- Create Boss --
+		bossInformation[BOSS_XINGTING] = CBoss(450, 250, 8787, BitmapPath("Role", "IDB_ROLE", 13), RGB(255, 255, 255));
+		#pragma endregion
+		targetBoss = NULL;
 	}
 
 	CBossManager::~CBossManager()
 	{
 	}
 
-	void CBossManager::Initialize()
+	void CBossManager::Initialize() //CGameRun::OnBeginState®É initialize
 	{
-		#pragma region -- Create Boss --
-		bossInformation[BOSS_XINGTING] = CBoss(0, 0, 8787, BitmapPath("Role", "IDB_ROLE", 13), RGB(255, 255, 255));
-		#pragma endregion
+		for (map<string, CBoss>::iterator bossiter = bossInformation.begin(); bossiter != bossInformation.end(); bossiter++)
+		{
+			bossiter->second.Initialize(); //ªì©l¤Æboss
+		}
+		targetBoss = NULL;
+	}
+
+	void CBossManager::Clear()
+	{
+		bossInformation.clear();
+		targetBoss = NULL;
+	}
+
+	void CBossManager::TargetBoss(int nowMap)
+	{
+		if (nowMap == 3)
+		{
+			targetBoss = &bossInformation[BOSS_XINGTING];
+			CLayerManager::Instance()->AddObject(targetBoss->GetAnimate(), targetBoss->layer.GetLayer());
+		}
 	}
 	#pragma endregion
 	
