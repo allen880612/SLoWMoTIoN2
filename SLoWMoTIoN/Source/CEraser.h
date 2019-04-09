@@ -1,4 +1,5 @@
 #pragma once
+#include "CBoss.h"
 #include "CLibrary.h"
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -54,7 +55,7 @@ namespace game_framework {
 		bool isMovingRight;			// 是否正在往右移動
 		bool isMovingUp;			// 是否正在往上移動
 		bool canMoving;				// 是否可以移動
-		CRect collisionRect;
+		
 
 	private:
 		int move_distance = MOVE_DISTANCE;
@@ -81,9 +82,11 @@ namespace game_framework {
 		bool GetIsFire();
 		void SetIsFire(bool);
 		void Fire(int, int);			//傳入滑鼠座標
-
+		
 		bool GetDrop();
 		int GetVelocity();
+
+		bool IsCollisionBoss(CBoss*);
 
 		vector<CScallion*>* GetScallion();
 		
@@ -100,6 +103,8 @@ namespace game_framework {
 		int mouse_x, mouse_y;
 		int move_distance = MOVE_DISTANCE; //每次移動的距離
 		CTimer shoot_cd;
+
+		CRect collisionRect;
 	private:
 		unsigned AUDIO_THROW;
 		unsigned AUDIO_JUMP;

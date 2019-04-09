@@ -294,22 +294,24 @@ namespace game_framework {
 
 		#pragma region - Moving -
 		int screenPosX = ScreenX(mapManager.GetX1(), role.GetX3());
+		bool isCollisionBlock = role.IsCollisionBoss(bossManager.targetBoss);
+		//temp
 		#pragma region -- Moving Right --
 
 		if (role.GetMovingRight())
 		{
 			if (screenPosX >= mapManager.GetSplitLeft() && screenPosX < mapManager.GetSplitRight())
 			{
-				mapManager.SetMovingLeft(false);
-				mapManager.SetMovingRight(true);
+				mapManager.SetMovingLeft(false & !isCollisionBlock);
+				mapManager.SetMovingRight(true & !isCollisionBlock);
 				mapManager.OnMove();
-				role.SetCanMoving(false);
+				role.SetCanMoving(false & !isCollisionBlock);
 			}
 			else
 			{
-				mapManager.SetMovingLeft(false);
-				mapManager.SetMovingRight(false);
-				role.SetCanMoving(true);
+				mapManager.SetMovingLeft(false & !isCollisionBlock);
+				mapManager.SetMovingRight(false & !isCollisionBlock);
+				role.SetCanMoving(true & !isCollisionBlock);
 			}
 		}
 
@@ -319,16 +321,16 @@ namespace game_framework {
 
 			if (screenPosX > mapManager.GetSplitLeft() && screenPosX <= mapManager.GetSplitRight())
 			{
-				mapManager.SetMovingLeft(true);
-				mapManager.SetMovingRight(false);
+				mapManager.SetMovingLeft(true & !isCollisionBlock);
+				mapManager.SetMovingRight(false & !isCollisionBlock);
 				mapManager.OnMove();
-				role.SetCanMoving(false);
+				role.SetCanMoving(false & !isCollisionBlock);
 			}
 			else
 			{
-				mapManager.SetMovingLeft(false);
-				mapManager.SetMovingRight(false);
-				role.SetCanMoving(true);
+				mapManager.SetMovingLeft(false & !isCollisionBlock);
+				mapManager.SetMovingRight(false & !isCollisionBlock);
+				role.SetCanMoving(true & !isCollisionBlock);
 			}
 		}
 		#pragma endregion

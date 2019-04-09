@@ -1,5 +1,6 @@
 #pragma once
 #include "CLibrary.h"
+#include "Refactor.h"
 using namespace myLibrary;
 namespace game_framework
 {
@@ -16,10 +17,11 @@ namespace game_framework
 		void SetXY(int, int);
 		void SetHp(int);
 		void SetIsAlive(bool);
-
+		
 		CLayer layer;
 		
 		CAnimate* GetAnimate();
+
 	protected:
 		#pragma region Init Information
 		int initx, inity, initHp;

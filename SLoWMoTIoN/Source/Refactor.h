@@ -25,6 +25,9 @@
 #define RoleVSBoss "roleVsBoss"
 #pragma endregion
 
+#pragma region - boss -
+#define BOSS_DEPRATMENT "boss"
+#pragma endregion
 
 
 #pragma region - boss name -
@@ -33,4 +36,8 @@
 
 #pragma region - Layer -
 #define BOSS_LAYER 5
+#pragma endregion
+
+#pragma region - block -
+#define BLOCK_DEPRATMENT "block"
 #pragma endregion

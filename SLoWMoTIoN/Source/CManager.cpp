@@ -526,6 +526,8 @@ namespace game_framework
 		for (map<string, CBoss>::iterator bossiter = bossInformation.begin(); bossiter != bossInformation.end(); bossiter++)
 		{
 			bossiter->second.Initialize(); //初始化boss
+			bossiter->second.GetAnimate()->SetValid(false); //將所有圖片先設為false
+			CLayerManager::Instance()->AddObject(bossiter->second.GetAnimate(), bossiter->second.layer.GetLayer());
 		}
 		targetBoss = NULL;
 	}
@@ -541,7 +543,12 @@ namespace game_framework
 		if (nowMap == 3)
 		{
 			targetBoss = &bossInformation[BOSS_XINGTING];
-			CLayerManager::Instance()->AddObject(targetBoss->GetAnimate(), targetBoss->layer.GetLayer());
+			targetBoss->GetAnimate()->SetValid(true);
+		}
+		else
+		{
+			targetBoss->GetAnimate()->SetValid(false);
+			targetBoss = NULL;
 		}
 	}
 	#pragma endregion

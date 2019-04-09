@@ -375,4 +375,16 @@ namespace game_framework
 	#pragma endregion
 
 	#pragma endregion
+
+	#pragma region - Dialog -
+	CDialog::CDialog()
+	{
+	}
+
+	CDialog::~CDialog()
+	{
+	}
+	#pragma endregion
+
+
 }

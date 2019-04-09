@@ -8,6 +8,7 @@
 #include "CEraser.h"
 #include "CBall.h"
 #include <sstream>
+#include "CBoss.h"
 #include "CManager.h"
 #include "CLibrary.h"
 
@@ -365,6 +366,11 @@ namespace game_framework {
 	int CRole::GetVelocity()
 	{
 		return velocity;
+	}
+
+	bool CRole::IsCollisionBoss(CBoss *boss)
+	{
+		return IsRectCollision(collisionRect, boss->GetAnimate()->GetRect());
 	}
 
 	void CRole::AddScore(int _score)

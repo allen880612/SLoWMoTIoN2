@@ -105,5 +105,20 @@ namespace game_framework
 	};
 	#pragma endregion
 
+	#pragma region - Dialog -
+	//I don't know what time use this?
+	class CDialog
+	{
+	public:
+		CDialog();
+		~CDialog();
+		//void SetTxt();
+		//vector<string> GetTxt();
+	private:
+		vector<string> txt;
+		bool IsTrig;
+		bool canReTrig;
+	};
+	#pragma endregion
 
 }
