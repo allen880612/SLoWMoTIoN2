@@ -255,6 +255,15 @@ namespace game_framework {
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
 	{
+		SetCursor(AfxGetApp()->LoadCursor(IDC_CURSOR));
+		#pragma region - pause game state in dialoging -
+		if (CDialogManager::Instance()->GetDialogState())
+		{
+			return;
+		}
+		#pragma endregion
+
+		
 		#pragma region - timer count down -
 		timer.CountDown();
 		if (timer.IsTimeOut())
@@ -270,7 +279,7 @@ namespace game_framework {
 		//
 		// 如果希望修改cursor的樣式，則將下面程式的commment取消即可
 		//
-		SetCursor(AfxGetApp()->LoadCursor(IDC_CURSOR));
+		
 		//
 		// 移動背景圖的座標
 		//
@@ -290,6 +299,9 @@ namespace game_framework {
 
 
 
+		#pragma region - Position Trigger -
+		PositionTrigger();
+		#pragma endregion
 
 
 		#pragma region - Moving -
@@ -545,11 +557,15 @@ namespace game_framework {
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
+		role.SetIsFire(true & !CDialogManager::Instance()->GetDialogState());
 		if (CDialogManager::Instance()->GetDialogState())
 		{
 			CDialogManager::Instance()->Next();
 		}
-		role.SetIsFire(true & !CDialogManager::Instance()->GetDialogState());
+		else
+		{
+			
+		}
 	}
 
 	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -571,6 +587,21 @@ namespace game_framework {
 	void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
 
+	}
+
+	void CGameStateRun::PositionTrigger()
+	{
+		#pragma region - local variable -
+		int nowMap = mapManager.GetNowMap();
+		int rolePosition = ScreenX(mapManager.GetX1(), role.GetX3());
+		#pragma endregion
+		if (nowMap == 3)
+		{
+			if (rolePosition >= 100)
+			{
+				CDialogManager::Instance()->Start(RoleVSBoss);
+			}
+		}
 	}
 
 	void CGameStateRun::OnShow()

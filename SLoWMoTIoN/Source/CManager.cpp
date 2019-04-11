@@ -422,7 +422,7 @@ namespace game_framework
 	void CDialogManager::LoadDialog()
 	{
 		dialogmap.clear();
-		dialogmap[RoleVSBoss] = CDialog(RoleVSBoss, true);
+		dialogmap[RoleVSBoss] = CDialog(RoleVSBoss, false);
 	}
 
 	void CDialogManager::Initialize()

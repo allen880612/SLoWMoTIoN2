@@ -115,3 +115,13 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
 !2. CLibrary add class - BitmapPath, now we can let path(string ziliaojia, string name, int number) be a BitmapPath
     (the advantage is we can reduce constructor parameter)
  3. I forgot what I did other thing
+
+==============================================================
+2019/4/12
+1. add function - CGameStateRun - PositionTrigger (this function is used at "OnMove")
+   (do something if role at "eigen position") (nothing, "eigen position means special position")
+   (if anyone has greater idea, we can replace this function)
+
+2. con-j 1, now, we can look the dialog when role at map-Index-3, and x position rather than 100
+   (of course, no text)
+3. the red point at map-Index-3 is boss, it doesn't have any function now.
