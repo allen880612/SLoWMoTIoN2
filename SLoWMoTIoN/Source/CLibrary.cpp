@@ -381,8 +381,27 @@ namespace game_framework
 	{
 	}
 
+	CDialog::CDialog(string _txt, bool _CanReTrigger)
+	{
+		mode = _txt;
+		IsTriggered = false;
+		CanReTrigger = _CanReTrigger;
+	}
+
 	CDialog::~CDialog()
 	{
+	}
+	bool CDialog::GetTriggered()
+	{
+		return IsTriggered;
+	}
+	void CDialog::SetTriggered()
+	{
+		IsTriggered = !CanReTrigger;
+	}
+	string CDialog::GetMode()
+	{
+		return mode;
 	}
 	#pragma endregion
 

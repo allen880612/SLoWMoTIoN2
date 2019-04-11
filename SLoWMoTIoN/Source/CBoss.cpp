@@ -77,6 +77,15 @@ namespace game_framework
 	{
 		IsAlive = flag;
 	}
+	void CBoss::MoveWithMap(string dir)
+	{
+		if (dir == "left")
+			x += MOVE_DISTANCE;
+		if (dir == "right")
+			x -= MOVE_DISTANCE;
+
+		SetXY(x, y);
+	}
 	CAnimate * CBoss::GetAnimate()
 	{
 		return &animation;

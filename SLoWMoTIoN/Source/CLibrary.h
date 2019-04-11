@@ -111,13 +111,19 @@ namespace game_framework
 	{
 	public:
 		CDialog();
+		CDialog(string, bool);
 		~CDialog();
+		bool GetTriggered();
+		void SetTriggered();
 		//void SetTxt();
 		//vector<string> GetTxt();
+
+		string GetMode();
 	private:
+		string mode;
 		vector<string> txt;
-		bool IsTrig;
-		bool canReTrig;
+		bool IsTriggered;
+		bool CanReTrigger;
 	};
 	#pragma endregion
 

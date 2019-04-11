@@ -294,7 +294,11 @@ namespace game_framework {
 
 		#pragma region - Moving -
 		int screenPosX = ScreenX(mapManager.GetX1(), role.GetX3());
-		bool isCollisionBlock = role.IsCollisionBoss(bossManager.targetBoss);
+		/*bool isCollisionBlock = false;
+		if (bossManager.targetBoss != NULL)
+		{
+			isCollisionBlock = role.IsCollisionBoss(bossManager.targetBoss);
+		}*/
 		//temp
 		#pragma region -- Moving Right --
 
@@ -302,16 +306,20 @@ namespace game_framework {
 		{
 			if (screenPosX >= mapManager.GetSplitLeft() && screenPosX < mapManager.GetSplitRight())
 			{
-				mapManager.SetMovingLeft(false & !isCollisionBlock);
-				mapManager.SetMovingRight(true & !isCollisionBlock);
+				mapManager.SetMovingLeft(false);
+				mapManager.SetMovingRight(true);
 				mapManager.OnMove();
-				role.SetCanMoving(false & !isCollisionBlock);
+				role.SetCanMoving(false);
+				if (bossManager.targetBoss != NULL)
+				{
+					bossManager.targetBoss->MoveWithMap("right");
+				}
 			}
 			else
 			{
-				mapManager.SetMovingLeft(false & !isCollisionBlock);
-				mapManager.SetMovingRight(false & !isCollisionBlock);
-				role.SetCanMoving(true & !isCollisionBlock);
+				mapManager.SetMovingLeft(false);
+				mapManager.SetMovingRight(false);
+				role.SetCanMoving(true);
 			}
 		}
 
@@ -321,16 +329,20 @@ namespace game_framework {
 
 			if (screenPosX > mapManager.GetSplitLeft() && screenPosX <= mapManager.GetSplitRight())
 			{
-				mapManager.SetMovingLeft(true & !isCollisionBlock);
-				mapManager.SetMovingRight(false & !isCollisionBlock);
+				mapManager.SetMovingLeft(true);
+				mapManager.SetMovingRight(false);
 				mapManager.OnMove();
-				role.SetCanMoving(false & !isCollisionBlock);
+				role.SetCanMoving(false);
+				if (bossManager.targetBoss != NULL)
+				{
+					bossManager.targetBoss->MoveWithMap("left");
+				}
 			}
 			else
 			{
-				mapManager.SetMovingLeft(false & !isCollisionBlock);
-				mapManager.SetMovingRight(false & !isCollisionBlock);
-				role.SetCanMoving(true & !isCollisionBlock);
+				mapManager.SetMovingLeft(false);
+				mapManager.SetMovingRight(false);
+				role.SetCanMoving(true);
 			}
 		}
 		#pragma endregion

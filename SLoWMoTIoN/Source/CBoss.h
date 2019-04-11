@@ -18,6 +18,7 @@ namespace game_framework
 		void SetHp(int);
 		void SetIsAlive(bool);
 		
+		void MoveWithMap(string);
 		CLayer layer;
 		
 		CAnimate* GetAnimate();

@@ -373,7 +373,7 @@ namespace game_framework
 		IsBitmapLoaded = false;
 		IsTxtLoaded = false;
 		IsDialoging = false;
-		mode = "";
+		nowDialog = NULL;
 		txt.clear();
 	}
 
@@ -419,6 +419,12 @@ namespace game_framework
 		txt[RoleVSBoss].push_back("Chhh~~");
 	}
 
+	void CDialogManager::LoadDialog()
+	{
+		dialogmap.clear();
+		dialogmap[RoleVSBoss] = CDialog(RoleVSBoss, true);
+	}
+
 	void CDialogManager::Initialize()
 	{
 		if (IsBitmapLoaded == false)
@@ -429,6 +435,10 @@ namespace game_framework
 		{
 			LoadText();
 		}
+		#pragma region - reload - dialog -
+		LoadDialog();
+		#pragma endregion
+
 		avatar_null.SetValid(false);
 		dialog_background.SetValid(false);
 		avatar = avatar_null;
@@ -453,11 +463,16 @@ namespace game_framework
 		return &dialogManager;
 	}
 
-	void CDialogManager::Start(string _mode)
+	void CDialogManager::Start(string mode)
 	{
+		nowDialog = &dialogmap[mode];
+		if (nowDialog->GetTriggered()) //被觸發過 回去
+		{
+			nowDialog = NULL;
+			return;
+		}
 		IsDialoging = true;
 		dialog_background.SetValid(true);
-		mode = _mode;
 		Dialog();
 	}
 
@@ -475,6 +490,8 @@ namespace game_framework
 		avatar = avatar_null;
 		dialog_background.SetValid(false);
 		IsDialoging = false;
+		nowDialog->SetTriggered();
+		nowDialog = NULL;
 	}
 
 	bool CDialogManager::GetDialogState()
@@ -484,7 +501,7 @@ namespace game_framework
 
 	void CDialogManager::Dialog()
 	{
-		if (mode == RoleVSBoss)
+		if (nowDialog->GetMode() == RoleVSBoss)
 		{
 			if (step == 0)
 			{
