@@ -57,7 +57,7 @@ namespace game_framework
 			LoadBitmap();
 		}
 		#pragma endregion
-
+		inity = SIZE_Y - animation.Height();
 		SetXY(initx, inity);
 		hp = initHp;
 		layer.SetLayer(BOSS_LAYER);
