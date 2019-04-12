@@ -122,6 +122,7 @@ namespace game_framework
 		void Start(string);
 		void Next();
 		void Stop();
+		void ShowText();
 		bool GetDialogState();
 	private:
 		void Dialog();
@@ -140,6 +141,7 @@ namespace game_framework
 		static CDialogManager dialogManager;
 		
 		int step;
+		string showtext;
 		bool IsBitmapLoaded = false;
 		bool IsTxtLoaded = false;
 		bool IsDialoging = false;

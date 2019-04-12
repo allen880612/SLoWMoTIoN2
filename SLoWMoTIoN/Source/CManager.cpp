@@ -374,6 +374,7 @@ namespace game_framework
 		IsTxtLoaded = false;
 		IsDialoging = false;
 		nowDialog = NULL;
+		showtext = "";
 		txt.clear();
 	}
 
@@ -494,6 +495,18 @@ namespace game_framework
 		nowDialog = NULL;
 	}
 
+	void CDialogManager::ShowText()
+	{
+		if (showtext != "")
+		{
+			char* showpointer;
+			showpointer = new char[showtext.length() + 1];
+			strcpy(showpointer, showtext.c_str());
+			PaintText(showpointer, avatar.Left() + avatar.Width() + MARGIN_DIALOG_TEXT, avatar.Top() + MARGIN_DIALOG_TEXT, "·L³n¥¿¶ÂÅé", 20, RGB(0, 0, 0), RGB(232, 232, 232));
+			delete showpointer;
+		}
+	}
+
 	bool CDialogManager::GetDialogState()
 	{
 		return IsDialoging;
@@ -506,19 +519,22 @@ namespace game_framework
 			if (step == 0)
 			{
 				avatar = avatar_xingting;
-
+				showtext = "Ahhh~~~";
 			}
 			else if (step == 1)
 			{
 				avatar = avatar_role;
+				showtext = "Bhhh~~~";
 			}
 			else if (step == 2)
 			{
 				avatar = avatar_xingting;
+				showtext = "Chhh~~~";
 			}
 			else
 			{
 				step = 0;
+				showtext = "";
 				Stop();
 			}
 		}

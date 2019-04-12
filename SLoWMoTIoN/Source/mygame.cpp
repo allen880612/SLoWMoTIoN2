@@ -642,6 +642,7 @@ namespace game_framework {
 		PaintText(roleScore, 500, 0, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 		#pragma endregion
 
+		CDialogManager::Instance()->ShowText();
 		//time_left.ShowBitmap();			// 原本的碰撞剩餘次數
 
 	}

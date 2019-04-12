@@ -20,7 +20,13 @@
 
 #define GAME_TIME 50
 
+#pragma region - diolog - margin -
 #define MARGIN_DIALOG_AVATAR 16
+// 16 + avatar.width()
+#define MARGIN_DIALOG_TEXT 16	
+#pragma endregion
+
+
 
 #pragma region - diolog -
 #define RoleVSBoss "roleVsBoss"
