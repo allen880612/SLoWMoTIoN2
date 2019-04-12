@@ -506,6 +506,7 @@ namespace game_framework
 			if (step == 0)
 			{
 				avatar = avatar_xingting;
+
 			}
 			else if (step == 1)
 			{
@@ -564,8 +565,11 @@ namespace game_framework
 		}
 		else
 		{
-			targetBoss->GetAnimate()->SetValid(false);
-			targetBoss = NULL;
+			if (targetBoss != NULL)
+			{
+				targetBoss->GetAnimate()->SetValid(false);
+				targetBoss = NULL;
+			}
 		}
 	}
 	#pragma endregion
