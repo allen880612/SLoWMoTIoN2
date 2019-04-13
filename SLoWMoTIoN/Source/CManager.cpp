@@ -428,7 +428,7 @@ namespace game_framework
 	void CDialogManager::LoadDialog()
 	{
 		dialogmap.clear();
-		dialogmap[RoleVSBoss] = CDialog(RoleVSBoss, false);
+		dialogmap[RoleVSBoss] = CDialog("Txt\\RoleVsBoss.txt", RoleVSBoss, false);
 	}
 
 	void CDialogManager::Initialize()
@@ -504,11 +504,49 @@ namespace game_framework
 	{
 		if (showtext != "")
 		{
-			char* showpointer;
-			showpointer = new char[showtext.length() + 1];
-			strcpy(showpointer, showtext.c_str());
-			PaintText(showpointer, avatar.Left() + avatar.Width() + MARGIN_DIALOG_TEXT, avatar.Top() + MARGIN_DIALOG_TEXT, "微軟正黑體", 20, RGB(0, 0, 0), RGB(232, 232, 232));
-			delete showpointer;
+			#pragma region - split showtext -
+			vector<char*> split_showtext;
+			int charindex = 0;
+			int vectorindex = 0;
+			char tempk[DIALOG_MAX_TEXT + 5];
+			memset(tempk, '\0', sizeof(tempk));
+			
+			for (unsigned int i = 0; i < showtext.size(); i++)
+			{
+				if (charindex < DIALOG_MAX_TEXT)
+				{
+					tempk[charindex++] = showtext[i];
+				}
+				if (charindex >= DIALOG_MAX_TEXT)
+				{
+					char *tteemmppkkk = new char[DIALOG_MAX_TEXT + 5];
+					strcpy(tteemmppkkk, tempk);
+					split_showtext.push_back(tteemmppkkk);
+
+					charindex = 0;
+					memset(tempk, '\0', sizeof(tempk));
+				}
+			}
+			char *tteemmppkkk = new char[DIALOG_MAX_TEXT + 5];
+			strcpy(tteemmppkkk, tempk);
+			split_showtext.push_back(tteemmppkkk);
+			#pragma endregion
+
+			PaintText(split_showtext[0], 0 + 20, 100, "微軟正黑體", DIALOG_TEXT_SIZE, RGB(0, 0, 0), RGB(0, 255, 0));
+
+			#pragma region - draw text -
+			//char* showpointer;
+			//showpointer = new char[showtext.length() + 1];
+			//strcpy(showpointer, showtext.c_str());
+			////x = 160, endx = 480
+			//PaintText(showpointer, avatar.Left() + avatar.Width() + MARGIN_DIALOG_TEXT_X, avatar.Top() + MARGIN_DIALOG_TEXT_Y, "微軟正黑體", DIALOG_TEXT_SIZE, RGB(0, 0, 0), RGB(232, 232, 232));
+			//delete showpointer;
+			for (unsigned int i = 0; i < split_showtext.size(); i++)
+			{
+				PaintText(split_showtext[i], avatar.Left() + avatar.Width() + MARGIN_DIALOG_TEXT_X, avatar.Top() + MARGIN_DIALOG_TEXT_Y + i * 30, "微軟正黑體", DIALOG_TEXT_SIZE, RGB(0, 0, 0), RGB(232, 232, 232));
+				delete split_showtext[i];
+			}
+			#pragma endregion
 		}
 	}
 
@@ -524,7 +562,9 @@ namespace game_framework
 			if (step == 0)
 			{
 				avatar = avatar_xingting;
-				showtext = "Ahhh~~~";
+				//showtext = "我是吳杏婷, I'm a Fucking Teacher，AHHH~~~~FSDFD##@!!!";
+				//showtext = "我是吳杏婷我是吳杏婷我是吳杏婷我是吳杏婷";
+				//showtext = "WWWWWWWWWWWWWWWWWWWWWWWWWWWWW";
 			}
 			else if (step == 1)
 			{

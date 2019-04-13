@@ -13,6 +13,7 @@
 #include <string.h>
 #include "mygame.h"
 #include <time.h>
+#include <fstream>
 #include <sstream>
 
 namespace myLibrary
@@ -381,8 +382,9 @@ namespace game_framework
 	{
 	}
 
-	CDialog::CDialog(string _txt, bool _CanReTrigger)
+	CDialog::CDialog(string txtPath, string _txt, bool _CanReTrigger)
 	{
+		path = txtPath;
 		mode = _txt;
 		IsTriggered = false;
 		CanReTrigger = _CanReTrigger;
@@ -403,6 +405,27 @@ namespace game_framework
 	{
 		return mode;
 	}
+
+	void CDialog::LoadTxt()
+	{
+		fstream dialogTxt; //一個txt的文本資料
+		dialogTxt.open(path); //open txt
+		
+		int index = 0;
+		string dialogData; //文本資料的一行 (index = 偶數 > 儲存avatar, index = 奇數 > 儲存對話文字)
+		while (dialogTxt >> dialogData)
+		{
+			if (!(index & 1)) //even
+			{
+				avatar.push_back(dialogData);
+			}
+			else //odd
+			{
+				txt.push_back(dialogData);
+			}
+		}
+	}
+
 	#pragma endregion
 
 	#pragma region Camera

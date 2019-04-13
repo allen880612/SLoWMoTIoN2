@@ -57,7 +57,9 @@ namespace game_framework
 			LoadBitmap();
 		}
 		#pragma endregion
+
 		inity = SIZE_Y - animation.Height();
+		SetCurrentXY(initx, inity);
 		SetXY(initx, inity);
 		hp = initHp;
 		layer.SetLayer(BOSS_LAYER);
@@ -69,6 +71,11 @@ namespace game_framework
 		y = _y;
 		animation.SetTopLeft(x, y);
 	}
+	void CBoss::SetCurrentXY(int _x, int _y)
+	{
+		currentX = _x;
+		currentY = _y;
+	}
 	void CBoss::SetHp(int _hp)
 	{
 		hp = _hp;
@@ -79,6 +86,7 @@ namespace game_framework
 	}
 	void CBoss::MoveWithMap(string dir)
 	{
+
 		if (dir == "left")
 			x += MOVE_DISTANCE;
 		if (dir == "right")
@@ -90,7 +98,7 @@ namespace game_framework
 	void CBoss::OnMove()
 	{
 		int dx = CCamera::Instance()->GetX();
-		SetXY(initx - dx, y);
+		SetXY(currentX - dx, y);
 		animation.OnMove();
 	}
 

@@ -111,7 +111,7 @@ namespace game_framework
 	{
 	public:
 		CDialog();
-		CDialog(string, bool);
+		CDialog(string, string, bool);
 		~CDialog();
 		bool GetTriggered();
 		void SetTriggered();
@@ -119,9 +119,13 @@ namespace game_framework
 		//vector<string> GetTxt();
 
 		string GetMode();
+
+		void LoadTxt();
 	private:
+		string path;
 		string mode;
 		vector<string> txt;
+		vector<string> avatar;
 		bool IsTriggered;
 		bool CanReTrigger;
 	};

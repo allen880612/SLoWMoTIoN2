@@ -23,7 +23,14 @@
 #pragma region - diolog - margin -
 #define MARGIN_DIALOG_AVATAR 16
 // 16 + avatar.width()
-#define MARGIN_DIALOG_TEXT 16	
+#define MARGIN_DIALOG_TEXT_X 16	
+#define MARGIN_DIALOG_TEXT_Y 8
+#pragma endregion
+
+#pragma region - dialog - setting -
+#define DIALOG_TEXT_SIZE 16
+//MAX TEXT - ENGLISH SIZE (1 CHINESE SIZE = 2 ENGLISH SIZE)
+#define DIALOG_MAX_TEXT 30
 #pragma endregion
 
 

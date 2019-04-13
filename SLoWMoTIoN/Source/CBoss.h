@@ -15,6 +15,7 @@ namespace game_framework
 
 		void Initialize();
 		void SetXY(int, int);
+		void SetCurrentXY(int, int);
 		void SetHp(int);
 		void SetIsAlive(bool);
 		void OnMove();
@@ -34,6 +35,7 @@ namespace game_framework
 		CAnimate animation;
 		
 		int hp;
+		int currentX, currentY;
 		int x, y;
 		int width, height;
 		bool IsAlive = true;
