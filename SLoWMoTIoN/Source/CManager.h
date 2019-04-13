@@ -130,10 +130,12 @@ namespace game_framework
 		void Dialog();
 		map<string, vector<string> > txt;
 		map<string, CDialog> dialogmap;
+		map<string, CMovingBitmap> dialogAvatar;
+
 		CMovingBitmap dialog_background;
 
-		CMovingBitmap avatar_role;
-		CMovingBitmap avatar_xingting;
+		//CMovingBitmap avatar_role;
+		//CMovingBitmap avatar_xingting;
 		CMovingBitmap avatar_null; //隨便load一張圖，給予他valid = false屬性，對話結束的時候將avatar指向這傢伙，使LayerManager不顯示avatar
 
 		CLayer backgroundLayer;
@@ -145,14 +147,12 @@ namespace game_framework
 		int step;
 		string showtext;
 		bool IsBitmapLoaded = false;
-		bool IsTxtLoaded = false;
 		bool IsDialoging = false;
 		//string mode = "";
 		CDialog *nowDialog;
 
 
 		void Load_Image();
-		void LoadText();
 		void LoadDialog();
 	};
 	#pragma endregion

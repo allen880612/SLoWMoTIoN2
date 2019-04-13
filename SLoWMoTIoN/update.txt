@@ -134,3 +134,9 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
    Unfortunately, it has some problem. We can't use it with something can move, like passerby.
    but, thaks to camera, we fixed the problem which the Role size is limited to movedistance! 
 2. God of camera ==, now, passerby can move with map
+
+99. dialogManager - use .txt to load dialog
+    How to use
+    Step1: add a .txt file in "Txt" folder  (plz look the file "使用手冊.txt" in Txt folder)
+    Step2: Go to CDialogManager.cpp - LoadDialog, add dialogmap[(string)], the string must be defined in Refactor.h - dialog - mode
+    Step3: Set the Trigger when you want to trigger (use CDialogManager::Instance()->Start(mode), mode is a string(be defined at Refactor.h) that you add at Step2)

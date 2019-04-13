@@ -387,6 +387,8 @@ namespace game_framework
 		path = txtPath;
 		mode = _txt;
 		IsTriggered = false;
+		LoadTxt(); // load txt
+
 		CanReTrigger = _CanReTrigger;
 	}
 
@@ -400,6 +402,24 @@ namespace game_framework
 	void CDialog::SetTriggered()
 	{
 		IsTriggered = !CanReTrigger;
+	}
+	string CDialog::GetAvatar(unsigned int step)
+	{
+		if (step <= avatar.size())
+			return avatar[step];
+		else
+			return "RREF";
+	}
+	string CDialog::GetDialogTxt(unsigned int step)
+	{
+		if (step <= txt.size())
+			return txt[step];
+		else
+			return "RREF";
+	}
+	int CDialog::GetTxtSize()
+	{
+		return txt.size();
 	}
 	string CDialog::GetMode()
 	{
@@ -423,6 +443,7 @@ namespace game_framework
 			{
 				txt.push_back(dialogData);
 			}
+			index++;
 		}
 	}
 

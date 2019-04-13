@@ -1,0 +1,14 @@
+一行為一個對話
+格式為
+(name) (string)
+其中 name 為"說話的人" string為"說的話"
+注意，中間以空白分隔，並且name, string二者不能含有空白
+注意，name的名字務必確認有出現在 Refactor.h - dialog - avatar name 裡面，若沒有須自行加入
+(自行加入還需要自行加入avatar的圖片)
+
+How to add avatar
+Step1: 在Dialog資料夾中加入128*128的圖片作為avatar
+Step2: 在Refacor.h - dialog - avatar name 中加入avatar的名稱用的string
+Step3: 前往CDialogManager.cpp - Load_Image
+Step4: 在 - define avatar map - 中，將在Step2 新增的字串作為tag，新增CMovingBitmap給dialogAvatar
+Step5: 在 - load image - 中，針對在Step4 新增的dialogAvatar進行LoadBitmap

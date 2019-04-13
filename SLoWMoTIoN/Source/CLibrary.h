@@ -115,8 +115,11 @@ namespace game_framework
 		~CDialog();
 		bool GetTriggered();
 		void SetTriggered();
+
 		//void SetTxt();
-		//vector<string> GetTxt();
+		int GetTxtSize();
+		string GetAvatar(unsigned int);
+		string GetDialogTxt(unsigned int);
 
 		string GetMode();
 

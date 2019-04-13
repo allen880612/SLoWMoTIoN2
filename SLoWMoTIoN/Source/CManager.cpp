@@ -376,7 +376,6 @@ namespace game_framework
 	CDialogManager::CDialogManager()
 	{
 		IsBitmapLoaded = false;
-		IsTxtLoaded = false;
 		IsDialoging = false;
 		nowDialog = NULL;
 		showtext = "";
@@ -390,6 +389,13 @@ namespace game_framework
 
 	void CDialogManager::Load_Image()
 	{
+		#pragma region - define avatar map -
+		dialogAvatar[DIALOG_AVATAR_NAME_ROLE] = CMovingBitmap();
+		dialogAvatar[DIALOG_AVATAR_NAME_XINGTING] = CMovingBitmap();
+		#pragma endregion
+
+		#pragma region - load image -
+
 		char *address;
 		#pragma region - load dialog background -
 		address = ConvertCharPointToString("Dialog", "ground", 0);
@@ -399,13 +405,13 @@ namespace game_framework
 
 		#pragma region - load xingting - avatar -
 		address = ConvertCharPointToString("Dialog", "xingting", 0);
-		avatar_xingting.LoadBitmap(address);
+		dialogAvatar[DIALOG_AVATAR_NAME_XINGTING].LoadBitmap(address);
 		delete address;
 		#pragma endregion
 
 		#pragma region - load role avatar -
 		address = ConvertCharPointToString("Dialog", "mikuAvatar", 0);
-		avatar_role.LoadBitmap(address);
+		dialogAvatar[DIALOG_AVATAR_NAME_ROLE].LoadBitmap(address);
 		delete address;
 		#pragma endregion
 
@@ -415,14 +421,9 @@ namespace game_framework
 		delete address;
 		#pragma endregion
 
-		IsBitmapLoaded = true;
-	}
+		#pragma endregion
 
-	void CDialogManager::LoadText()
-	{
-		txt[RoleVSBoss].push_back("Ahhh~~");
-		txt[RoleVSBoss].push_back("Bhhh~~");
-		txt[RoleVSBoss].push_back("Chhh~~");
+		IsBitmapLoaded = true;
 	}
 
 	void CDialogManager::LoadDialog()
@@ -437,10 +438,6 @@ namespace game_framework
 		{
 			Load_Image();
 		}
-		if (IsTxtLoaded == false)
-		{
-			LoadText();
-		}
 		#pragma region - reload - dialog -
 		LoadDialog();
 		#pragma endregion
@@ -451,8 +448,10 @@ namespace game_framework
 
 		#pragma region - Init - Image Point -
 		dialog_background.SetTopLeft(0, SIZE_Y - dialog_background.Height()); //reset dbg's xy
-		avatar_role.SetTopLeft(dialog_background.Left() + MARGIN_DIALOG_AVATAR, dialog_background.Top() + MARGIN_DIALOG_AVATAR);
-		avatar_xingting.SetTopLeft(dialog_background.Left() + MARGIN_DIALOG_AVATAR, dialog_background.Top() + MARGIN_DIALOG_AVATAR);
+		for (map<string, CMovingBitmap>::iterator dbmp = dialogAvatar.begin(); dbmp != dialogAvatar.end(); dbmp++)
+		{
+			dbmp->second.SetTopLeft(dialog_background.Left() + MARGIN_DIALOG_AVATAR, dialog_background.Top() + MARGIN_DIALOG_AVATAR);
+		}
 		#pragma endregion
 
 		backgroundLayer.SetLayer(8);
@@ -532,7 +531,8 @@ namespace game_framework
 			split_showtext.push_back(tteemmppkkk);
 			#pragma endregion
 
-			PaintText(split_showtext[0], 0 + 20, 100, "微軟正黑體", DIALOG_TEXT_SIZE, RGB(0, 0, 0), RGB(0, 255, 0));
+			//下面那傢伙測試用的
+			//PaintText(split_showtext[0], 0 + 20, 100, "微軟正黑體", DIALOG_TEXT_SIZE, RGB(0, 0, 0), RGB(0, 255, 0));
 
 			#pragma region - draw text -
 			//char* showpointer;
@@ -557,32 +557,43 @@ namespace game_framework
 
 	void CDialogManager::Dialog()
 	{
-		if (nowDialog->GetMode() == RoleVSBoss)
+		if (step < nowDialog->GetTxtSize())
 		{
-			if (step == 0)
-			{
-				avatar = avatar_xingting;
-				//showtext = "我是吳杏婷, I'm a Fucking Teacher，AHHH~~~~FSDFD##@!!!";
-				//showtext = "我是吳杏婷我是吳杏婷我是吳杏婷我是吳杏婷";
-				//showtext = "WWWWWWWWWWWWWWWWWWWWWWWWWWWWW";
-			}
-			else if (step == 1)
-			{
-				avatar = avatar_role;
-				showtext = "Bhhh~~~";
-			}
-			else if (step == 2)
-			{
-				avatar = avatar_xingting;
-				showtext = "Chhh~~~";
-			}
-			else
-			{
-				step = 0;
-				showtext = "";
-				Stop();
-			}
+			avatar = dialogAvatar[nowDialog->GetAvatar(step)];
+			showtext = nowDialog->GetDialogTxt(step);
 		}
+		else
+		{
+			step = 0;
+			showtext = "";
+			Stop();
+		}
+		//if (nowDialog->GetMode() == RoleVSBoss) //先保留==
+		//{
+			//if (step == 0)
+			//{
+			//	avatar = avatar_xingting;
+			//	//showtext = "我是吳杏婷, I'm a Fucking Teacher，AHHH~~~~FSDFD##@!!!";
+			//	//showtext = "我是吳杏婷我是吳杏婷我是吳杏婷我是吳杏婷";
+			//	//showtext = "WWWWWWWWWWWWWWWWWWWWWWWWWWWWW";
+			//}
+			//else if (step == 1)
+			//{
+			//	avatar = avatar_role;
+			//	showtext = "Bhhh~~~";
+			//}
+			//else if (step == 2)
+			//{
+			//	avatar = avatar_xingting;
+			//	showtext = "Chhh~~~";
+			//}
+			//else
+			//{
+			//	step = 0;
+			//	showtext = "";
+			//	Stop();
+			//}
+		//}
 
 	}
 	#pragma endregion

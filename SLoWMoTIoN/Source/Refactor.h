@@ -33,9 +33,13 @@
 #define DIALOG_MAX_TEXT 30
 #pragma endregion
 
+#pragma region - dialog - avatar name -
+#define DIALOG_AVATAR_NAME_ROLE "role"
+#define DIALOG_AVATAR_NAME_XINGTING "xingting"
+#pragma endregion
 
 
-#pragma region - diolog -
+#pragma region - diolog - mode -
 #define RoleVSBoss "roleVsBoss"
 #pragma endregion
 
