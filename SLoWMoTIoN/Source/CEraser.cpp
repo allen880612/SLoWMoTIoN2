@@ -415,8 +415,8 @@ namespace game_framework {
 
 	#pragma endregion
 
-	#pragma region - CNPC -
-	CNPC::CNPC() : CEraser()
+	#pragma region - CPasserby -
+	CPasserby::CPasserby() : CEraser()
 	{
 		initX = 0;
 		x = initX;
@@ -431,7 +431,7 @@ namespace game_framework {
 		//LoadBitmap("Role", "LUKA", 2);
 	}
 
-	CNPC::CNPC(int _x, int _y, string ziliaojia, string name, int number, int _score) : CEraser()
+	CPasserby::CPasserby(int _x, int _y, string ziliaojia, string name, int number, int _score) : CEraser()
 	{
 		initX = _x;
 		x = initX;
@@ -447,7 +447,7 @@ namespace game_framework {
 		recreateTimer = CTimer((double)GetRandom(1, 4) / 2.0);
 	}
 
-	void CNPC::SetXY(int _x, int _y)
+	void CPasserby::SetXY(int _x, int _y)
 	{
 		initX = _x;
 		y = _y;
@@ -457,12 +457,12 @@ namespace game_framework {
 		animation.SetTopLeft(x, y);
 	}
 
-	void CNPC::SetScore(int _score)
+	void CPasserby::SetScore(int _score)
 	{
 		score = _score;
 	}
 
-	void CNPC::SetMoving()
+	void CPasserby::SetMoving()
 	{
 		if (GetValid() == false /*&& !recreateTimer.IsTimeOut()*/)
 		{
@@ -507,7 +507,7 @@ namespace game_framework {
 		}
 	}
 
-	void CNPC::OnMove()
+	void CPasserby::OnMove()
 	{
 		const int STEP_SIZE = move_distance;
 
@@ -535,7 +535,7 @@ namespace game_framework {
 		animation.OnMove();
 	}
 
-	CNPC::~CNPC()
+	CPasserby::~CPasserby()
 	{
 		
 	}

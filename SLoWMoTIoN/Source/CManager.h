@@ -15,15 +15,15 @@ namespace game_framework
 		CPasserbyManager();
 		~CPasserbyManager();
 		void Clear();
-		CNPC* AddPasserby(vector<int> , int );
+		CPasserby* AddPasserby(vector<int> , int );
 		void CreatePasserby(int, vector<int>, int);
-		void DeletePasserby(vector<CNPC*>::iterator);
-		vector<CNPC*> GetPasserby();
+		void DeletePasserby(vector<CPasserby*>::iterator);
+		vector<CPasserby*> GetPasserby();
 		CLayer layer; //為了layerManager做的髒髒東東
 		
 		void MoveWithMap(string);
 	private:
-		vector<CNPC*> passerby;
+		vector<CPasserby*> passerby;
 		string ziliaojia = "Role\\NPC";
 		string name[10] = { "LUKA", "RIN" };
 	};
@@ -64,8 +64,8 @@ namespace game_framework
 		CAnimate* GetNpc(int);
 		CLayer layer;
 
-		vector<CNPC*>* GetPasserby();
-		void DeletePasserby(vector<CNPC*>::iterator); //temp
+		vector<CPasserby*>* GetPasserby();
+		void DeletePasserby(vector<CPasserby*>::iterator); //temp
 		void AddPasserby();
 		void Initialize();
 		CPasserbyManager passerbyManager; //temp

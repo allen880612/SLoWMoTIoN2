@@ -47,8 +47,8 @@ namespace game_framework {
 			void OnMove();
 			void OnShow();
 			void SetInitVelocity(int, int, int, int);
-			bool IsCollision(CNPC);
-			bool IsCollision(CNPC*);
+			bool IsCollision(CPasserby);
+			bool IsCollision(CPasserby*);
 			void Clear();
 
 		protected:

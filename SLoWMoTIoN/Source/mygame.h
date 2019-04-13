@@ -116,7 +116,7 @@ namespace game_framework {
 		CTimer timer; //stateRun狀態下的timer (其實好像在什麼狀態下都無所謂)
 
 		vector<CScallion*>*	scallions;
-		vector<CNPC*>*		passerbys;
+		vector<CPasserby*>*		passerbys;
 		CMapManager			mapManager;
 		CBossManager        bossManager;
 	};

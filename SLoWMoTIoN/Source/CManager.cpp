@@ -23,12 +23,12 @@ namespace game_framework
 	{
 	}
 
-	vector<CNPC*>* CMapManager::GetPasserby()
+	vector<CPasserby*>* CMapManager::GetPasserby()
 	{
 		return &passerbyManager.passerby;
 	}
 
-	void CMapManager::DeletePasserby(vector<CNPC*>::iterator passerbyj)
+	void CMapManager::DeletePasserby(vector<CPasserby*>::iterator passerbyj)
 	{
 		passerbyManager.DeletePasserby(passerbyj);
 	}
@@ -329,20 +329,20 @@ namespace game_framework
 	}
 	void CPasserbyManager::Clear()
 	{
-		for (vector<CNPC*>::iterator it = passerby.begin(); it != passerby.end(); it++)
+		for (vector<CPasserby*>::iterator it = passerby.begin(); it != passerby.end(); it++)
 		{
 			delete *it;
 			(*it) = NULL;
 		}
-		vector<CNPC*> del;
+		vector<CPasserby*> del;
 		passerby.swap(del);
 		passerby.clear();
 	}
-	CNPC* CPasserbyManager::AddPasserby(vector<int> id, int mapWidth)
+	CPasserby* CPasserbyManager::AddPasserby(vector<int> id, int mapWidth)
 	{
 		#pragma region Create a Passerby
 		int randomID = GetRandom(0, id.size() - 1); //random 決定 passerby種類 (1號or2號)
-		CNPC *newPasserby = new CNPC(0, 0, ziliaojia, name[id[randomID]], 2, (id[randomID] + 1) * 10); //先創建一個default passerby
+		CPasserby *newPasserby = new CPasserby(0, 0, ziliaojia, name[id[randomID]], 2, (id[randomID] + 1) * 10); //先創建一個default passerby
 		//newPasserby->LoadBitmap(ziliaojia, name[id[randomID]], 2, RGB(255, 255, 255)); //load passerby的圖片
 		int randomX = GetRandom(0, mapWidth - newPasserby->Width()); //random 決定passerby的出現位置
 		newPasserby->SetXY(randomX, 480 - newPasserby->Height()); //set passerby x, y
@@ -353,18 +353,18 @@ namespace game_framework
 	{
 		for (int i = 0; i < createNumber; i++)
 		{
-			CNPC* newPasserby = AddPasserby(id, mapWidth);
+			CPasserby* newPasserby = AddPasserby(id, mapWidth);
 			newPasserby->SetValid(true);
 			passerby.push_back(newPasserby);
 		}
 	}
-	void CPasserbyManager::DeletePasserby(vector<CNPC*>::iterator passerbyj)
+	void CPasserbyManager::DeletePasserby(vector<CPasserby*>::iterator passerbyj)
 	{
 		delete *passerbyj;
 		*passerbyj = NULL;
 		passerbyj = passerby.erase(passerbyj);
 	}
-	vector<CNPC*> CPasserbyManager::GetPasserby()
+	vector<CPasserby*> CPasserbyManager::GetPasserby()
 	{
 		return passerby;
 	}
@@ -551,7 +551,7 @@ namespace game_framework
 	CBossManager::CBossManager()
 	{
 		#pragma region -- Create Boss --
-		bossInformation[BOSS_XINGTING] = CBoss(450, 250, 8787, BitmapPath("Boss", "xingting", 1), RGB(255, 255, 255));
+		bossInformation[BOSS_XINGTING] = CBoss(450, 250, 8787, BitmapPath("Boss", "xingting", 2), RGB(255, 255, 255));
 		#pragma endregion
 		targetBoss = NULL;
 	}

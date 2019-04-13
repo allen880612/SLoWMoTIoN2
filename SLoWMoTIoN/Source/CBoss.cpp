@@ -91,6 +91,7 @@ namespace game_framework
 	{
 		int dx = CCamera::Instance()->GetX();
 		SetXY(initx - dx, y);
+		animation.OnMove();
 	}
 
 	CAnimate * CBoss::GetAnimate()

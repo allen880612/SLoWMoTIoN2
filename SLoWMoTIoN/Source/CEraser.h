@@ -112,19 +112,19 @@ namespace game_framework {
 	};
 	#pragma endregion
 
-	#pragma region - CNPC -
-	class CNPC : public CEraser
+	#pragma region - CPasserby -
+	class CPasserby : public CEraser
 	{
 		friend class CScallion;
 	public:
-		CNPC();
-		CNPC(int, int, string, string, int, int);
+		CPasserby();
+		CPasserby(int, int, string, string, int, int);
 		void SetXY(int, int);
 		void SetScore(int);
 		void SetMoving();
 		void OnMove();
 		//void Initialize();
-		~CNPC();
+		~CPasserby();
 	private:
 		int initX;
 		CTimer moveTimer;
