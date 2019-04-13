@@ -449,8 +449,12 @@ namespace game_framework {
 
 	void CNPC::SetXY(int _x, int _y)
 	{
-		CEraser::SetXY(_x, _y);
-		animation.SetTopLeft(_x, y);
+		initX = _x;
+		y = _y;
+
+		int dx = CCamera::Instance()->GetX();
+		x = initX - dx;
+		animation.SetTopLeft(x, y);
 	}
 
 	void CNPC::SetScore(int _score)
@@ -501,7 +505,6 @@ namespace game_framework {
 				stopTimer.ResetTime(resetStopTime);
 			}
 		}
-		animation.SetTopLeft(x, y);
 	}
 
 	void CNPC::OnMove()
@@ -515,7 +518,7 @@ namespace game_framework {
 		if (isMovingRight)
 		{
 			if (canMoving)
-				x += STEP_SIZE;
+				initX += STEP_SIZE;
 		}
 		if (isMovingDown)
 		{
@@ -525,10 +528,10 @@ namespace game_framework {
 		if (isMovingLeft)
 		{
 			if (canMoving)
-				x -= STEP_SIZE;
+				initX -= STEP_SIZE;
 		}
 
-		animation.SetTopLeft(x, y);
+		SetXY(initX, y);
 		animation.OnMove();
 	}
 

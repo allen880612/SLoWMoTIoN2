@@ -185,7 +185,7 @@ namespace game_framework
 
 		int dx = CCamera::Instance()->GetX();
 		x = init_x - dx;
-		background.SetTopLeft(x, 0);
+		SetXY(x, 0);
 	}
 
 	void CMapManager::SetXY(int _x, int _y)
