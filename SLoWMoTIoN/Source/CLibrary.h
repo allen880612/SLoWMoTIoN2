@@ -127,4 +127,26 @@ namespace game_framework
 	};
 	#pragma endregion
 
+	#pragma region Camera
+	class CCamera
+	{
+		public:
+			CCamera();
+			~CCamera();
+			int		GetX();
+			int		GetY();
+			void	SetXY(int, int);
+			void	AddX(int);
+			void	AddY(int);
+			void	Initialize();
+			void	Reset();
+			void	SetCameraBoundary(int, int);
+			static CCamera* Instance();
+		private:
+			int x, y;
+			int max_left, max_right;
+			static CCamera camera;
+	};
+	#pragma endregion
+
 }

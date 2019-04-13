@@ -450,7 +450,7 @@ namespace game_framework {
 	void CNPC::SetXY(int _x, int _y)
 	{
 		CEraser::SetXY(_x, _y);
-		animation.SetTopLeft(x, y);
+		animation.SetTopLeft(_x, y);
 	}
 
 	void CNPC::SetScore(int _score)
@@ -527,6 +527,7 @@ namespace game_framework {
 			if (canMoving)
 				x -= STEP_SIZE;
 		}
+
 		animation.SetTopLeft(x, y);
 		animation.OnMove();
 	}

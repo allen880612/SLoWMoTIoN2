@@ -190,6 +190,7 @@ namespace game_framework {
 
 		CLayerManager::Instance()->Initialize();
 		CDialogManager::Instance()->Initialize();
+		CCamera::Instance()->Initialize();
 		mapManager.Initialize();
 		bossManager.Initialize();
 		role.Initialize(AUDIO_THROW, AUDIO_JUMP);
@@ -256,6 +257,7 @@ namespace game_framework {
 	void CGameStateRun::OnMove()							// 移動遊戲元素
 	{
 		SetCursor(AfxGetApp()->LoadCursor(IDC_CURSOR));
+
 		#pragma region - pause game state in dialoging -
 		if (CDialogManager::Instance()->GetDialogState())
 		{
@@ -303,7 +305,6 @@ namespace game_framework {
 		PositionTrigger();
 		#pragma endregion
 
-
 		#pragma region - Moving -
 		int screenPosX = ScreenX(mapManager.GetX1(), role.GetX3());
 		/*bool isCollisionBlock = false;
@@ -312,30 +313,92 @@ namespace game_framework {
 			isCollisionBlock = role.IsCollisionBoss(bossManager.targetBoss);
 		}*/
 		//temp
-		#pragma region -- Moving Right --
 
-		if (role.GetMovingRight())
+		#pragma region SetCamera
+		//CCamera::Instance()->SetCameraBoundary(mapManager.GetSplitLeft(), mapManager.GetSplitRight());
+		//int CameraBoundary_right = SIZE_X + ((mapManager.GetBitmapWidth() - SIZE_X) / 2) - SIZE_X;//鏡頭右邊界
+		//int CameraBoundary_Left = -(((mapManager.GetBitmapWidth() - SIZE_X) / 2) - SIZE_X) - SIZE_X;//鏡頭左邊界
+		int mapR = mapManager.GetSplitRight();
+		int mapL = mapManager.GetSplitLeft();
+		int CameraBoundary_R = (mapManager.GetBitmapWidth() / 2 - mapL) + (mapR - mapManager.GetBitmapWidth() / 2);//鏡頭右邊界
+		int CameraBoundary_L = -CameraBoundary_R;//鏡頭左邊界
+
+		#pragma endregion
+
+		#pragma region -- Moving Left --
+		if (role.GetMovingLeft())
 		{
-			if (screenPosX >= mapManager.GetSplitLeft() && screenPosX < mapManager.GetSplitRight())
+
+			if (role.GetX3() <= SIZE_X / 2)
 			{
-				mapManager.SetMovingLeft(false);
-				mapManager.SetMovingRight(true);
-				mapManager.OnMove();
-				role.SetCanMoving(false);
+				//mapManager.SetMovingLeft(true);
+				//mapManager.SetMovingRight(false);
+				if (CCamera::Instance()->GetX() > CameraBoundary_L && screenPosX > mapL)
+				{
+					CCamera::Instance()->AddX(-MOVE_DISTANCE);
+					mapManager.OnMove();
+					role.SetCanMoving(false);
+				}
+				else
+				{
+					role.SetCanMoving(true);
+				}
+				
 				if (bossManager.targetBoss != NULL)
 				{
-					bossManager.targetBoss->MoveWithMap("right");
+					//bossManager.targetBoss->MoveWithMap("left");
+					bossManager.targetBoss->OnMove();
+
 				}
 			}
 			else
 			{
-				mapManager.SetMovingLeft(false);
-				mapManager.SetMovingRight(false);
+				//mapManager.SetMovingLeft(false);
+				//mapManager.SetMovingRight(false);
 				role.SetCanMoving(true);
 			}
 		}
+		#pragma endregion
 
-		#pragma region -- Moving Left --
+		#pragma region -- Moving Right --
+
+		if (role.GetMovingRight())
+		{
+			if (role.GetX3() >= SIZE_X / 2)
+			{
+				//mapManager.SetMovingLeft(false);
+				//mapManager.SetMovingRight(true);
+				if (CCamera::Instance()->GetX() < CameraBoundary_R && screenPosX < mapR)
+				{
+					CCamera::Instance()->AddX(MOVE_DISTANCE);
+					mapManager.OnMove();
+					role.SetCanMoving(false);
+				}
+				else
+				{
+					role.SetCanMoving(true);
+				}
+				if (bossManager.targetBoss != NULL)
+				{
+					//bossManager.targetBoss->MoveWithMap("right");
+					bossManager.targetBoss->OnMove();
+				}
+			}
+			else
+			{
+				//mapManager.SetMovingLeft(false);
+				//mapManager.SetMovingRight(false);
+				role.SetCanMoving(true);
+			}
+		}
+		#pragma endregion
+		/*
+		if (CCamera::Instance()->GetX() > mapManager.GetSplitRight())
+			CCamera::Instance()->SetXY(mapManager.GetSplitRight(), 0);
+		if (CCamera::Instance()->GetX() < mapManager.GetSplitLeft())
+			CCamera::Instance()->SetXY(mapManager.GetSplitLeft(), 0);*/
+
+		/*#pragma region -- Moving Left --
 		if (role.GetMovingLeft())
 		{
 
@@ -358,7 +421,30 @@ namespace game_framework {
 			}
 		}
 		#pragma endregion
-		#pragma endregion
+		#pragma region -- Moving Right --
+		
+		if (role.GetMovingRight())
+		{
+			if (screenPosX >= mapManager.GetSplitLeft() && screenPosX < mapManager.GetSplitRight())
+			{
+				mapManager.SetMovingLeft(false);
+				mapManager.SetMovingRight(true);
+				mapManager.OnMove();
+				role.SetCanMoving(false);
+				if (bossManager.targetBoss != NULL)
+				{
+					bossManager.targetBoss->MoveWithMap("right");
+				}
+			}
+			else
+			{
+				mapManager.SetMovingLeft(false);
+				mapManager.SetMovingRight(false);
+				role.SetCanMoving(true);
+			}
+		}
+		#pragma endregion*/
+	
 
 		#pragma region -- 左右界地圖檢查 - 卡邊界or換地圖 --
 		

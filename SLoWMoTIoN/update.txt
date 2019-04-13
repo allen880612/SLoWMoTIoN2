@@ -125,3 +125,11 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
 2. con-j 1, now, we can look the dialog when role at map-Index-3, and x position rather than 100
    (of course, no text)
 3. the red point at map-Index-3 is boss, it doesn't have any function now.
+
+==============================================================
+2019/4/13
+1. add Camera, it can hadle the object that we want it move with map.
+   to use it, you should put it in the OnMove as dx (example: int dx = CCamera::camera->Instance()->GetX();)
+   and use it initial x to update postion, like x = initX - dx;
+   Unfortunately, it has some problem. We can't use it with something can move, like passerby.
+   but, thaks to camera, we fixed the problem which the Role size is limited to movedistance! 

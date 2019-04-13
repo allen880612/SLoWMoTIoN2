@@ -405,5 +405,64 @@ namespace game_framework
 	}
 	#pragma endregion
 
+	#pragma region Camera
+	CCamera CCamera::camera;
 
+	CCamera::CCamera()
+	{
+		Initialize();
+	}
+
+	CCamera::~CCamera()
+	{
+	}
+
+	void CCamera::Initialize()
+	{
+		x = y = 0;
+	}
+
+	void CCamera::Reset()
+	{
+		x = y = 0;
+	}
+
+	void CCamera::SetCameraBoundary(int _left, int _right)
+	{
+		max_left = _left;
+		max_right = _right;
+	}
+
+	CCamera * CCamera::Instance()
+	{
+		return &camera;
+	}
+
+	int CCamera::GetX()
+	{
+		return x;
+	}
+
+	int CCamera::GetY()
+	{
+		return y;
+	}
+
+	void CCamera::SetXY(int _x, int _y)
+	{
+		x = _x;
+		y = _y;
+	}
+
+	void CCamera::AddX(int _dx)
+	{
+		x += _dx;
+	}
+
+	void CCamera::AddY(int _dy)
+	{
+		y += _dy;
+	}
+
+	#pragma endregion
 }

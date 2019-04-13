@@ -140,16 +140,18 @@ namespace game_framework
 		background = blockMap[nowMap].backgroundBitmap;
 		if (nextMap == "left") //下一張地圖(要換的地圖)，在原本地圖的左邊 (移動到左邊的地圖)
 		{
-			x = -(GetBitmapWidth() - SIZE_X);
+			x = init_x = -(GetBitmapWidth() - SIZE_X);
 		}
 		else if (nextMap == "right")  //下一張地圖(要換的地圖)，在原本地圖的右邊 (移動到右邊的地圖)
 		{
-			x = 0; 
+			x = init_x =  0; 
 		}
 		background.SetTopLeft(x, 0);
 
 		passerbyManager.Clear();
 		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
+
+		CCamera::Instance()->Reset();
 	}
 
 	void CMapManager::SetMovingLeft(bool _flag)
@@ -164,21 +166,26 @@ namespace game_framework
 
 	void CMapManager::OnMove()
 	{
-		if (isMovingLeft)
-		{
-			x += directionX;
-			//for(unsigned int npcIndex = 0; npcIndex < blockMap[nowMap].npc.size(); npcIndex++)
-				//blockMap[nowMap].npc[npcIndex].SetXY(blockMap[nowMap].npc[npcIndex].GetX1() + directionX, blockMap[nowMap].npc[npcIndex].GetY1());
-			for (unsigned int npcIndex = 0; npcIndex < passerbyManager.passerby.size(); npcIndex++)
-				passerbyManager.passerby[npcIndex]->SetXY(passerbyManager.passerby[npcIndex]->GetX1() + directionX, passerbyManager.passerby[npcIndex]->GetY1());
-		}
-		if (isMovingRight)
-		{
-			x -= directionX;
-			for (unsigned int npcIndex = 0; npcIndex < passerbyManager.passerby.size(); npcIndex++)
-				passerbyManager.passerby[npcIndex]->SetXY(passerbyManager.passerby[npcIndex]->GetX1() - directionX, passerbyManager.passerby[npcIndex]->GetY1());
-		}
-		SetXY(x, 0);
+		
+		//if (isMovingLeft)
+		//{
+		//	x += directionX;
+		//	//for(unsigned int npcIndex = 0; npcIndex < blockMap[nowMap].npc.size(); npcIndex++)
+		//		//blockMap[nowMap].npc[npcIndex].SetXY(blockMap[nowMap].npc[npcIndex].GetX1() + directionX, blockMap[nowMap].npc[npcIndex].GetY1());
+		//	for (unsigned int npcIndex = 0; npcIndex < passerbyManager.passerby.size(); npcIndex++)
+		//		passerbyManager.passerby[npcIndex]->SetXY(passerbyManager.passerby[npcIndex]->GetX1() + directionX, passerbyManager.passerby[npcIndex]->GetY1());
+		//}
+		//if (isMovingRight)
+		//{
+		//	x -= directionX;
+		//	for (unsigned int npcIndex = 0; npcIndex < passerbyManager.passerby.size(); npcIndex++)
+		//		passerbyManager.passerby[npcIndex]->SetXY(passerbyManager.passerby[npcIndex]->GetX1() - directionX, passerbyManager.passerby[npcIndex]->GetY1());
+		//}
+		//SetXY(x - CCamera::Instance()->GetX(), 0);
+
+		int dx = CCamera::Instance()->GetX();
+		x = init_x - dx;
+		background.SetTopLeft(x, 0);
 	}
 
 	void CMapManager::SetXY(int _x, int _y)
@@ -193,7 +200,7 @@ namespace game_framework
 
 	bool CMapManager::IsMapEnd()
 	{
-		return x >= 0 || x <= -((background.Width()) - 640);
+		return x < 0 || x > ((background.Width()) - 640);
 	}
 
 	void CMapManager::OnShow() //顯示對應到的blockMap圖片 (nowMap = 1, 顯示blockMap[1]的background, 類推)
@@ -351,14 +358,12 @@ namespace game_framework
 			passerby.push_back(newPasserby);
 		}
 	}
-
 	void CPasserbyManager::DeletePasserby(vector<CNPC*>::iterator passerbyj)
 	{
 		delete *passerbyj;
 		*passerbyj = NULL;
 		passerbyj = passerby.erase(passerbyj);
 	}
-
 	vector<CNPC*> CPasserbyManager::GetPasserby()
 	{
 		return passerby;

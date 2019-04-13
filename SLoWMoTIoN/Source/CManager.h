@@ -20,6 +20,8 @@ namespace game_framework
 		void DeletePasserby(vector<CNPC*>::iterator);
 		vector<CNPC*> GetPasserby();
 		CLayer layer; //為了layerManager做的髒髒東東
+		
+		void MoveWithMap(string);
 	private:
 		vector<CNPC*> passerby;
 		string ziliaojia = "Role\\NPC";
@@ -74,7 +76,7 @@ namespace game_framework
 		string loadMapPath;
 		CBlockMap blockMap[MAX_MAP_NUMBER];
 		CMovingBitmap background;
-		int x;
+		int x, init_x;
 		bool isMovingLeft;
 		bool isMovingRight;
 		int npcNumber;

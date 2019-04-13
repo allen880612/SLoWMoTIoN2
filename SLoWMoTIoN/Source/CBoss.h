@@ -17,8 +17,9 @@ namespace game_framework
 		void SetXY(int, int);
 		void SetHp(int);
 		void SetIsAlive(bool);
-		
+		void OnMove();
 		void MoveWithMap(string);
+
 		CLayer layer;
 		
 		CAnimate* GetAnimate();
