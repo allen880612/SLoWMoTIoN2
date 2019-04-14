@@ -119,6 +119,7 @@ namespace game_framework
 	public:
 		CDialogManager();
 		~CDialogManager();
+		void OnCycle(); //要重複執行的事情
 		void Initialize();
 		static CDialogManager* Instance();
 		void Start(string);
@@ -146,11 +147,12 @@ namespace game_framework
 		
 		int step;
 		string showtext;
+		int nowShowTextSize;
 		bool IsBitmapLoaded = false;
 		bool IsDialoging = false;
 		//string mode = "";
 		CDialog *nowDialog;
-
+		CTimer AddShowTextTimer;
 
 		void Load_Image();
 		void LoadDialog();

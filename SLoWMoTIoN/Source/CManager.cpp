@@ -380,11 +380,38 @@ namespace game_framework
 		nowDialog = NULL;
 		showtext = "";
 		txt.clear();
+		nowShowTextSize = 0;
+		AddShowTextTimer = CTimer(DIALOG_ADDTEXT_TIME);
 	}
 
 	CDialogManager::~CDialogManager()
 	{
 		
+	}
+
+	void CDialogManager::OnCycle()
+	{
+		#pragma region - add show text -
+		if (showtext != "" && nowShowTextSize < (int)showtext.size())
+		{
+			AddShowTextTimer.CountDown();
+			if (AddShowTextTimer.IsTimeOut()) //add show text
+			{
+				//doit
+				if (showtext[nowShowTextSize] < 0) //非ASCII體系中的字
+				{
+					nowShowTextSize += 2;
+				}
+				else
+				{
+					nowShowTextSize++;
+				}
+				AddShowTextTimer.ResetTime();
+				ShowText();
+			}
+		}
+		#pragma endregion
+
 	}
 
 	void CDialogManager::Load_Image()
@@ -461,6 +488,8 @@ namespace game_framework
 		CLayerManager::Instance()->AddObject(&avatar, avatarLayer.GetLayer());
 
 		step = 0;
+		nowShowTextSize = 0;
+		AddShowTextTimer.ResetTime(DIALOG_ADDTEXT_TIME);
 	}
 
 	CDialogManager * CDialogManager::Instance()
@@ -486,6 +515,7 @@ namespace game_framework
 		if(IsDialoging)
 		{
 			step++;
+			nowShowTextSize = 0;
 			Dialog();
 		}	
 	}
@@ -497,6 +527,7 @@ namespace game_framework
 		IsDialoging = false;
 		nowDialog->SetTriggered();
 		nowDialog = NULL;
+		nowShowTextSize = 0;
 	}
 
 	void CDialogManager::ShowText()
@@ -510,11 +541,30 @@ namespace game_framework
 			char tempk[DIALOG_MAX_TEXT + 5];
 			memset(tempk, '\0', sizeof(tempk));
 			
-			for (unsigned int i = 0; i < showtext.size(); i++)
+			for (int i = 0; i < nowShowTextSize; i++)
 			{
 				if (charindex < DIALOG_MAX_TEXT)
 				{
-					tempk[charindex++] = showtext[i];
+					tempk[charindex++] = showtext[i];//將字元加入tempk, 當字元超過一定量的時候給split-showtext(換行)
+					
+					#pragma region -- 針對倒數第二個字元是英文，但最後一個字是中文的額外設定 --
+					#pragma region --- 條件 & 說明 ---
+					/*
+					1. 目前文字是英文
+					2. 下一個字是中文
+					3. 下一個字在29
+					說明：問題發生的原因是因為英文的size是1，但中文是2，而我設定當size到30就會換行
+					因此如果size=28的時候裝一個英文字(裝一個英文字後size=29)
+					但下一個字是中文的時候，照理講要裝兩個size才會正確，但因為只能裝一個，另一個會到下一行才裝
+					此時中文字不會正常顯示，會變成亂碼
+					解決方式：符合上述條件就直接先換行
+					*/
+					#pragma endregion
+					if (showtext[i] > 0 && showtext[i + 1] < 0 && charindex + 1 >= DIALOG_MAX_TEXT)
+					{
+						charindex += 2;
+					}
+					#pragma endregion
 				}
 				if (charindex >= DIALOG_MAX_TEXT)
 				{
@@ -543,7 +593,7 @@ namespace game_framework
 			//delete showpointer;
 			for (unsigned int i = 0; i < split_showtext.size(); i++)
 			{
-				PaintText(split_showtext[i], avatar.Left() + avatar.Width() + MARGIN_DIALOG_TEXT_X, avatar.Top() + MARGIN_DIALOG_TEXT_Y + i * 30, "微軟正黑體", DIALOG_TEXT_SIZE, RGB(0, 0, 0), RGB(232, 232, 232));
+				PaintText(split_showtext[i], avatar.Left() + avatar.Width() + MARGIN_DIALOG_TEXT_X, avatar.Top() + MARGIN_DIALOG_TEXT_Y + i * 35, "微軟正黑體", DIALOG_TEXT_SIZE, RGB(0, 0, 0), RGB(232, 232, 232));
 				delete split_showtext[i];
 			}
 			#pragma endregion

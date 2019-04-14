@@ -20,7 +20,7 @@
 
 #define GAME_TIME 50
 
-#pragma region - diolog - margin -
+#pragma region - dialog - margin -
 #define MARGIN_DIALOG_AVATAR 16
 // 16 + avatar.width()
 #define MARGIN_DIALOG_TEXT_X 16	
@@ -39,9 +39,15 @@
 #pragma endregion
 
 
-#pragma region - diolog - mode -
+#pragma region - dialog - mode -
 #define RoleVSBoss "roleVsBoss"
 #pragma endregion
+
+#pragma region - dialog - add a text on cycle -
+#define DIALOG_ADDTEXT_TIME 0.1
+#pragma endregion
+
+
 
 #pragma region - boss -
 #define BOSS_DEPRATMENT "boss"

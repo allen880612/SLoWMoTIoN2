@@ -261,6 +261,7 @@ namespace game_framework {
 		#pragma region - pause game state in dialoging -
 		if (CDialogManager::Instance()->GetDialogState())
 		{
+			CDialogManager::Instance()->OnCycle();
 			return;
 		}
 		#pragma endregion
@@ -299,7 +300,7 @@ namespace game_framework {
 		//
 
 
-
+		
 
 		#pragma region - Position Trigger -
 		PositionTrigger();
