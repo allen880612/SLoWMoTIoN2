@@ -377,6 +377,7 @@ namespace game_framework
 	{
 		IsBitmapLoaded = false;
 		IsDialoging = false;
+		IsPrintTips = false;
 		nowDialog = NULL;
 		showtext = "";
 		txt.clear();
@@ -409,6 +410,13 @@ namespace game_framework
 				AddShowTextTimer.ResetTime();
 				ShowText();
 			}
+		}
+		#pragma endregion
+
+		#pragma region - print finish tips (next) -
+		if (showtext != "" && nowShowTextSize >= (int)showtext.size())
+		{
+			IsPrintTips = true;
 		}
 		#pragma endregion
 
@@ -459,6 +467,14 @@ namespace game_framework
 		dialogmap[RoleVSBoss] = CDialog("Txt\\RoleVsBoss.txt", RoleVSBoss, false);
 	}
 
+	void CDialogManager::ShowText_Next()
+	{
+		if (IsPrintTips)
+		{
+			PaintText("Next", 550, 450, "微軟正黑體", 14, RGB(0, 0, 0), RGB(232, 232, 232));
+		}
+	}
+
 	void CDialogManager::Initialize()
 	{
 		if (IsBitmapLoaded == false)
@@ -489,6 +505,7 @@ namespace game_framework
 
 		step = 0;
 		nowShowTextSize = 0;
+		IsPrintTips = false;
 		AddShowTextTimer.ResetTime(DIALOG_ADDTEXT_TIME);
 	}
 
@@ -506,6 +523,7 @@ namespace game_framework
 			return;
 		}
 		IsDialoging = true;
+		IsPrintTips = false;
 		dialog_background.SetValid(true);
 		Dialog();
 	}
@@ -514,9 +532,17 @@ namespace game_framework
 	{
 		if(IsDialoging)
 		{
-			step++;
-			nowShowTextSize = 0;
-			Dialog();
+			if (nowShowTextSize < (int)showtext.size()) //當字還沒顯示完的時候，就已經點擊畫面 > 直接顯示完全部文字
+			{
+				nowShowTextSize = (int)showtext.size();
+			}
+			else //字已經顯示完了，可以切換
+			{
+				step++;
+				IsPrintTips = false;
+				nowShowTextSize = 0;
+				Dialog();
+			}
 		}	
 	}
 
@@ -597,6 +623,11 @@ namespace game_framework
 				delete split_showtext[i];
 			}
 			#pragma endregion
+
+			#pragma region - draw finish tips text -
+			ShowText_Next();
+			#pragma endregion
+
 		}
 	}
 

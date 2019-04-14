@@ -150,12 +150,14 @@ namespace game_framework
 		int nowShowTextSize;
 		bool IsBitmapLoaded = false;
 		bool IsDialoging = false;
+		bool IsPrintTips = false; //用於一個對話完畢，要到下一個對話的提示文字 (右下角的next)
 		//string mode = "";
 		CDialog *nowDialog;
 		CTimer AddShowTextTimer;
 
 		void Load_Image();
 		void LoadDialog();
+		void ShowText_Next();
 	};
 	#pragma endregion
 
