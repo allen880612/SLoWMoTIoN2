@@ -81,6 +81,17 @@ namespace game_framework
 		return (IsPointInRect(leftTop, rect2) || IsPointInRect(rightTop, rect2) ||
 			IsPointInRect(leftBottom, rect2) || IsPointInRect(rightBottom, rect2));
 	}
+
+	bool IsRectInRect(CRect rect1, CRect rect2) //¤p in ¤j
+	{
+		CPoint leftTop = CPoint(rect1.left, rect1.top);
+		CPoint rightTop = CPoint(rect1.right, rect1.top);
+		CPoint leftBottom = CPoint(rect1.left, rect1.bottom);
+		CPoint rightBottom = CPoint(rect1.right, rect1.bottom);
+
+		return (IsPointInRect(leftTop, rect2) && IsPointInRect(rightTop, rect2) &&
+			IsPointInRect(leftBottom, rect2) && IsPointInRect(rightBottom, rect2));
+	}
 	#pragma endregion
 
 	#pragma region - CAnimate -
