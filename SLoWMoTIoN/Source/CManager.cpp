@@ -456,6 +456,11 @@ namespace game_framework
 		delete address;
 		#pragma endregion
 
+		#pragma region - load next animation -
+		textNext.LoadBitmap("Dialog\\next", "next", 4, DIALOG_BACKGROUND_COLOR);
+		textNext.SetTopLeft(500, 450);
+		#pragma endregion
+
 		#pragma endregion
 
 		IsBitmapLoaded = true;
@@ -471,7 +476,13 @@ namespace game_framework
 	{
 		if (IsPrintTips)
 		{
-			PaintText("Next", 550, 450, "微軟正黑體", 14, RGB(0, 0, 0), RGB(232, 232, 232));
+			//PaintText("Next", 550, 450, "微軟正黑體", 14, RGB(0, 0, 0), DIALOG_BACKGROUND_COLOR);
+			textNext.SetValid(true);
+			textNext.OnMove();
+		}
+		else
+		{
+			textNext.SetValid(false);
 		}
 	}
 
@@ -487,6 +498,7 @@ namespace game_framework
 
 		avatar_null.SetValid(false);
 		dialog_background.SetValid(false);
+		textNext.SetValid(false);
 		avatar = avatar_null;
 
 		#pragma region - Init - Image Point -
@@ -502,6 +514,7 @@ namespace game_framework
 
 		CLayerManager::Instance()->AddObject(&dialog_background, backgroundLayer.GetLayer());
 		CLayerManager::Instance()->AddObject(&avatar, avatarLayer.GetLayer());
+		CLayerManager::Instance()->AddObject(&textNext, avatarLayer.GetLayer());
 
 		step = 0;
 		nowShowTextSize = 0;
@@ -550,6 +563,7 @@ namespace game_framework
 	{
 		avatar = avatar_null;
 		dialog_background.SetValid(false);
+		textNext.SetValid(false);
 		IsDialoging = false;
 		nowDialog->SetTriggered();
 		nowDialog = NULL;
@@ -619,7 +633,7 @@ namespace game_framework
 			//delete showpointer;
 			for (unsigned int i = 0; i < split_showtext.size(); i++)
 			{
-				PaintText(split_showtext[i], avatar.Left() + avatar.Width() + MARGIN_DIALOG_TEXT_X, avatar.Top() + MARGIN_DIALOG_TEXT_Y + i * 35, "微軟正黑體", DIALOG_TEXT_SIZE, RGB(0, 0, 0), RGB(232, 232, 232));
+				PaintText(split_showtext[i], avatar.Left() + avatar.Width() + MARGIN_DIALOG_TEXT_X, avatar.Top() + MARGIN_DIALOG_TEXT_Y + i * 35, "微軟正黑體", DIALOG_TEXT_SIZE, DIALOG_TEXT_COLOR, DIALOG_BACKGROUND_COLOR);
 				delete split_showtext[i];
 			}
 			#pragma endregion

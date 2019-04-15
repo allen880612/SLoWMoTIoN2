@@ -57,12 +57,12 @@ namespace game_framework
 
 		CAnimate();
 		~CAnimate();
-		CMovingBitmap*  AddBitmap(int, COLORREF = CLR_INVALID);
-		// 增加一張圖形至動畫(圖的編號及透明色)
-		CMovingBitmap*  AddBitmap(char *, COLORREF = CLR_INVALID);
-		// 增加一張圖形至動畫(圖的編號及透明色)
-		void  LoadBitmap(vector<char*>, COLORREF = CLR_INVALID);
-		//已字串陣列載入圖片
+		CMovingBitmap*  AddBitmap(int, COLORREF = CLR_INVALID);		// 增加一張圖形至動畫(圖的編號及透明色)
+		CMovingBitmap*  AddBitmap(char *, COLORREF = CLR_INVALID);	// 增加一張圖形至動畫(圖的編號及透明色)
+		
+		void  LoadBitmap(vector<char*>, COLORREF = CLR_INVALID);	//以字串陣列載入圖片
+		void  LoadBitmap(string, string, int, COLORREF = CLR_INVALID);
+		
 		int   Height();					// 取得動畫的高度
 		int   Left();					// 取得動畫的左上角的 x 座標
 		void  OnMove(int);				// 依照方向更換bitmap

@@ -144,6 +144,8 @@ namespace game_framework
 
 		CMovingBitmap avatar;
 		static CDialogManager dialogManager;
+
+		CAnimate textNext;
 		
 		int step;
 		string showtext;

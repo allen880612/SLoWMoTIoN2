@@ -29,8 +29,11 @@
 
 #pragma region - dialog - setting -
 #define DIALOG_TEXT_SIZE 16
+#define DIALOG_TEXT_COLOR RGB(254, 254, 254)
 //MAX TEXT - ENGLISH SIZE (1 CHINESE SIZE = 2 ENGLISH SIZE)
 #define DIALOG_MAX_TEXT 30
+#define DIALOG_BACKGROUND_COLOR RGB(66, 66, 66)
+
 #pragma endregion
 
 #pragma region - dialog - avatar name -

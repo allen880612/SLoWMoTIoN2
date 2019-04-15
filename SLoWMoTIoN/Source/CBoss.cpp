@@ -37,13 +37,14 @@ namespace game_framework
 
 	void CBoss::LoadBitmap()
 	{
-		for (int i = 0; i < loadPath.number; i++)
-		{
-			char* address = ConvertCharPointToString(loadPath.ziliaojia, loadPath.name, i);
-			animation.AddBitmap(address, transparentColor);
-			delete address;
-		}
+		//for (int i = 0; i < loadPath.number; i++)
+		//{
+		//	char* address = ConvertCharPointToString(loadPath.ziliaojia, loadPath.name, i);
+		//	animation.AddBitmap(address, transparentColor);
+		//	delete address;
+		//}
 
+		animation.LoadBitmap(loadPath.ziliaojia, loadPath.name, loadPath.number, transparentColor);
 		animation.SetTopLeft(x, y);
 		height = animation.Height();
 		width = animation.Width();

@@ -105,13 +105,7 @@ namespace game_framework {
 
 	void CEraser::LoadBitmap(string ziliaojia, string name, int number, COLORREF color)
 	{
-		for (int i = 0; i < number; i++)
-		{
-			char* address = ConvertCharPointToString(ziliaojia, name, i);
-			animation.AddBitmap(address, color);
-			delete address;
-		}
-		
+		animation.LoadBitmap(ziliaojia, name, number, color);
 		animation.SetTopLeft(x, y);
 		height = animation.Height();
 		width = animation.Width();

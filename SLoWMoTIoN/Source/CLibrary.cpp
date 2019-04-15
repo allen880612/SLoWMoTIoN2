@@ -199,6 +199,16 @@ namespace game_framework
 		}
 	}
 
+	void CAnimate::LoadBitmap(string ziliaojia, string name, int number, COLORREF transparentColor)
+	{
+		for (int i = 0; i < number; i++)
+		{
+			char* address = ConvertCharPointToString(ziliaojia, name, i);
+			AddBitmap(address, transparentColor);
+			delete address;
+		}
+	}
+
 	CMovingBitmap* CAnimate::AddBitmap(int IDB_BITMAP, COLORREF colorkey)
 	{
 		CMovingBitmap add_bmp;
