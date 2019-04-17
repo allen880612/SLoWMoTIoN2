@@ -224,10 +224,12 @@ namespace game_framework {
 		const int STEP_SIZE = move_distance;
 		int dir = 0;
 
+
+
 		if (isMovingUp)
 		{
 			dir = 1;
-			if (canMoving && canJumping)
+			if (canJumping)
 			{
 				CAudio::Instance()->Play(AUDIO_JUMP);
 				isJumping = true;
@@ -285,10 +287,10 @@ namespace game_framework {
 		animation.OnMove(dir);
 		
 		#pragma region -- Reset collision rect --
-		collisionRect.left = x - move_distance;
-		collisionRect.right = x + width + move_distance;
-		collisionRect.top = y - move_distance;
-		collisionRect.left = y + height + move_distance;
+		//collisionRect.left = animation.GetRect().left - move_distance;
+		//collisionRect.right = animation.GetRect().right + move_distance;
+		//collisionRect.top = animation.GetRect().top - move_distance;
+		//collisionRect.bottom = animation.GetRect().bottom + move_distance;
 		#pragma endregion
 
 		for (unsigned int i = 0; i < scallion.size(); i++)
@@ -364,6 +366,8 @@ namespace game_framework {
 
 	bool CRole::IsCollisionBoss(CBoss *boss)
 	{
+		ResetCollisionRect();
+
 		return IsRectCollision(collisionRect, boss->GetAnimate()->GetRect());
 	}
 
@@ -392,7 +396,7 @@ namespace game_framework {
 
 		SetValid(true);
 
-		collisionRect = CRect(CPoint(x - move_distance, y - move_distance), CPoint(x + Width() + move_distance, y + Height() + move_distance));
+		//collisionRect = CRect(CPoint(x - move_distance, y - move_distance), CPoint(x + Width() + move_distance, y + Height() + move_distance));
 
 		if (animation.IsNull())
 		{
@@ -404,6 +408,20 @@ namespace game_framework {
 	vector<CScallion*>* CRole::GetScallion()
 	{
 		return &scallion;
+	}
+
+	void CRole::ResetCollisionRect()
+	{
+		collisionRect = animation.GetRect();
+		int dx = move_distance - 9;
+		if (isMovingRight)
+		{
+			collisionRect.right += dx;
+		}
+		else if (isMovingLeft)
+		{
+			collisionRect.left -= dx;
+		}
 	}
 
 

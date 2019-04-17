@@ -68,3 +68,10 @@
 #pragma region - block -
 #define BLOCK_DEPRATMENT "block"
 #pragma endregion
+
+
+
+
+
+
+#define DEBUG_MODE false

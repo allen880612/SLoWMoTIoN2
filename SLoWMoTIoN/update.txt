@@ -145,3 +145,8 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
 2019/4/16
 1. add scallion and next on the dialog, now the next will show with a rotaing scallion!
 2. fix the LoadBitmap on Animate, now can just use anmation.LoadBitmap(ziliaoja, name, number, color) without delete annoying address.
+
+==============================================================
+2019/4/18
+1. Camera - add CanMoving, control the camera can (addx, addy) or not.
+   (when role collision with boss(or npc and other things), camera's canMoving set false, and then map and the other object can't move)

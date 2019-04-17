@@ -323,8 +323,23 @@ namespace game_framework {
 		int mapL = mapManager.GetSplitLeft();
 		int CameraBoundary_R = (mapManager.GetBitmapWidth() / 2 - mapL) + (mapR - mapManager.GetBitmapWidth() / 2);//鏡頭右邊界
 		int CameraBoundary_L = -CameraBoundary_R;//鏡頭左邊界
-
+		CCamera::Instance()->SetCanMoving(true);
 		#pragma endregion
+
+		#pragma region --- role - collision with boss ---
+		if (bossManager.targetBoss != NULL)
+		{
+			if (bossManager.targetBoss != NULL)
+			{
+				if (role.IsCollisionBoss(bossManager.targetBoss)) //collision with boss
+				{
+					CCamera::Instance()->SetCanMoving(false);
+					role.SetCanMoving(false);
+				}
+			}
+		}
+		#pragma endregion
+
 
 		#pragma region -- Moving Left --
 		if (role.GetMovingLeft())
@@ -446,7 +461,6 @@ namespace game_framework {
 			}
 		}
 		#pragma endregion*/
-	
 
 		#pragma region -- 左右界地圖檢查 - 卡邊界or換地圖 --
 		

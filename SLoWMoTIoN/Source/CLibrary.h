@@ -145,6 +145,7 @@ namespace game_framework
 			void	SetXY(int, int);
 			void	AddX(int);
 			void	AddY(int);
+			void    SetCanMoving(bool);
 			void	Initialize();
 			void	Reset();
 			void	SetCameraBoundary(int, int);
@@ -152,6 +153,7 @@ namespace game_framework
 		private:
 			int x, y;
 			int max_left, max_right;
+			bool canMoving;
 			static CCamera camera;
 	};
 	#pragma endregion

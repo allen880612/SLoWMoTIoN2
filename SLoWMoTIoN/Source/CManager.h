@@ -160,6 +160,7 @@ namespace game_framework
 		void Load_Image();
 		void LoadDialog();
 		void ShowText_Next();
+		bool DebugMode = DEBUG_MODE;
 	};
 	#pragma endregion
 
@@ -175,7 +176,7 @@ namespace game_framework
 
 		CBoss *targetBoss;
 	private:
-		map<string, CBoss> bossInformation;
+		map<string, CBoss*> bossInformation;
 	};
 	#pragma endregion
 }

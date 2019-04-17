@@ -105,6 +105,7 @@ namespace game_framework {
 		CTimer shoot_cd;
 
 		CRect collisionRect;
+		void ResetCollisionRect();
 	private:
 		unsigned AUDIO_THROW;
 		unsigned AUDIO_JUMP;

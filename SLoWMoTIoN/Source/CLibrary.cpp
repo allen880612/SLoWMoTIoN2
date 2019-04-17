@@ -485,11 +485,13 @@ namespace game_framework
 	void CCamera::Initialize()
 	{
 		x = y = 0;
+		canMoving = true;
 	}
 
 	void CCamera::Reset()
 	{
 		x = y = 0;
+		canMoving = true;
 	}
 
 	void CCamera::SetCameraBoundary(int _left, int _right)
@@ -521,12 +523,19 @@ namespace game_framework
 
 	void CCamera::AddX(int _dx)
 	{
-		x += _dx;
+		if(canMoving)
+			x += _dx;
 	}
 
 	void CCamera::AddY(int _dy)
 	{
-		y += _dy;
+		if (canMoving)
+			y += _dy;
+	}
+
+	void CCamera::SetCanMoving(bool flag)
+	{
+		canMoving = flag;
 	}
 
 	#pragma endregion

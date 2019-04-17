@@ -529,6 +529,9 @@ namespace game_framework
 
 	void CDialogManager::Start(string mode)
 	{
+		if (DebugMode)
+			return;
+
 		nowDialog = &dialogmap[mode];
 		if (nowDialog->GetTriggered()) //被觸發過 回去
 		{
@@ -585,7 +588,11 @@ namespace game_framework
 			{
 				if (charindex < DIALOG_MAX_TEXT)
 				{
-					tempk[charindex++] = showtext[i];//將字元加入tempk, 當字元超過一定量的時候給split-showtext(換行)
+					//將字元加入tempk, 當字元超過一定量的時候給split-showtext(換行)
+					if (showtext[i] != '_')
+						tempk[charindex++] = showtext[i];
+					else  //例外處理，將底線換成空白 (文本不能打空白)
+						tempk[charindex++] = ' ';
 					
 					#pragma region -- 針對倒數第二個字元是英文，但最後一個字是中文的額外設定 --
 					#pragma region --- 條件 & 說明 ---
@@ -697,28 +704,37 @@ namespace game_framework
 	CBossManager::CBossManager()
 	{
 		#pragma region -- Create Boss --
-		bossInformation[BOSS_XINGTING] = CBoss(450, 250, 8787, BitmapPath("Boss", "xingting", 2), RGB(255, 255, 255));
+		bossInformation[BOSS_XINGTING] = new CBoss(450, 250, 8787, BitmapPath("Boss", "xingting", 2), RGB(255, 255, 255));
 		#pragma endregion
 		targetBoss = NULL;
 	}
 
 	CBossManager::~CBossManager()
 	{
+		Clear();
 	}
 
 	void CBossManager::Initialize() //CGameRun::OnBeginState時 initialize
 	{
-		for (map<string, CBoss>::iterator bossiter = bossInformation.begin(); bossiter != bossInformation.end(); bossiter++)
+		//(second(value)為指標，所以second後面用-> )
+		//真有你的C plus plus
+		for (map<string, CBoss*>::iterator bossiter = bossInformation.begin(); bossiter != bossInformation.end(); bossiter++)
 		{
-			bossiter->second.Initialize(); //初始化boss
-			bossiter->second.GetAnimate()->SetValid(false); //將所有圖片先設為false
-			CLayerManager::Instance()->AddObject(bossiter->second.GetAnimate(), bossiter->second.layer.GetLayer());
+			bossiter->second->Initialize(); //初始化boss 
+			bossiter->second->GetAnimate()->SetValid(false); //將所有圖片先設為false
+			CLayerManager::Instance()->AddObject(bossiter->second->GetAnimate(), bossiter->second->layer.GetLayer());
 		}
 		targetBoss = NULL;
 	}
 
 	void CBossManager::Clear()
 	{
+		//解構
+		for (map<string, CBoss*>::iterator bossiter = bossInformation.begin(); bossiter != bossInformation.end(); bossiter++)
+		{
+			delete bossiter->second;
+		}
+
 		bossInformation.clear();
 		targetBoss = NULL;
 	}
@@ -727,7 +743,7 @@ namespace game_framework
 	{
 		if (nowMap == 3)
 		{
-			targetBoss = &bossInformation[BOSS_XINGTING];
+			targetBoss = bossInformation[BOSS_XINGTING];
 			targetBoss->GetAnimate()->SetValid(true);
 		}
 		else
