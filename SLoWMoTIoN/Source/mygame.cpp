@@ -531,7 +531,44 @@ namespace game_framework {
 		}
 		#pragma endregion
 		
+		#pragma region - boss attack -
+		if (bossManager.targetBoss != NULL)
+		{
+			bossManager.targetBoss->Attack1();
+		}
+		#pragma endregion
+
+
 		#pragma region - Collision -
+		//算ㄌ先這樣ㄅ==
+		if (bossManager.targetBoss != NULL)
+		{
+			vector<CScallion*>* level4 = bossManager.targetBoss->GetBullet();
+			if (level4 != NULL)
+			{
+				for (vector<CScallion*>::iterator level4iter = level4->begin(); level4iter != level4->end(); )
+				{
+					if (role.IsCollisionLevel4(*level4iter))
+					{
+						(*level4iter)->SetIsAlive(false);
+						role.SubHp();
+					}
+
+					if (!(*level4iter)->IsAlive())
+					{
+						delete *level4iter;
+						*level4iter = NULL;
+						level4iter = level4->erase(level4iter);
+					}
+					else
+					{
+						level4iter++;
+					}
+				}
+			}
+		}
+
+
 		scallions = role.GetScallion();			//取出蔥的指標做碰撞
 		passerbys = mapManager.GetPasserby();	//取出passerby指標碰撞
 		for (vector<CScallion*>::iterator scallionk = scallions->begin(); scallionk != scallions->end(); )
@@ -737,11 +774,16 @@ namespace game_framework {
 		//role.OnShow();
 
 		#pragma region - paint time remain -
-		char str[100], roleScore[100];
+		char str[100], roleScore[100], rolehp[100];
 		sprintf(str, "%d", timer.GetTime(2));
 		sprintf(roleScore, "%d", role.GetScore());
 		PaintText(str, 300, 0, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 		PaintText(roleScore, 500, 0, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+
+
+		sprintf(rolehp, "%d", role.GetHp());
+		PaintText(rolehp, 20, 100, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+		#pragma endregion
 		#pragma endregion
 
 		CDialogManager::Instance()->ShowText();

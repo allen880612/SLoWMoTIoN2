@@ -6,6 +6,8 @@ using namespace myLibrary;
 namespace game_framework
 {
 	#pragma region - CBoss -
+	class CScallion; //???????????????????????我明明沒有在scallion引入boss???????????
+					 //難到是傳說中的三重引入?????????????????????????????????????
 	class CBoss
 	{
 	public:
@@ -15,7 +17,7 @@ namespace game_framework
 
 		void LoadBitmap();
 
-		void Initialize();
+		void virtual Initialize();
 		void SetXY(int, int);
 		void SetCurrentXY(int, int);
 		void SetHp(int);
@@ -25,6 +27,8 @@ namespace game_framework
 
 
 		virtual void Attack1() { };
+
+		virtual vector<CScallion*>* GetBullet() { return nullptr; };
 
 		CLayer layer;
 
@@ -49,7 +53,6 @@ namespace game_framework
 	#pragma endregion
 
 	#pragma region - CXingting -
-	class CScallion;
 	class CXingting : public CBoss
 	{
 	public:
@@ -58,6 +61,7 @@ namespace game_framework
 		~CXingting();
 		void Initialize();
 		void Attack1();
+		vector<CScallion*>* GetBullet() { return &level4; };
 	private:
 		vector<CScallion*>	level4;
 		CTimer shootLevel4_cd;

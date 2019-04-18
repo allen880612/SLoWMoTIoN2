@@ -371,9 +371,26 @@ namespace game_framework {
 		return IsRectCollision(collisionRect, boss->GetAnimate()->GetRect());
 	}
 
+	bool CRole::IsCollisionLevel4(CScallion *level4)
+	{
+		return IsRectCollision(animation.GetRect(), level4->GetAnimate()->GetRect());
+	}
+
 	void CRole::AddScore(int _score)
 	{
 		score += _score;
+	}
+
+	void CRole::SubHp()
+	{
+		hp--;
+		if (hp <= 0)
+		{
+			if (!DEBUG_MODE)
+			{
+
+			}
+		}
 	}
 
 	void CRole::Initialize(unsigned _AUDIO_THROW, unsigned _AUDIO_JUMP)
@@ -403,6 +420,8 @@ namespace game_framework {
 			LoadBitmap("Role", "MIKU", 13, RGB(255, 255, 255));
 		}
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
+
+		hp = inithp;
 	}
 
 	vector<CScallion*>* CRole::GetScallion()

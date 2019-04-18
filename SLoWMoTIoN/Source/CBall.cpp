@@ -14,7 +14,7 @@ using namespace myLibrary;
 
 namespace game_framework {
 
-#pragma region - ball -
+	#pragma region - ball -
 	/////////////////////////////////////////////////////////////////////////////
 	// CBall: Ball class
 	/////////////////////////////////////////////////////////////////////////////
@@ -127,7 +127,7 @@ namespace game_framework {
 		return &animation;
 	}
 
-#pragma endregion
+	#pragma endregion
 
 	CScallion::CScallion()
 	{
@@ -188,10 +188,11 @@ namespace game_framework {
 		if (x > SIZE_X || x < 0 || y > SIZE_Y)	//超出螢幕
 		{
 			SetIsAlive(false);
+			animation.SetValid(false);
 			return;
 		}
 
-#pragma region - 重力計算 -
+		#pragma region - 重力計算 -
 		if (velocity_y > 0)
 		{
 			velocity_y -= gravity;
@@ -202,7 +203,7 @@ namespace game_framework {
 			velocity_y -= gravity;
 			y -= velocity_y;
 		}
-#pragma endregion
+		#pragma endregion
 
 
 		animation.OnMove();

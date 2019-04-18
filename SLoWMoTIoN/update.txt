@@ -152,5 +152,7 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
    (when role collision with boss(or npc and other things), camera's canMoving set false, and then map and the other object can't move)
 
 ==============================================================
+2019/4/19
 1. CScallion - Loadbitmap, getanimate, animation -> move to CBall
    CBall delete bmp(CMovingBitmap)
+2. xingting spray yuan dong

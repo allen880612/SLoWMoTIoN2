@@ -49,6 +49,7 @@ namespace game_framework
 		//}
 
 		animation.LoadBitmap(loadPath.ziliaojia, loadPath.name, loadPath.number, transparentColor);
+
 		animation.SetTopLeft(x, y);
 		height = animation.Height();
 		width = animation.Width();
@@ -56,12 +57,12 @@ namespace game_framework
 
 	void CBoss::Initialize()
 	{
-	#pragma region - 僅一次的載入圖片 -
+		#pragma region - 僅一次的載入圖片 -
 		if (animation.IsNull())
 		{
 			LoadBitmap();
 		}
-	#pragma endregion
+		#pragma endregion
 
 		inity = SIZE_Y - animation.Height();
 		SetCurrentXY(initx, inity);
@@ -119,10 +120,9 @@ namespace game_framework
 		CBoss();
 	}
 
-	CXingting::CXingting(int _x, int _y, int _hp, BitmapPath _loadPath, COLORREF color)
+	CXingting::CXingting(int _x, int _y, int _hp, BitmapPath _loadPath, COLORREF color) : CBoss(_x, _y, _hp, _loadPath, color)
 	{
-		CBoss(_x, _y, _hp, _loadPath, color); //constructor
-		Initialize();
+		
 	}
 
 	CXingting::~CXingting()
@@ -137,7 +137,7 @@ namespace game_framework
 		#pragma region - delete bullet -
 		for (vector<CScallion*>::iterator level4iter = level4.begin(); level4iter != level4.end(); level4iter++)
 		{
-		delete *level4iter;
+			delete *level4iter;
 		}
 		level4.clear();
 		#pragma endregion
@@ -150,12 +150,17 @@ namespace game_framework
 		shootLevel4_cd.CountDown();
 		if (shootLevel4_cd.IsTimeOut())
 		{
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < 5; i++)
 			{
-				CScallion *newlevel4 = new CScallion("Role\\books", "book", 4, 450, 360, 200 + i * 50, 360 + i * 50); //先創建一個蔥的物件
+				CScallion *newlevel4 = new CScallion("Role\\books", "book", 4, 450, 360, 150 + i * 30, 360 - i * 75); //先創建一個蔥的物件
 				level4.push_back(newlevel4); //將蔥放進vector
 				shootLevel4_cd.ResetTime();
 			}
+		}
+
+		for (vector<CScallion*>::iterator level4iter = level4.begin(); level4iter != level4.end(); level4iter++)
+		{
+			(*level4iter)->OnMove();
 		}
 	}
 	#pragma endregion

@@ -704,7 +704,7 @@ namespace game_framework
 	CBossManager::CBossManager()
 	{
 		#pragma region -- Create Boss --
-		bossInformation[BOSS_XINGTING] = new CBoss(450, 250, 8787, BitmapPath("Boss", "xingting", 2), RGB(255, 255, 255));
+		bossInformation[BOSS_XINGTING] = new CXingting(450, 250, 8787, BitmapPath("Boss", "xingting", 2), RGB(255, 255, 255));
 		#pragma endregion
 		targetBoss = NULL;
 	}

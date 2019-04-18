@@ -77,6 +77,9 @@ namespace game_framework {
 		void SetCanJumping(bool);
 		void SetMouseXY(int, int);
 		void AddScore(int);
+		void SubHp();
+		int GetHp() { return hp; }; //§ÚÃi£{
+
 		void Initialize(unsigned, unsigned);
 
 		bool GetIsFire();
@@ -87,6 +90,7 @@ namespace game_framework {
 		int GetVelocity();
 
 		bool IsCollisionBoss(CBoss*);
+		bool IsCollisionLevel4(CScallion*);
 
 		vector<CScallion*>* GetScallion();
 		
@@ -109,6 +113,12 @@ namespace game_framework {
 	private:
 		unsigned AUDIO_THROW;
 		unsigned AUDIO_JUMP;
+
+		#pragma region - init information-
+		int inithp = 3;
+		#pragma endregion
+
+		int hp;
 
 	};
 	#pragma endregion
