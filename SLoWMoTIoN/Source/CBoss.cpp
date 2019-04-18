@@ -134,29 +134,29 @@ namespace game_framework
 	{
 		CBoss::Initialize();
 
-		/*#pragma region - delete bullet -
+		#pragma region - delete bullet -
 		for (vector<CScallion*>::iterator level4iter = level4.begin(); level4iter != level4.end(); level4iter++)
 		{
 		delete *level4iter;
 		}
 		level4.clear();
-		#pragma endregion*/
+		#pragma endregion
 
 		shootLevel4_cd = CTimer(1.0);
 	}
 
 	void CXingting::Attack1()
 	{
-		//shootLevel4_cd.CountDown();
-		//if (shootLevel4_cd.IsTimeOut())
-		//{
-		//	for (int i = 0; i < 3; i++)
-		//	{
-		//		CScallion *newlevel4 = new CScallion("Role\\books", "book", 4, 450, 360, 200 + i * 50, 360 + i * 50); //先創建一個蔥的物件
-		//		level4.push_back(newlevel4); //將蔥放進vector
-		//		shootLevel4_cd.ResetTime();
-		//	}
-		//}
+		shootLevel4_cd.CountDown();
+		if (shootLevel4_cd.IsTimeOut())
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				CScallion *newlevel4 = new CScallion("Role\\books", "book", 4, 450, 360, 200 + i * 50, 360 + i * 50); //先創建一個蔥的物件
+				level4.push_back(newlevel4); //將蔥放進vector
+				shootLevel4_cd.ResetTime();
+			}
+		}
 	}
 	#pragma endregion
 

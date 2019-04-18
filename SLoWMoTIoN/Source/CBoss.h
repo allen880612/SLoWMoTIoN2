@@ -2,7 +2,6 @@
 #include "CLibrary.h"
 #include "Refactor.h"
 #include <vector>
-#include "CBall.h"
 using namespace myLibrary;
 namespace game_framework
 {
@@ -50,6 +49,7 @@ namespace game_framework
 	#pragma endregion
 
 	#pragma region - CXingting -
+	class CScallion;
 	class CXingting : public CBoss
 	{
 	public:
