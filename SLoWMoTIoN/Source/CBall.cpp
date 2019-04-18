@@ -14,7 +14,7 @@ using namespace myLibrary;
 
 namespace game_framework {
 
-	#pragma region - ball -
+#pragma region - ball -
 	/////////////////////////////////////////////////////////////////////////////
 	// CBall: Ball class
 	/////////////////////////////////////////////////////////////////////////////
@@ -51,8 +51,8 @@ namespace game_framework {
 
 	void CBall::LoadBitmap()
 	{
-		bmp.LoadBitmap(IDB_BALL, RGB(0, 0, 0));			// 載入球的圖形
-		bmp_center.LoadBitmap(IDB_CENTER, RGB(0, 0, 0));	// 載入球圓心的圖形
+		//bmp.LoadBitmap(IDB_BALL, RGB(0, 0, 0));			// 載入球的圖形
+		//bmp_center.LoadBitmap(IDB_CENTER, RGB(0, 0, 0));	// 載入球圓心的圖形
 	}
 
 	void CBall::OnMove()
@@ -89,18 +89,45 @@ namespace game_framework {
 	void CBall::SetXY(int nx, int ny)
 	{
 		x = nx; y = ny;
+		if (!animation.IsNull())
+			animation.SetTopLeft(x, y);
 	}
 
 	void CBall::OnShow()
 	{
-		if (is_alive) {
-			bmp.SetTopLeft(x + dx, y + dy);
-			bmp.ShowBitmap();
-			bmp_center.SetTopLeft(x, y);
-			bmp_center.ShowBitmap();
+		/*if (is_alive) {
+		bmp.SetTopLeft(x + dx, y + dy);
+		bmp.ShowBitmap();
+		bmp_center.SetTopLeft(x, y);
+		bmp_center.ShowBitmap();
+		}*/
+	}
+	void CBall::SetCurrentXY(int cx, int cy)
+	{
+		currentX = cx;
+		currentY = cy;
+
+		int dx = CCamera::Instance()->GetX();
+		SetXY(currentX - dx, currentY);
+	}
+
+	void CBall::LoadBitmap(string ziliaojia, string name, int number)
+	{
+		for (int i = 0; i < number; i++)
+		{
+			char *address = ConvertCharPointToString(ziliaojia, name, i);
+			animation.AddBitmap(address, RGB(255, 255, 255));
+			delete address;
 		}
 	}
-	#pragma endregion
+
+
+	CAnimate * CBall::GetAnimate()
+	{
+		return &animation;
+	}
+
+#pragma endregion
 
 	CScallion::CScallion()
 	{
@@ -108,10 +135,12 @@ namespace game_framework {
 
 		const int INIT_X = 0, INIT_Y = 0;
 		const int GRAVITY = 4;
+		currentX = INIT_X;
+		currentY = INIT_Y;
 		x = INIT_X;
 		y = INIT_Y;
 		gravity = GRAVITY;
-		layer.SetLayer(6);
+		layer.SetLayer(BULLET_LAYER);
 		animation.SetTopLeft(INIT_X, INIT_Y);
 
 		is_alive = true;
@@ -121,20 +150,22 @@ namespace game_framework {
 
 	CScallion::CScallion(string ziliaojia, string name, int number, int _x, int _y, int f_x, int f_y)
 	{
-		
+
 		const int INIT_X = _x, INIT_Y = _y;
 		const int GRAVITY = 4;
+		currentX = INIT_X;
+		currentY = INIT_Y;
 		x = INIT_X;
 		y = INIT_Y;
 		gravity = GRAVITY;
-		layer.SetLayer(6);
+		layer.SetLayer(BULLET_LAYER);
 
 		is_alive = true;
 		LoadBitmap(ziliaojia, name, number);
 		animation.SetTopLeft(x, y);
 		animation.ResetDelayTime(0.1);
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
-		
+
 		SetInitVelocity(_x, _y, f_x, f_y);
 	}
 
@@ -149,33 +180,18 @@ namespace game_framework {
 		this->~CScallion();
 	}
 
-	void CScallion::LoadBitmap(string ziliaojia, string name, int number)
-	{
-		for (int i = 0; i < number; i++)
-		{
-			char *address = ConvertCharPointToString(ziliaojia, name, i);
-			animation.AddBitmap(address, RGB(255, 255, 255));
-			delete address;
-		}
-	}
-
-	CAnimate * CScallion::GetAnimate()
-	{
-		return &animation;
-	}
-
 	void CScallion::OnMove()
 	{
 		if (!IsAlive())
 			return;
 
-		if (x > SIZE_X || x < 0 ||  y > SIZE_Y )	//超出螢幕
+		if (x > SIZE_X || x < 0 || y > SIZE_Y)	//超出螢幕
 		{
 			SetIsAlive(false);
 			return;
 		}
 
-		#pragma region - 重力計算 -
+#pragma region - 重力計算 -
 		if (velocity_y > 0)
 		{
 			velocity_y -= gravity;
@@ -186,15 +202,14 @@ namespace game_framework {
 			velocity_y -= gravity;
 			y -= velocity_y;
 		}
-		#pragma endregion
+#pragma endregion
 
 
 		animation.OnMove();
-		animation.SetTopLeft(x + velocity_x, y);
 
 		SetXY(x + velocity_x, y);
+		//SetCurrentXY(currentX + velocity_x, currentY);
 
-		
 	}
 
 	void CScallion::OnShow()
@@ -212,9 +227,9 @@ namespace game_framework {
 
 		velocity_x = dx;
 		velocity_y = dy;
-		
+
 	}
-	
+
 	bool CScallion::IsCollision(CPasserby passerby)
 	{
 		return false;

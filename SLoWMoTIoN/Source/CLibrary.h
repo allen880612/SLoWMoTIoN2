@@ -11,13 +11,19 @@ namespace myLibrary
 	{
 	public:
 		BitmapPath() {};
-		BitmapPath(string _fold, string _name, int _number){
+		BitmapPath(string _fold, string _name, int _number) {
 			ziliaojia = _fold; name = _name; number = _number;
+			color = RGB(255, 255, 255);
+		};
+		BitmapPath(string _fold, string _name, int _number, COLORREF _color) {
+			ziliaojia = _fold; name = _name; number = _number;
+			color = _color;
 		};
 		~BitmapPath() {};
 		string ziliaojia;
 		string name;
 		int number;
+		COLORREF color;
 	};
 }
 namespace game_framework

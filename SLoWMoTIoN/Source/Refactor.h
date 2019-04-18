@@ -20,6 +20,12 @@
 
 #define GAME_TIME 50
 
+#pragma region - Layer -
+#define BULLET_LAYER 6
+#define BOSS_LAYER 5
+#pragma endregion
+
+
 #pragma region - dialog - margin -
 #define MARGIN_DIALOG_AVATAR 16
 // 16 + avatar.width()
@@ -61,14 +67,16 @@
 #define BOSS_XINGTING "xingting"
 #pragma endregion
 
-#pragma region - Layer -
-#define BOSS_LAYER 5
-#pragma endregion
+
+
 
 #pragma region - block -
 #define BLOCK_DEPRATMENT "block"
 #pragma endregion
 
+#pragma region - layer -
+#define BULLET_LAYER 6
+#pragma endregion
 
 
 
