@@ -96,7 +96,7 @@ public:
 	void           Stop(string);				// 停止撥放編號i的聲音
 private:
 	map <string , unsigned> adapter;
-	string adapterString[99] = { "AUDIO_MENU", "AUDIO_GAMEING", "AUDIO_THROW", "AUDIO_JUMP", "AUDIO_MENU", "AUDIO_MENU"};
+	string adapterString[99] = { "AUDIO_MENU", "AUDIO_GAMEING", "AUDIO_THROW", "AUDIO_JUMP", "AUDIO_HIT", "AUDIO_MENU"};
 	class Info {
 	public:
 		Info() {
