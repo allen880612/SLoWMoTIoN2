@@ -157,3 +157,9 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
    CBall delete bmp(CMovingBitmap)
 2. xingting spray yuan dong
 3. update rect collision
+
+==============================================================
+2019/4/20
+
+
+problem: has a memory leaks -> new CXingting

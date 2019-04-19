@@ -717,6 +717,8 @@ namespace game_framework {
 			if (rolePosition >= 100)
 			{
 				CDialogManager::Instance()->Start(RoleVSBoss);
+				if (CDialogManager::Instance()->GetDialogState())
+					bossManager.SetBattle(true);
 			}
 		}
 	}

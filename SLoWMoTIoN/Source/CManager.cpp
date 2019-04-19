@@ -708,6 +708,7 @@ namespace game_framework
 		bossInformation[BOSS_XINGTING] = new CXingting(450, 250, 8787, BitmapPath("Boss", "xingting", 2), RGB(255, 255, 255));
 		#pragma endregion
 		targetBoss = NULL;
+		isBattle = false;
 	}
 
 	CBossManager::~CBossManager()
@@ -734,6 +735,7 @@ namespace game_framework
 		for (map<string, CBoss*>::iterator bossiter = bossInformation.begin(); bossiter != bossInformation.end(); bossiter++)
 		{
 			delete bossiter->second;
+			bossiter->second = NULL;
 		}
 
 		bossInformation.clear();
@@ -752,6 +754,8 @@ namespace game_framework
 			if (targetBoss != NULL)
 			{
 				targetBoss->GetAnimate()->SetValid(false);
+				targetBoss->ClearBullet();
+				isBattle = false;
 				targetBoss = NULL;
 			}
 		}

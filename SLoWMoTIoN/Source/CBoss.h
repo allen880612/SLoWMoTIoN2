@@ -30,6 +30,8 @@ namespace game_framework
 		virtual void Attack1(CRole*) { };
 		virtual void Attack2(CRole*) { };
 
+		virtual void ClearBullet() {};
+
 		virtual vector<CScallion*>* GetBullet() { return nullptr; };
 
 		CLayer layer;
@@ -64,11 +66,15 @@ namespace game_framework
 		void Initialize();
 		void Attack1(CRole*);
 		void Attack2(CRole*);
+		void ClearBullet();
 		int rrrr() { return 8787; };
 	private:
 		vector<CScallion*>	level4;
 		CTimer shootLevel4_cd;
 		void Level4Collision(CRole*);
+		const double PI = 4 * atan(1.0);
+
+		
 	};
 	#pragma endregion
 }
