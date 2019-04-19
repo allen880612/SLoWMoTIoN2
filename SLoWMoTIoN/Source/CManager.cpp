@@ -439,13 +439,13 @@ namespace game_framework
 		#pragma endregion
 
 		#pragma region - load xingting - avatar -
-		address = ConvertCharPointToString("Dialog", "xingting", 0);
+		address = ConvertCharPointToString("Dialog\\Avatar", "xingting", 0);
 		dialogAvatar[DIALOG_AVATAR_NAME_XINGTING].LoadBitmap(address);
 		delete address;
 		#pragma endregion
 
 		#pragma region - load role avatar -
-		address = ConvertCharPointToString("Dialog", "mikuAvatar", 0);
+		address = ConvertCharPointToString("Dialog\\Avatar", "mikuAvatar", 0);
 		dialogAvatar[DIALOG_AVATAR_NAME_ROLE].LoadBitmap(address);
 		delete address;
 		#pragma endregion
@@ -469,7 +469,8 @@ namespace game_framework
 	void CDialogManager::LoadDialog()
 	{
 		dialogmap.clear();
-		dialogmap[RoleVSBoss] = CDialog("Txt\\RoleVsBoss.txt", RoleVSBoss, false);
+		dialogmap[RoleVSBoss] = CDialog("Dialog\\Txt\\RoleVsBoss.txt", RoleVSBoss, false);
+		dialogmap[Tips] = CDialog("Dialog\\Txt\\InitTip.txt", RoleVSBoss, false);
 	}
 
 	void CDialogManager::ShowText_Next()

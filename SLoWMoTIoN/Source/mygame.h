@@ -119,6 +119,8 @@ namespace game_framework {
 		vector<CPasserby*>*		passerbys;
 		CMapManager			mapManager;
 		CBossManager        bossManager;
+
+		bool tips = true;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

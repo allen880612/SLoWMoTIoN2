@@ -12,3 +12,9 @@ Step2: 在Refacor.h - dialog - avatar name 中加入avatar的名稱用的string
 Step3: 前往CDialogManager.cpp - Load_Image
 Step4: 在 - define avatar map - 中，將在Step2 新增的字串作為tag，新增CMovingBitmap給dialogAvatar
 Step5: 在 - load image - 中，針對在Step4 新增的dialogAvatar進行LoadBitmap
+
+dialogManager - use .txt to load dialog
+    How to use
+    Step1: add a .txt file in "Txt" folder  (plz look the file "使用手冊.txt" in Txt folder)
+    Step2: Go to CDialogManager.cpp - LoadDialog, add dialogmap[(string)], the string must be defined in Refactor.h - dialog - mode
+    Step3: Set the Trigger when you want to trigger (use CDialogManager::Instance()->Start(mode), mode is a string(be defined at Refactor.h) that you add at Step2)

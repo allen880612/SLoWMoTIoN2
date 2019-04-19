@@ -534,7 +534,7 @@ namespace game_framework {
 		#pragma region - boss attack -
 		if (bossManager.targetBoss != NULL)
 		{
-			bossManager.targetBoss->Attack2(&role);
+			bossManager.targetBoss->Attack1(&role);
 		}
 		#pragma endregion
 
@@ -706,6 +706,11 @@ namespace game_framework {
 		int nowMap = mapManager.GetNowMap();
 		int rolePosition = ScreenX(mapManager.GetX1(), role.GetX3());
 		#pragma endregion
+		if (tips)
+		{
+			CDialogManager::Instance()->Start(Tips);
+			tips = false;
+		}
 		if (nowMap == 3)
 		{
 			if (rolePosition >= 100)

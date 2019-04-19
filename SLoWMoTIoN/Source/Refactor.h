@@ -51,6 +51,7 @@
 
 #pragma region - dialog - mode -
 #define RoleVSBoss "roleVsBoss"
+#define Tips "InitTip"
 #pragma endregion
 
 #pragma region - dialog - add a text on cycle -
@@ -68,9 +69,6 @@
 #define BOSS_XINGTING "xingting"
 #pragma endregion
 
-
-
-
 #pragma region - block -
 #define BLOCK_DEPRATMENT "block"
 #pragma endregion
@@ -83,4 +81,4 @@
 
 
 
-#define DEBUG_MODE true
+#define DEBUG_MODE false
