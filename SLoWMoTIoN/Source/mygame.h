@@ -84,6 +84,7 @@ namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 
 	class CGameStateRun : public CGameState {
+		friend class CEventManager;
 	public:
 		CGameStateRun(CGame *g);
 		~CGameStateRun();
@@ -120,7 +121,7 @@ namespace game_framework {
 		CMapManager			mapManager;
 		CBossManager        bossManager;
 
-		bool tips = true;
+		CEventManager eventManager;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
