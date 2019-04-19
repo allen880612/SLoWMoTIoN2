@@ -50,14 +50,14 @@ namespace game_framework {
 	// Constants
 	/////////////////////////////////////////////////////////////////////////////
 
-	enum AUDIO_ID {				// 定義各種音效的編號
-		AUDIO_MENU,				
-		AUDIO_GAMEING,			
-		AUDIO_GAMEOVER,
-		AUDIO_THROW,
-		AUDIO_JUMP,
-		AUDIO_HIT
-	};
+	//enum AUDIO_ID {				// 定義各種音效的編號
+	//	AUDIO_MENU,				
+	//	AUDIO_GAMEING,			
+	//	AUDIO_GAMEOVER,
+	//	AUDIO_THROW,
+	//	AUDIO_JUMP,
+	//	AUDIO_HIT
+	//};
 
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲開頭畫面物件

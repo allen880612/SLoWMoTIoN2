@@ -59,6 +59,7 @@
 #include <string.h>
 #include "gamelib.h"
 #include "audio.h"
+#include "Refactor.h"
 
 namespace game_framework {
 
@@ -80,9 +81,12 @@ CAudio::CAudio()
 	DWORD dwThreadID;
 	HANDLE hReadEnd; 
     BOOL bRet = CreatePipe(&hReadEnd, &hWriteEnd, NULL, PIPE_SIZE); 
+
 	GAME_ASSERT(bRet==TRUE,"CAudio error: CreatePipe failed!");
     hThread = CreateThread(NULL, 0,(LPTHREAD_START_ROUTINE) MCIThread, (LPVOID)hReadEnd, 0, &dwThreadID); 
 	GAME_ASSERT(hThread!=NULL,"CAudio error: Create Thread failed!");
+
+	
 }
 
 CAudio::~CAudio()
@@ -94,6 +98,21 @@ CAudio::~CAudio()
 	// Wait for MCI thread to exit
     WaitForSingleObject(hThread, INFINITE);
 	TRACE("~CAudio()\n");
+}
+
+void CAudio::Initialize()
+{
+	for (int i = 0; i < AUDIO_NUM; i++)
+	{
+		adapter.insert(pair<string, unsigned>(adapterString[i], i));
+	}
+	
+	Load(adapter["AUDIO_MENU"], "sounds\\SLoWMoTIoN_Menu.wav");
+	Load(adapter["AUDIO_GAMEING"], "sounds\\SLoWMoTIoN_Game.wav");
+	Load(adapter["AUDIO_THROW"], "sounds\\throw.wav");
+	Load(adapter["AUDIO_JUMP"], "sounds\\jump.wav");
+	Load(adapter["AUDIO_HIT"], "sounds\\hit.wav");
+	Load(adapter["AUDIO_GAMEOVER"], "sounds\\SLoWMoTIoN_Gameover.wav");
 }
 
 void CAudio::ExecuteMciCommand(char *command)
@@ -211,6 +230,7 @@ CAudio *CAudio::Instance()
 	return &audio;
 }
 
+
 bool CAudio::Load(unsigned id, char *lpzFileName)
 {
 	if (!isOpened)
@@ -306,6 +326,28 @@ void CAudio::Play(unsigned id, bool repeat_flag)
 	SendMciCommand(command);
 }
 
+void CAudio::Play(string _id, bool repeat_flag)
+{
+	unsigned id = adapter[_id];
+	
+	if (!isOpened)
+		return;
+	GAME_ASSERT(info.find(id) != info.end(), "Can not play back audio: incorrect Audio ID!");
+	//
+	// Do not play, if the file is no good
+	//
+	if (!info[id].isGood)
+		return;
+	char command[MAX_MCI_COMMAND_SIZE];
+	if (repeat_flag)
+		sprintf(command, "play device%d from 0 repeat", id);
+	else
+		sprintf(command, "play device%d from 0", id);
+	SendMciCommand(command);
+}
+
+
+
 void CAudio::SetPowerResume()
 {
 	// Force Pause operation when the system power is to be turned off
@@ -335,5 +377,19 @@ void CAudio::Stop(unsigned id)
 		SendMciCommand(command);
 	}
 }
+
+void CAudio::Stop(string _id)
+{
+	unsigned id = adapter[_id];
+	if (!isOpened)
+		return;
+	GAME_ASSERT(info.find(id) != info.end(), "Can not stop audio: incorrect Audio ID!");
+	if (info[id].isGood) {
+		char command[MAX_MCI_COMMAND_SIZE];
+		sprintf(command, "stop device%d", id);
+		SendMciCommand(command);
+	}
+}
+
 
 }

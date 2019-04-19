@@ -224,14 +224,12 @@ namespace game_framework {
 		const int STEP_SIZE = move_distance;
 		int dir = 0;
 
-
-
 		if (isMovingUp)
 		{
 			dir = 1;
 			if (canJumping)
 			{
-				CAudio::Instance()->Play(AUDIO_JUMP);
+				CAudio::Instance()->Play("AUDIO_JUMP");
 				isJumping = true;
 				//y -= STEP_SIZE;
 			}
@@ -346,7 +344,7 @@ namespace game_framework {
 	{		
 		if (shoot_cd.IsTimeOut())
 		{
-			CAudio::Instance()->Play(AUDIO_THROW);
+			CAudio::Instance()->Play("AUDIO_THROW");
 			CScallion *newCScallion = new CScallion("Role\\Scallions", "scallion", 4, GetX3(), GetY1(), mx, my); //先創建一個蔥的物件
 			//CScallion *newCScallion = new CScallion("Role\\books", "book", 4, GetX3(), GetY1(), mx, my); //先創建一個蔥的物件
 			scallion.push_back(newCScallion); //將蔥放進vector
@@ -397,7 +395,7 @@ namespace game_framework {
 		}
 	}
 
-	void CRole::Initialize(unsigned _AUDIO_THROW, unsigned _AUDIO_JUMP)
+	void CRole::Initialize()
 	{
 		CEraser::Initialize();
 		isJumping = true;
@@ -412,9 +410,6 @@ namespace game_framework {
 		y = -Height();
 		score = 0;
 		shoot_cd = CTimer(0);						//初始化射擊冷卻時間
-		AUDIO_THROW = _AUDIO_THROW;
-		AUDIO_JUMP = _AUDIO_JUMP;
-
 		SetValid(true);
 
 		//collisionRect = CRect(CPoint(x - move_distance, y - move_distance), CPoint(x + Width() + move_distance, y + Height() + move_distance));
