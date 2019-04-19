@@ -113,12 +113,18 @@ namespace game_framework {
 
 	void CBall::LoadBitmap(string ziliaojia, string name, int number)
 	{
-		for (int i = 0; i < number; i++)
+		/*for (int i = 0; i < number; i++)
 		{
 			char *address = ConvertCharPointToString(ziliaojia, name, i);
 			animation.AddBitmap(address, RGB(255, 255, 255));
 			delete address;
-		}
+		}*/
+		animation.LoadBitmap(ziliaojia, name, number);
+	}
+
+	void CBall::LoadBitmap(BitmapPath loadpath)
+	{
+		animation.LoadBitmap(loadpath.ziliaojia, loadpath.name, loadpath.number, loadpath.color);
 	}
 
 
@@ -149,24 +155,22 @@ namespace game_framework {
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 	}
 
-	CScallion::CScallion(BitmapPath loadpath, CPoint point, int f_x, int f_y, int _gravity) //gravity 預設 4 可不指定
+	CScallion::CScallion(BitmapPath loadpath, CPoint point, CPoint finalPoint, int _gravity) //gravity 預設 4 可不指定
 	{
-		const int INIT_X = point.x, INIT_Y = point.y;
-		const int GRAVITY = _gravity;
-		currentX = INIT_X;
-		currentY = INIT_Y;
-		x = INIT_X;
-		y = INIT_Y;
-		gravity = GRAVITY;
-		layer.SetLayer(BULLET_LAYER);
+		gravity = _gravity;
+		LoadBitmap(loadpath);
+		Initialize(point);
 
-		is_alive = true;
-		LoadBitmap(loadpath.ziliaojia, loadpath.name, loadpath.number);
-		animation.SetTopLeft(x, y);
-		animation.ResetDelayTime(0.1);
-		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
+		SetInitVelocity(point.x, point.y, finalPoint.x, finalPoint.y);
+	}
 
-		SetInitVelocity(point.x, point.y, f_x, f_y);
+	CScallion::CScallion(BitmapPath loadpath, CPoint point, int initV_x, int initV_y)
+	{
+		gravity = 0;
+		LoadBitmap(loadpath);
+		Initialize(point);
+		velocity_x = initV_x;
+		velocity_y = initV_y;
 	}
 
 	CScallion::~CScallion()
@@ -178,6 +182,22 @@ namespace game_framework {
 	void CScallion::Clear()
 	{
 		this->~CScallion();
+	}
+
+	void CScallion::Initialize(CPoint initPos)
+	{
+		const int INIT_X = initPos.x;
+		const int INIT_Y = initPos.y;
+
+		currentX = x = INIT_X;
+		currentY = y = INIT_Y;
+		
+		is_alive = true;
+		animation.SetTopLeft(x, y);
+		animation.ResetDelayTime(0.1);
+
+		layer.SetLayer(BULLET_LAYER);
+		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 	}
 
 	void CScallion::OnMove()
@@ -221,15 +241,16 @@ namespace game_framework {
 		animation.OnShow();
 	}
 
-	void CScallion::SetInitVelocity(int b_x, int b_y, int f_x, int f_y)
+	void CScallion::SetInitVelocity(int b_x, int b_y, int f_x, int f_y, int fix_velocity)
 	{
-		int dx = (f_x - b_x) / 5;
-		int dy = -(f_y - b_y) / 5;
+		int dx = (f_x - b_x) / fix_velocity;
+		int dy = -(f_y - b_y) / fix_velocity;
 
 		velocity_x = dx;
 		velocity_y = dy;
-
 	}
+
+
 
 	bool CScallion::IsCollision(CPasserby passerby)
 	{

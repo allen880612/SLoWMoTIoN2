@@ -27,6 +27,7 @@ namespace game_framework {
 		void LoadBitmap();				// 載入圖形
 		// 由路徑載入圖形(資料結, name, 張數)
 		void LoadBitmap(string, string, int, COLORREF);
+		void LoadBitmap(BitmapPath);
 		
 		void OnMove();					// 移動擦子
 		void OnShow();					// 將擦子圖形貼到畫面

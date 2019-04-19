@@ -24,7 +24,7 @@ namespace game_framework
 		void MoveWithMap(string);
 	private:
 		vector<CPasserby*> passerby;
-		string ziliaojia = "Role\\NPC";
+		string ziliaojia = "RES\\Role\\NPC";
 		string name[10] = { "LUKA", "RIN" };
 	};
 	#pragma endregion
