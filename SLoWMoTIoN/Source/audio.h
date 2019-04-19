@@ -89,14 +89,23 @@ public:
 	bool           Open();						// 開啟Direct Sound介面
 	void		   Pause();						// 暫停播放所有音效
 	void           Play(unsigned, bool=false);	// 開始撥放編號i的聲音，指定是否重覆撥放
-	void           Play(string, bool = false);	// 用string當id，播放
+	void           Play(string, bool=false);	// 用string當id，播放
 	void		   Resume();					// 復原暫停播放的音效
 	void           SetPowerResume();			// 電源恢復
 	void           Stop(unsigned);				// 停止撥放編號i的聲音
 	void           Stop(string);				// 停止撥放編號i的聲音
+	bool		   IsPlayMusic();
+	bool		   IsPlaySound();
+	void		   SetIsPlayMusic(bool);
+	void		   SetIsPlaySound(bool);
+	bool		   IsOpened();
 private:
 	map <string , unsigned> adapter;
-	string adapterString[99] = { "AUDIO_MENU", "AUDIO_GAMEING", "AUDIO_THROW", "AUDIO_JUMP", "AUDIO_HIT", "AUDIO_MENU"};
+	string adapterString[99] = { "MUSIC_MENU", "MUSIC_GAMEING", "SOUND_THROW", "SOUND_JUMP", "SOUND_HIT", "SOUND_GAMEOVER"};
+
+	bool isPlayMusic = true;
+	bool isPlaySound = true;
+
 	class Info {
 	public:
 		Info() {

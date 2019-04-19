@@ -433,31 +433,31 @@ namespace game_framework
 
 		char *address;
 		#pragma region - load dialog background -
-		address = ConvertCharPointToString("Dialog", "ground", 0);
+		address = ConvertCharPointToString("RES\\Dialog", "ground", 0);
 		dialog_background.LoadBitmap(address, RGB(255, 255, 255));
 		delete address;
 		#pragma endregion
 
 		#pragma region - load xingting - avatar -
-		address = ConvertCharPointToString("Dialog\\Avatar", "xingting", 0);
+		address = ConvertCharPointToString("RES\\Dialog\\Avatar", "xingting", 0);
 		dialogAvatar[DIALOG_AVATAR_NAME_XINGTING].LoadBitmap(address);
 		delete address;
 		#pragma endregion
 
 		#pragma region - load role avatar -
-		address = ConvertCharPointToString("Dialog\\Avatar", "mikuAvatar", 0);
+		address = ConvertCharPointToString("RES\\Dialog\\Avatar", "mikuAvatar", 0);
 		dialogAvatar[DIALOG_AVATAR_NAME_ROLE].LoadBitmap(address);
 		delete address;
 		#pragma endregion
 
 		#pragma region - load null -
-		address = ConvertCharPointToString("Dialog", "bmp", 0);
+		address = ConvertCharPointToString("RES\\Dialog", "bmp", 0);
 		avatar_null.LoadBitmap(address);
 		delete address;
 		#pragma endregion
 
 		#pragma region - load next animation -
-		textNext.LoadBitmap("Dialog\\next", "next", 4, DIALOG_BACKGROUND_COLOR);
+		textNext.LoadBitmap("RES\\Dialog\\next", "next", 4, DIALOG_BACKGROUND_COLOR);
 		textNext.SetTopLeft(500, 450);
 		#pragma endregion
 
@@ -469,8 +469,8 @@ namespace game_framework
 	void CDialogManager::LoadDialog()
 	{
 		dialogmap.clear();
-		dialogmap[RoleVSBoss] = CDialog("Dialog\\Txt\\RoleVsBoss.txt", RoleVSBoss, false);
-		dialogmap[Tips] = CDialog("Dialog\\Txt\\InitTip.txt", RoleVSBoss, false);
+		dialogmap[RoleVSBoss] = CDialog("RES\\Dialog\\Txt\\RoleVsBoss.txt", RoleVSBoss, false);
+		dialogmap[Tips] = CDialog("RES\\Dialog\\Txt\\InitTip.txt", RoleVSBoss, false);
 	}
 
 	void CDialogManager::ShowText_Next()
@@ -705,7 +705,7 @@ namespace game_framework
 	CBossManager::CBossManager()
 	{
 		#pragma region -- Create Boss --
-		bossInformation[BOSS_XINGTING] = new CXingting(450, 250, 8787, BitmapPath("Boss", "xingting", 2), RGB(255, 255, 255));
+		bossInformation[BOSS_XINGTING] = new CXingting(450, 250, 8787, BitmapPath("RES\\Boss", "xingting", 2), RGB(255, 255, 255));
 		#pragma endregion
 		targetBoss = NULL;
 		isBattle = false;

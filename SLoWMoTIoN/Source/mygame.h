@@ -68,13 +68,19 @@ namespace game_framework {
 	class CGameStateInit : public CGameState {
 	public:
 		CGameStateInit(CGame *g);
-		void OnInit();  								// 遊戲的初值及圖形設定
 		void OnBeginState();							// 設定每次重玩所需的變數
+		void OnInit();  								// 遊戲的初值及圖形設定
 		void OnKeyUp(UINT, UINT, UINT); 				// 處理鍵盤Up的動作
 		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
+		void OnLButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
+		void OnMouseMove(UINT nFlags, CPoint point);	// 處理滑鼠的動作 
 	protected:
+		void OnMove();
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
+		CPoint		  mouse;
+		CButton		  btn_music;
+		CButton		  btn_sound;
 		CMovingBitmap logo;								// csie的logo
 	};
 

@@ -234,7 +234,7 @@ namespace game_framework {
 			dir = 1;
 			if (canJumping)
 			{
-				CAudio::Instance()->Play("AUDIO_JUMP");
+				CAudio::Instance()->Play("SOUND_JUMP");
 				isJumping = true;
 				//y -= STEP_SIZE;
 			}
@@ -349,8 +349,8 @@ namespace game_framework {
 	{		
 		if (shoot_cd.IsTimeOut())
 		{
-			CAudio::Instance()->Play("AUDIO_THROW");
-			CScallion *newCScallion = new CScallion(BitmapPath("Role\\Scallions", "scallion", 4), CPoint(GetX3(), GetY1()), CPoint(mouseX, mouseY)); //先創建一個蔥的物件
+			CAudio::Instance()->Play("SOUND_THROW");
+			CScallion *newCScallion = new CScallion(BitmapPath("RES\\Object\\Scallions", "scallion", 4), CPoint(GetX3(), GetY1()), CPoint(mouseX, mouseY)); //先創建一個蔥的物件
 
 			//CScallion *newCScallion = new CScallion("Role\\books", "book", 4, GetX3(), GetY1(), mx, my); //先創建一個蔥的物件
 			scallion.push_back(newCScallion); //將蔥放進vector

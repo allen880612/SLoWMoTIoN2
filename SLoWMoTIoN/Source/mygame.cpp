@@ -76,6 +76,16 @@ namespace game_framework {
 		
 	}
 
+	void CGameStateInit::OnBeginState()
+	{
+		CAudio::Instance()->Initialize();
+		CAudio::Instance()->Play("MUSIC_MENU", true);
+		btn_music = CButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true);
+		btn_sound = CButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true);
+		btn_music.Initialize();
+		btn_sound.Initialize();
+	}
+
 	void CGameStateInit::OnInit()
 	{
 		//
@@ -86,7 +96,6 @@ namespace game_framework {
 								//
 								// 開始載入資料
 								//
-
 		logo.LoadBitmap(".\\RES\\Map\\Menu.bmp");
 		
 		
@@ -94,13 +103,6 @@ namespace game_framework {
 								//
 								// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 								//
-	}
-
-	void CGameStateInit::OnBeginState()
-	{
-		CAudio::Instance()->Initialize();
-		//CAudio::Instance()->Load(AUDIO_MENU, "sounds\\SLoWMoTIoN_Menu.wav");
-		CAudio::Instance()->Play("AUDIO_MENU", true);
 	}
 
 	void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -118,8 +120,48 @@ namespace game_framework {
 
 	void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 	{
-		CAudio::Instance()->Stop("AUDIO_MENU");
-		GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+		if (IsPointInRect(mouse, btn_music.GetAnimate()->GetRect()))
+		{
+			btn_music.SetState(!btn_music.GetState());	//ㄎㄧㄤ 可能改 ChageState 會好點?
+			CAudio::Instance()->SetIsPlayMusic(btn_music.GetState());
+
+		}
+		if (IsPointInRect(mouse, btn_sound.GetAnimate()->GetRect()))
+		{
+			btn_sound.SetState(!btn_sound.GetState());
+			CAudio::Instance()->SetIsPlaySound(btn_sound.GetState());
+		}
+		
+		//CAudio::Instance()->Stop("AUDIO_MENU");
+		//GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+	}
+
+	void CGameStateInit::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
+	{
+	}
+
+	void CGameStateInit::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
+	{
+		mouse = point;
+
+	}
+
+	void CGameStateInit::OnMove()
+	{
+		if (!btn_music.GetState())	//music mute
+		{
+			CAudio::Instance()->Pause();
+		}
+		else
+		{
+			CAudio::Instance()->Resume();
+			//CAudio::Instance()->Play("MUSIC_MENU", true);
+		}
+		logo.SetTopLeft(0, 0);
+		btn_music.OnMove();
+		btn_sound.OnMove();
+		/*btn_music.SetXY(200, 200);
+		btn_sound.SetXY(400, 200);*/
 	}
 
 	void CGameStateInit::OnShow()
@@ -131,8 +173,11 @@ namespace game_framework {
 		// 貼上logo
 		//
 		//logo.SetTopLeft((SIZE_X - logo.Width()) / 2, SIZE_Y / 8);
-		logo.SetTopLeft(0, 0);
 		logo.ShowBitmap();
+		btn_music.OnShow();
+		btn_sound.OnShow();
+
+
 		//
 		// Demo螢幕字型的使用，不過開發時請盡量避免直接使用字型，改用CMovingBitmap比較好
 		//
@@ -204,8 +249,8 @@ namespace game_framework {
 		////CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
 		////CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
 		timer = CTimer(GAME_TIME); //ㄎㄧㄤ==
-		CAudio::Instance()->Stop("AUDIO_MENU");
-		CAudio::Instance()->Play("AUDIO_GAMEING");
+		CAudio::Instance()->Stop("MUSIC_MENU");
+		CAudio::Instance()->Play("MUSIC_GAMEING");
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -272,7 +317,7 @@ namespace game_framework {
 		if (timer.IsTimeOut())
 		{
 			finalScore = role.GetScore();
-			CAudio::Instance()->Stop("AUDIO_GAMEING");
+			CAudio::Instance()->Stop("MUSIC_GAMEING");
 			GotoGameState(GAME_STATE_OVER);
 		}
 		/*if (counter % 30 == 0)
@@ -550,7 +595,7 @@ namespace game_framework {
 			{
 				if ((*scallionk)->IsCollision(*passerbyj) && (*passerbyj)->GetValid() && (*scallionk)->IsAlive())
 				{
-					CAudio::Instance()->Play("AUDIO_HIT");
+					CAudio::Instance()->Play("SOUND_HIT");
 					role.AddScore((*passerbyj)->GetScore());
 					(*scallionk)->SetIsAlive(false);
 					
@@ -785,7 +830,7 @@ namespace game_framework {
 		counter--;
 		if (counter < 0)
 		{
-			CAudio::Instance()->Stop("AUDIO_GAMEOVER");
+			CAudio::Instance()->Stop("SOUND_GAMEOVER");
 			GotoGameState(GAME_STATE_INIT);
 		}
 	}
@@ -793,7 +838,7 @@ namespace game_framework {
 	void CGameStateOver::OnBeginState()
 	{
 		counter = 30 * 5; // 5 seconds
-		CAudio::Instance()->Play("AUDIO_GAMEOVER");
+		CAudio::Instance()->Play("SOUND_GAMEOVER");
 	}
 
 	void CGameStateOver::OnInit()

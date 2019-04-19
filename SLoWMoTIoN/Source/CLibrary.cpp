@@ -310,6 +310,16 @@ namespace game_framework
 		return isValid;
 	}
 
+	void CAnimate::SetIndex(int _index)
+	{
+		bmp_index = _index;
+	}
+
+	int CAnimate::GetIndex()
+	{
+		return bmp_index;
+	}
+
 	void CAnimate::ResetDelayTime(double _time)
 	{
 		delayTimer.ResetTime(_time);
@@ -481,7 +491,7 @@ namespace game_framework
 
 	#pragma endregion
 
-	#pragma region Camera
+	#pragma region - Camera -
 	CCamera CCamera::camera;
 
 	CCamera::CCamera()
@@ -550,4 +560,113 @@ namespace game_framework
 	}
 
 	#pragma endregion
+
+	#pragma region - Button -
+	CButton::CButton()
+	{
+
+	}
+
+	CButton::CButton(const CButton & button)
+	{
+		*this = button;
+	}
+
+	CButton::CButton(BitmapPath _loadpath, CPoint initPos, bool initState)
+	{
+		//LoadBitmap(_loadpath);
+		loadpath = _loadpath;
+		Initialize(initPos, initState);
+	}
+
+	CButton::~CButton()
+	{
+	}
+
+	int CButton::GetX()
+	{
+		return x;
+	}
+
+	int CButton::GetY()
+	{
+		return y;
+	}
+
+	void CButton::SetXY(int _x, int _y)
+	{
+		x = _x;
+		y = _y;
+	}
+
+	void CButton::SetState(bool flag)
+	{
+		state = flag;
+	}
+
+	bool CButton::GetState()
+	{
+		return state;
+	}
+
+	void CButton::LoadBitmap(BitmapPath _loadpath)
+	{
+		animation.LoadBitmap(_loadpath.ziliaojia, _loadpath.name, _loadpath.number, loadpath.color);
+	}
+
+	void CButton::OnMove()
+	{
+		if (state)	//ON
+		{
+			animation.SetIndex(1);
+		}
+		else		//OFF
+		{
+			animation.SetIndex(0);
+		}
+		animation.SetTopLeft(x, y);
+	}
+
+	void CButton::OnShow()
+	{
+		animation.OnShow();
+	}
+
+	void CButton::Initialize()
+	{
+		if (animation.IsNull())
+		{
+			LoadBitmap(loadpath);
+		}
+		//SetState(true);
+		SetXY(x, y);
+		animation.SetTopLeft(x, y);
+	}
+
+	void CButton::Initialize(CPoint pos, bool flag)
+	{
+		if (animation.IsNull())
+		{
+			LoadBitmap(loadpath);
+		}
+		SetState(flag);
+		SetXY(pos.x, pos.y);
+		animation.SetTopLeft(pos.x, pos.y);
+	}
+
+	CAnimate * CButton::GetAnimate()
+	{
+		return &animation;
+	}
+
+	void CButton::operator=(const CButton& button)
+	{
+		state = button.state;
+		loadpath = button.loadpath;
+		x = button.x;
+		y = button.y;
+	}
+	#pragma endregion
+
+	
 }

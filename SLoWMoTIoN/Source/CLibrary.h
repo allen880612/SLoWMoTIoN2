@@ -26,6 +26,7 @@ namespace myLibrary
 		COLORREF color;
 	};
 }
+using namespace myLibrary;
 namespace game_framework
 {
 	int ScreenX(int, int);
@@ -82,6 +83,8 @@ namespace game_framework
 		void  ReleaseAnimate();
 		void  SetValid(bool);
 		bool  GetValid();
+		void  SetIndex(int);
+		int  GetIndex();
 		
 		void  ResetDelayTime(double);
 		CRect GetRect();
@@ -140,7 +143,7 @@ namespace game_framework
 	};
 	#pragma endregion
 
-	#pragma region Camera
+	#pragma region - Camera -
 	class CCamera
 	{
 		public:
@@ -164,4 +167,34 @@ namespace game_framework
 	};
 	#pragma endregion
 
+	#pragma region - CButton -
+	class CButton
+	{
+	public:
+		CButton();
+		CButton(const CButton&);
+		CButton(BitmapPath, CPoint, bool);	//路徑、初始點、初始狀態
+		~CButton();
+		int		GetX();
+		int		GetY();
+		void	SetXY(int, int);
+		void	SetState(bool);
+		bool	GetState();
+		void	LoadBitmap(BitmapPath);
+		void	OnMove();					//更新Button狀態，有需要時也可更改顯示位置
+		void	OnShow();					
+		void	Initialize();
+		void	Initialize(CPoint, bool);
+		CAnimate* GetAnimate();
+
+		void operator=(const CButton&);
+
+	private:
+		CAnimate animation;
+		BitmapPath loadpath;
+		int x, y;
+		bool state = true;
+
+	};
+	#pragma endregion
 }

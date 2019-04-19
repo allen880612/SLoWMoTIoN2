@@ -107,12 +107,15 @@ void CAudio::Initialize()
 		adapter.insert(pair<string, unsigned>(adapterString[i], i));
 	}
 	
-	Load(adapter["AUDIO_MENU"], "sounds\\SLoWMoTIoN_Menu.wav");
-	Load(adapter["AUDIO_GAMEING"], "sounds\\SLoWMoTIoN_Game.wav");
-	Load(adapter["AUDIO_THROW"], "sounds\\throw.wav");
-	Load(adapter["AUDIO_JUMP"], "sounds\\jump.wav");
-	Load(adapter["AUDIO_HIT"], "sounds\\hit.wav");
-	Load(adapter["AUDIO_GAMEOVER"], "sounds\\SLoWMoTIoN_Gameover.wav");
+	Load(adapter["MUSIC_MENU"], "RES\\sounds\\SLoWMoTIoN_Menu.wav");
+	Load(adapter["MUSIC_GAMEING"], "RES\\sounds\\SLoWMoTIoN_Game.wav");
+	Load(adapter["SOUND_THROW"], "RES\\sounds\\throw.wav");
+	Load(adapter["SOUND_JUMP"], "RES\\sounds\\jump.wav");
+	Load(adapter["SOUND_HIT"], "RES\\sounds\\hit.wav");
+	Load(adapter["SOUND_GAMEOVER"], "RES\\sounds\\SLoWMoTIoN_Gameover.wav");
+
+	SetIsPlayMusic(true);
+	SetIsPlaySound(true);
 }
 
 void CAudio::ExecuteMciCommand(char *command)
@@ -328,8 +331,13 @@ void CAudio::Play(unsigned id, bool repeat_flag)
 
 void CAudio::Play(string _id, bool repeat_flag)
 {
+	string type = _id.substr(0, 5);
 	unsigned id = adapter[_id];
-	
+
+	if (type == "MUSIC" && !isPlayMusic)
+		return;
+	if (type == "SOUND" && !isPlaySound)
+		return;
 	if (!isOpened)
 		return;
 	GAME_ASSERT(info.find(id) != info.end(), "Can not play back audio: incorrect Audio ID!");
@@ -391,5 +399,29 @@ void CAudio::Stop(string _id)
 	}
 }
 
+bool CAudio::IsPlayMusic()
+{
+	return isPlayMusic;
+}
+
+bool CAudio::IsPlaySound()
+{
+	return isPlaySound;
+}
+
+void CAudio::SetIsPlayMusic(bool flag)
+{
+	isPlayMusic = flag;
+}
+
+void CAudio::SetIsPlaySound(bool flag)
+{
+	isPlaySound = flag;
+}
+
+bool CAudio::IsOpened()
+{
+	return isOpened;
+}
 
 }

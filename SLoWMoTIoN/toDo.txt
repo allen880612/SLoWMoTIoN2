@@ -1,3 +1,6 @@
-1. resolve black map
-2. add some obstacle on map (map collision)
-3. add a BOSS?
+//resolve black map
+//add a BOSS?
+
+add some obstacle on map (map collision)
+Boss skill
+door?

@@ -247,7 +247,7 @@ namespace game_framework {
 		velocity_y = vy;
 	}
 
-	void CScallion::SetInitVelocity(int b_x, int b_y, int f_x, int f_y, int fix_velocity£®)
+	void CScallion::SetInitVelocity(int b_x, int b_y, int f_x, int f_y, int fix_velocity)
 	{
 		int dx = (f_x - b_x) / fix_velocity;
 		int dy = -(f_y - b_y) / fix_velocity;

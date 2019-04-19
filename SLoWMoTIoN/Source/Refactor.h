@@ -18,7 +18,7 @@
 #define KEY_Q 81
 
 
-#define GAME_TIME 50
+#define GAME_TIME 10
 #define AUDIO_NUM 6
 
 #pragma region - Layer -
