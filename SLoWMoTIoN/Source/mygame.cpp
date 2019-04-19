@@ -207,6 +207,9 @@ namespace game_framework {
 		: CGameState(g), NUMBALLS(28)
 	{
 		ball = new CBall[NUMBALLS];
+		#pragma region - Set eventManager -
+		eventManager.SetGameStateRun(this);
+		#pragma endregion
 	}
 
 	CGameStateRun::~CGameStateRun()
@@ -297,6 +300,8 @@ namespace game_framework {
 		mapManager.LoadMapBitmap();
 		role.Initialize();
 		#pragma endregion
+
+		
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -525,7 +530,7 @@ namespace game_framework {
 		#pragma endregion
 
 		#pragma region --- 右邊沒有地圖且人物往右邊行走 ---
-		if (role.GetX2() >= SIZE_X && mapManager.GetRightMap() < 0 && role.GetMovingRight())
+		if (role.GetX2() >= SIZE_X && role.GetMovingRight() && (mapManager.GetRightMap() < 0 || bossManager.IsBattle()))
 		{
 			role.SetCanMoving(false); //沒有地圖，卡邊界
 		}
@@ -546,7 +551,7 @@ namespace game_framework {
 		#pragma endregion
 
 		#pragma region --- 左邊沒有地圖且人物往左邊行走 ---
-		if (role.GetX1() <= 0 && mapManager.GetLeftMap() < 0 && role.GetMovingLeft())
+		if (role.GetX1() <= 0 && role.GetMovingLeft() && (mapManager.GetLeftMap() < 0 || bossManager.IsBattle()))
 		{
 			role.SetCanMoving(false); //沒有地圖，卡邊界
 		}
@@ -577,7 +582,7 @@ namespace game_framework {
 		#pragma endregion
 		
 		#pragma region - boss attack -
-		if (bossManager.targetBoss != NULL)
+		if (bossManager.targetBoss != NULL && bossManager.IsBattle())
 		{
 			//bossManager.targetBoss->Attack1(&role);
 			bossManager.targetBoss->Attack2(&role);
@@ -748,24 +753,7 @@ namespace game_framework {
 
 	void CGameStateRun::PositionTrigger()
 	{
-		#pragma region - local variable -
-		int nowMap = mapManager.GetNowMap();
-		int rolePosition = ScreenX(mapManager.GetX1(), role.GetX3());
-		#pragma endregion
-		if (tips)
-		{
-			CDialogManager::Instance()->Start(Tips);
-			tips = false;
-		}
-		if (nowMap == 3)
-		{
-			if (rolePosition >= 100)
-			{
-				CDialogManager::Instance()->Start(RoleVSBoss);
-				if (CDialogManager::Instance()->GetDialogState())
-					bossManager.SetBattle(true);
-			}
-		}
+		eventManager.trigger();
 	}
 
 	void CGameStateRun::OnShow()

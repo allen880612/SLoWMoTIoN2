@@ -181,4 +181,20 @@ namespace game_framework
 		bool isBattle = false;
 	};
 	#pragma endregion
+
+	#pragma region - EventManager -
+	class CEventManager
+	{
+	public:
+		CEventManager();
+		~CEventManager();
+		void SetGameStateRun(CGameStateRun*);
+		void trigger();
+	private:
+		CGameStateRun *gameState = nullptr;
+		bool tips = true;
+		bool dialogWithXingting = false;
+	};
+	#pragma endregion
+
 }

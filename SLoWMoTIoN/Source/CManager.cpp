@@ -6,6 +6,7 @@
 #include "audio.h"
 #include "gamelib.h"
 #include <map>
+#include "mygame.h"
 #include "CManager.h"
 using namespace myLibrary;
 
@@ -761,5 +762,53 @@ namespace game_framework
 		}
 	}
 	#pragma endregion
-	
+
+	#pragma region - CEventManager -
+	CEventManager::CEventManager()
+	{
+		gameState = NULL;
+	}
+
+	CEventManager::~CEventManager()
+	{
+	}
+
+	void CEventManager::SetGameStateRun(CGameStateRun *state)
+	{
+		if (gameState == NULL)
+		{
+			gameState = state;
+		}
+	}
+	void CEventManager::trigger()
+	{
+		if (gameState != NULL)
+		{
+			#pragma region - local variable -
+			int nowMap = gameState->mapManager.GetNowMap();
+			int rolePosition = ScreenX(gameState->mapManager.GetX1(), gameState->role.GetX3());
+			#pragma endregion
+
+			#pragma region - dialog - tips -
+			if (tips)
+			{
+				CDialogManager::Instance()->Start(Tips);
+				tips = false;
+			}
+			#pragma endregion
+
+			#pragma region - dialog - vs xingting -
+			if (!dialogWithXingting && nowMap == 3)
+			{
+				if (rolePosition >= 100)
+				{
+					CDialogManager::Instance()->Start(RoleVSBoss);
+					dialogWithXingting = false;
+					gameState->bossManager.SetBattle(true);
+				}
+			}
+			#pragma endregion
+		}
+	}
+	#pragma endregion
 }
