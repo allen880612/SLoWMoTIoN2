@@ -540,6 +540,7 @@ namespace game_framework {
 
 
 		#pragma region - Collision -
+
 		scallions = role.GetScallion();			//取出蔥的指標做碰撞
 		passerbys = mapManager.GetPasserby();	//取出passerby指標碰撞
 		for (vector<CScallion*>::iterator scallionk = scallions->begin(); scallionk != scallions->end(); )

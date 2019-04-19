@@ -26,8 +26,9 @@ namespace game_framework
 		void OnMove();
 		void MoveWithMap(string);
 
-
+		virtual void OnCycle() {};
 		virtual void Attack1(CRole*) { };
+		virtual void Attack2(CRole*) { };
 
 		virtual vector<CScallion*>* GetBullet() { return nullptr; };
 
@@ -62,6 +63,7 @@ namespace game_framework
 		~CXingting();
 		void Initialize();
 		void Attack1(CRole*);
+		void Attack2(CRole*);
 		vector<CScallion*>* GetBullet() { return &level4; };
 	private:
 		vector<CScallion*>	level4;

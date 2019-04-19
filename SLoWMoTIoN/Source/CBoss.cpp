@@ -153,7 +153,7 @@ namespace game_framework
 			for (int i = 0; i < 5; i++)
 			{
 				//CScallion *newlevel4 = new CScallion("Role\\books", "book", 4, 450, 360, 150 + i * 30, 360 - i * 75); //先創建一個蔥的物件
-				level4.push_back(new CScallion("Role\\books", "book", 4, 450, 360, 150 + i * 30, 360 - i * 75)); //將蔥放進vector
+				level4.push_back(new CScallion(BitmapPath("Role\\books", "book", 4), 450, 360, 150 + i * 30, 360 - i * 75)); //將蔥放進vector
 				shootLevel4_cd.ResetTime();
 			}
 		}
@@ -174,6 +174,10 @@ namespace game_framework
 				level4iter++;
 			}
 		}
+	}
+
+	void CXingting::Attack2(CRole *role)
+	{
 		
 	}
 	#pragma endregion
