@@ -69,17 +69,28 @@ namespace game_framework
 
 	bool IsPointInRect(CPoint point, CRect rect)
 	{
-		return (rect.left <= point.x && point.x <= rect.right && rect.top <= point.y && rect.bottom);
+		return ((rect.left <= point.x) && 
+			    (point.x <= rect.right) && 
+			    (rect.top <= point.y) && 
+			    (point.y <= rect.bottom));
 	}
 
-	bool IsRectCollision(CRect rect1, CRect rect2)
+	//a 碰到 b
+	bool rectCollision(CRect rect1, CRect rect2)
 	{
 		CPoint leftTop = CPoint(rect1.left, rect1.top);
 		CPoint rightTop = CPoint(rect1.right, rect1.top);
 		CPoint leftBottom = CPoint(rect1.left, rect1.bottom);
 		CPoint rightBottom = CPoint(rect1.right, rect1.bottom);
+
 		return (IsPointInRect(leftTop, rect2) || IsPointInRect(rightTop, rect2) ||
 			IsPointInRect(leftBottom, rect2) || IsPointInRect(rightBottom, rect2));
+	}
+
+	//a 碰到 b 或 b 碰到 a
+	bool IsRectCollision(CRect rect1, CRect rect2)
+	{
+		return rectCollision(rect1, rect2) || rectCollision(rect2, rect1);
 	}
 
 	bool IsRectInRect(CRect rect1, CRect rect2) //小 in 大

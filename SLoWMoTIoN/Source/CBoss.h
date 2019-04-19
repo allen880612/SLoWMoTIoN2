@@ -8,6 +8,7 @@ namespace game_framework
 	#pragma region - CBoss -
 	class CScallion; //???????????????????????我明明沒有在scallion引入boss???????????
 					 //難到是傳說中的三重引入?????????????????????????????????????
+	class CRole;
 	class CBoss
 	{
 	public:
@@ -26,7 +27,7 @@ namespace game_framework
 		void MoveWithMap(string);
 
 
-		virtual void Attack1() { };
+		virtual void Attack1(CRole*) { };
 
 		virtual vector<CScallion*>* GetBullet() { return nullptr; };
 
@@ -60,7 +61,7 @@ namespace game_framework
 		CXingting(int, int, int, BitmapPath, COLORREF);
 		~CXingting();
 		void Initialize();
-		void Attack1();
+		void Attack1(CRole*);
 		vector<CScallion*>* GetBullet() { return &level4; };
 	private:
 		vector<CScallion*>	level4;

@@ -373,6 +373,10 @@ namespace game_framework {
 
 	bool CRole::IsCollisionLevel4(CScallion *level4)
 	{
+
+		
+		bool flag = IsRectCollision(animation.GetRect(), level4->GetAnimate()->GetRect());
+
 		return IsRectCollision(animation.GetRect(), level4->GetAnimate()->GetRect());
 	}
 

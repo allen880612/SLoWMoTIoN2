@@ -145,23 +145,36 @@ namespace game_framework
 		shootLevel4_cd = CTimer(1.0);
 	}
 
-	void CXingting::Attack1()
+	void CXingting::Attack1(CRole *role)
 	{
 		shootLevel4_cd.CountDown();
 		if (shootLevel4_cd.IsTimeOut())
 		{
 			for (int i = 0; i < 5; i++)
 			{
-				CScallion *newlevel4 = new CScallion("Role\\books", "book", 4, 450, 360, 150 + i * 30, 360 - i * 75); //先創建一個蔥的物件
-				level4.push_back(newlevel4); //將蔥放進vector
+				//CScallion *newlevel4 = new CScallion("Role\\books", "book", 4, 450, 360, 150 + i * 30, 360 - i * 75); //先創建一個蔥的物件
+				level4.push_back(new CScallion("Role\\books", "book", 4, 450, 360, 150 + i * 30, 360 - i * 75)); //將蔥放進vector
 				shootLevel4_cd.ResetTime();
 			}
 		}
 
-		for (vector<CScallion*>::iterator level4iter = level4.begin(); level4iter != level4.end(); level4iter++)
+		for (vector<CScallion*>::iterator level4iter = level4.begin(); level4iter != level4.end();)
 		{
 			(*level4iter)->OnMove();
+			if (role->IsCollisionLevel4(*level4iter))
+			{
+				(*level4iter)->SetIsAlive(false);
+				role->SubHp();
+				delete *level4iter;
+				*level4iter = NULL;
+				level4iter = level4.erase(level4iter);
+			}
+			else
+			{
+				level4iter++;
+			}
 		}
+		
 	}
 	#pragma endregion
 

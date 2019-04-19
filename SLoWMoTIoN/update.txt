@@ -156,3 +156,4 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
 1. CScallion - Loadbitmap, getanimate, animation -> move to CBall
    CBall delete bmp(CMovingBitmap)
 2. xingting spray yuan dong
+3. update rect collision
