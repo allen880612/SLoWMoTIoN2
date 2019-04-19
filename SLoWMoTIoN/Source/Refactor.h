@@ -19,6 +19,7 @@
 
 
 #define GAME_TIME 50
+#define AUDIO_NUM 6
 
 #pragma region - Layer -
 #define BULLET_LAYER 6

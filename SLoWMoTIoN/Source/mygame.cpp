@@ -98,8 +98,9 @@ namespace game_framework {
 
 	void CGameStateInit::OnBeginState()
 	{
-		CAudio::Instance()->Load(AUDIO_MENU, "sounds\\SLoWMoTIoN_Menu.wav");
-		CAudio::Instance()->Play(AUDIO_MENU);
+		CAudio::Instance()->Initialize();
+		//CAudio::Instance()->Load(AUDIO_MENU, "sounds\\SLoWMoTIoN_Menu.wav");
+		CAudio::Instance()->Play("AUDIO_MENU", true);
 	}
 
 	void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -117,7 +118,7 @@ namespace game_framework {
 
 	void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 	{
-		//CAudio::Instance()->Stop(AUDIO_MENU);
+		CAudio::Instance()->Stop("AUDIO_MENU");
 		GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 	}
 
@@ -193,8 +194,8 @@ namespace game_framework {
 		CCamera::Instance()->Initialize();
 		mapManager.Initialize();
 		bossManager.Initialize();
-		role.Initialize(AUDIO_THROW, AUDIO_JUMP);
-
+		//role.Initialize(AUDIO_THROW, AUDIO_JUMP);
+		role.Initialize();
 		background.SetTopLeft(BACKGROUND_X, 0);				// 設定背景的起始座標
 		help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
 		time_left.SetInteger(TIME_LEFT);					// 指定剩下的撞擊數
@@ -203,8 +204,8 @@ namespace game_framework {
 		//CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
 		//CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
 		timer = CTimer(GAME_TIME); //ㄎㄧㄤ==
-		CAudio::Instance()->Stop(AUDIO_MENU);
-		CAudio::Instance()->Play(AUDIO_GAMEING);
+		CAudio::Instance()->Stop("AUDIO_MENU");
+		CAudio::Instance()->Play("AUDIO_GAMEING");
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -239,18 +240,17 @@ namespace game_framework {
 		corner.ShowBitmap(background);								// 將corner貼到background
 																	//bball.LoadBitmap();										// 載入圖形
 		time_left.LoadBitmap();
-		;	// 載入編號0的聲音ding.wav
-		//CAudio::Instance()->Load(AUDIO_LAKE, "sounds\\lake.mp3");	// 載入編號1的聲音lake.mp3
-		CAudio::Instance()->Load(AUDIO_GAMEING, "sounds\\SLoWMoTIoN_Game.wav");
+
+		/*CAudio::Instance()->Load(AUDIO_GAMEING, "sounds\\SLoWMoTIoN_Game.wav");
 		CAudio::Instance()->Load(AUDIO_THROW, "sounds\\throw.wav");
 		CAudio::Instance()->Load(AUDIO_JUMP, "sounds\\jump.wav"); 
-		CAudio::Instance()->Load(AUDIO_HIT, "sounds\\hit.wav");
+		CAudio::Instance()->Load(AUDIO_HIT, "sounds\\hit.wav");*/
 												
 																	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
 																	//
 		#pragma region - Initialize - MapManager -
 		mapManager.LoadMapBitmap();
-		role.Initialize(AUDIO_THROW, AUDIO_JUMP);
+		role.Initialize();
 		#pragma endregion
 	}
 
@@ -272,7 +272,7 @@ namespace game_framework {
 		if (timer.IsTimeOut())
 		{
 			finalScore = role.GetScore();
-			CAudio::Instance()->Stop(AUDIO_GAMEING);
+			CAudio::Instance()->Stop("AUDIO_GAMEING");
 			GotoGameState(GAME_STATE_OVER);
 		}
 		/*if (counter % 30 == 0)
@@ -549,7 +549,7 @@ namespace game_framework {
 			{
 				if ((*scallionk)->IsCollision(*passerbyj) && (*passerbyj)->GetValid() && (*scallionk)->IsAlive())
 				{
-					CAudio::Instance()->Play(AUDIO_HIT);
+					CAudio::Instance()->Play("AUDIO_HIT");
 					role.AddScore((*passerbyj)->GetScore());
 					(*scallionk)->SetIsAlive(false);
 					
@@ -777,7 +777,7 @@ namespace game_framework {
 		counter--;
 		if (counter < 0)
 		{
-			CAudio::Instance()->Stop(AUDIO_GAMEOVER);
+			CAudio::Instance()->Stop("AUDIO_GAMEOVER");
 			GotoGameState(GAME_STATE_INIT);
 		}
 	}
@@ -785,7 +785,7 @@ namespace game_framework {
 	void CGameStateOver::OnBeginState()
 	{
 		counter = 30 * 5; // 5 seconds
-		CAudio::Instance()->Play(AUDIO_GAMEOVER);
+		CAudio::Instance()->Play("AUDIO_GAMEOVER");
 	}
 
 	void CGameStateOver::OnInit()
@@ -794,7 +794,8 @@ namespace game_framework {
 		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 		//
-		CAudio::Instance()->Load(AUDIO_GAMEOVER, "sounds\\SLoWMoTIoN_Gameover.wav");
+
+		//CAudio::Instance()->Load(AUDIO_GAMEOVER, "sounds\\SLoWMoTIoN_Gameover.wav");
 		overBitmap.LoadBitmap(".\\RES\\Gameover.bmp");
 		ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
 								//

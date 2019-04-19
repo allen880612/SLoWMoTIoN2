@@ -80,7 +80,7 @@ namespace game_framework {
 		void SubHp();
 		int GetHp() { return hp; }; //§ÚÃi£{
 
-		void Initialize(unsigned, unsigned);
+		void Initialize();
 
 		bool GetIsFire();
 		void SetIsFire(bool);
@@ -111,8 +111,8 @@ namespace game_framework {
 		CRect collisionRect;
 		void ResetCollisionRect();
 	private:
-		unsigned AUDIO_THROW;
-		unsigned AUDIO_JUMP;
+		//unsigned AUDIO_THROW;
+		//unsigned AUDIO_JUMP;
 
 		#pragma region - init information-
 		int inithp = 3;
