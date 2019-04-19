@@ -64,10 +64,11 @@ namespace game_framework
 		void Initialize();
 		void Attack1(CRole*);
 		void Attack2(CRole*);
-		vector<CScallion*>* GetBullet() { return &level4; };
+		int rrrr() { return 8787; };
 	private:
 		vector<CScallion*>	level4;
 		CTimer shootLevel4_cd;
+		void Level4Collision(CRole*);
 	};
 	#pragma endregion
 }

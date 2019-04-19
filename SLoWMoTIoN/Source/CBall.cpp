@@ -149,10 +149,10 @@ namespace game_framework {
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 	}
 
-	CScallion::CScallion(BitmapPath loadpath, int _x, int _y, int f_x, int f_y)
+	CScallion::CScallion(BitmapPath loadpath, CPoint point, int f_x, int f_y, int _gravity) //gravity 預設 4 可不指定
 	{
-		const int INIT_X = _x, INIT_Y = _y;
-		const int GRAVITY = 4;
+		const int INIT_X = point.x, INIT_Y = point.y;
+		const int GRAVITY = _gravity;
 		currentX = INIT_X;
 		currentY = INIT_Y;
 		x = INIT_X;
@@ -166,12 +166,7 @@ namespace game_framework {
 		animation.ResetDelayTime(0.1);
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 
-		SetInitVelocity(_x, _y, f_x, f_y);
-	}
-
-	CScallion::CScallion(BitmapPath loadpath, int _x, int _y, int f_x, int f_y, int _gravity) : CScallion(loadpath, _x, _y, f_x, f_y)
-	{
-		gravity = _gravity;
+		SetInitVelocity(point.x, point.y, f_x, f_y);
 	}
 
 	CScallion::~CScallion()

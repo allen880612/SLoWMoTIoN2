@@ -153,11 +153,33 @@ namespace game_framework
 			for (int i = 0; i < 5; i++)
 			{
 				//CScallion *newlevel4 = new CScallion("Role\\books", "book", 4, 450, 360, 150 + i * 30, 360 - i * 75); //先創建一個蔥的物件
-				level4.push_back(new CScallion(BitmapPath("Role\\books", "book", 4), 450, 360, 150 + i * 30, 360 - i * 75)); //將蔥放進vector
+				level4.push_back(new CScallion(BitmapPath("Role\\books", "book", 4), CPoint(450, 360), 150 + i * 30, 360 - i * 75)); //將蔥放進vector
 				shootLevel4_cd.ResetTime();
 			}
 		}
 
+		Level4Collision(role);
+
+	}
+
+	void CXingting::Attack2(CRole *role)
+	{
+		shootLevel4_cd.CountDown();
+		if (shootLevel4_cd.IsTimeOut())
+		{
+			for (int i = 0; i < 5; i++)
+			{
+				CScallion *newlevel4 = new CScallion(BitmapPath("Role\\books", "book", 4), CPoint(450, 360), 150, 360 + i * 30, 0); //先創建一個蔥的物件
+				level4.push_back(newlevel4); //將蔥放進vector
+				shootLevel4_cd.ResetTime();
+			}
+		}
+
+		Level4Collision(role);
+
+	}
+	void CXingting::Level4Collision(CRole *role)
+	{
 		for (vector<CScallion*>::iterator level4iter = level4.begin(); level4iter != level4.end();)
 		{
 			(*level4iter)->OnMove();
@@ -174,11 +196,7 @@ namespace game_framework
 				level4iter++;
 			}
 		}
-	}
 
-	void CXingting::Attack2(CRole *role)
-	{
-		
 	}
 	#pragma endregion
 

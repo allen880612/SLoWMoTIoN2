@@ -534,7 +534,7 @@ namespace game_framework {
 		#pragma region - boss attack -
 		if (bossManager.targetBoss != NULL)
 		{
-			bossManager.targetBoss->Attack1(&role);
+			bossManager.targetBoss->Attack2(&role);
 		}
 		#pragma endregion
 
@@ -576,7 +576,7 @@ namespace game_framework {
 		}
 		#pragma endregion
 
-		#pragma region - NPC Moving -
+		#pragma region - Passerby Moving -
 		for (vector<CPasserby*>::iterator passerbyj = passerbys->begin(); passerbyj != passerbys->end(); passerbyj++)
 		{
 			(*passerbyj)->SetMoving();
