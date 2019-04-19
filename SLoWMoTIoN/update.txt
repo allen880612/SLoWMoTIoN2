@@ -161,6 +161,10 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
 ==============================================================
 2019/4/20
 
-9 Lock map in battle
+9.  Lock map in battle
 10. add CEventManager (like position trigger) please be careful, It's danger.
-problem: has a memory leaks -> new CXingting
+    problem: has a memory leaks -> new CXingting
+11. Add CButton (just load two image, and update it's "state"),
+    Notice : It's can(must?) use copy constructor, like btn_something = CButton(BitmapPath(...), CPoint(x, y), bool)
+    The last bool parameter is the initial state of button.
+12. Add two button on the menu, it's can control weather music/sound should play or not.

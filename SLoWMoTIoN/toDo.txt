@@ -4,3 +4,4 @@
 add some obstacle on map (map collision)
 Boss skill
 door?
+Menu Button
