@@ -62,41 +62,33 @@ END
 // Bitmap
 //
 
-IDB_BALL                BITMAP                  "..\\res\\ball.bmp"
+//IDB_BALL                BITMAP                  "..\\res\\ball.bmp"
 
-IDB_ERASER1             BITMAP                  "..\\res\\eraser1.bmp"
+//IDB_ERASER1             BITMAP                  "..\\res\\eraser1.bmp"
 
-IDB_BACKGROUND          BITMAP                  "..\\res\\ntutcsie.bmp"
+//IDB_BACKGROUND          BITMAP                  "..\\res\\ntutcsie.bmp"
 
-IDB_CORNER              BITMAP                  "..\\res\\corner.bmp"
+//IDB_CORNER              BITMAP                  "..\\res\\corner.bmp"
 
-IDB_0                   BITMAP                  "..\\res\\bmp0.bmp"
-
-IDB_1                   BITMAP                  "..\\res\\bmp1.bmp"
-
-IDB_2                   BITMAP                  "..\\res\\bmp2.bmp"
-
-IDB_3                   BITMAP                  "..\\res\\bmp3.bmp"
-
-IDB_4                   BITMAP                  "..\\res\\bmp4.bmp"
-
-IDB_5                   BITMAP                  "..\\res\\bmp5.bmp"
-
-IDB_6                   BITMAP                  "..\\res\\bmp6.bmp"
-
-IDB_7                   BITMAP                  "..\\res\\bmp7.bmp"
-
-IDB_8                   BITMAP                  "..\\res\\bmp8.bmp"
-
-IDB_9                   BITMAP                  "..\\res\\bmp9.bmp"
-
-IDB_MINUS               BITMAP                  "..\\res\\bmp10.bmp"
-
-IDB_CENTER              BITMAP                  "..\\res\\center.bmp"
-
-IDB_ERASER2             BITMAP                  "..\\res\\eraser2.bmp"
-
-IDB_ERASER3             BITMAP                  "..\\res\\eraser3.bmp"
+//idb_0                   bitmap                  "..\\res\\bmp0.bmp"
+//
+//idb_1                   bitmap                  "..\\res\\bmp1.bmp"
+//
+//idb_2                   bitmap                  "..\\res\\bmp2.bmp"
+//
+//idb_3                   bitmap                  "..\\res\\bmp3.bmp"
+//
+//idb_4                   bitmap                  "..\\res\\bmp4.bmp"
+//
+//idb_5                   bitmap                  "..\\res\\bmp5.bmp"
+//
+//idb_6                   bitmap                  "..\\res\\bmp6.bmp"
+//
+//idb_7                   bitmap                  "..\\res\\bmp7.bmp"
+//
+//idb_8                   bitmap                  "..\\res\\bmp8.bmp"
+//
+//idb_9                   bitmap                  "..\\res\\bmp9.bmp"
 
 IDB_CONTINUE            BITMAP                  "..\\res\\continue.bmp"
 
@@ -104,23 +96,13 @@ IDB_HELP                BITMAP                  "..\\res\\help.bmp"
 
 IDB_LOADING             BITMAP                  "..\\res\\loading.bmp"
 
-IDB_MIKU_A              BITMAP                  "..\\res\\bitmap3.bmp"
-
-IDB_MIKU_B              BITMAP                  "..\\res\\bitmap4.bmp"
-
-ID_BLUE                 BITMAP                  "..\\res\\bmp00001.bmp"
-
-ID_GREEN                BITMAP                  "..\\res\\id_blue1.bmp"
-
-ID_RED                  BITMAP                  "..\\res\\id_green.bmp"
-
-IDB_MAP0                BITMAP                  "..\\RES\\IDB_MAP0.bmp"
-
-IDB_MAP1                BITMAP                  "..\\RES\\IDB_MAP_1.bmp"
-
-IDB_MAP2                BITMAP                  "..\\RES\\IDB_MAP_2.bmp"
-
-IDB_MAP0_2              BITMAP                  "..\\RES\\IDB_MAP_0.bmp"
+//IDB_MAP0                BITMAP                  "..\\RES\\IDB_MAP0.bmp"
+//
+//IDB_MAP1                BITMAP                  "..\\RES\\IDB_MAP_1.bmp"
+//
+//IDB_MAP2                BITMAP                  "..\\RES\\IDB_MAP_2.bmp"
+//
+//IDB_MAP0_2              BITMAP                  "..\\RES\\IDB_MAP_0.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////

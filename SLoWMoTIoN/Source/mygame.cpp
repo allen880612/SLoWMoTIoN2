@@ -87,7 +87,7 @@ namespace game_framework {
 								// 開始載入資料
 								//
 
-		logo.LoadBitmap(".\\RES\\Menu.bmp");
+		logo.LoadBitmap(".\\RES\\Map\\Menu.bmp");
 		
 		
 		//Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
@@ -196,13 +196,13 @@ namespace game_framework {
 		bossManager.Initialize();
 		//role.Initialize(AUDIO_THROW, AUDIO_JUMP);
 		role.Initialize();
-		background.SetTopLeft(BACKGROUND_X, 0);				// 設定背景的起始座標
-		help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
-		time_left.SetInteger(TIME_LEFT);					// 指定剩下的撞擊數
-		time_left.SetTopLeft(TIME_LEFT_X, TIME_LEFT_Y);		// 指定剩下撞擊數的座標
-		//CAudio::Instance()->Play(AUDIO_LAKE, true);			// 撥放 WAVE
-		//CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
-		//CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
+		//background.SetTopLeft(BACKGROUND_X, 0);				// 設定背景的起始座標
+		//help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
+		//time_left.SetInteger(TIME_LEFT);					// 指定剩下的撞擊數
+		//time_left.SetTopLeft(TIME_LEFT_X, TIME_LEFT_Y);		// 指定剩下撞擊數的座標
+		////CAudio::Instance()->Play(AUDIO_LAKE, true);			// 撥放 WAVE
+		////CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
+		////CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
 		timer = CTimer(GAME_TIME); //ㄎㄧㄤ==
 		CAudio::Instance()->Stop("AUDIO_MENU");
 		CAudio::Instance()->Play("AUDIO_GAMEING");
@@ -226,7 +226,7 @@ namespace game_framework {
 																//role.LoadBitmap();
 		//role.LoadBitmap("Role", "MIKU", 13, RGB(255, 255, 255));
 		
-		background.LoadBitmap(IDB_BACKGROUND);					// 載入背景的圖形
+		//background.LoadBitmap(IDB_BACKGROUND);					// 載入背景的圖形
 																//
 																// 完成部分Loading動作，提高進度
 																//
@@ -235,11 +235,11 @@ namespace game_framework {
 		//			//
 		//			// 繼續載入其他資料
 		//			//
-		help.LoadBitmap(IDB_HELP, RGB(255, 255, 255));				// 載入說明的圖形
-		corner.LoadBitmap(IDB_CORNER);								// 載入角落圖形
-		corner.ShowBitmap(background);								// 將corner貼到background
-																	//bball.LoadBitmap();										// 載入圖形
-		time_left.LoadBitmap();
+		//help.LoadBitmap(IDB_HELP, RGB(255, 255, 255));				// 載入說明的圖形
+		//corner.LoadBitmap(IDB_CORNER);								// 載入角落圖形
+		//corner.ShowBitmap(background);								// 將corner貼到background
+		//															//bball.LoadBitmap();										// 載入圖形
+		//time_left.LoadBitmap();
 
 		/*CAudio::Instance()->Load(AUDIO_GAMEING, "sounds\\SLoWMoTIoN_Game.wav");
 		CAudio::Instance()->Load(AUDIO_THROW, "sounds\\throw.wav");
@@ -796,7 +796,7 @@ namespace game_framework {
 		//
 
 		//CAudio::Instance()->Load(AUDIO_GAMEOVER, "sounds\\SLoWMoTIoN_Gameover.wav");
-		overBitmap.LoadBitmap(".\\RES\\Gameover.bmp");
+		overBitmap.LoadBitmap(".\\RES\\Map\\Gameover.bmp");
 		ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
 								//
 								// 開始載入資料

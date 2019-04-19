@@ -417,7 +417,7 @@ namespace game_framework {
 
 		if (animation.IsNull())
 		{
-			LoadBitmap("Role", "MIKU", 13, RGB(255, 255, 255));
+			LoadBitmap("RES\\Role\\miku", "MIKU", 13, RGB(255, 255, 255));
 		}
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 

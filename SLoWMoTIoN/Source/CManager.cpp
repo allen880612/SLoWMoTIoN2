@@ -216,23 +216,23 @@ namespace game_framework
 			switch (mapIndex)
 			{				//順序：目前 上 下 左 右 地圖上有幾個passerby存在， -1表示不存在
 			case 0:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 1, 2, 5, "RES", "IDB_MAP", mapIndex);
+				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 1, 2, 5, "RES\\Map", "IDB_MAP", mapIndex);
 				break;
 
 			case 1:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, -1, 0, 2, "RES", "IDB_MAP", mapIndex);
+				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, -1, 0, 2, "RES\\Map", "IDB_MAP", mapIndex);
 				break;
 
 			case 2:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 0, 3, 3, "RES", "IDB_MAP", mapIndex);
+				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 0, 3, 3, "RES\\Map", "IDB_MAP", mapIndex);
 				break;
 
 			case 3:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 2, -1, 0, "RES", "IDB_MAP", mapIndex);
+				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 2, -1, 0, "RES\\Map", "IDB_MAP", mapIndex);
 				break;
 
 			default:
-				blockMap[mapIndex] = CBlockMap(-1, -1, -1, -1, -1, 0, "RES", "IDB_MAP", 0);
+				blockMap[mapIndex] = CBlockMap(-1, -1, -1, -1, -1, 0, "RES\\Map", "IDB_MAP", 0);
 				break;
 			}
 		}
