@@ -44,7 +44,8 @@ namespace game_framework {
 	{
 	public:
 		CScallion();
-		CScallion(string, string, int, int, int, int, int);
+		CScallion(BitmapPath, int, int, int, int);
+		CScallion(BitmapPath, int, int, int, int, int);
 		~CScallion();
 
 		void OnMove();

@@ -347,7 +347,7 @@ namespace game_framework {
 		if (shoot_cd.IsTimeOut())
 		{
 			CAudio::Instance()->Play(AUDIO_THROW);
-			CScallion *newCScallion = new CScallion("Role\\Scallions", "scallion", 4, GetX3(), GetY1(), mx, my); //先創建一個蔥的物件
+			CScallion *newCScallion = new CScallion(BitmapPath("Role\\Scallions", "scallion", 4), GetX3(), GetY1(), mx, my); //先創建一個蔥的物件
 			//CScallion *newCScallion = new CScallion("Role\\books", "book", 4, GetX3(), GetY1(), mx, my); //先創建一個蔥的物件
 			scallion.push_back(newCScallion); //將蔥放進vector
 			shoot_cd.ResetTime(0.33);

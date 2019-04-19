@@ -129,6 +129,7 @@ namespace game_framework {
 
 	#pragma endregion
 
+	#pragma region - CScallion -
 	CScallion::CScallion()
 	{
 		dx = dy = index = delay_counter = 0;	//暫時無用，只是確保繼承不會出問題
@@ -148,9 +149,8 @@ namespace game_framework {
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 	}
 
-	CScallion::CScallion(string ziliaojia, string name, int number, int _x, int _y, int f_x, int f_y)
+	CScallion::CScallion(BitmapPath loadpath, int _x, int _y, int f_x, int f_y)
 	{
-
 		const int INIT_X = _x, INIT_Y = _y;
 		const int GRAVITY = 4;
 		currentX = INIT_X;
@@ -161,12 +161,17 @@ namespace game_framework {
 		layer.SetLayer(BULLET_LAYER);
 
 		is_alive = true;
-		LoadBitmap(ziliaojia, name, number);
+		LoadBitmap(loadpath.ziliaojia, loadpath.name, loadpath.number);
 		animation.SetTopLeft(x, y);
 		animation.ResetDelayTime(0.1);
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 
 		SetInitVelocity(_x, _y, f_x, f_y);
+	}
+
+	CScallion::CScallion(BitmapPath loadpath, int _x, int _y, int f_x, int f_y, int _gravity) : CScallion(loadpath, _x, _y, f_x, f_y)
+	{
+		gravity = _gravity;
 	}
 
 	CScallion::~CScallion()
@@ -241,5 +246,43 @@ namespace game_framework {
 	{
 		return IsRectCollision(animation.GetRect(), passerby->animation.GetRect());
 	}
+	#pragma endregion
 
+	//#pragma region - CBullet -
+	//CBullet::CBullet()
+	//{
+	//}
+
+	//CBullet::CBullet(BitmapPath _loadpath, int _x, int _y, int _mx, int _my)
+	//{
+	//	currentX = x = _x;
+	//	currentY = y = _y;
+
+	//	layer.SetLayer(BULLET_LAYER);
+
+	//	LoadBitmap(_loadpath.ziliaojia, _loadpath.name, _loadpath.number);
+
+	//	animation.SetTopLeft(x, y);
+	//	animation.ResetDelayTime(0.1);
+	//	CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
+	//}
+	//
+	//CBullet::~CBullet()
+	//{
+	//}
+
+	//void CBullet::OnMove()
+	//{
+	//	if (x > SIZE_X || x < 0 || y > SIZE_Y)	//超出螢幕
+	//	{
+	//		SetIsAlive(false);
+	//		animation.SetValid(false);
+	//		return;
+	//	}
+
+	//	animation.OnMove();
+
+	//	SetXY(x + dx, y + dy);
+	//}
+	//#pragma endregion
 }

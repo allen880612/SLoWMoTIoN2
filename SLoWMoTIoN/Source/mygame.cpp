@@ -540,34 +540,6 @@ namespace game_framework {
 
 
 		#pragma region - Collision -
-		//算ㄌ先這樣ㄅ==
-		//if (bossManager.targetBoss != NULL)
-		//{
-		//	vector<CScallion*>* level4 = bossManager.targetBoss->GetBullet();
-		//	if (level4 != NULL)
-		//	{
-		//		for (vector<CScallion*>::iterator level4iter = level4->begin(); level4iter != level4->end(); )
-		//		{
-		//			if (role.IsCollisionLevel4(*level4iter))
-		//			{
-		//				(*level4iter)->SetIsAlive(false);
-		//				role.SubHp();
-		//			}
-
-		//			if (!(*level4iter)->IsAlive())
-		//			{
-		//				delete *level4iter;
-		//				*level4iter = NULL;
-		//				level4iter = level4->erase(level4iter);
-		//			}
-		//			else
-		//			{
-		//				level4iter++;
-		//			}
-		//		}
-		//	}
-		//}
-
 
 		scallions = role.GetScallion();			//取出蔥的指標做碰撞
 		passerbys = mapManager.GetPasserby();	//取出passerby指標碰撞
