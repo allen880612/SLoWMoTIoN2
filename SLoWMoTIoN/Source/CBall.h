@@ -16,6 +16,7 @@ namespace game_framework {
 		//bool HitEraser(CEraser *eraser);						// 是否碰到擦子
 		bool IsAlive();											// 是否活著
 		void LoadBitmap();										// 載入圖形
+
 		void OnMove();											// 移動
 		void OnShow();											// 將圖形貼到畫面
 		void SetCurrentXY(int, int);
@@ -24,6 +25,7 @@ namespace game_framework {
 		void SetDelay(int d);									// 設定旋轉的速度
 
 		void LoadBitmap(string, string, int);
+		void LoadBitmap(BitmapPath);
 		CAnimate* GetAnimate();
 		CLayer layer;
 	protected:
@@ -44,16 +46,18 @@ namespace game_framework {
 	{
 	public:
 		CScallion();
-		CScallion(BitmapPath, CPoint, int, int, int = 4);
+		CScallion(BitmapPath, CPoint, CPoint, int = 4);	//給兩CPoint + int 為參數時，第一個為目前座標，第二個為滑鼠座標，最後為重力參數
+		CScallion(BitmapPath, CPoint, int, int);			//若不給重力參數，第一個CPoint不變，但後面變為「x初速, y初速」
 		~CScallion();
 
 		void OnMove();
 		void OnShow();
+		void SetInitVelocity(int, int, int, int, int = 5);
 		void SetInitVelocity(int, int);
-		void SetInitVelocity(int, int, int, int);
 		bool IsCollision(CPasserby);
 		bool IsCollision(CPasserby*);
 		void Clear();
+		void Initialize(CPoint);
 
 	protected:
 

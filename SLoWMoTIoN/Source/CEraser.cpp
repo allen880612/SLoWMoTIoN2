@@ -111,6 +111,11 @@ namespace game_framework {
 		width = animation.Width();
 	}
 
+	void CEraser::LoadBitmap(BitmapPath loadpath)
+	{
+		animation.LoadBitmap(loadpath.ziliaojia, loadpath.name, loadpath.number, loadpath.color);
+	}
+
 	void CEraser::OnMove()
 	{
 		const int STEP_SIZE = move_distance;
@@ -340,12 +345,12 @@ namespace game_framework {
 		isFire = flag;
 	}
 
-	void CRole::Fire(int mx, int my)	
+	void CRole::Fire(int mouseX, int mouseY)
 	{		
 		if (shoot_cd.IsTimeOut())
 		{
 			CAudio::Instance()->Play("AUDIO_THROW");
-			CScallion *newCScallion = new CScallion(BitmapPath("Role\\Scallions", "scallion", 4), CPoint(GetX3(), GetY1()), mx, my); //先創建一個蔥的物件
+			CScallion *newCScallion = new CScallion(BitmapPath("Role\\Scallions", "scallion", 4), CPoint(GetX3(), GetY1()), CPoint(mouseX, mouseY)); //先創建一個蔥的物件
 
 			//CScallion *newCScallion = new CScallion("Role\\books", "book", 4, GetX3(), GetY1(), mx, my); //先創建一個蔥的物件
 			scallion.push_back(newCScallion); //將蔥放進vector
