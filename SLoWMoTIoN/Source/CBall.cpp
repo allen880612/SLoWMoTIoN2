@@ -185,7 +185,7 @@ namespace game_framework {
 		if (!IsAlive())
 			return;
 
-		if (x > SIZE_X || x < 0 || y > SIZE_Y)	//¶W¥X¿Ã¹õ
+		if (x > SIZE_X || x < 0 || y > SIZE_Y || y < -300)	//¶W¥X¿Ã¹õ
 		{
 			SetIsAlive(false);
 			animation.SetValid(false);
@@ -219,6 +219,12 @@ namespace game_framework {
 			return;
 		animation.SetTopLeft(x, y);
 		animation.OnShow();
+	}
+
+	void CScallion::SetInitVelocity(int vx, int vy)
+	{
+		velocity_x = vx;
+		velocity_y = vy;
 	}
 
 	void CScallion::SetInitVelocity(int b_x, int b_y, int f_x, int f_y)

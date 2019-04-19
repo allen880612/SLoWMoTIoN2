@@ -173,10 +173,12 @@ namespace game_framework
 		void Initialize();
 		void Clear();
 		void TargetBoss(int);
-
+		void SetBattle(bool flag) { isBattle = flag; };
+		bool IsBattle() { return isBattle; };
 		CBoss *targetBoss;
 	private:
 		map<string, CBoss*> bossInformation;
+		bool isBattle = false;
 	};
 	#pragma endregion
 }

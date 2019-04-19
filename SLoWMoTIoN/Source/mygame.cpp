@@ -534,7 +534,7 @@ namespace game_framework {
 		#pragma region - boss attack -
 		if (bossManager.targetBoss != NULL)
 		{
-			bossManager.targetBoss->Attack1(&role);
+			bossManager.targetBoss->Attack2(&role);
 		}
 		#pragma endregion
 
@@ -716,6 +716,8 @@ namespace game_framework {
 			if (rolePosition >= 100)
 			{
 				CDialogManager::Instance()->Start(RoleVSBoss);
+				if (CDialogManager::Instance()->GetDialogState())
+					bossManager.SetBattle(true);
 			}
 		}
 	}
