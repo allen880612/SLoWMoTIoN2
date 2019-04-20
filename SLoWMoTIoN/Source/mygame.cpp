@@ -151,8 +151,14 @@ namespace game_framework {
 	void CGameStateInit::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
 		mouse = point;
+		
 		if (IsPointInRect(point, btn_play.GetAnimate()->GetRect()))
+		{
+			if (!btn_play.GetState())					//只有第一次進入Button有音效
+				CAudio::Instance()->Play("SOUND_JUMP");
+
 			btn_play.SetState(true);
+		}
 		else
 			btn_play.SetState(false);
 
@@ -238,7 +244,7 @@ namespace game_framework {
 		const int BALL_XY_OFFSET = 45;
 		const int BALL_PER_ROW = 7;
 		const int TIME_LEFT = 20;			//遊戲秒數
-		const int TIME_LEFT_X = 590;
+		const int TIME_LEFT_X = 250;
 		const int TIME_LEFT_Y = 0;
 		const int BACKGROUND_X = 60;
 		const int ANIMATION_SPEED = 15;
@@ -262,8 +268,8 @@ namespace game_framework {
 		//role.Initialize(AUDIO_THROW, AUDIO_JUMP);
 		//background.SetTopLeft(BACKGROUND_X, 0);				// 設定背景的起始座標
 		//help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
-		//time_left.SetInteger(TIME_LEFT);					// 指定剩下的撞擊數
-		//time_left.SetTopLeft(TIME_LEFT_X, TIME_LEFT_Y);		// 指定剩下撞擊數的座標
+		time_left.SetInteger(GAME_TIME, 2);						// 指定剩下的時間
+		time_left.SetTopLeft(TIME_LEFT_X, TIME_LEFT_Y);			// 指定剩下時間數的座標
 		////CAudio::Instance()->Play(AUDIO_LAKE, true);			// 撥放 WAVE
 		////CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
 		////CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
@@ -303,7 +309,7 @@ namespace game_framework {
 		//corner.LoadBitmap(IDB_CORNER);								// 載入角落圖形
 		//corner.ShowBitmap(background);								// 將corner貼到background
 		//															//bball.LoadBitmap();										// 載入圖形
-		//time_left.LoadBitmap();
+		time_left.LoadBitmap(".\\RES\\Number", "default");
 
 		/*CAudio::Instance()->Load(AUDIO_GAMEING, "sounds\\SLoWMoTIoN_Game.wav");
 		CAudio::Instance()->Load(AUDIO_THROW, "sounds\\throw.wav");
@@ -341,8 +347,12 @@ namespace game_framework {
 			CAudio::Instance()->Stop("MUSIC_GAMEING");
 			GotoGameState(GAME_STATE_OVER);
 		}
-		/*if (counter % 30 == 0)
-			time_left.Add(-1);*/
+		if (timer.GetTime() == (int)timer.GetTime())
+		{
+			time_left.Add(-1);
+		}
+
+
 		#pragma endregion
 		
 		//
@@ -830,12 +840,9 @@ namespace game_framework {
 		//role.OnShow();
 
 		#pragma region - paint time remain -
-		char str[100], roleScore[100], rolehp[100];
-		sprintf(str, "%d", timer.GetTime(2));
+		char roleScore[100], rolehp[100];
 		sprintf(roleScore, "%d", role.GetScore());
-		PaintText(str, 300, 0, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 		PaintText(roleScore, 500, 0, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
-
 
 		sprintf(rolehp, "%d", role.GetHp());
 		PaintText(rolehp, 20, 100, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
@@ -843,7 +850,7 @@ namespace game_framework {
 		#pragma endregion
 
 		CDialogManager::Instance()->ShowText();
-		//time_left.ShowBitmap();			// 原本的碰撞剩餘次數
+		time_left.ShowBitmap();			// 原本的碰撞剩餘次數
 
 	}
 

@@ -94,7 +94,6 @@ enum GAME_STATES {
 #include <vector>
 #include <map>
 using namespace std;
-
 /////////////////////////////////////////////////////////////////////////////
 // 回報程式錯誤用的macro
 // 備註：這裡使用macro以便保留檔案名稱及行號，利於debug。
@@ -200,7 +199,6 @@ private:
 // 這個class提供動態(可以移動)的圖形
 // 每個Public Interface的用法都要懂，Implementation可以不懂
 /////////////////////////////////////////////////////////////////////////////
-
 class CMovingBitmap {
 public:
 	CMovingBitmap();
@@ -208,6 +206,7 @@ public:
 	int   Left();						// 取得圖形的左上角的 x 座標
 	void  LoadBitmap(int,COLORREF=CLR_INVALID);		// 載入圖，指定圖的編號(resource)及透明色
 	void  LoadBitmap(char *,COLORREF=CLR_INVALID);	// 載入圖，指定圖的檔名及透明色
+	void  LoadBitmap(string, string, COLORREF=CLR_INVALID);
 	void  SetTopLeft(int,int);			// 將圖的左上角座標移至 (x,y)
 	void  ShowBitmap();					// 將圖貼到螢幕
 	void  ShowBitmap(double factor);	// 將圖貼到螢幕 factor < 1時縮小，>1時放大。注意：需要VGA卡硬體的支援，否則會很慢
@@ -262,23 +261,26 @@ private:
 // 每個Public Interface的用法都要懂，Implementation可以不懂
 /////////////////////////////////////////////////////////////////////////////
 
-class CInteger {
-public:
-	CInteger(int=5);			// default 5 digits
-	void Add(int n);			// 增加整數值
-	int  GetInteger();			// 回傳整數值
-	void LoadBitmap();			// 載入0..9及負號之圖形
-	void SetInteger(int);		// 設定整數值
-	void SetTopLeft(int,int);	// 將動畫的左上角座標移至 (x,y)
-	void ShowBitmap();			// 將動畫貼到螢幕
-	void ShowBitmap(double);	// 將動畫加上倍率縮放貼到螢幕
-private:
-	const int NUMDIGITS;			// 共顯示NUMDIGITS個位數
-	static CMovingBitmap digit[11]; // 儲存0..9及負號之圖形(bitmap)
-	int x, y;						// 顯示的座標
-	int n;							// 整數值
-	bool isBmpLoaded;				// 是否已經載入圖形
-};
+//class CInteger {
+//public:
+//	CInteger(int=5);			// default 5 digits
+//	void Add(int n);			// 增加整數值
+//	int  GetInteger();			// 回傳整數值
+//	void LoadBitmap();			// 載入0..9及負號之圖形
+//	void LoadBitmap(string, string);
+//	void SetInteger(int);		// 設定整數值
+//	void SetTopLeft(int,int);	// 將動畫的左上角座標移至 (x,y)
+//	void ShowBitmap();			// 將動畫貼到螢幕
+//	void ShowBitmap(double);	// 將動畫加上倍率縮放貼到螢幕
+//
+//	void Initialize(int);
+//private:
+//	const int NUMDIGITS;			// 共顯示NUMDIGITS個位數
+//	static CMovingBitmap digit[11]; // 儲存0..9及負號之圖形(bitmap)
+//	int x, y;						// 顯示的座標
+//	int n;							// 整數值
+//	bool isBmpLoaded;				// 是否已經載入圖形
+//};
 
 /////////////////////////////////////////////////////////////////////////////
 // 宣告尚未定義的class

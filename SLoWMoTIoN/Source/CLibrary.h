@@ -2,7 +2,8 @@
 #include "Refactor.h"
 namespace myLibrary
 {
-	char* ConvertCharPointToString(string, string, int);
+	char* ConvertCharPointToString(string, string, int = -1);
+	//char* ConvertCharPointToString(BitmapPath)
 	void DeleteCharPoint(vector<char*>&);
 	int GetPostive(int);
 	int GetRandom(int, int); //得到Random數字，min <= k <= max
@@ -195,6 +196,27 @@ namespace game_framework
 		int x, y;
 		bool state = true;
 
+	};
+	#pragma endregion
+
+	#pragma region - CInteger -
+	class CInteger {
+	public:
+		CInteger(int = 5);			// default 5 digits
+		void Add(int n);			// 增加整數值
+		int  GetInteger();			// 回傳整數值
+		void LoadBitmap();			// 載入0..9及負號之圖形
+		void LoadBitmap(string, string);
+		void SetInteger(int, int = 5);		// 設定整數值
+		void SetTopLeft(int, int);	// 將動畫的左上角座標移至 (x,y)
+		void ShowBitmap();			// 將動畫貼到螢幕
+		void ShowBitmap(double);	// 將動畫加上倍率縮放貼到螢幕
+		//const int NUMDIGITS;			// 共顯示NUMDIGITS個位數
+		int NUMDIGITS;
+		static CMovingBitmap digit[11]; // 儲存0..9及負號之圖形(bitmap)
+		int x, y;						// 顯示的座標
+		int n;							// 整數值
+		bool isBmpLoaded;				// 是否已經載入圖形
 	};
 	#pragma endregion
 }
