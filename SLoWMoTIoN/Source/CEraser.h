@@ -73,7 +73,7 @@ namespace game_framework {
 		void Initialize();
 		void SetCurrentXY(int, int);
 		void SetXY();
-		virtual void collision() {}; //碰撞到後要做的事情
+		virtual void RoleCollision() {}; //碰撞到後要做的事情
 
 	protected:
 	#pragma region - init information -
@@ -171,8 +171,6 @@ namespace game_framework {
 	};
 	#pragma endregion
 
-	
-
 	#pragma region - CNPC - No.1 -
 	//CNPC1 > 普通的NPC (對話NPC)
 	class CNPC1 : public CNPC
@@ -181,9 +179,30 @@ namespace game_framework {
 		CNPC1();
 		CNPC1(CPoint, BitmapPath, string);
 		~CNPC1();
-		void collision();
+		void RoleCollision();
 	private:
-
+		//vector<string> txt;
 	};
 	#pragma endregion
+
+	#pragma region - CNPC - No.2 -
+
+	#pragma endregion
+
+
+	#pragma region - CNPC - No.3 -
+	//CNPC3 > 音樂播放NPC
+	class CNPC3 : public CNPC
+	{
+	public:
+		CNPC3();
+		CNPC3(CPoint, BitmapPath, string, string, string);
+		~CNPC3();
+		void RoleCollision();
+	private:
+		string openTxt;
+		string openMusic;
+	};
+	#pragma endregion
+
 }

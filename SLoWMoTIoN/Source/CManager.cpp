@@ -432,6 +432,7 @@ namespace game_framework
 		#pragma region - define avatar map -
 		dialogAvatar[DIALOG_AVATAR_NAME_ROLE] = CMovingBitmap();
 		dialogAvatar[DIALOG_AVATAR_NAME_XINGTING] = CMovingBitmap();
+		dialogAvatar[DIALOG_AVATAR_NAME_LOCK] = CMovingBitmap();
 		#pragma endregion
 
 		#pragma region - load image -
@@ -451,7 +452,7 @@ namespace game_framework
 
 		#pragma region - load role avatar -
 		address = ConvertCharPointToString("RES\\Dialog\\Avatar", "mikuAvatar", 0);
-		dialogAvatar[DIALOG_AVATAR_NAME_ROLE].LoadBitmap(address);
+		dialogAvatar[DIALOG_AVATAR_NAME_ROLE].LoadBitmap(address, RGB(255,255,255));
 		delete address;
 		#pragma endregion
 
@@ -466,6 +467,10 @@ namespace game_framework
 		textNext.SetTopLeft(500, 450);
 		#pragma endregion
 
+		#pragma region - load lock -
+		dialogAvatar[DIALOG_AVATAR_NAME_LOCK].LoadBitmap("RES\\Dialog\\Avatar\\lock_0.bmp", RGB(255,255,255));
+		#pragma endregion
+
 		#pragma endregion
 
 		IsBitmapLoaded = true;
@@ -476,7 +481,8 @@ namespace game_framework
 		dialogmap.clear();
 		dialogmap[RoleVSBoss] = CDialog("RES\\Dialog\\Txt\\RoleVsBoss.txt", RoleVSBoss, false);
 		dialogmap[Tips] = CDialog("RES\\Dialog\\Txt\\InitTip.txt", Tips, false);
-		dialogmap[TEST] = CDialog("RES\\Dialog\\Txt\\test.txt", TEST, true);
+		dialogmap[FROG] = CDialog("RES\\Dialog\\Txt\\test.txt", FROG, true);
+		dialogmap[Music_Deadlock] = CDialog("RES\\Dialog\\Txt\\MyVoiceIsDead.txt", Music_Deadlock, true);
 	}
 
 	void CDialogManager::ShowText_Next()
@@ -526,6 +532,7 @@ namespace game_framework
 		step = 0;
 		nowShowTextSize = 0;
 		IsPrintTips = false;
+		musicFromNPC = "";
 		AddShowTextTimer.ResetTime(DIALOG_ADDTEXT_TIME);
 	}
 
@@ -578,6 +585,12 @@ namespace game_framework
 		nowDialog->SetTriggered();
 		nowDialog = NULL;
 		nowShowTextSize = 0;
+		if (musicFromNPC != "")
+		{
+			CAudio::Instance()->Stop(musicFromNPC);
+			CAudio::Instance()->Play("MUSIC_GAMEING");
+			musicFromNPC = "";
+		}
 	}
 
 	void CDialogManager::ShowText()
@@ -596,10 +609,19 @@ namespace game_framework
 				if (charindex < DIALOG_MAX_TEXT)
 				{
 					//盢じtempk, 讽じ禬筁﹚秖倒split-showtext(传︽)
-					if (showtext[i] != '_')
-						tempk[charindex++] = showtext[i];
-					else  //ㄒ矪瞶盢┏絬传Θフ (ゅセぃゴフ)
+					if (showtext[i] == '_') //ㄒ矪瞶盢┏絬传Θフ (ゅセぃゴフ)
+					{
 						tempk[charindex++] = ' ';
+					}
+					else  if (showtext[i] == '@') //盢at 传Θ传︽
+					{
+						charindex += 999;
+					}
+					else 
+					{
+						tempk[charindex++] = showtext[i];
+					}
+						
 					
 					#pragma region -- 皐癸计材じ琌璣ゅ程琌いゅ肂砞﹚ --
 					#pragma region --- 兵ン & 弧 ---
@@ -619,6 +641,7 @@ namespace game_framework
 						charindex += 2;
 					}
 					#pragma endregion
+
 				}
 				if (charindex >= DIALOG_MAX_TEXT)
 				{
@@ -819,7 +842,8 @@ namespace game_framework
 
 	void CNPCManager::LoadNPC()
 	{
-		npc[4].push_back(new CNPC1(CPoint(300, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255,255,255)), "frog"));
+		npc[4].push_back(new CNPC1(CPoint(50, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255, 255, 255)), "frog"));
+		npc[4].push_back(new CNPC3(CPoint(450, 388), BitmapPath("RES\\NPC\\test", "test2", 1, RGB(255, 255, 255)), "deadlock", "MUSIC_DeadLock", Music_Deadlock));
 	}
 	#pragma endregion
 

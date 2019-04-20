@@ -127,6 +127,8 @@ namespace game_framework
 		void Stop();
 		void ShowText();
 		bool GetDialogState();
+
+		void OpenMusicPlayer(string flag) { musicFromNPC = flag; };
 	private:
 		void Dialog();
 		map<string, vector<string> > txt;
@@ -153,6 +155,8 @@ namespace game_framework
 		bool IsBitmapLoaded = false;
 		bool IsDialoging = false;
 		bool IsPrintTips = false; //用於一個對話完畢，要到下一個對話的提示文字 (右下角的next)
+
+		string musicFromNPC = "";
 		//string mode = "";
 		CDialog *nowDialog;
 		CTimer AddShowTextTimer;

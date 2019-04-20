@@ -645,11 +645,37 @@ namespace game_framework {
 
 	}
 
-	void CNPC1::collision()
+	void CNPC1::RoleCollision()
 	{
-		CDialogManager::Instance()->Start(TEST);
+		if (id == "frog")
+		{
+			CDialogManager::Instance()->Start(FROG);
+		}
 	}
 	#pragma endregion
 
+	#pragma region - CNPC3 - No.3 -
+	CNPC3::CNPC3()
+	{
+	}
 
+	CNPC3::CNPC3(CPoint _point, BitmapPath _loadPath, string _id, string _music, string _txt) : CNPC(_point, _loadPath, _id)
+	{
+		openMusic = _music;
+		openTxt = _txt;
+	}
+
+	CNPC3::~CNPC3()
+	{
+	}
+
+	void CNPC3::RoleCollision()
+	{
+		CAudio::Instance()->Stop("MUSIC_GAMEING");
+		CAudio::Instance()->Play(openMusic);
+
+		CDialogManager::Instance()->OpenMusicPlayer(openMusic);
+		CDialogManager::Instance()->Start(openTxt);
+	}
+	#pragma endregion
 }

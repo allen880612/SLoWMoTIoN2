@@ -94,7 +94,6 @@ enum GAME_STATES {
 #include <vector>
 #include <map>
 using namespace std;
-
 /////////////////////////////////////////////////////////////////////////////
 // 回報程式錯誤用的macro
 // 備註：這裡使用macro以便保留檔案名稱及行號，利於debug。
