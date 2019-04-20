@@ -132,6 +132,11 @@ namespace game_framework {
 			CAudio::Instance()->SetIsPlaySound(btn_sound.GetState());
 		}
 		
+		if (!(IsPointInRect(mouse, btn_music.GetAnimate()->GetRect()) || IsPointInRect(mouse, btn_music.GetAnimate()->GetRect())))
+		{
+			GotoGameState(GAME_STATE_RUN);
+		}
+
 		//CAudio::Instance()->Stop("AUDIO_MENU");
 		//GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 	}
@@ -242,8 +247,10 @@ namespace game_framework {
 		CCamera::Instance()->Initialize();
 		mapManager.Initialize();
 		bossManager.Initialize();
-		//role.Initialize(AUDIO_THROW, AUDIO_JUMP);
+		npcManager.Initialize(mapManager.GetNowMap()); //npcManager初始化所有NPC的同時，顯示nowMap上的NPC
+
 		role.Initialize();
+		//role.Initialize(AUDIO_THROW, AUDIO_JUMP);
 		//background.SetTopLeft(BACKGROUND_X, 0);				// 設定背景的起始座標
 		//help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
 		//time_left.SetInteger(TIME_LEFT);					// 指定剩下的撞擊數
@@ -521,9 +528,7 @@ namespace game_framework {
 			#pragma region ---- 超過邊界 - 換地圖 ----
 			if (role.GetX1() >= SIZE_X)
 			{
-				role.SetXY(0 - (role.GetX2() - role.GetX1()), role.GetY1());
-				mapManager.ChangeMap(mapManager.GetRightMap(), "right");
-				bossManager.TargetBoss(mapManager.GetNowMap());
+				ChangeMap("right");
 			}
 			#pragma endregion
 		}
@@ -542,9 +547,7 @@ namespace game_framework {
 			#pragma region ---- 超過邊界 - 換地圖 ----
 			if (role.GetX2() <= 0) //超過邊界，換地圖
 			{
-				role.SetXY(SIZE_X + (role.GetX2() - role.GetX1()), role.GetY1());
-				mapManager.ChangeMap(mapManager.GetLeftMap(), "left");
-				bossManager.TargetBoss(mapManager.GetNowMap());
+				ChangeMap("left");
 			}
 			#pragma endregion
 		}
@@ -754,6 +757,25 @@ namespace game_framework {
 	void CGameStateRun::PositionTrigger()
 	{
 		eventManager.trigger();
+	}
+
+	void CGameStateRun::ChangeMap(string dir)
+	{
+		int nowMap = mapManager.GetNowMap(), nextMap = nowMap;
+		if (dir == "left")
+		{
+			nextMap = mapManager.GetLeftMap();
+			role.SetXY(SIZE_X + (role.GetX2() - role.GetX1()), role.GetY1());
+			mapManager.ChangeMap(mapManager.GetLeftMap(), "left");
+		}
+		else if (dir == "right")
+		{
+			nextMap = mapManager.GetRightMap();
+			role.SetXY(0 - (role.GetX2() - role.GetX1()), role.GetY1());
+			mapManager.ChangeMap(mapManager.GetRightMap(), "right");
+		}
+		bossManager.TargetBoss(mapManager.GetNowMap());
+		npcManager.ChangeMap(nowMap, nextMap);
 	}
 
 	void CGameStateRun::OnShow()

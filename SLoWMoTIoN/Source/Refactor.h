@@ -5,7 +5,9 @@
 #define MAX_LAYER_NUMBER 10
 #define MOVE_DISTANCE 15
 
-#define MAX_MAP_NUMBER 4
+#define MAX_MAP_NUMBER 5
+#define NOW_MAP 4
+
 #define KEY_SPACE 32
 #define KEY_LEFT 37		// keyboard¥ª½bÀY
 #define KEY_UP 38		// keyboard¤W½bÀY
@@ -75,6 +77,7 @@
 
 #pragma region - layer -
 #define BULLET_LAYER 6
+#define NPC_LAYER 4
 #pragma endregion
 
 

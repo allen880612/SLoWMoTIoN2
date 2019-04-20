@@ -564,7 +564,7 @@ namespace game_framework
 	#pragma region - Button -
 	CButton::CButton()
 	{
-
+		x = y = 0;
 	}
 
 	CButton::CButton(const CButton & button)
@@ -597,6 +597,7 @@ namespace game_framework
 	{
 		x = _x;
 		y = _y;
+		animation.SetTopLeft(x, y);
 	}
 
 	void CButton::SetState(bool flag)
@@ -651,7 +652,6 @@ namespace game_framework
 		}
 		SetState(flag);
 		SetXY(pos.x, pos.y);
-		animation.SetTopLeft(pos.x, pos.y);
 	}
 
 	CAnimate * CButton::GetAnimate()

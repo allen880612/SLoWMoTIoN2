@@ -572,4 +572,55 @@ namespace game_framework {
 		
 	}
 	#pragma endregion
+
+	#pragma region - CNPC -
+	CNPC::CNPC() : CEraser()
+	{
+	}
+
+	CNPC::CNPC(CPoint _point, BitmapPath _loadPath, string _id)
+	{
+		initPoint = _point;
+		initLoadPath = _loadPath;
+		id = _id;
+	}
+
+	void CNPC::Initialize()
+	{
+		#pragma region - load animation (only once) -
+		if (animation.IsNull())
+		{
+			LoadBitmap(initLoadPath);
+		}
+		#pragma endregion
+
+		SetCurrentXY(initPoint.x, initPoint.y);
+
+		layer.SetLayer(NPC_LAYER);
+		animation.SetValid(false);
+		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
+	}
+
+	void CNPC::SetCurrentXY(int _x, int _y)
+	{
+		currentX = _x;
+		currentY = _y;
+		SetXY();
+	}
+
+	void CNPC::SetXY()
+	{
+		x = currentX;
+		y = currentY;
+
+		int dx = CCamera::Instance()->GetX();
+		x = currentX - dx;
+		animation.SetTopLeft(x, y);
+	}
+
+	CNPC::~CNPC()
+	{
+
+	}
+	#pragma endregion
 }

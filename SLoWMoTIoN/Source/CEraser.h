@@ -145,4 +145,27 @@ namespace game_framework {
 		int move_distance = 2;
 	};
 	#pragma endregion
+
+	#pragma region - CNPC -
+	class CNPC : public CEraser
+	{
+	public:
+		CNPC();
+		CNPC(CPoint, BitmapPath, string);
+		void Initialize();
+		void SetCurrentXY(int, int);
+		void SetXY();
+		~CNPC();
+
+	private:
+		#pragma region - init information -
+		CPoint initPoint;
+		BitmapPath initLoadPath;
+		#pragma endregion
+		
+		int currentX, currentY;
+		string id;
+	};
+	#pragma endregion
+
 }
