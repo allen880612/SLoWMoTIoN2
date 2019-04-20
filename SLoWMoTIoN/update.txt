@@ -161,6 +161,8 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
 ==============================================================
 2019/4/20
 
+8.  add CNPC(abstract class) and its child class CNPC1, CNPC3
+    CNPC1 is a simple Dialog NPC, CNPC3 is a Music Player
 9.  Lock map in battle
 10. add CEventManager (like position trigger) please be careful, It's danger.
     problem: has a memory leaks -> new CXingting
