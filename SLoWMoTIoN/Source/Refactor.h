@@ -18,6 +18,7 @@
 #define KEY_S 83
 #define KEY_D 68
 #define KEY_Q 81
+#define KEY_Z 90
 
 
 #define GAME_TIME 60
@@ -54,6 +55,7 @@
 #pragma region - dialog - mode -
 #define RoleVSBoss "roleVsBoss"
 #define Tips "InitTip"
+#define TEST "testetst"
 #pragma endregion
 
 #pragma region - dialog - add a text on cycle -
@@ -84,4 +86,4 @@
 
 
 
-#define DEBUG_MODE true
+#define DEBUG_MODE false

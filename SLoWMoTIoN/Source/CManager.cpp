@@ -475,7 +475,8 @@ namespace game_framework
 	{
 		dialogmap.clear();
 		dialogmap[RoleVSBoss] = CDialog("RES\\Dialog\\Txt\\RoleVsBoss.txt", RoleVSBoss, false);
-		dialogmap[Tips] = CDialog("RES\\Dialog\\Txt\\InitTip.txt", RoleVSBoss, false);
+		dialogmap[Tips] = CDialog("RES\\Dialog\\Txt\\InitTip.txt", Tips, false);
+		dialogmap[TEST] = CDialog("RES\\Dialog\\Txt\\test.txt", TEST, true);
 	}
 
 	void CDialogManager::ShowText_Next()
@@ -776,12 +777,17 @@ namespace game_framework
 
 	CNPCManager::~CNPCManager()
 	{
+		Clear();
 	}
 	void CNPCManager::Clear()
 	{
 		for (int i = 0; i < MAX_MAP_NUMBER; i++)
 		{
-			npc[i].clear();
+			for (vector<CNPC*>::iterator npciter = npc[i].begin(); npciter != npc[i].end(); npciter++)
+			{
+				delete *npciter;
+				*npciter = NULL;
+			}
 		}
 	}
 
@@ -789,9 +795,9 @@ namespace game_framework
 	{
 		for (int i = 0; i < MAX_MAP_NUMBER; i++)
 		{
-			for (vector<CNPC>::iterator npciter = npc[i].begin(); npciter != npc[i].end(); npciter++)
+			for (vector<CNPC*>::iterator npciter = npc[i].begin(); npciter != npc[i].end(); npciter++)
 			{
-				npciter->Initialize();
+				(*npciter)->Initialize();
 			}
 		}
 		SetNPCValid(nowMap, true);
@@ -805,15 +811,15 @@ namespace game_framework
 
 	void CNPCManager::SetNPCValid(int thisMap, bool flag)
 	{
-		for (vector<CNPC>::iterator npciter = npc[thisMap].begin(); npciter != npc[thisMap].end(); npciter++)
+		for (vector<CNPC*>::iterator npciter = npc[thisMap].begin(); npciter != npc[thisMap].end(); npciter++)
 		{
-			npciter->SetValid(flag);
+			(*npciter)->SetValid(flag);
 		}
 	}
 
 	void CNPCManager::LoadNPC()
 	{
-		npc[4].push_back(CNPC(CPoint(50, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255,255,255)), "frog"));
+		npc[4].push_back(new CNPC1(CPoint(300, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255,255,255)), "frog"));
 	}
 	#pragma endregion
 

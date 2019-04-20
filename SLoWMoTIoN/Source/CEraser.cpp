@@ -379,6 +379,11 @@ namespace game_framework {
 	{
 		return IsRectCollision(animation.GetRect(), level4->GetAnimate()->GetRect());
 	}
+	
+	bool CRole::IsCollisionNPC(CNPC *npc)
+	{
+		return IsRectCollision(animation.GetRect(), npc->GetAnimate()->GetRect());
+	}
 
 	void CRole::AddScore(int _score)
 	{
@@ -623,4 +628,28 @@ namespace game_framework {
 
 	}
 	#pragma endregion
+
+	#pragma region - CNPC1 - No.1 -
+	CNPC1::CNPC1()
+	{
+
+	}
+
+	CNPC1::CNPC1(CPoint _point, BitmapPath _loadPath, string _id) : CNPC(_point, _loadPath, _id)
+	{
+		
+	}
+
+	CNPC1::~CNPC1()
+	{
+
+	}
+
+	void CNPC1::collision()
+	{
+		CDialogManager::Instance()->Start(TEST);
+	}
+	#pragma endregion
+
+
 }

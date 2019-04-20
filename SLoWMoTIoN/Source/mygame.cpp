@@ -132,7 +132,7 @@ namespace game_framework {
 			CAudio::Instance()->SetIsPlaySound(btn_sound.GetState());
 		}
 		
-		if (!(IsPointInRect(mouse, btn_music.GetAnimate()->GetRect()) || IsPointInRect(mouse, btn_music.GetAnimate()->GetRect())))
+		if (!(IsPointInRect(mouse, btn_music.GetAnimate()->GetRect()) || IsPointInRect(mouse, btn_sound.GetAnimate()->GetRect())))
 		{
 			GotoGameState(GAME_STATE_RUN);
 		}
@@ -690,6 +690,18 @@ namespace game_framework {
 		if (nChar == KEY_Q)
 		{
 			CDialogManager::Instance()->Start(RoleVSBoss);
+		}
+
+		if (nChar == KEY_Z) //dialog with npc
+		{
+			vector<CNPC*>* npc = npcManager.GetNpc(mapManager.GetNowMap());
+			for (vector<CNPC*>::iterator npciter = npc->begin(); npciter != npc->end(); npciter++)
+			{
+				if (role.IsCollisionNPC(*npciter))
+				{
+					(*npciter)->collision();
+				}
+			}
 		}
 	}
 
