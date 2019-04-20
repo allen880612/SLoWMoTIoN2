@@ -63,6 +63,29 @@ namespace game_framework {
 	};
 	#pragma endregion
 
+	#pragma region - CNPC -
+	class CNPC : public CEraser
+	{
+	public:
+		CNPC();
+		CNPC(CPoint, BitmapPath, string);
+		~CNPC();
+		void Initialize();
+		void SetCurrentXY(int, int);
+		void SetXY();
+		virtual void collision() {}; //碰撞到後要做的事情
+
+	protected:
+	#pragma region - init information -
+		CPoint initPoint;
+		BitmapPath initLoadPath;
+	#pragma endregion
+
+		int currentX, currentY;
+		string id;
+	};
+	#pragma endregion
+
 	#pragma region - CRole -
 	class CRole : public CEraser
 	{
@@ -92,6 +115,8 @@ namespace game_framework {
 
 		bool IsCollisionBoss(CBoss*);
 		bool IsCollisionLevel4(CScallion*);
+		
+		bool IsCollisionNPC(CNPC*);
 
 		vector<CScallion*>* GetScallion();
 		
@@ -143,6 +168,22 @@ namespace game_framework {
 		CTimer stopTimer;
 		CTimer recreateTimer;
 		int move_distance = 2;
+	};
+	#pragma endregion
+
+	
+
+	#pragma region - CNPC - No.1 -
+	//CNPC1 > 普通的NPC (對話NPC)
+	class CNPC1 : public CNPC
+	{
+	public:
+		CNPC1();
+		CNPC1(CPoint, BitmapPath, string);
+		~CNPC1();
+		void collision();
+	private:
+
 	};
 	#pragma endregion
 }

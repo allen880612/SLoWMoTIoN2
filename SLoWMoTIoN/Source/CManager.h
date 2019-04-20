@@ -182,6 +182,24 @@ namespace game_framework
 	};
 	#pragma endregion
 
+	#pragma region - NPCManager -
+	class CNPCManager
+	{
+	public:
+		CNPCManager();
+		~CNPCManager();
+		void Clear();
+		void Initialize(int = NOW_MAP);
+		void ChangeMap(int, int);
+		void SetNPCValid(int, bool);
+		vector<CNPC*>* GetNpc(int nowMap) { return &npc[nowMap]; };
+	private:
+		vector<CNPC*> npc[MAX_MAP_NUMBER];
+
+		void LoadNPC();
+	};
+	#pragma endregion
+
 	#pragma region - EventManager -
 	class CEventManager
 	{

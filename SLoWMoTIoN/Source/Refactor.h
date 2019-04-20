@@ -5,7 +5,9 @@
 #define MAX_LAYER_NUMBER 10
 #define MOVE_DISTANCE 15
 
-#define MAX_MAP_NUMBER 4
+#define MAX_MAP_NUMBER 5
+#define NOW_MAP 4
+
 #define KEY_SPACE 32
 #define KEY_LEFT 37		// keyboard¥ª½bÀY
 #define KEY_UP 38		// keyboard¤W½bÀY
@@ -16,6 +18,7 @@
 #define KEY_S 83
 #define KEY_D 68
 #define KEY_Q 81
+#define KEY_Z 90
 
 
 #define GAME_TIME 60
@@ -52,6 +55,7 @@
 #pragma region - dialog - mode -
 #define RoleVSBoss "roleVsBoss"
 #define Tips "InitTip"
+#define TEST "testetst"
 #pragma endregion
 
 #pragma region - dialog - add a text on cycle -
@@ -75,10 +79,11 @@
 
 #pragma region - layer -
 #define BULLET_LAYER 6
+#define NPC_LAYER 4
 #pragma endregion
 
 
 
 
 
-#define DEBUG_MODE true
+#define DEBUG_MODE false

@@ -41,7 +41,7 @@ namespace game_framework
 
 	void CMapManager::Initialize()
 	{
-		nowMap = 2;
+		nowMap = NOW_MAP;
 		loadMap = blockMap[nowMap].loadMap;
 		x = 0;
 		layer.SetLayer(0);
@@ -221,7 +221,7 @@ namespace game_framework
 				break;
 
 			case 1:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, -1, 0, 2, "RES\\Map", "IDB_MAP", mapIndex);
+				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 4, 0, 2, "RES\\Map", "IDB_MAP", mapIndex);
 				break;
 
 			case 2:
@@ -230,6 +230,10 @@ namespace game_framework
 
 			case 3:
 				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 2, -1, 0, "RES\\Map", "IDB_MAP", mapIndex);
+				break;
+
+			case 4:
+				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, -1, 1, 0, "RES\\Map", "IDB_MAP", mapIndex);
 				break;
 
 			default:
@@ -471,7 +475,8 @@ namespace game_framework
 	{
 		dialogmap.clear();
 		dialogmap[RoleVSBoss] = CDialog("RES\\Dialog\\Txt\\RoleVsBoss.txt", RoleVSBoss, false);
-		dialogmap[Tips] = CDialog("RES\\Dialog\\Txt\\InitTip.txt", RoleVSBoss, false);
+		dialogmap[Tips] = CDialog("RES\\Dialog\\Txt\\InitTip.txt", Tips, false);
+		dialogmap[TEST] = CDialog("RES\\Dialog\\Txt\\test.txt", TEST, true);
 	}
 
 	void CDialogManager::ShowText_Next()
@@ -762,6 +767,62 @@ namespace game_framework
 		}
 	}
 	#pragma endregion
+
+	#pragma region - CNPCManager -
+	CNPCManager::CNPCManager()
+	{
+		Clear();
+		LoadNPC();
+	}
+
+	CNPCManager::~CNPCManager()
+	{
+		Clear();
+	}
+	void CNPCManager::Clear()
+	{
+		for (int i = 0; i < MAX_MAP_NUMBER; i++)
+		{
+			for (vector<CNPC*>::iterator npciter = npc[i].begin(); npciter != npc[i].end(); npciter++)
+			{
+				delete *npciter;
+				*npciter = NULL;
+			}
+		}
+	}
+
+	void CNPCManager::Initialize(int nowMap)
+	{
+		for (int i = 0; i < MAX_MAP_NUMBER; i++)
+		{
+			for (vector<CNPC*>::iterator npciter = npc[i].begin(); npciter != npc[i].end(); npciter++)
+			{
+				(*npciter)->Initialize();
+			}
+		}
+		SetNPCValid(nowMap, true);
+	}
+
+	void CNPCManager::ChangeMap(int nowMap, int nextMap)
+	{
+		SetNPCValid(nowMap, false);
+		SetNPCValid(nextMap, true);
+	}
+
+	void CNPCManager::SetNPCValid(int thisMap, bool flag)
+	{
+		for (vector<CNPC*>::iterator npciter = npc[thisMap].begin(); npciter != npc[thisMap].end(); npciter++)
+		{
+			(*npciter)->SetValid(flag);
+		}
+	}
+
+	void CNPCManager::LoadNPC()
+	{
+		npc[4].push_back(new CNPC1(CPoint(300, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255,255,255)), "frog"));
+	}
+	#pragma endregion
+
 
 	#pragma region - CEventManager -
 	CEventManager::CEventManager()

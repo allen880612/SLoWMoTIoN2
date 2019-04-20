@@ -105,9 +105,6 @@ namespace game_framework {
 		void OnRButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
 		void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
 
-		#pragma region - zi din yi -
-		void PositionTrigger();
-		#pragma endregion
 	protected:
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
@@ -127,8 +124,14 @@ namespace game_framework {
 		vector<CPasserby*>*		passerbys;
 		CMapManager			mapManager;
 		CBossManager        bossManager;
+		CNPCManager         npcManager;
 
 		CEventManager eventManager;
+
+		#pragma region - zi din yi -
+		void PositionTrigger();
+		void ChangeMap(string);
+		#pragma endregion
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
