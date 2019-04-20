@@ -113,6 +113,7 @@ void CAudio::Initialize()
 	Load(adapter["SOUND_JUMP"], "RES\\sounds\\jump.wav");
 	Load(adapter["SOUND_HIT"], "RES\\sounds\\hit.wav");
 	Load(adapter["SOUND_GAMEOVER"], "RES\\sounds\\SLoWMoTIoN_Gameover.wav");
+	Load(adapter["MUSIC_DeadLock"], "RES\\sounds\\MyVoiceIsDead.mp3");
 
 	SetIsPlayMusic(true);
 	SetIsPlaySound(true);

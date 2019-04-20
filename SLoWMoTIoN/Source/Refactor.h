@@ -19,10 +19,12 @@
 #define KEY_D 68
 #define KEY_Q 81
 #define KEY_Z 90
+#define KEY_C 67
+#define KEY_B 66
 
 
 #define GAME_TIME 60
-#define AUDIO_NUM 6
+#define AUDIO_NUM 7
 
 #pragma region - Layer -
 #define BULLET_LAYER 6
@@ -49,13 +51,15 @@
 #pragma region - dialog - avatar name -
 #define DIALOG_AVATAR_NAME_ROLE "role"
 #define DIALOG_AVATAR_NAME_XINGTING "xingting"
+#define DIALOG_AVATAR_NAME_LOCK "lock"
 #pragma endregion
 
 
 #pragma region - dialog - mode -
 #define RoleVSBoss "roleVsBoss"
 #define Tips "InitTip"
-#define TEST "testetst"
+#define FROG "frog"
+#define Music_Deadlock "MyVoiceIsDead"
 #pragma endregion
 
 #pragma region - dialog - add a text on cycle -

@@ -711,6 +711,23 @@ namespace game_framework {
 			CDialogManager::Instance()->Start(RoleVSBoss);
 		}
 
+		if (nChar == 67)
+		{
+			CAudio::Instance()->Pause();
+			//CAudio::Instance()->Play("MUSIC_DeadLock");
+		}
+
+		if (nChar == KEY_B)
+		{
+			CAudio::Instance()->Resume();
+		}
+
+		if (nChar == 86)
+		{
+			CAudio::Instance()->Play("MUSIC_DeadLock");
+			//CAudio::Instance()->Play("SOUND_GAMEOVER");
+		}
+
 		if (nChar == KEY_Z) //dialog with npc
 		{
 			vector<CNPC*>* npc = npcManager.GetNpc(mapManager.GetNowMap());
@@ -718,7 +735,7 @@ namespace game_framework {
 			{
 				if (role.IsCollisionNPC(*npciter))
 				{
-					(*npciter)->collision();
+					(*npciter)->RoleCollision();
 				}
 			}
 		}

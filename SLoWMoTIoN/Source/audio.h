@@ -101,7 +101,8 @@ public:
 	bool		   IsOpened();
 private:
 	map <string , unsigned> adapter;
-	string adapterString[99] = { "MUSIC_MENU", "MUSIC_GAMEING", "SOUND_THROW", "SOUND_JUMP", "SOUND_HIT", "SOUND_GAMEOVER"};
+	string adapterString[99] = { "MUSIC_MENU", "MUSIC_GAMEING", "SOUND_THROW", "SOUND_JUMP", "SOUND_HIT", "SOUND_GAMEOVER"
+								 , "MUSIC_DeadLock"};
 
 	bool isPlayMusic = true;
 	bool isPlaySound = true;
