@@ -80,10 +80,13 @@ namespace game_framework {
 	{
 		CAudio::Instance()->Initialize();
 		CAudio::Instance()->Play("MUSIC_MENU", true);
+
 		btn_music = CButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true);
 		btn_sound = CButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true);
+		btn_play  = CButton(BitmapPath("RES\\Button", "play",  2, RGB(214, 214, 214)), CPoint(350, 230), false);
 		btn_music.Initialize();
 		btn_sound.Initialize();
+		btn_play.Initialize();
 	}
 
 	void CGameStateInit::OnInit()
@@ -97,8 +100,7 @@ namespace game_framework {
 								// 開始載入資料
 								//
 		logo.LoadBitmap(".\\RES\\Map\\Menu.bmp");
-		
-		
+				
 		//Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 								//
 								// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
@@ -138,7 +140,8 @@ namespace game_framework {
 		}
 
 		//CAudio::Instance()->Stop("AUDIO_MENU");
-		//GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+		if (IsPointInRect(mouse, btn_play.GetAnimate()->GetRect()))
+			GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 	}
 
 	void CGameStateInit::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -148,6 +151,10 @@ namespace game_framework {
 	void CGameStateInit::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
 		mouse = point;
+		if (IsPointInRect(point, btn_play.GetAnimate()->GetRect()))
+			btn_play.SetState(true);
+		else
+			btn_play.SetState(false);
 
 	}
 
@@ -163,6 +170,7 @@ namespace game_framework {
 			//CAudio::Instance()->Play("MUSIC_MENU", true);
 		}
 		logo.SetTopLeft(0, 0);
+		btn_play.OnMove();
 		btn_music.OnMove();
 		btn_sound.OnMove();
 		/*btn_music.SetXY(200, 200);
@@ -179,6 +187,7 @@ namespace game_framework {
 		//
 		//logo.SetTopLeft((SIZE_X - logo.Width()) / 2, SIZE_Y / 8);
 		logo.ShowBitmap();
+		btn_play.OnShow();
 		btn_music.OnShow();
 		btn_sound.OnShow();
 
