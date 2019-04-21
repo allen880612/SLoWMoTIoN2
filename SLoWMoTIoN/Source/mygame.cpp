@@ -243,9 +243,6 @@ namespace game_framework {
 		const int BALL_GAP = 90;
 		const int BALL_XY_OFFSET = 45;
 		const int BALL_PER_ROW = 7;
-		const int TIME_LEFT = 20;			//遊戲秒數
-		const int TIME_LEFT_X = 250;
-		const int TIME_LEFT_Y = 0;
 		const int BACKGROUND_X = 60;
 		const int ANIMATION_SPEED = 15;
 
@@ -265,14 +262,16 @@ namespace game_framework {
 		npcManager.Initialize(mapManager.GetNowMap()); //npcManager初始化所有NPC的同時，顯示nowMap上的NPC
 
 		role.Initialize();
+		time_left.Initialize(CPoint(250, 0), GAME_TIME, 2);
 		//role.Initialize(AUDIO_THROW, AUDIO_JUMP);
 		//background.SetTopLeft(BACKGROUND_X, 0);				// 設定背景的起始座標
 		//help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
-		time_left.SetInteger(GAME_TIME, 2);						// 指定剩下的時間
-		time_left.SetTopLeft(TIME_LEFT_X, TIME_LEFT_Y);			// 指定剩下時間數的座標
-		////CAudio::Instance()->Play(AUDIO_LAKE, true);			// 撥放 WAVE
-		////CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
-		////CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
+
+		//time_left.SetInteger(GAME_TIME, 2);						// 指定剩下的時間
+		//time_left.SetTopLeft(TIME_LEFT_X, TIME_LEFT_Y);			// 指定剩下時間數的座標
+		//CAudio::Instance()->Play(AUDIO_LAKE, true);			// 撥放 WAVE
+		//CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
+		//CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
 		timer = CTimer(GAME_TIME); //ㄎㄧㄤ==
 		CAudio::Instance()->Stop("MUSIC_MENU");
 		CAudio::Instance()->Play("MUSIC_GAMEING");

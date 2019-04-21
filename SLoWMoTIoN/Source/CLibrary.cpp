@@ -678,13 +678,19 @@ namespace game_framework
 	}
 	#pragma endregion
 
-	#pragma region - CTinteger
+	#pragma region - CInteger
 	CMovingBitmap CInteger::digit[11];
 
 	CInteger::CInteger(int digits)
 		: NUMDIGITS(digits)
 	{
 		isBmpLoaded = false;
+	}
+
+	void CInteger::Initialize(CPoint init_pos, int init_num, int init_digitNum)
+	{
+		SetInteger(init_num, init_digitNum);
+		SetTopLeft(init_pos.x, init_pos.y);
 	}
 
 	void CInteger::Add(int x)

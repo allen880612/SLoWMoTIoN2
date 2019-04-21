@@ -82,6 +82,7 @@
 #pragma endregion
 
 #pragma region - layer -
+#define INTERFACE_LAYER 9
 #define BULLET_LAYER 6
 #define NPC_LAYER 4
 #pragma endregion

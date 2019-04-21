@@ -203,6 +203,7 @@ namespace game_framework
 	class CInteger {
 	public:
 		CInteger(int = 5);			// default 5 digits
+		void Initialize(CPoint, int, int = 2);
 		void Add(int n);			// 增加整數值
 		int  GetInteger();			// 回傳整數值
 		void LoadBitmap();			// 載入0..9及負號之圖形
