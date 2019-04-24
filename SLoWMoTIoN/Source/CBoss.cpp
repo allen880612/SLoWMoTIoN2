@@ -145,6 +145,12 @@ namespace game_framework
 		shootLevel4_cd = CTimer(1.0);
 	}
 
+	void CXingting::Attack(CRole *role)
+	{
+		//Attack1(role);
+		Attack2(role);
+	}
+
 	void CXingting::Attack1(CRole *role)
 	{
 		shootLevel4_cd.CountDown();

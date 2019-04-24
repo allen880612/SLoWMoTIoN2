@@ -177,11 +177,11 @@ namespace game_framework {
 	{
 	public:
 		CNPC1();
-		CNPC1(CPoint, BitmapPath, string);
+		CNPC1(CPoint, BitmapPath, string, string);
 		~CNPC1();
 		void RoleCollision();
 	private:
-		//vector<string> txt;
+		string txt;
 	};
 	#pragma endregion
 

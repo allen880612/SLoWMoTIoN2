@@ -842,7 +842,7 @@ namespace game_framework
 
 	void CNPCManager::LoadNPC()
 	{
-		npc[4].push_back(new CNPC1(CPoint(50, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255, 255, 255)), "frog"));
+		npc[4].push_back(new CNPC1(CPoint(50, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255, 255, 255)), "frog", FROG));
 		npc[4].push_back(new CNPC3(CPoint(450, 388), BitmapPath("RES\\NPC\\test", "test2", 1, RGB(255, 255, 255)), "deadlock", "MUSIC_DeadLock", Music_Deadlock));
 	}
 	#pragma endregion

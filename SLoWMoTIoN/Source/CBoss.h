@@ -27,8 +27,7 @@ namespace game_framework
 		void MoveWithMap(string);
 
 		virtual void OnCycle() {};
-		virtual void Attack1(CRole*) { };
-		virtual void Attack2(CRole*) { };
+		virtual void Attack(CRole*) {};
 
 		virtual void ClearBullet() {};
 
@@ -64,8 +63,7 @@ namespace game_framework
 		CXingting(int, int, int, BitmapPath, COLORREF);
 		~CXingting();
 		void Initialize();
-		void Attack1(CRole*);
-		void Attack2(CRole*);
+		void Attack(CRole*);
 		void ClearBullet();
 		int rrrr() { return 8787; };
 	private:
@@ -74,7 +72,8 @@ namespace game_framework
 		void Level4Collision(CRole*);
 		const double PI = 4 * atan(1.0);
 
-		
+		void Attack1(CRole*);
+		void Attack2(CRole*);
 	};
 	#pragma endregion
 }

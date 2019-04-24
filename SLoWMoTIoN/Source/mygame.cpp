@@ -606,7 +606,7 @@ namespace game_framework {
 		if (bossManager.targetBoss != NULL && bossManager.IsBattle())
 		{
 			//bossManager.targetBoss->Attack1(&role);
-			bossManager.targetBoss->Attack2(&role);
+			bossManager.targetBoss->Attack(&role);
 		}
 		#pragma endregion
 

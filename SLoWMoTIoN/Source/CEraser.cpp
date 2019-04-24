@@ -635,9 +635,9 @@ namespace game_framework {
 
 	}
 
-	CNPC1::CNPC1(CPoint _point, BitmapPath _loadPath, string _id) : CNPC(_point, _loadPath, _id)
+	CNPC1::CNPC1(CPoint _point, BitmapPath _loadPath, string _id, string _txt) : CNPC(_point, _loadPath, _id)
 	{
-		
+		txt = _txt;
 	}
 
 	CNPC1::~CNPC1()
@@ -647,9 +647,13 @@ namespace game_framework {
 
 	void CNPC1::RoleCollision()
 	{
-		if (id == "frog")
+		if (false) // ko no if wa ¨Ò¥~±Ô­z
 		{
-			CDialogManager::Instance()->Start(FROG);
+			
+		}
+		else
+		{
+			CDialogManager::Instance()->Start(txt);
 		}
 	}
 	#pragma endregion
