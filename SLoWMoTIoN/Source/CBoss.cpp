@@ -37,6 +37,7 @@ namespace game_framework
 
 	CBoss::~CBoss()
 	{
+		
 	}
 
 	void CBoss::LoadBitmap()
@@ -150,11 +151,16 @@ namespace game_framework
 		goal_y = 0;
 
 		shootLevel4_cd = CTimer(0.75);
-		shoot_atk2_cd = CTimer(0.01);
+		shoot_atk2_cd = CTimer(0.033);
+		shoot_atk3_cd = CTimer(2.5);
 		moveToGoal = CTimer(0.04);
 
+		angle_atk2 = 0;
+
+		moveToGoalPoint = true;
 		mode_Attack1 = true;
 		mode_Attack2 = false;
+		mode_Attack3 = false;
 
 		atkCounter = 0;
 	}
@@ -167,21 +173,24 @@ namespace game_framework
 
 	void CXingting::OnMove()
 	{
-		if (mode_Attack1)
+		if (moveToGoalPoint)
 		{
-			int move_dx = (initx - goal_x) / 20;
-			int move_dy = (inity - goal_y) / 20;
+			int move_dx = (currentX > goal_x) ? (initx - goal_x) / 100 : 0;
+			int move_dy = (currentY > goal_y) ? (inity - goal_y) / 100 : 0;
 			moveToGoal.CountDown();
 			if (moveToGoal.IsTimeOut())
 			{
 				SetCurrentXY(currentX - move_dx, currentY - move_dy);
 				moveToGoal.ResetTime();
 			}
-			if (currentX <= goal_x || currentY <= goal_y)
+			if (currentX <= goal_x && currentY <= goal_y)
 			{
+				moveToGoalPoint = false;
 				mode_Attack1 = false;
 				mode_Attack2 = true;
+				mode_Attack3 = true;
 				atkCounter = 0;
+				CDialogManager::Instance()->Start(DIALOG_DATA_VSXingting2);
 			}
 		}
 
@@ -192,6 +201,7 @@ namespace game_framework
 
 	void CXingting::Attack(CRole *role)
 	{
+
 		if (mode_Attack1)
 		{
 			Attack1();
@@ -199,6 +209,10 @@ namespace game_framework
 		if (mode_Attack2)
 		{
 			Attack2();
+		}
+		if (mode_Attack3)
+		{
+			Attack3();
 		}
 		Level4Collision(role);
 	}
@@ -235,7 +249,6 @@ namespace game_framework
 				level4.push_back(newlevel4); //將蔥放進vector
 				shootLevel4_cd.ResetTime();
 			}
-			atkCounter++;
 		}
 	}
 
@@ -246,20 +259,43 @@ namespace game_framework
 		{
 			#pragma region - bullet parameter -
 			double speed = 15.0;
-			int angle = (-150 + atkCounter * 15) + i * 30;
+			int angle = angle_atk2;
 			double mx = sin(angle * (PI / 180.0)) * speed;
 			double my = cos(angle * (PI / 180.0)) * speed;
 			int drs = 3; //亂取的名字 用意在給一個倍數讓books不從中心點出現
 			CPoint center = GetCenterPoint() + CPoint((int)mx * drs, -(int)my * drs);
 			#pragma endregion
 
-			
 			CScallion *newlevel4 = new CScallion(BitmapPath("RES\\Object\\books", "book", 4), center, CPoint(0, 0), 0); //先創建一個蔥的物件
 			newlevel4->SetInitVelocity((int)mx, (int)my);
 			level4.push_back(newlevel4); //將蔥放進vector
-			shootLevel4_cd.ResetTime();
-			atkCounter++;
+			shoot_atk2_cd.ResetTime();
+			angle_atk2 += 31;
 		}
+	}
+
+	void CXingting::Attack3()
+	{
+		shoot_atk3_cd.CountDown();
+		if (shoot_atk3_cd.IsTimeOut())
+		{
+			for (int i = 0; i < 18; i++)
+			{
+				#pragma region - bullet parameter -
+				double speed = 10.0;
+				double angle = i * (360/18);
+				double mx = sin(angle * (PI / 180.0)) * speed;
+				double my = cos(angle * (PI / 180.0)) * speed;
+				int drs = 3; //亂取的名字 用意在給一個倍數讓books不從中心點出現
+				CPoint center = GetCenterPoint() + CPoint((int)my * drs, -(int)mx * drs);
+				#pragma endregion
+				CScallion *newlevel4 = new CScallion(BitmapPath("RES\\Object\\books", "book", 4), center, CPoint(0, 0), 0); //先創建一個蔥的物件
+				newlevel4->SetInitVelocity((int)my, (int)mx);
+				level4.push_back(newlevel4); //將蔥放進vector
+				shoot_atk3_cd.ResetTime();
+			}
+		}
+
 	}
 
 	void CXingting::ClearBullet()
@@ -281,6 +317,10 @@ namespace game_framework
 			{
 				(*level4iter)->SetIsAlive(false);
 				role->SubHp();
+			}
+			
+			if(!(*level4iter)->IsAlive())
+			{
 				delete *level4iter;
 				*level4iter = NULL;
 				level4iter = level4.erase(level4iter);

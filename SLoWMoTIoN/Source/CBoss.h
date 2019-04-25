@@ -75,16 +75,20 @@ namespace game_framework
 		const double PI = 4 * atan(1.0);
 		CTimer shootLevel4_cd;
 		CTimer shoot_atk2_cd;
+		CTimer shoot_atk3_cd;
 		CTimer moveToGoal;
 
 		int goal_x, goal_y;
+		int angle_atk2;
 
 		void Attack1();
 		void Attack2();
+		void Attack3();
 
+		bool moveToGoalPoint;
 		bool mode_Attack1;
 		bool mode_Attack2;
-
+		bool mode_Attack3;
 		int atkCounter;
 	};
 	#pragma endregion
