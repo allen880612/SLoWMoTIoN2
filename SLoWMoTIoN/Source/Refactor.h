@@ -6,7 +6,7 @@
 #define MOVE_DISTANCE 15
 
 #define MAX_MAP_NUMBER 5
-#define NOW_MAP 4
+#define NOW_MAP 2
 
 #define KEY_SPACE 32
 #define KEY_LEFT 37		// keyboard¥ª½bÀY
@@ -55,8 +55,9 @@
 #pragma endregion
 
 
-#pragma region - dialog - mode -
-#define RoleVSBoss "roleVsBoss"
+#pragma region - dialog - txt data - 
+#define DIALOG_DATA_VSXingting1 "roleVsXingting1"
+#define DIALOG_DATA_VSXingting2 "roleVsXingting2"
 #define Tips "InitTip"
 #define FROG "frog"
 #define Music_Deadlock "MyVoiceIsDead"

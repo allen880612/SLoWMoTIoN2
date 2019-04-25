@@ -81,6 +81,10 @@ namespace game_framework
 	{
 		currentX = _x;
 		currentY = _y;
+
+		/*int dx = CCamera::Instance()->GetX();
+		SetXY(currentX - dx, y);
+		animation.OnMove();*/
 	}
 	void CBoss::SetHp(int _hp)
 	{
@@ -142,52 +146,120 @@ namespace game_framework
 		level4.clear();
 		#pragma endregion
 
-		shootLevel4_cd = CTimer(1.0);
+		goal_x = 320 - width / 2;
+		goal_y = 0;
+
+		shootLevel4_cd = CTimer(0.75);
+		shoot_atk2_cd = CTimer(0.01);
+		moveToGoal = CTimer(0.04);
+
+		mode_Attack1 = true;
+		mode_Attack2 = false;
+
+		atkCounter = 0;
+	}
+
+	void CXingting::OnCycle(CRole *role)
+	{
+		OnMove();
+		Attack(role);
+	}
+
+	void CXingting::OnMove()
+	{
+		if (mode_Attack1)
+		{
+			int move_dx = (initx - goal_x) / 20;
+			int move_dy = (inity - goal_y) / 20;
+			moveToGoal.CountDown();
+			if (moveToGoal.IsTimeOut())
+			{
+				SetCurrentXY(currentX - move_dx, currentY - move_dy);
+				moveToGoal.ResetTime();
+			}
+			if (currentX <= goal_x || currentY <= goal_y)
+			{
+				mode_Attack1 = false;
+				mode_Attack2 = true;
+				atkCounter = 0;
+			}
+		}
+
+		int dx = CCamera::Instance()->GetX();
+		SetXY(currentX - dx, currentY);
+		animation.OnMove();
 	}
 
 	void CXingting::Attack(CRole *role)
 	{
-		//Attack1(role);
-		Attack2(role);
-	}
-
-	void CXingting::Attack1(CRole *role)
-	{
-		shootLevel4_cd.CountDown();
-		if (shootLevel4_cd.IsTimeOut())
+		if (mode_Attack1)
 		{
-			for (int i = 0; i < 5; i++)
-			{
-				//CScallion *newlevel4 = new CScallion("Role\\books", "book", 4, 450, 360, 150 + i * 30, 360 - i * 75); //先創建一個蔥的物件
-				level4.push_back(new CScallion(BitmapPath("RES\\Object\\books", "book", 4), CPoint(450, 360), CPoint(150 + i * 30, 360 - i * 75), 0)); //將蔥放進vector
-				shootLevel4_cd.ResetTime();
-			}
+			Attack1();
 		}
-
+		if (mode_Attack2)
+		{
+			Attack2();
+		}
 		Level4Collision(role);
-
 	}
 
-	void CXingting::Attack2(CRole *role)
+	//void CXingting::Attack1()
+	//{
+	//	shootLevel4_cd.CountDown();
+	//	if (shootLevel4_cd.IsTimeOut())
+	//	{
+	//		for (int i = 0; i < 5; i++)
+	//		{
+	//			//CScallion *newlevel4 = new CScallion("Role\\books", "book", 4, 450, 360, 150 + i * 30, 360 - i * 75); //先創建一個蔥的物件
+	//			level4.push_back(new CScallion(BitmapPath("RES\\Object\\books", "book", 4), CPoint(450, 360), CPoint(150 + i * 30, 360 - i * 75), 0)); //將蔥放進vector
+	//			shootLevel4_cd.ResetTime();
+	//		}
+	//	}
+	//}
+
+	void CXingting::Attack1()
 	{
 		shootLevel4_cd.CountDown();
 		if (shootLevel4_cd.IsTimeOut())
 		{
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 12; i++)
 			{
 				double speed = 15.0;
-				int angle = -150 + i * 30;
+				int angle = (-150 + atkCounter * 15) + i * 30;
 				double mx = sin(angle * (PI / 180.0)) * speed;
 				double my = cos(angle * (PI / 180.0)) * speed;
-				CScallion *newlevel4 = new CScallion(BitmapPath("RES\\Object\\books", "book", 4), CPoint(450, 360), CPoint(0, 0), 0); //先創建一個蔥的物件
+				int drs = 3; //亂取的名字 用意在給一個倍數讓books不從中心點出現
+				CPoint center = GetCenterPoint() + CPoint((int)mx * drs, -(int)my * drs);
+				CScallion *newlevel4 = new CScallion(BitmapPath("RES\\Object\\books", "book", 4), center, CPoint(0, 0), 0); //先創建一個蔥的物件
 				newlevel4->SetInitVelocity((int)mx, (int)my);
 				level4.push_back(newlevel4); //將蔥放進vector
 				shootLevel4_cd.ResetTime();
 			}
+			atkCounter++;
 		}
+	}
 
-		Level4Collision(role);
+	void CXingting::Attack2()
+	{
+		shoot_atk2_cd.CountDown();
+		if (shoot_atk2_cd.IsTimeOut())
+		{
+			#pragma region - bullet parameter -
+			double speed = 15.0;
+			int angle = (-150 + atkCounter * 15) + i * 30;
+			double mx = sin(angle * (PI / 180.0)) * speed;
+			double my = cos(angle * (PI / 180.0)) * speed;
+			int drs = 3; //亂取的名字 用意在給一個倍數讓books不從中心點出現
+			CPoint center = GetCenterPoint() + CPoint((int)mx * drs, -(int)my * drs);
+			#pragma endregion
 
+			
+			CScallion *newlevel4 = new CScallion(BitmapPath("RES\\Object\\books", "book", 4), center, CPoint(0, 0), 0); //先創建一個蔥的物件
+			newlevel4->SetInitVelocity((int)mx, (int)my);
+			level4.push_back(newlevel4); //將蔥放進vector
+			shootLevel4_cd.ResetTime();
+			atkCounter++;
+		}
 	}
 
 	void CXingting::ClearBullet()

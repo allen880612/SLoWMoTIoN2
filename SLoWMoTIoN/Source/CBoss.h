@@ -25,8 +25,10 @@ namespace game_framework
 		void SetIsAlive(bool);
 		void OnMove();
 		void MoveWithMap(string);
+		
+		CPoint GetCenterPoint() { return CPoint(x + width / 2, y + height / 2); };
 
-		virtual void OnCycle() {};
+		virtual void OnCycle(CRole*) {};
 		virtual void Attack(CRole*) {};
 
 		virtual void ClearBullet() {};
@@ -63,17 +65,27 @@ namespace game_framework
 		CXingting(int, int, int, BitmapPath, COLORREF);
 		~CXingting();
 		void Initialize();
+		void OnCycle(CRole*);
+		void OnMove();
 		void Attack(CRole*);
 		void ClearBullet();
-		int rrrr() { return 8787; };
 	private:
 		vector<CScallion*>	level4;
-		CTimer shootLevel4_cd;
 		void Level4Collision(CRole*);
 		const double PI = 4 * atan(1.0);
+		CTimer shootLevel4_cd;
+		CTimer shoot_atk2_cd;
+		CTimer moveToGoal;
 
-		void Attack1(CRole*);
-		void Attack2(CRole*);
+		int goal_x, goal_y;
+
+		void Attack1();
+		void Attack2();
+
+		bool mode_Attack1;
+		bool mode_Attack2;
+
+		int atkCounter;
 	};
 	#pragma endregion
 }
