@@ -53,6 +53,8 @@
 #define DIALOG_AVATAR_NAME_XINGTING "xingting"
 #define DIALOG_AVATAR_NAME_LOCK "lock"
 #define DIALOG_AVATAR_NAME_QUESTION "question"
+#define DIALOG_AVATAR_NAME_STUDENTB "StudendB"
+#define DIALOG_AVATAR_NAME_STUDENTG "StudentG"
 #pragma endregion
 
 
@@ -62,6 +64,8 @@
 #define Tips "InitTip"
 #define FROG "frog"
 #define Music_Deadlock "MyVoiceIsDead"
+#define DIALOG_DATA_MEETSTB "MeetStudentB"
+#define DIALOG_DATA_STGHAVEBREAKFAST "StudentGHaveBreakfast"
 #pragma endregion
 
 #pragma region - dialog - add a text on cycle -

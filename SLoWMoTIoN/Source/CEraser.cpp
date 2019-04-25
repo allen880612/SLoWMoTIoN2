@@ -631,6 +631,12 @@ namespace game_framework {
 		animation.SetTopLeft(x, y);
 	}
 
+	void CNPC::OnMove()
+	{
+		int dx = CCamera::Instance()->GetX();
+		SetCurrentXY(currentX, currentY);
+	}
+
 	CNPC::~CNPC()
 	{
 

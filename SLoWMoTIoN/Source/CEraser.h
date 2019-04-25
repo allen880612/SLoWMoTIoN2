@@ -74,6 +74,7 @@ namespace game_framework {
 		void Initialize();
 		void SetCurrentXY(int, int);
 		void SetXY();
+		void OnMove();
 		virtual void RoleCollision() {}; //碰撞到後要做的事情
 
 	protected:
