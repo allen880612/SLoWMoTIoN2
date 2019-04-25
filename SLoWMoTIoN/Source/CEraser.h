@@ -18,6 +18,7 @@ namespace game_framework {
 		int  GetX3();                   // 中新點 X 座標
 		int  GetX2();					// 擦子右下角 x 座標
 		int  GetY2();					// 擦子右下角 y 座標
+		int  GetY3();                   // 中心點 Y 座標
 		int GetScore();
 		int  Height();
 		int  Width();
@@ -134,6 +135,7 @@ namespace game_framework {
 		int move_distance = MOVE_DISTANCE; //每次移動的距離
 		CTimer shoot_cd;
 
+		CMovingBitmap decisionPoint;
 		CRect collisionRect;
 		void ResetCollisionRect();
 	private:

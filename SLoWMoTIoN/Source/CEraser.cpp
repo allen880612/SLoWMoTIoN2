@@ -62,6 +62,11 @@ namespace game_framework {
 		return y + animation.Height();
 	}
 
+	int CEraser::GetY3()
+	{
+		return y + animation.Height() / 2;
+	}
+
 	int CEraser::GetScore()
 	{
 		return score;
@@ -286,6 +291,7 @@ namespace game_framework {
 		shoot_cd.CountDown();	//設置射擊的 CD時間
 
 		animation.SetTopLeft(x, y);
+		decisionPoint.SetTopLeft(GetX3(), GetY3());
 
 		animation.OnMove(dir);
 		
@@ -377,7 +383,7 @@ namespace game_framework {
 
 	bool CRole::IsCollisionLevel4(CScallion *level4)
 	{
-		return IsRectCollision(animation.GetRect(), level4->GetAnimate()->GetRect());
+		return IsRectCollision(decisionPoint.GetRect(), level4->GetAnimate()->GetRect());
 	}
 	
 	bool CRole::IsCollisionNPC(CNPC *npc)
@@ -424,8 +430,10 @@ namespace game_framework {
 		if (animation.IsNull())
 		{
 			LoadBitmap("RES\\Role\\miku", "MIKU", 13, RGB(255, 255, 255));
+			decisionPoint.LoadBitmap("RES\\Role\\miku\\cursor.bmp", RGB(214, 214, 214));
 		}
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
+		CLayerManager::Instance()->AddObject(&decisionPoint, layer.GetLayer() + 1);
 
 		hp = inithp;
 	}

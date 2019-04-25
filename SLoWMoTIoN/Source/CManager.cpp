@@ -479,7 +479,8 @@ namespace game_framework
 	void CDialogManager::LoadDialog()
 	{
 		dialogmap.clear();
-		dialogmap[RoleVSBoss] = CDialog("RES\\Dialog\\Txt\\RoleVsBoss.txt", RoleVSBoss, false);
+		dialogmap[DIALOG_DATA_VSXingting1] = CDialog("RES\\Dialog\\Txt\\VSXingting1.txt", DIALOG_DATA_VSXingting1, false);
+		dialogmap[DIALOG_DATA_VSXingting2] = CDialog("RES\\Dialog\\Txt\\VSXingting2.txt", DIALOG_DATA_VSXingting2, false);
 		dialogmap[Tips] = CDialog("RES\\Dialog\\Txt\\InitTip.txt", Tips, false);
 		dialogmap[FROG] = CDialog("RES\\Dialog\\Txt\\test.txt", FROG, true);
 		dialogmap[Music_Deadlock] = CDialog("RES\\Dialog\\Txt\\MyVoiceIsDead.txt", Music_Deadlock, true);
@@ -887,7 +888,7 @@ namespace game_framework
 			{
 				if (rolePosition >= 100)
 				{
-					CDialogManager::Instance()->Start(RoleVSBoss);
+					CDialogManager::Instance()->Start(DIALOG_DATA_VSXingting1);
 					dialogWithXingting = false;
 					gameState->bossManager.SetBattle(true);
 				}

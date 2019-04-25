@@ -609,11 +609,11 @@ namespace game_framework {
 		}
 		#pragma endregion
 		
-		#pragma region - boss attack -
+		#pragma region - boss cycle (move and attack) -
 		if (bossManager.targetBoss != NULL && bossManager.IsBattle())
 		{
 			//bossManager.targetBoss->Attack1(&role);
-			bossManager.targetBoss->Attack(&role);
+			bossManager.targetBoss->OnCycle(&role);
 		}
 		#pragma endregion
 
@@ -714,7 +714,7 @@ namespace game_framework {
 		
 		if (nChar == KEY_Q)
 		{
-			CDialogManager::Instance()->Start(RoleVSBoss);
+			CDialogManager::Instance()->Start(DIALOG_DATA_VSXingting1);
 		}
 
 		if (nChar == 67)
