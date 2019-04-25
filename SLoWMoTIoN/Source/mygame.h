@@ -82,6 +82,8 @@ namespace game_framework {
 		CButton		  btn_music;
 		CButton		  btn_sound;
 		CButton		  btn_play;
+		CButton		  btn_ending;
+		CButton		  btn_about;
 		CMovingBitmap logo;								// csieªºlogo
 	};
 

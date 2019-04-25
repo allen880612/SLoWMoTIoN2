@@ -83,10 +83,14 @@ namespace game_framework {
 
 		btn_music = CButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true);
 		btn_sound = CButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true);
-		btn_play  = CButton(BitmapPath("RES\\Button", "play",  2, RGB(214, 214, 214)), CPoint(350, 230), false);
+		btn_play = CButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(350, 190), false);
+		btn_ending = CButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(350, 260), false);
+		btn_about = CButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(350, 330), false);
 		btn_music.Initialize();
 		btn_sound.Initialize();
 		btn_play.Initialize();
+		btn_ending.Initialize();
+		btn_about.Initialize();
 	}
 
 	void CGameStateInit::OnInit()
@@ -122,25 +126,23 @@ namespace game_framework {
 
 	void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 	{
-		if (IsPointInRect(mouse, btn_music.GetAnimate()->GetRect()))
+		if (IsPointInRect(point, btn_music.GetAnimate()->GetRect()))
 		{
 			btn_music.SetState(!btn_music.GetState());	//ㄎㄧㄤ 可能改 ChageState 會好點?
 			CAudio::Instance()->SetIsPlayMusic(btn_music.GetState());
 
 		}
-		if (IsPointInRect(mouse, btn_sound.GetAnimate()->GetRect()))
+		if (IsPointInRect(point, btn_sound.GetAnimate()->GetRect()))
 		{
 			btn_sound.SetState(!btn_sound.GetState());
 			CAudio::Instance()->SetIsPlaySound(btn_sound.GetState());
 		}
 		
-		if (!(IsPointInRect(mouse, btn_music.GetAnimate()->GetRect()) || IsPointInRect(mouse, btn_sound.GetAnimate()->GetRect())))
+		/*if (!(IsPointInRect(mouse, btn_music.GetAnimate()->GetRect()) || IsPointInRect(mouse, btn_sound.GetAnimate()->GetRect())))
 		{
 			GotoGameState(GAME_STATE_RUN);
-		}
-
-		//CAudio::Instance()->Stop("AUDIO_MENU");
-		if (IsPointInRect(mouse, btn_play.GetAnimate()->GetRect()))
+		}*/
+		if (IsPointInRect(point, btn_play.GetAnimate()->GetRect()))
 			GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 	}
 
@@ -150,17 +152,18 @@ namespace game_framework {
 
 	void CGameStateInit::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
-		mouse = point;
-		
-		if (IsPointInRect(point, btn_play.GetAnimate()->GetRect()))
-		{
-			if (!btn_play.GetState())					//只有第一次進入Button有音效
-				CAudio::Instance()->Play("SOUND_JUMP");
+		btn_play.CollisonMouse(point);
+		btn_ending.CollisonMouse(point);
+		btn_about.CollisonMouse(point);
+		//if (IsPointInRect(point, btn_play.GetAnimate()->GetRect()))
+		//{
+		//	if (!btn_play.GetState())					//只有第一次進入Button有音效
+		//		CAudio::Instance()->Play("SOUND_JUMP");
 
-			btn_play.SetState(true);
-		}
-		else
-			btn_play.SetState(false);
+		//	btn_play.SetState(true);
+		//}
+		//else
+		//	btn_play.SetState(false);
 
 	}
 
@@ -177,6 +180,8 @@ namespace game_framework {
 		}
 		logo.SetTopLeft(0, 0);
 		btn_play.OnMove();
+		btn_ending.OnMove();
+		btn_about.OnMove();
 		btn_music.OnMove();
 		btn_sound.OnMove();
 		/*btn_music.SetXY(200, 200);
@@ -194,6 +199,8 @@ namespace game_framework {
 		//logo.SetTopLeft((SIZE_X - logo.Width()) / 2, SIZE_Y / 8);
 		logo.ShowBitmap();
 		btn_play.OnShow();
+		btn_ending.OnShow();
+		btn_about.OnShow();
 		btn_music.OnShow();
 		btn_sound.OnShow();
 

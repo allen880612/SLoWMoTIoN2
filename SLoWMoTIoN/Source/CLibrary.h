@@ -188,6 +188,8 @@ namespace game_framework
 		void	Initialize(CPoint, bool);
 		CAnimate* GetAnimate();
 
+		void CollisonMouse(CPoint);
+
 		void operator=(const CButton&);
 
 	private:

@@ -669,6 +669,18 @@ namespace game_framework
 		return &animation;
 	}
 
+	void CButton::CollisonMouse(CPoint mouse)
+	{
+		if (IsPointInRect(mouse, GetAnimate()->GetRect()))
+		{
+			if (!GetState())					//只有第一次進入Button有音效
+				CAudio::Instance()->Play("SOUND_JUMP");
+			SetState(true);
+		}
+		else
+			SetState(false);
+	}
+
 	void CButton::operator=(const CButton& button)
 	{
 		state = button.state;
@@ -764,7 +776,7 @@ namespace game_framework
 		}
 		if (n < 0) { // 如果小於0，則顯示負號
 			digit[10].SetTopLeft(nx, y);
-			digit[10].ShowBitmap();
+			digit[10].ShowBitmap(0);
 		}
 	}
 
