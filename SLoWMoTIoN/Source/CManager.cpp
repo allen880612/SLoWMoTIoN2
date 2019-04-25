@@ -437,8 +437,9 @@ namespace game_framework
 		dialogAvatar[DIALOG_AVATAR_NAME_ROLE] = CMovingBitmap();
 		dialogAvatar[DIALOG_AVATAR_NAME_XINGTING] = CMovingBitmap();
 		dialogAvatar[DIALOG_AVATAR_NAME_LOCK] = CMovingBitmap();
-		dialogAvatar[DIALOG_AVATAR_NAME_STUDENTG] = CMovingBitmap();
+		dialogAvatar[DIALOG_AVATAR_NAME_QUESTION] = CMovingBitmap();
 		dialogAvatar[DIALOG_AVATAR_NAME_STUDENTB] = CMovingBitmap();
+		dialogAvatar[DIALOG_AVATAR_NAME_STUDENTG] = CMovingBitmap();
 		#pragma endregion
 
 		#pragma region - load image -
@@ -481,12 +482,12 @@ namespace game_framework
 		dialogAvatar[DIALOG_AVATAR_NAME_QUESTION].LoadBitmap("RES\\Dialog\\Avatar\\question_0.bmp", RGB(214, 241, 214));
 		#pragma endregion
 
-		#pragma region - load student_g -
-		dialogAvatar[DIALOG_AVATAR_NAME_STUDENTG].LoadBitmap("RES\\Dialog\\Avatar\\studentG.bmp", RGB(214, 214, 214));
+		#pragma	region - load student b -
+		dialogAvatar[DIALOG_AVATAR_NAME_STUDENTB].LoadBitmap("RES\\Dialog\\Avatar\\studentB.bmp", RGB(214, 241, 214));
 		#pragma endregion
 
-		#pragma region - load student_b -
-		dialogAvatar[DIALOG_AVATAR_NAME_STUDENTB].LoadBitmap("RES\\Dialog\\Avatar\\studentB.bmp", RGB(214, 214, 214));
+		#pragma region - load student g -
+		dialogAvatar[DIALOG_AVATAR_NAME_STUDENTG].LoadBitmap("RES\\Dialog\\Avatar\\studentG.bmp", RGB(214, 241, 214));
 		#pragma endregion
 
 		#pragma endregion
@@ -502,6 +503,8 @@ namespace game_framework
 		dialogmap[Tips] = CDialog("RES\\Dialog\\Txt\\InitTip.txt", Tips, false);
 		dialogmap[FROG] = CDialog("RES\\Dialog\\Txt\\test.txt", FROG, true);
 		dialogmap[Music_Deadlock] = CDialog("RES\\Dialog\\Txt\\MyVoiceIsDead.txt", Music_Deadlock, true);
+		dialogmap[DIALOG_DATA_MEETSTB] = CDialog("RES\\Dialog\\Txt\\MeetStudentB.txt", DIALOG_DATA_MEETSTB, true);
+		dialogmap[DIALOG_DATA_STGHAVEBREAKFAST] = CDialog("RES\\Dialog\\Txt\\StudentGHaveBreakfast.txt", DIALOG_DATA_STGHAVEBREAKFAST, true);
 	}
 
 	void CDialogManager::ShowText_Next()
@@ -877,10 +880,21 @@ namespace game_framework
 		}
 	}
 
+	void CNPCManager::OnMove(int thisMap)
+	{
+		for (vector<CNPC*>::iterator npciter = npc[thisMap].begin(); npciter != npc[thisMap].end(); npciter++)
+		{
+			(*npciter)->OnMove();
+		}
+	}
+
 	void CNPCManager::LoadNPC()
 	{
 		npc[4].push_back(new CNPC1(CPoint(50, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255, 255, 255)), "frog", FROG));
 		npc[4].push_back(new CNPC3(CPoint(450, 388), BitmapPath("RES\\NPC\\test", "test2", 1, RGB(255, 255, 255)), "deadlock", "MUSIC_DeadLock", Music_Deadlock));
+
+		npc[3].push_back(new CNPC1(CPoint(50, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255, 255, 255)), DIALOG_AVATAR_NAME_STUDENTB, DIALOG_DATA_MEETSTB));
+		npc[3].push_back(new CNPC1(CPoint(450, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255, 255, 255)), DIALOG_AVATAR_NAME_STUDENTG, DIALOG_DATA_STGHAVEBREAKFAST));
 	}
 	#pragma endregion
 

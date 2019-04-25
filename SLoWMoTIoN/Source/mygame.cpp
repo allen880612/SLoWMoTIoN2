@@ -663,6 +663,11 @@ namespace game_framework {
 		}
 		#pragma endregion
 		
+		#pragma region - NPC Moving -
+		npcManager.OnMove(mapManager.GetNowMap());
+		#pragma endregion
+
+
 		//
 		// 判斷擦子是否碰到球
 		//
