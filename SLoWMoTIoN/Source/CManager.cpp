@@ -757,6 +757,7 @@ namespace game_framework
 			CLayerManager::Instance()->AddObject(bossiter->second->GetAnimate(), bossiter->second->layer.GetLayer());
 		}
 		targetBoss = NULL;
+		isBattle = false;
 	}
 
 	void CBossManager::Clear()
@@ -774,7 +775,7 @@ namespace game_framework
 
 	void CBossManager::TargetBoss(int nowMap)
 	{
-		if (nowMap == 3)
+		if (nowMap == BOSS_MAP_XINGTING)
 		{
 			targetBoss = bossInformation[BOSS_XINGTING];
 			targetBoss->GetAnimate()->SetValid(true);
@@ -884,7 +885,7 @@ namespace game_framework
 			#pragma endregion
 
 			#pragma region - dialog - vs xingting -
-			if (!dialogWithXingting && nowMap == 3)
+			if (!dialogWithXingting && nowMap == BOSS_MAP_XINGTING)
 			{
 				if (rolePosition >= 100)
 				{

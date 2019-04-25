@@ -139,13 +139,7 @@ namespace game_framework
 	{
 		CBoss::Initialize();
 
-		#pragma region - delete bullet -
-		for (vector<CScallion*>::iterator level4iter = level4.begin(); level4iter != level4.end(); level4iter++)
-		{
-			delete *level4iter;
-		}
-		level4.clear();
-		#pragma endregion
+		ClearBullet();
 
 		goal_x = 320 - width / 2;
 		goal_y = 0;
@@ -313,7 +307,7 @@ namespace game_framework
 		for (vector<CScallion*>::iterator level4iter = level4.begin(); level4iter != level4.end();)
 		{
 			(*level4iter)->OnMove();
-			if (role->IsCollisionLevel4(*level4iter))
+			if ((*level4iter)->IsAlive() && role->IsCollisionLevel4(*level4iter))
 			{
 				(*level4iter)->SetIsAlive(false);
 				role->SubHp();
