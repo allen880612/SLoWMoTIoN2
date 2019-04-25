@@ -1,4 +1,9 @@
 role 這裡是哪裡？？
 role 我是誰？？？
-xingting 宗～育
-role 幹
+question 這裡是虛擬世界"SLoWMoTIoN"，你可以在這裡做任何事。
+question 到處走動，打怪，跟NPC對話，打王，都是被允許的，但是要注意──有時間限制。
+role 我要怎樣離開這裡？？？
+question 很抱歉不行，因為我把登出鍵拔掉了。
+role ………………
+question 那麼，開始吧，在這剩下的時間耗盡之前──
+question 你還能做多少事情？

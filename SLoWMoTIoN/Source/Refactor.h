@@ -5,7 +5,7 @@
 #define MAX_LAYER_NUMBER 10
 #define MOVE_DISTANCE 15
 
-#define MAX_MAP_NUMBER 5
+#define MAX_MAP_NUMBER 6
 #define NOW_MAP 2
 
 #define KEY_SPACE 32
@@ -52,6 +52,7 @@
 #define DIALOG_AVATAR_NAME_ROLE "role"
 #define DIALOG_AVATAR_NAME_XINGTING "xingting"
 #define DIALOG_AVATAR_NAME_LOCK "lock"
+#define DIALOG_AVATAR_NAME_QUESTION "question"
 #pragma endregion
 
 
@@ -71,7 +72,7 @@
 
 #pragma region - boss -
 #define BOSS_DEPRATMENT "boss"
-#define BOSS_MAP_XINGTING 3
+#define BOSS_MAP_XINGTING 5
 #pragma endregion
 
 

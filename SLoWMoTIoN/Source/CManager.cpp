@@ -229,11 +229,15 @@ namespace game_framework
 				break;
 
 			case 3:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 2, -1, 0, "RES\\Map", "IDB_MAP", mapIndex);
+				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 2, 5, 0, "RES\\Map", "IDB_MAP", mapIndex);
 				break;
 
 			case 4:
 				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, -1, 1, 0, "RES\\Map", "IDB_MAP", mapIndex);
+				break;
+
+			case 5:
+				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 3, -1, 0, "RES\\Map", "IDB_MAP", mapIndex);
 				break;
 
 			default:
@@ -433,6 +437,7 @@ namespace game_framework
 		dialogAvatar[DIALOG_AVATAR_NAME_ROLE] = CMovingBitmap();
 		dialogAvatar[DIALOG_AVATAR_NAME_XINGTING] = CMovingBitmap();
 		dialogAvatar[DIALOG_AVATAR_NAME_LOCK] = CMovingBitmap();
+		dialogAvatar[DIALOG_AVATAR_NAME_QUESTION] = CMovingBitmap();
 		#pragma endregion
 
 		#pragma region - load image -
@@ -469,6 +474,10 @@ namespace game_framework
 
 		#pragma region - load lock -
 		dialogAvatar[DIALOG_AVATAR_NAME_LOCK].LoadBitmap("RES\\Dialog\\Avatar\\lock_0.bmp", RGB(255,255,255));
+		#pragma endregion
+
+		#pragma region - load question -
+		dialogAvatar[DIALOG_AVATAR_NAME_QUESTION].LoadBitmap("RES\\Dialog\\Avatar\\question_0.bmp", RGB(214, 241, 214));
 		#pragma endregion
 
 		#pragma endregion
@@ -605,7 +614,7 @@ namespace game_framework
 			char tempk[DIALOG_MAX_TEXT + 5];
 			memset(tempk, '\0', sizeof(tempk));
 			
-			for (int i = 0; i < nowShowTextSize; i++)
+			for (int i = 0; i < nowShowTextSize;)
 			{
 				if (charindex < DIALOG_MAX_TEXT)
 				{
@@ -613,14 +622,31 @@ namespace game_framework
 					if (showtext[i] == '_') //例外處理，將底線換成空白 (文本不能打空白)
 					{
 						tempk[charindex++] = ' ';
+						i++;
 					}
 					else  if (showtext[i] == '@') //將at 換成換行
 					{
 						charindex += 999;
+						i++;
 					}
 					else 
 					{
-						tempk[charindex++] = showtext[i];
+						if (showtext[i] > 0)
+						{
+							tempk[charindex++] = showtext[i++];
+						}
+						else
+						{
+							if (charindex + 1 < DIALOG_MAX_TEXT) //add a chinese
+							{
+								tempk[charindex++] = showtext[i++];
+								tempk[charindex++] = showtext[i++];
+							}
+							else
+							{
+								charindex += 999;
+							}
+						}
 					}
 						
 					
@@ -639,7 +665,7 @@ namespace game_framework
 					#pragma endregion
 					if (showtext[i] > 0 && showtext[i + 1] < 0 && charindex + 1 >= DIALOG_MAX_TEXT)
 					{
-						charindex += 2;
+						charindex += 999;
 					}
 					#pragma endregion
 
