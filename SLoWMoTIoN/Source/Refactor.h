@@ -53,6 +53,8 @@
 #define DIALOG_AVATAR_NAME_XINGTING "xingting"
 #define DIALOG_AVATAR_NAME_LOCK "lock"
 #define DIALOG_AVATAR_NAME_QUESTION "question"
+#define DIALOG_AVATAR_NAME_STUDENTG "student_g"
+#define DIALOG_AVATAR_NAME_STUDENTB "student_b"
 #pragma endregion
 
 

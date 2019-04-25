@@ -437,7 +437,8 @@ namespace game_framework
 		dialogAvatar[DIALOG_AVATAR_NAME_ROLE] = CMovingBitmap();
 		dialogAvatar[DIALOG_AVATAR_NAME_XINGTING] = CMovingBitmap();
 		dialogAvatar[DIALOG_AVATAR_NAME_LOCK] = CMovingBitmap();
-		dialogAvatar[DIALOG_AVATAR_NAME_QUESTION] = CMovingBitmap();
+		dialogAvatar[DIALOG_AVATAR_NAME_STUDENTG] = CMovingBitmap();
+		dialogAvatar[DIALOG_AVATAR_NAME_STUDENTB] = CMovingBitmap();
 		#pragma endregion
 
 		#pragma region - load image -
@@ -478,6 +479,14 @@ namespace game_framework
 
 		#pragma region - load question -
 		dialogAvatar[DIALOG_AVATAR_NAME_QUESTION].LoadBitmap("RES\\Dialog\\Avatar\\question_0.bmp", RGB(214, 241, 214));
+		#pragma endregion
+
+		#pragma region - load student_g -
+		dialogAvatar[DIALOG_AVATAR_NAME_STUDENTG].LoadBitmap("RES\\Dialog\\Avatar\\studentG.bmp", RGB(214, 214, 214));
+		#pragma endregion
+
+		#pragma region - load student_b -
+		dialogAvatar[DIALOG_AVATAR_NAME_STUDENTB].LoadBitmap("RES\\Dialog\\Avatar\\studentB.bmp", RGB(214, 214, 214));
 		#pragma endregion
 
 		#pragma endregion
@@ -761,7 +770,7 @@ namespace game_framework
 	CBossManager::CBossManager()
 	{
 		#pragma region -- Create Boss --
-		bossInformation[BOSS_XINGTING] = new CXingting(450, 250, 8787, BitmapPath("RES\\Boss", "xingting", 2), RGB(255, 255, 255));
+		bossInformation[BOSS_XINGTING] = new CXingting(450, 250, 8787, BitmapPath("RES\\Boss", "xingting", 2), RGB(214, 214, 214));
 		#pragma endregion
 		targetBoss = NULL;
 		isBattle = false;
