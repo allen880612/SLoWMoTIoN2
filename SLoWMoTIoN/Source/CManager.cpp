@@ -444,25 +444,25 @@ namespace game_framework
 
 		char *address;
 		#pragma region - load dialog background -
-		address = ConvertCharPointToString("RES\\Dialog", "ground", 0);
+		address = ConvertCharPointToString("RES\\Dialog", "ground");
 		dialog_background.LoadBitmap(address, RGB(255, 255, 255));
 		delete address;
 		#pragma endregion
 
 		#pragma region - load xingting - avatar -
-		address = ConvertCharPointToString("RES\\Dialog\\Avatar", "xingting", 0);
+		address = ConvertCharPointToString("RES\\Dialog\\Avatar", "xingting");
 		dialogAvatar[DIALOG_AVATAR_NAME_XINGTING].LoadBitmap(address);
 		delete address;
 		#pragma endregion
 
 		#pragma region - load role avatar -
-		address = ConvertCharPointToString("RES\\Dialog\\Avatar", "mikuAvatar", 0);
+		address = ConvertCharPointToString("RES\\Dialog\\Avatar", "mikuAvatar");
 		dialogAvatar[DIALOG_AVATAR_NAME_ROLE].LoadBitmap(address, RGB(255,255,255));
 		delete address;
 		#pragma endregion
 
 		#pragma region - load null -
-		address = ConvertCharPointToString("RES\\Dialog", "bmp", 0);
+		address = ConvertCharPointToString("RES\\Dialog", "null");
 		avatar_null.LoadBitmap(address);
 		delete address;
 		#pragma endregion
