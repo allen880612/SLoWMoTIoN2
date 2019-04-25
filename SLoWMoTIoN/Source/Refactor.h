@@ -71,6 +71,7 @@
 
 #pragma region - boss -
 #define BOSS_DEPRATMENT "boss"
+#define BOSS_MAP_XINGTING 3
 #pragma endregion
 
 
@@ -92,4 +93,4 @@
 
 
 
-#define DEBUG_MODE true
+#define DEBUG_MODE false
