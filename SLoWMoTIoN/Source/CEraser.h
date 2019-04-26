@@ -89,6 +89,7 @@ namespace game_framework {
 	#pragma endregion
 
 	#pragma region - CRole -
+	class CBlackHole;
 	class CRole : public CEraser
 	{
 		friend class CScallion;
@@ -115,10 +116,15 @@ namespace game_framework {
 		bool GetDrop();
 		int GetVelocity();
 
+		#pragma region - Collision -
 		bool IsCollisionBoss(CBoss*);
 		bool IsCollisionLevel4(CScallion*);
-		
+
 		bool IsCollisionNPC(CNPC*);
+
+		bool IsCollisionBlackHole(CBlackHole*);
+		bool IsCollisionBlackHoleCenter(CBlackHole*);
+		#pragma endregion
 
 		vector<CScallion*>* GetScallion();
 		
