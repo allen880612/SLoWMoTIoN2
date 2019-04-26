@@ -307,4 +307,37 @@ namespace game_framework {
 	//	SetXY(x + dx, y + dy);
 	//}
 	//#pragma endregion
+
+	#pragma region -  -
+	CBlackHole::CBlackHole() : CScallion()
+	{
+	}
+
+	CBlackHole::CBlackHole(BitmapPath loadpath, CPoint point, CPoint finalPoint, int _gravity) : CScallion(loadpath, point, finalPoint, _gravity)
+	{
+		centerRectSize = CRect(0, 0, 30, 30);
+	}
+
+	CBlackHole::CBlackHole(BitmapPath loadpath, CPoint point, int initV_x, int initV_y) : CScallion(loadpath, point, initV_x, initV_y)
+	{
+		centerRectSize = CRect(0, 0, 30, 30);
+	}
+
+	void CBlackHole::OnMove()
+	{
+		CScallion::OnMove();
+		int centerRectWidth = centerRectSize.right;
+		int centerRectHeight = centerRectSize.bottom;
+		int centerPointX = x + animation.Width() / 2;
+		int centerPointY = y + animation.Height() / 2;
+
+		centerRect = CRect(centerPointX - centerRectWidth / 2,   //left
+			               centerPointY - centerRectHeight / 2,  //top
+			               centerPointX + centerRectWidth / 2,   //right
+			               centerPointY + centerRectHeight / 2); //bottom
+	}
+
+
+	#pragma endregion
+
 }

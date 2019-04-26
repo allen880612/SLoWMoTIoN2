@@ -376,6 +376,7 @@ namespace game_framework {
 		return velocity;
 	}
 
+	#pragma region -- Collision --
 	bool CRole::IsCollisionBoss(CBoss *boss)
 	{
 		ResetCollisionRect();
@@ -392,6 +393,17 @@ namespace game_framework {
 	{
 		return IsRectCollision(animation.GetRect(), npc->GetAnimate()->GetRect());
 	}
+
+	bool CRole::IsCollisionBlackHole(CBlackHole *blackHole)
+	{
+		return IsRectCollision(animation.GetRect(), blackHole->GetAnimate()->GetRect());
+	}
+
+	bool CRole::IsCollisionBlackHoleCenter(CBlackHole *blackHole)
+	{
+		return IsRectCollision(animation.GetRect(), blackHole->GetCenterRect());
+	}
+	#pragma endregion
 
 	void CRole::AddScore(int _score)
 	{

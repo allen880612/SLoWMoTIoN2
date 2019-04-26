@@ -8,7 +8,7 @@ namespace game_framework {
 	// 看懂就可以改寫成自己的程式了
 	/////////////////////////////////////////////////////////////////////////////
 
-#pragma region - ball -
+	#pragma region - ball -
 	class CBall
 	{
 	public:
@@ -42,6 +42,7 @@ namespace game_framework {
 	};
 #pragma endregion
 
+	#pragma region - CScallion -
 	class CScallion : public CBall
 	{
 	public:
@@ -66,4 +67,21 @@ namespace game_framework {
 		int gravity;
 		int direction;			//丟出時面對的方向
 	};
+	#pragma endregion
+
+	#pragma region - CBlackHole -
+	class CBlackHole : public CScallion
+	{
+	public:
+		CBlackHole();
+		CBlackHole(BitmapPath, CPoint, CPoint, int = 4);	//給兩CPoint + int 為參數時，第一個為目前座標，第二個為滑鼠座標，最後為重力參數
+		CBlackHole(BitmapPath, CPoint, int, int);			//若不給重力參數，第一個CPoint不變，但後面變為「x初速, y初速」
+		CRect GetCenterRect() { return centerRect; };
+		void OnMove();
+	private:
+		CRect centerRect;
+		CRect centerRectSize;
+	};
+	#pragma endregion
+
 }

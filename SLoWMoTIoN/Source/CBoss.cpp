@@ -147,7 +147,9 @@ namespace game_framework
 		shootLevel4_cd = CTimer(0.75);
 		shoot_atk2_cd = CTimer(0.033);
 		shoot_atk3_cd = CTimer(2.5);
+
 		moveToGoal = CTimer(0.04);
+		mode_Attack2_timer = CTimer(15.0);
 
 		angle_atk2 = 0;
 
@@ -155,6 +157,7 @@ namespace game_framework
 		mode_Attack1 = true;
 		mode_Attack2 = false;
 		mode_Attack3 = false;
+		mode_Attack4 = false;
 
 		atkCounter = 0;
 	}
@@ -203,6 +206,13 @@ namespace game_framework
 		if (mode_Attack2)
 		{
 			Attack2();
+			mode_Attack2_timer.CountDown();
+			if (mode_Attack2_timer.IsTimeOut())
+			{
+				mode_Attack2 = false;
+				mode_Attack3 = false;
+				mode_Attack4 = true;
+			}
 		}
 		if (mode_Attack3)
 		{

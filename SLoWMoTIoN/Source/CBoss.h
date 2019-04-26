@@ -76,7 +76,9 @@ namespace game_framework
 		CTimer shootLevel4_cd;
 		CTimer shoot_atk2_cd;
 		CTimer shoot_atk3_cd;
+
 		CTimer moveToGoal;
+		CTimer mode_Attack2_timer;
 
 		int goal_x, goal_y;
 		int angle_atk2;
@@ -89,6 +91,7 @@ namespace game_framework
 		bool mode_Attack1;
 		bool mode_Attack2;
 		bool mode_Attack3;
+		bool mode_Attack4;
 		int atkCounter;
 	};
 	#pragma endregion
