@@ -173,11 +173,11 @@ namespace game_framework {
 		velocity_y = initV_y;
 	}
 
-	CScallion::~CScallion()
-	{
-		//animation.ReleaseAnimate();
-		//delete this;
-	}
+	//CScallion::~CScallion()
+	//{
+	//	//animation.ReleaseAnimate();
+	//	//delete this;
+	//}
 
 	void CScallion::Clear()
 	{

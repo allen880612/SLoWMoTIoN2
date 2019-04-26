@@ -837,7 +837,7 @@ namespace game_framework
 	{
 		Clear();
 		LoadNPC();
-	}
+	}	
 
 	CNPCManager::~CNPCManager()
 	{

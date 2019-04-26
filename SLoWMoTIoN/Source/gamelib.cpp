@@ -805,6 +805,7 @@ void CGame::SetGameState(int state)
 	ASSERT(state >=0 && state < NUM_GAME_STATES);
 	gameState = gameStateTable[state];
 	gameState->OnBeginState();
+	//gameState->OnInit();
 	OnDraw();
 	CSpecialEffect::SetCurrentTime();
 	running = true;

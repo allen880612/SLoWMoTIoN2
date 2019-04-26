@@ -104,7 +104,8 @@ namespace game_framework {
 		void SetMouseXY(int, int);
 		void AddScore(int);
 		void SubHp();
-		int GetHp() { return hp; }; //§ÚÃi£{
+		int  GetHp() { return hp; }; //§ÚÃi£{
+		//void LoadBitmap();
 
 		void Initialize();
 
@@ -142,9 +143,12 @@ namespace game_framework {
 	private:
 		//unsigned AUDIO_THROW;
 		//unsigned AUDIO_JUMP;
+		CInteger hp_left;
+		CInteger scoreInteger;
 
 		#pragma region - init information-
-		int inithp = 3;
+		int inithp = 20;
+		bool isLoaded;
 		#pragma endregion
 
 		int hp;

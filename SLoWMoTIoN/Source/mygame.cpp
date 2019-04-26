@@ -269,7 +269,8 @@ namespace game_framework {
 		npcManager.Initialize(mapManager.GetNowMap()); //npcManager初始化所有NPC的同時，顯示nowMap上的NPC
 
 		role.Initialize();
-		time_left.Initialize(CPoint(250, 0), GAME_TIME, 2);
+		time_left.Initialize(CPoint(250, 0), GAME_TIME, 2); 
+		//hp_left.Initialize(CPoint(20, 100), 20, 2);
 		//role.Initialize(AUDIO_THROW, AUDIO_JUMP);
 		//background.SetTopLeft(BACKGROUND_X, 0);				// 設定背景的起始座標
 		//help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
@@ -296,39 +297,19 @@ namespace game_framework {
 								// 開始載入資料
 								//
 		//miku.LoadBitmap();
-		int i;
+		/*int i;
 		for (i = 0; i < NUMBALLS; i++)
-			ball[i].LoadBitmap();								// 載入第i個球的圖形
-																//role.LoadBitmap();
-		//role.LoadBitmap("Role", "MIKU", 13, RGB(255, 255, 255));
-		
-		//background.LoadBitmap(IDB_BACKGROUND);					// 載入背景的圖形
-																//
-																// 完成部分Loading動作，提高進度
-																//
-		ShowInitProgress(50);
-		//Sleep(300); // 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
-		//			//
-		//			// 繼續載入其他資料
-		//			//
-		//help.LoadBitmap(IDB_HELP, RGB(255, 255, 255));				// 載入說明的圖形
-		//corner.LoadBitmap(IDB_CORNER);								// 載入角落圖形
-		//corner.ShowBitmap(background);								// 將corner貼到background
-		//															//bball.LoadBitmap();										// 載入圖形
-		time_left.LoadBitmap(".\\RES\\Number", "default");
+			ball[i].LoadBitmap();	*/							// 載入第i個球的圖形
 
-		/*CAudio::Instance()->Load(AUDIO_GAMEING, "sounds\\SLoWMoTIoN_Game.wav");
-		CAudio::Instance()->Load(AUDIO_THROW, "sounds\\throw.wav");
-		CAudio::Instance()->Load(AUDIO_JUMP, "sounds\\jump.wav"); 
-		CAudio::Instance()->Load(AUDIO_HIT, "sounds\\hit.wav");*/
-												
-																	// 此OnInit動作會接到CGameStaterOver::OnInit()，所以進度還沒到100%
-																	//
+		ShowInitProgress(50);										// 載入圖形
+		time_left.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
+		
+		//role.LoadBitmap();
 		#pragma region - Initialize - MapManager -
 		mapManager.LoadMapBitmap();
-		role.Initialize();
+		
 		#pragma endregion
-
+		role.Initialize();
 		
 	}
 
@@ -344,7 +325,6 @@ namespace game_framework {
 		}
 		#pragma endregion
 
-		
 		#pragma region - timer count down -
 		timer.CountDown();
 		if (timer.IsTimeOut())
@@ -872,13 +852,16 @@ namespace game_framework {
 		//sprintf(roleScore, "%d", role.GetScore());
 		//PaintText(roleScore, 500, 0, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 
+
 		//sprintf(rolehp, "%d", role.GetHp());
 		//PaintText(rolehp, 20, 100, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 		#pragma endregion
 		#pragma endregion
 
 		CDialogManager::Instance()->ShowText();
-		time_left.ShowBitmap();			// 原本的碰撞剩餘次數
+		role.OnShow();
+		time_left.ShowBitmap();	// 剩餘時間\
+		//hp_left.ShowBitmap();	// 剩餘HP	
 
 	}
 

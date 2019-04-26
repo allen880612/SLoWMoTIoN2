@@ -110,9 +110,9 @@ IDB_LOADING             BITMAP                  "..\\res\\loading.bmp"
 // Cursor
 //
 
-IDC_GAMECURSOR          CURSOR                  "..\\res\\gamecurs.cur"
+IDC_GAMECURSOR          CURSOR                  "..\\res\\Game.cur"
 
-IDC_CURSOR              CURSOR                  "..\\RES\\Gamecursor.cusor.cur"
+//IDC_CURSOR              CURSOR                  "..\\RES\\Gamecursor.cur"
 
 #endif    // 中文 (繁體，台灣) resources
 /////////////////////////////////////////////////////////////////////////////

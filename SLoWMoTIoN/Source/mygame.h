@@ -120,6 +120,7 @@ namespace game_framework {
 		CEraser			eraser;		// 拍子
 		CRole role;
 		CInteger		time_left;	// 剩下的撞擊數
+		//CInteger		hp_left;	// 剩下的HP
 		CTimer timer; //stateRun狀態下的timer (其實好像在什麼狀態下都無所謂)
 
 		vector<CScallion*>*	scallions;

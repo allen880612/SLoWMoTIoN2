@@ -70,6 +70,7 @@ namespace game_framework
 		
 		void  LoadBitmap(vector<char*>, COLORREF = CLR_INVALID);	//以字串陣列載入圖片
 		void  LoadBitmap(string, string, int, COLORREF = CLR_INVALID);
+		void  LoadBitmap(BitmapPath);
 		
 		int   Height();					// 取得動畫的高度
 		int   Left();					// 取得動畫的左上角的 x 座標
@@ -203,23 +204,29 @@ namespace game_framework
 
 	#pragma region - CInteger -
 	class CInteger {
-	public:
-		CInteger(int = 5);			// default 5 digits
-		void Initialize(CPoint, int, int = 2);
-		void Add(int n);			// 增加整數值
-		int  GetInteger();			// 回傳整數值
-		void LoadBitmap();			// 載入0..9及負號之圖形
-		void LoadBitmap(string, string);
-		void SetInteger(int, int = 5);		// 設定整數值
-		void SetTopLeft(int, int);	// 將動畫的左上角座標移至 (x,y)
-		void ShowBitmap();			// 將動畫貼到螢幕
-		void ShowBitmap(double);	// 將動畫加上倍率縮放貼到螢幕
-		//const int NUMDIGITS;			// 共顯示NUMDIGITS個位數
-		int NUMDIGITS;
-		static CMovingBitmap digit[11]; // 儲存0..9及負號之圖形(bitmap)
-		int x, y;						// 顯示的座標
-		int n;							// 整數值
-		bool isBmpLoaded;				// 是否已經載入圖形
+		public:
+			CInteger(int = 5);			// default 5 digits
+			void Initialize(CPoint, int, int = 2);
+			void Add(int n);			// 增加整數值
+			int  GetInteger();			// 回傳整數值
+			void LoadBitmap();			// 載入0..9及負號之圖形
+			void LoadBitmap(string, string);
+			void SetInteger(int, int = 5);		// 設定整數值
+			void SetTopLeft(int, int);	// 將動畫的左上角座標移至 (x,y)
+			void ShowBitmap();			// 將動畫貼到螢幕
+			void ShowBitmap(double);	// 將動畫加上倍率縮放貼到螢幕
+			//const int NUMDIGITS;			// 共顯示NUMDIGITS個位數
+			int NUMDIGITS;
+
+			CMovingBitmap digit[11]; // 儲存0..9及負號之圖形(bitmap)
+			CMovingBitmap number[4];
+			CLayer layer;
+
+		private:
+			int  x, y;						// 顯示的座標
+			int  n;							// 整數值
+			bool isBmpLoaded;				// 是否已經載入圖形
+			
 	};
 	#pragma endregion
 }

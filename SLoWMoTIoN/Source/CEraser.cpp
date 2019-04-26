@@ -217,6 +217,7 @@ namespace game_framework {
 	#pragma region - CRole -
 	CRole::CRole() : CEraser()
 	{
+		isLoaded = false;
 		//Initialize();		
 	}
 	CRole::~CRole()
@@ -309,11 +310,12 @@ namespace game_framework {
 	}
 
 	void CRole::OnShow()
-		{
-			animation.SetTopLeft(x, y);
-			animation.OnShow();
-
-		}
+	{
+		hp_left.ShowBitmap();
+		scoreInteger.ShowBitmap();
+		/*animation.SetTopLeft(x, y);
+		animation.OnShow();*/
+	}
 
 	bool CRole::GetMovingJump()
 	{
@@ -394,11 +396,14 @@ namespace game_framework {
 	void CRole::AddScore(int _score)
 	{
 		score += _score;
+		scoreInteger.Add(_score);
 	}
 
 	void CRole::SubHp()
 	{
 		hp--;
+		hp_left.Add(-1);
+
 		if (hp <= 0)
 		{
 			if (!DEBUG_MODE)
@@ -407,6 +412,15 @@ namespace game_framework {
 			}
 		}
 	}
+
+	/*void CRole::LoadBitmap()
+	{
+		animation.LoadBitmap(BitmapPath("RES\\Role\\miku", "MIKU", 13, RGB(255, 255, 255)));
+		hp_left.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
+		scoreInteger.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
+		decisionPoint.LoadBitmap("RES\\Role\\miku\\cursor.bmp", RGB(214, 214, 214));
+
+	}*/
 
 	void CRole::Initialize()
 	{
@@ -425,13 +439,24 @@ namespace game_framework {
 		shoot_cd = CTimer(0);						//初始化射擊冷卻時間
 		SetValid(true);
 
-		//collisionRect = CRect(CPoint(x - move_distance, y - move_distance), CPoint(x + Width() + move_distance, y + Height() + move_distance));
+		if ( !isLoaded)
+		{
+			hp_left.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
+			scoreInteger.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
+			isLoaded = true;
+		}
+
+		hp_left.Initialize(CPoint(20, 100), inithp, 2);
+		scoreInteger.Initialize(CPoint(500, 0), 0, 3);
+
+		collisionRect = CRect(CPoint(x - move_distance, y - move_distance), CPoint(x + Width() + move_distance, y + Height() + move_distance));
 
 		if (animation.IsNull())
 		{
 			LoadBitmap("RES\\Role\\miku", "MIKU", 13, RGB(255, 255, 255));
 			decisionPoint.LoadBitmap("RES\\Role\\miku\\cursor.bmp", RGB(214, 214, 214));
 		}
+
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 		CLayerManager::Instance()->AddObject(&decisionPoint, layer.GetLayer() + 1);
 

@@ -7,6 +7,7 @@
 #include "audio.h"
 #include "gamelib.h"
 #include "CLibrary.h"
+#include "CManager.h"
 //以下include安心的
 #include "game.h"
 #include "MainFrm.h"
@@ -226,6 +227,16 @@ namespace game_framework
 		{
 			char* address = ConvertCharPointToString(ziliaojia, name, i);
 			AddBitmap(address, transparentColor);
+			delete address;
+		}
+	}
+
+	void CAnimate::LoadBitmap(BitmapPath loadpath)
+	{
+		for (int i = 0; i < loadpath.number; i++)
+		{
+			char* address = ConvertCharPointToString(loadpath.ziliaojia, loadpath.name, i);
+			AddBitmap(address, loadpath.color);
 			delete address;
 		}
 	}
@@ -691,7 +702,7 @@ namespace game_framework
 	#pragma endregion
 
 	#pragma region - CInteger
-	CMovingBitmap CInteger::digit[11];
+	//CMovingBitmap CInteger::digit[11];
 
 	CInteger::CInteger(int digits)
 		: NUMDIGITS(digits)
@@ -703,6 +714,8 @@ namespace game_framework
 	{
 		SetInteger(init_num, init_digitNum);
 		SetTopLeft(init_pos.x, init_pos.y);
+		layer.SetLayer(INTERFACE_LAYER);
+
 	}
 
 	void CInteger::Add(int x)
@@ -770,13 +783,16 @@ namespace game_framework
 		for (int i = 0; i < NUMDIGITS; i++) {
 			int d = MSB % 10;
 			MSB /= 10;
+			//number[NUMDIGITS - i - 1] = digit[d];
+			//number[NUMDIGITS - i - 1].SetTopLeft(nx, y);
 			digit[d].SetTopLeft(nx, y);
 			digit[d].ShowBitmap();
 			nx -= digit[d].Width();
 		}
 		if (n < 0) { // 如果小於0，則顯示負號
+			
 			digit[10].SetTopLeft(nx, y);
-			digit[10].ShowBitmap(0);
+			digit[10].ShowBitmap();
 		}
 	}
 
