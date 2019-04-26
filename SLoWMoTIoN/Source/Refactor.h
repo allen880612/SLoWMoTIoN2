@@ -66,6 +66,7 @@
 #define Music_Deadlock "MyVoiceIsDead"
 #define DIALOG_DATA_STGHAVEBREAKFAST "StudentGHaveBreakfast"
 #define DIALOG_DATA_MEETSTB "StudentSmoke"
+#define DIALOG_DATA_STGSUBMIT "StudentSubmit"
 #pragma endregion
 
 #pragma region - dialog - add a text on cycle -

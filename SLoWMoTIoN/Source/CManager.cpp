@@ -505,6 +505,7 @@ namespace game_framework
 		dialogmap[Music_Deadlock] = CDialog("RES\\Dialog\\Txt\\MyVoiceIsDead.txt", Music_Deadlock, true);
 		dialogmap[DIALOG_DATA_MEETSTB] = CDialog("RES\\Dialog\\Txt\\MeetStudentB.txt", DIALOG_DATA_MEETSTB, true);
 		dialogmap[DIALOG_DATA_STGHAVEBREAKFAST] = CDialog("RES\\Dialog\\Txt\\StudentGHaveBreakfast.txt", DIALOG_DATA_STGHAVEBREAKFAST, true);
+		dialogmap[DIALOG_DATA_STGSUBMIT] = CDialog("RES\\Dialog\\Txt\\StudentKSubmitHW.txt", DIALOG_DATA_STGSUBMIT, true);
 	}
 
 	void CDialogManager::ShowText_Next()
@@ -895,6 +896,7 @@ namespace game_framework
 
 		npc[3].push_back(new CNPC1(CPoint(50, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255, 255, 255)), DIALOG_AVATAR_NAME_STUDENTB, DIALOG_DATA_MEETSTB));
 		npc[3].push_back(new CNPC1(CPoint(450, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255, 255, 255)), DIALOG_AVATAR_NAME_STUDENTG, DIALOG_DATA_STGHAVEBREAKFAST));
+		npc[3].push_back(new CNPC1(CPoint(700, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255, 255, 255)), "zy", DIALOG_DATA_STGSUBMIT));
 	}
 	#pragma endregion
 

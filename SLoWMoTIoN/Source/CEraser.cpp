@@ -291,7 +291,7 @@ namespace game_framework {
 		shoot_cd.CountDown();	//設置射擊的 CD時間
 
 		animation.SetTopLeft(x, y);
-		decisionPoint.SetTopLeft(GetX3(), GetY3());
+		decisionPoint.SetTopLeft(GetX3() - 5, GetY3());
 
 		animation.OnMove(dir);
 		

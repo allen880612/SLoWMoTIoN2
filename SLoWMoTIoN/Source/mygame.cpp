@@ -868,12 +868,12 @@ namespace game_framework {
 		//role.OnShow();
 
 		#pragma region - paint time remain -
-		char roleScore[100], rolehp[100];
-		sprintf(roleScore, "%d", role.GetScore());
-		PaintText(roleScore, 500, 0, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+		//char roleScore[100], rolehp[100];
+		//sprintf(roleScore, "%d", role.GetScore());
+		//PaintText(roleScore, 500, 0, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 
-		sprintf(rolehp, "%d", role.GetHp());
-		PaintText(rolehp, 20, 100, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+		//sprintf(rolehp, "%d", role.GetHp());
+		//PaintText(rolehp, 20, 100, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 		#pragma endregion
 		#pragma endregion
 
