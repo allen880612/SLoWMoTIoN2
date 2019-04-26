@@ -396,7 +396,8 @@ namespace game_framework
 
 	CDialogManager::~CDialogManager()
 	{
-		
+		dialogmap.clear();
+		nowDialog = NULL;
 	}
 
 	void CDialogManager::OnCycle()
@@ -782,6 +783,10 @@ namespace game_framework
 
 	CBossManager::~CBossManager()
 	{
+		if (targetBoss != NULL)
+		{
+			targetBoss->ClearBullet();
+		}
 		Clear();
 	}
 
@@ -849,9 +854,10 @@ namespace game_framework
 		{
 			for (vector<CNPC*>::iterator npciter = npc[i].begin(); npciter != npc[i].end(); npciter++)
 			{
-				delete *npciter;
-				*npciter = NULL;
+				delete (*npciter);
+				(*npciter) = NULL;
 			}
+			npc[i].clear();
 		}
 	}
 
