@@ -102,13 +102,15 @@ namespace game_framework {
 		bmp_center.ShowBitmap();
 		}*/
 	}
-	void CBall::SetCurrentXY(int cx, int cy)
+	void CBall::SetCurrentXY(double cx, double cy)
 	{
 		currentX = cx;
 		currentY = cy;
 
 		int dx = CCamera::Instance()->GetX();
-		SetXY(currentX - dx, currentY);
+		int nx = (int)(currentX) - dx;
+		int ny = (int)(currentY);
+		SetXY(nx, ny);
 	}
 
 	void CBall::LoadBitmap(string ziliaojia, string name, int number)
@@ -315,17 +317,64 @@ namespace game_framework {
 
 	CBlackHole::CBlackHole(BitmapPath loadpath, CPoint point, CPoint finalPoint, int _gravity) : CScallion(loadpath, point, finalPoint, _gravity)
 	{
-		centerRectSize = CRect(0, 0, 30, 30);
+		SetInitVelocity(point.x, point.y, finalPoint.x, finalPoint.y, 25);
+		Initialize();
 	}
 
 	CBlackHole::CBlackHole(BitmapPath loadpath, CPoint point, int initV_x, int initV_y) : CScallion(loadpath, point, initV_x, initV_y)
 	{
-		centerRectSize = CRect(0, 0, 30, 30);
+		Initialize();
+	}
+
+	void CBlackHole::Initialize()
+	{
+		centerRectSize = CRect(0, 0, csize, csize);
+		role = NULL;
+		selfBang = CTimer(1.8);
+		isDead = false;
 	}
 
 	void CBlackHole::OnMove()
 	{
-		CScallion::OnMove();
+		selfBang.CountDown();
+		if (selfBang.IsTimeOut())
+		{
+			isDead = true;
+			SetIsAlive(false);
+			role = NULL;
+			return;
+		}
+
+		if (y + animation.Height() < SIZE_Y)
+		{
+			if (!IsAlive())
+				return;
+
+			if (x > SIZE_X || x + animation.Width() + 87 < 0 || y > SIZE_Y || y < -300)	//超出螢幕
+			{
+				SetIsAlive(false);
+				animation.SetValid(false);
+				return;
+			}
+
+			#pragma region - 重力計算 -
+			if (velocity_y > 0)
+			{
+				velocity_y -= gravity;
+				currentY -= velocity_y;
+			}
+			else
+			{
+				velocity_y -= gravity;
+				currentY -= velocity_y;
+			}
+			#pragma endregion
+
+			animation.OnMove();
+			SetCurrentXY(currentX + velocity_x, currentY);
+		}
+		animation.OnMove();
+
 		int centerRectWidth = centerRectSize.right;
 		int centerRectHeight = centerRectSize.bottom;
 		int centerPointX = x + animation.Width() / 2;
@@ -335,6 +384,12 @@ namespace game_framework {
 			               centerPointY - centerRectHeight / 2,  //top
 			               centerPointX + centerRectWidth / 2,   //right
 			               centerPointY + centerRectHeight / 2); //bottom
+
+		if (role != NULL)
+		{
+			int ddrsx = (role->GetX3() - centerPointX) / 8;
+			role->SetXY(role->GetX1() - ddrsx, role->GetY1());
+		}
 	}
 
 

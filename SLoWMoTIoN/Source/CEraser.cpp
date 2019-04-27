@@ -396,12 +396,13 @@ namespace game_framework {
 
 	bool CRole::IsCollisionBlackHole(CBlackHole *blackHole)
 	{
-		return IsRectCollision(animation.GetRect(), blackHole->GetAnimate()->GetRect());
+		//return IsRectCollision(animation.GetRect(), blackHole->GetAnimate()->GetRect());
+		return IsRectCollision(decisionPoint.GetRect(), blackHole->GetCenterRect());
 	}
 
 	bool CRole::IsCollisionBlackHoleCenter(CBlackHole *blackHole)
 	{
-		return IsRectCollision(animation.GetRect(), blackHole->GetCenterRect());
+		return IsRectCollision(decisionPoint.GetRect(), blackHole->GetCenterRect());
 	}
 	#pragma endregion
 
@@ -473,6 +474,7 @@ namespace game_framework {
 		CLayerManager::Instance()->AddObject(&decisionPoint, layer.GetLayer() + 1);
 
 		hp = inithp;
+		isCatched = false;
 	}
 
 	vector<CScallion*>* CRole::GetScallion()

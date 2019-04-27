@@ -141,6 +141,8 @@ namespace game_framework
 
 		ClearBullet();
 
+		targetBlackhole = NULL;
+
 		goal_x = 320 - width / 2;
 		goal_y = 0;
 
@@ -150,8 +152,11 @@ namespace game_framework
 
 		moveToGoal = CTimer(0.04);
 		mode_Attack2_timer = CTimer(15.0);
+		mode_Attack4_CreateBlackHole = CTimer(0.5);
+		mode4_AttackTime = 1.8; //mode4時 每1.8發射一顆黑洞
 
 		angle_atk2 = 0;
+		mode4_RoleMoveDir = 0;
 
 		moveToGoalPoint = true;
 		mode_Attack1 = true;
@@ -186,6 +191,9 @@ namespace game_framework
 				mode_Attack1 = false;
 				mode_Attack2 = true;
 				mode_Attack3 = true;
+
+				//mode_Attack1 = false;
+				//mode_Attack4 = true;
 				atkCounter = 0;
 				CDialogManager::Instance()->Start(DIALOG_DATA_VSXingting2);
 			}
@@ -217,6 +225,10 @@ namespace game_framework
 		if (mode_Attack3)
 		{
 			Attack3();
+		}
+		if (mode_Attack4)
+		{
+			Attack4(role);
 		}
 		Level4Collision(role);
 	}
@@ -302,18 +314,81 @@ namespace game_framework
 
 	}
 
+	void CXingting::Attack4(CRole *role)
+	{
+		mode_Attack4_CreateBlackHole.CountDown();
+		if (mode_Attack4_CreateBlackHole.IsTimeOut())
+		{
+			CPoint center = GetCenterPoint();
+			CBlackHole *newBh = new CBlackHole(BitmapPath("RES\\Object\\blackhole", "blackhole", 1, RGB(0, 0, 0)), center + CPoint(-75, -68), CPoint(role->GetX1(), role->GetY1()), 0); //先創建一個蔥的物件
+
+			blackhole.push_back(newBh);
+			mode_Attack4_CreateBlackHole.ResetTime(mode4_AttackTime); //reset to 10s
+		}
+	}
+
 	void CXingting::ClearBullet()
 	{
+		for (vector<CBlackHole*>::iterator bkiter = blackhole.begin(); bkiter != blackhole.end(); bkiter++)
+		{
+			delete *bkiter;
+			*bkiter = NULL;
+		}
 		for (vector<CScallion*>::iterator level4iter = level4.begin(); level4iter != level4.end(); level4iter++)
 		{
 			delete *level4iter;
 			*level4iter = NULL;
 		}
 		level4.clear();
+		blackhole.clear();
 	}
 
 	void CXingting::Level4Collision(CRole *role)
 	{
+		for (vector<CBlackHole*>::iterator bkiter = blackhole.begin(); bkiter != blackhole.end();)
+		{
+			(*bkiter)->OnMove();
+			if ((*bkiter)->IsAlive() && !role->IsCatched() && role->IsCollisionBlackHole((*bkiter)))
+			{
+				targetBlackhole = *bkiter;
+				role->SetCatched(true);
+				(*bkiter)->SetRole(role);
+			}
+
+			if ((*bkiter)->IsDead())
+			{
+				#pragma region - Create Bullet -
+				int bulletNumber = 12;
+				for (int i = 0; i < bulletNumber; i++)
+				{
+					#pragma region - bullet parameter -
+					double speed = 15.0;
+					double angle = i * (360 / bulletNumber);
+					double mx = sin(angle * (PI / 180.0)) * speed;
+					double my = cos(angle * (PI / 180.0)) * speed;
+					int drs = 3; //亂取的名字 用意在給一個倍數讓books不從中心點出現
+					CPoint center = GetCenterPoint() + CPoint((int)my * drs, -(int)mx * drs);
+					#pragma endregion
+					CScallion *newlevel4 = new CScallion(BitmapPath("RES\\Object\\books", "book", 4), (*bkiter)->GetCenterPoint(), CPoint(0, 0), 0); //先創建一個蔥的物件
+					newlevel4->SetInitVelocity((int)mx, (int)my);
+					level4.push_back(newlevel4); //將蔥放進vector
+				}
+				#pragma endregion
+				targetBlackhole = NULL;
+				role->SetCatched(false);
+			}
+				
+			if (!(*bkiter)->IsAlive())
+			{
+				delete *bkiter;
+				*bkiter = NULL;
+				bkiter = blackhole.erase(bkiter);
+			}
+			else
+			{
+				bkiter++;
+			}
+		}
 		for (vector<CScallion*>::iterator level4iter = level4.begin(); level4iter != level4.end();)
 		{
 			(*level4iter)->OnMove();
@@ -334,9 +409,10 @@ namespace game_framework
 				level4iter++;
 			}
 		}
-
 	}
 	
+	
+
 	#pragma endregion
 
 }

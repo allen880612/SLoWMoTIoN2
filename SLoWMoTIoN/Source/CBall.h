@@ -19,10 +19,11 @@ namespace game_framework {
 
 		void OnMove();											// 移動
 		void OnShow();											// 將圖形貼到畫面
-		void SetCurrentXY(int, int);
+		void SetCurrentXY(double, double);
 		void SetXY(int nx, int ny);								// 設定圓心的座標
 		void SetIsAlive(bool alive);							// 設定是否活著
 		void SetDelay(int d);									// 設定旋轉的速度
+		CPoint GetCenterPoint() { return CPoint(x + animation.Width() / 2, y + animation.Height() / 2); };
 
 		void LoadBitmap(string, string, int);
 		void LoadBitmap(BitmapPath);
@@ -30,7 +31,7 @@ namespace game_framework {
 		CLayer layer;
 	protected:
 		CAnimate animation;
-		int currentX, currentY;     // /*當前的座標*/ //
+		double currentX, currentY;     // /*當前的座標*/ //
 		int x, y;					// 圓心的座標
 		int dx, dy;					// 球距離圓心的位移量
 		int index;					// 球的「角度」，0-17表示0-360度
@@ -78,9 +79,17 @@ namespace game_framework {
 		CBlackHole(BitmapPath, CPoint, int, int);			//若不給重力參數，第一個CPoint不變，但後面變為「x初速, y初速」
 		CRect GetCenterRect() { return centerRect; };
 		void OnMove();
+		void SetRole(CRole* _r) { role = _r; };
+		int GetX3() { return x + animation.Width() / 2; };
+		bool IsDead() { return isDead; };
+		void Initialize();
 	private:
+		CTimer selfBang; //自爆timer
 		CRect centerRect;
 		CRect centerRectSize;
+		CRole *role;
+		int csize = 100;
+		bool isDead;
 	};
 	#pragma endregion
 

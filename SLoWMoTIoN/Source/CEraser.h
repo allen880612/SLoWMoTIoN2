@@ -130,6 +130,9 @@ namespace game_framework {
 		vector<CScallion*>* GetScallion();
 		
 
+		void SetCatched(bool flag) { isCatched = flag; };
+		bool IsCatched() { return isCatched; };
+
 	protected:
 		vector<CScallion*>	scallion;
 		bool isJumping;				// ¨Oß_•ø¶b∏ı≈D
@@ -158,6 +161,8 @@ namespace game_framework {
 		#pragma endregion
 
 		int hp;
+		
+		bool isCatched;
 
 	};
 	#pragma endregion

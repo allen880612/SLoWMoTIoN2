@@ -9,6 +9,7 @@ namespace game_framework
 	class CScallion; //???????????????????????我明明沒有在scallion引入boss???????????
 					 //難到是傳說中的三重引入?????????????????????????????????????
 	class CRole;
+	class CBlackHole;
 	class CBoss
 	{
 	public:
@@ -71,6 +72,8 @@ namespace game_framework
 		void ClearBullet();
 	private:
 		vector<CScallion*>	level4;
+		vector<CBlackHole*> blackhole;
+		CBlackHole *targetBlackhole;
 		void Level4Collision(CRole*);
 		const double PI = 4 * atan(1.0);
 		CTimer shootLevel4_cd;
@@ -79,13 +82,17 @@ namespace game_framework
 
 		CTimer moveToGoal;
 		CTimer mode_Attack2_timer;
+		CTimer mode_Attack4_CreateBlackHole;
 
 		int goal_x, goal_y;
 		int angle_atk2;
+		double mode4_AttackTime;
+		int mode4_RoleMoveDir; // 1 = 左 2 = 右 3 = 不能動
 
 		void Attack1();
 		void Attack2();
 		void Attack3();
+		void Attack4(CRole*);
 
 		bool moveToGoalPoint;
 		bool mode_Attack1;
