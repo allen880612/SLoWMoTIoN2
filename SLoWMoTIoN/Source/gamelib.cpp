@@ -144,6 +144,28 @@ void PaintText(char* text, int tx, int ty, LPCTSTR font, int textSize, COLORREF 
 	pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
 	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
 }
+
+void DrawBitmap(CBitmap *bitmap, int alpha)	//傳入Bitmap, 以及透明度
+{
+	CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+	CDC mDC;
+	CBitmap bmp, *fbmp;
+	mDC.CreateCompatibleDC(NULL);
+	fbmp = mDC.SelectObject(bitmap);
+	BITMAP bitmapSize;
+	fbmp->GetBitmap(&bitmapSize);
+
+	BLENDFUNCTION blend = { AC_SRC_OVER , 0, (BYTE)alpha,0 };
+	pDC->AlphaBlend(0, 0, SIZE_X, SIZE_Y, &mDC, 0, 0, SIZE_X, SIZE_Y, blend);
+	//pDC->AlphaBlend(0, 0, bitmapSize.bmWidth, bitmapSize.bmHeight, &mDC, 0, 0, bitmapSize.bmWidth, bitmapSize.bmHeight, blend);
+	//pDC->BitBlt(0, 0, SIZE_X, SIZE_Y, &mDC, 0, 0, SRCCOPY);
+
+	mDC.SelectObject(fbmp);
+	mDC.DeleteDC();
+
+	CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+}
+
 void DebugText(string debugText)
 {
 	char* address;

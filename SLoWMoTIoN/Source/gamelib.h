@@ -119,6 +119,7 @@ namespace game_framework {
 #pragma region Function
 
 void PaintText(char*, int, int, LPCTSTR, int, COLORREF = CLR_INVALID, COLORREF = CLR_INVALID);	//String ,位置, 文字字形, 文字大小, 文字顏色, 背景顏色
+void DrawBitmap(CBitmap* , int);
 void DebugText(string);
 void DebugText(int);
 #pragma endregion

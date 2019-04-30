@@ -909,17 +909,26 @@ namespace game_framework {
 
 	void CGameStateOver::OnMove()
 	{
-		counter--;
-		if (counter < 0)
+		time_remaining.CountDown();
+		if (time_remaining.IsTimeOut())
 		{
 			CAudio::Instance()->Stop("SOUND_GAMEOVER");
 			GotoGameState(GAME_STATE_INIT);
 		}
+
+		/*counter--;
+		if (counter < 0)
+		{
+			CAudio::Instance()->Stop("SOUND_GAMEOVER");
+			GotoGameState(GAME_STATE_INIT);
+		}*/
 	}
 
 	void CGameStateOver::OnBeginState()
 	{
 		counter = 30 * 5; // 5 seconds
+		alpha = 0;
+		time_remaining.ResetTime(10.0);
 		CAudio::Instance()->Play("SOUND_GAMEOVER");
 	}
 
@@ -932,6 +941,7 @@ namespace game_framework {
 
 		//CAudio::Instance()->Load(AUDIO_GAMEOVER, "sounds\\SLoWMoTIoN_Gameover.wav");
 		overBitmap.LoadBitmap(".\\RES\\Map\\Gameover.bmp");
+		ending1.m_hObject = LoadImage(NULL, "RES\\End\\Daan_classroom.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 		ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
 								//
 								// 開始載入資料
@@ -959,11 +969,27 @@ namespace game_framework {
 		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
 		*/
 		
-		overBitmap.SetTopLeft(0, 0);
-		overBitmap.ShowBitmap();
-		char str[100];
-		sprintf(str, "Score: %d", finalScore);
-		PaintText(str, 100, 360, "微軟正黑體", 20, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+		if (time_remaining.GetTime() <= 1.5)	//之後放個 timer 來算那張圖應該要多久後，開始淡出
+		{
+			DrawBitmap(&ending1, alpha-=4);
+		}
+		else if (alpha < 255)
+		{
+			DrawBitmap(&ending1, alpha+=3);
+		}
+		else
+		{
+			DrawBitmap(&ending1, alpha);
+		}
+		
+		
+		
+
+		//overBitmap.SetTopLeft(0, 0);
+		//overBitmap.ShowBitmap();
+		//char str[100];
+		//sprintf(str, "Score: %d", finalScore);
+		//PaintText(str, 100, 360, "微軟正黑體", 20, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 	}
 
 }//End
