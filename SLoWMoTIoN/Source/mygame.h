@@ -131,6 +131,9 @@ namespace game_framework {
 
 		CEventManager eventManager;
 
+		bool goTest = false;
+		int alpha = 0;
+		CBitmap ririe;
 		#pragma region - zi din yi -
 		void PositionTrigger();
 		void ChangeMap(string);

@@ -206,7 +206,7 @@ public:
 	int   Left();						// 取得圖形的左上角的 x 座標
 	void  LoadBitmap(int,COLORREF=CLR_INVALID);		// 載入圖，指定圖的編號(resource)及透明色
 	void  LoadBitmap(char *,COLORREF=CLR_INVALID);	// 載入圖，指定圖的檔名及透明色
-	void  LoadBitmap(string, string, COLORREF=CLR_INVALID);
+	void  LoadBitmap(string, string, COLORREF = CLR_INVALID);
 	void  SetTopLeft(int,int);			// 將圖的左上角座標移至 (x,y)
 	void  ShowBitmap();					// 將圖貼到螢幕
 	void  ShowBitmap(double factor);	// 將圖貼到螢幕 factor < 1時縮小，>1時放大。注意：需要VGA卡硬體的支援，否則會很慢

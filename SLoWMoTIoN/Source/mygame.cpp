@@ -310,7 +310,8 @@ namespace game_framework {
 		
 		#pragma endregion
 		role.Initialize();
-		
+		//ririe.LoadBitmap(".\\RES\\End\\ririe.bmp");
+		ririe.m_hObject = LoadImage(NULL, "RES\\End\\ririe.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -713,6 +714,17 @@ namespace game_framework {
 			CAudio::Instance()->Resume();
 		}
 
+		if (nChar == 'U')
+		{
+			goTest = !goTest;
+			alpha = 255;
+		}
+		if (nChar == 'I')
+		{
+			alpha -= 20;
+			if (alpha >= 0)
+				alpha = 0;
+		}
 		if (nChar == 86)
 		{
 			CAudio::Instance()->Play("MUSIC_DeadLock");
@@ -863,6 +875,27 @@ namespace game_framework {
 		time_left.ShowBitmap();	// 剩餘時間\
 		//hp_left.ShowBitmap();	// 剩餘HP	
 
+
+		if (goTest)
+		{
+			CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+			CDC mDC;
+			CBitmap bmp, *fbmp;
+			mDC.CreateCompatibleDC(NULL);
+			fbmp = mDC.SelectObject(&ririe);
+			BITMAP bitmapSize;
+			fbmp->GetBitmap(&bitmapSize);
+
+			BLENDFUNCTION blend = { AC_SRC_OVER , 0, (BYTE)alpha,0 };
+			pDC->AlphaBlend(0, 0, SIZE_X, SIZE_Y, &mDC, 0, 0, SIZE_X, SIZE_Y, blend);
+			//pDC->AlphaBlend(0, 0, bitmapSize.bmWidth, bitmapSize.bmHeight, &mDC, 0, 0, bitmapSize.bmWidth, bitmapSize.bmHeight, blend);
+			//pDC->BitBlt(0, 0, SIZE_X, SIZE_Y, &mDC, 0, 0, SRCCOPY);
+
+			mDC.SelectObject(fbmp);
+			mDC.DeleteDC();
+
+			CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+		}
 	}
 
 	/////////////////////////////////////////////////////////////////////////////

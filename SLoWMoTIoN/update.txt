@@ -170,3 +170,7 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
     Notice : It's can(must?) use copy constructor, like btn_something = CButton(BitmapPath(...), CPoint(x, y), bool)
     The last bool parameter is the initial state of button.
 12. Add two button on the menu, it's can control weather music/sound should play or not.
+
+==============================================================
+2019/4/30
+1. add xingting attack
