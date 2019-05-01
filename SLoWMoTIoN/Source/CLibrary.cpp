@@ -861,13 +861,13 @@ namespace game_framework
 			}
 		}
 		SetTopLeft(x, y);
-		i(nowAction->begin() + action_index)->SetTopLeft(x, y);
+		(nowAction->begin() + action_index)->SetTopLeft(x, y);
 
 	}
 
 	void CAction::OnShow()
 	{
-		
+		(nowAction->begin() + action_index)->ShowBitmap();
 	}
 
 	void CAction::SetAction(string _action)
@@ -880,9 +880,10 @@ namespace game_framework
 		return action;
 	}
 
+	//ex : LoadAction("idle", BitmapPath("..\\RES\\miku\\R\\idle", "idle", 19));
 	void CAction::LoadAction(string _action, BitmapPath loadpath)
 	{
-		#pragma region Load right action
+		#pragma region Load action
 		vector<CMovingBitmap> temp_vector(loadpath.number);
 		for (int i = 0; i < loadpath.number; i++)
 		{
@@ -892,21 +893,6 @@ namespace game_framework
 		}
 		paser[_action] = temp_vector;
 		#pragma endregion
-
-		#pragma region Load left action
-		//clear & resize vector
-		temp_vector.clear();
-		temp_vector.resize(loadpath.number);
-
-		for (int i = 0; i < loadpath.number; i++)
-		{
-			char* address = ConvertCharPointToString(loadpath.ziliaojia, loadpath.name, i);
-
-			temp_vector[i].LoadBitmap(address, loadpath.color);
-			delete address;
-		}
-		paser[_action + "_L"] = temp_vector;
-		#pragma endregion		
 	}
 
 	int CAction::Height()
