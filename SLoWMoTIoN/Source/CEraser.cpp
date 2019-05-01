@@ -121,6 +121,11 @@ namespace game_framework {
 		animation.LoadBitmap(loadpath.ziliaojia, loadpath.name, loadpath.number, loadpath.color);
 	}
 
+	void CEraser::LoadAction(string _action, BitmapPath loadpath)
+	{
+		action.LoadAction(_action, loadpath);
+	}
+
 	void CEraser::OnMove()
 	{
 		const int STEP_SIZE = move_distance;
@@ -250,6 +255,8 @@ namespace game_framework {
 			dir = 2;
 			if (canMoving)
 				x += STEP_SIZE;
+
+			action.SetFaceTo("_R");
 		}
 		if (isMovingDown)
 		{
@@ -262,6 +269,8 @@ namespace game_framework {
 			dir = 4;
 			if (canMoving)
 				x -= STEP_SIZE;
+
+			action.SetFaceTo("_L");
 		}
 		if (isJumping)
 		{
@@ -295,6 +304,21 @@ namespace game_framework {
 		decisionPoint.SetTopLeft(GetX3() - 5, GetY3());
 
 		animation.OnMove(dir);
+
+		action.SetTopLeft(x, y);
+		if (isJumping)
+		{
+			//action.OnMove("Jump");
+			action.OnMove("run");
+		}
+		else if (isMovingLeft || isMovingRight)
+		{
+			action.OnMove("run");
+		}
+		else
+		{
+			action.OnMove("idle");
+		}
 		
 		#pragma region -- Reset collision rect --
 		//collisionRect.left = animation.GetRect().left - move_distance;
@@ -313,6 +337,7 @@ namespace game_framework {
 	{
 		hp_left.ShowBitmap();
 		scoreInteger.ShowBitmap();
+		//action.OnShow();
 		/*animation.SetTopLeft(x, y);
 		animation.OnShow();*/
 	}
@@ -376,6 +401,11 @@ namespace game_framework {
 		return velocity;
 	}
 
+	bool CRole::IsMoving()
+	{
+		return (isMovingRight || isMovingLeft);
+	}
+
 	#pragma region -- Collision --
 	bool CRole::IsCollisionBoss(CBoss *boss)
 	{
@@ -437,6 +467,7 @@ namespace game_framework {
 
 	void CRole::Initialize()
 	{
+		#pragma region  Normal Setting
 		CEraser::Initialize();
 		isJumping = true;
 		canJumping = false;
@@ -449,7 +480,11 @@ namespace game_framework {
 		x = 0;
 		y = -Height();
 		score = 0;
+		#pragma endregion
+
+
 		shoot_cd = CTimer(0);						//初始化射擊冷卻時間
+		action.Initialize();
 		SetValid(true);
 
 		if ( !isLoaded)
@@ -470,8 +505,11 @@ namespace game_framework {
 			decisionPoint.LoadBitmap("RES\\Role\\miku\\cursor.bmp", RGB(214, 214, 214));
 		}
 
-		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
+		//CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 		CLayerManager::Instance()->AddObject(&decisionPoint, layer.GetLayer() + 1);
+
+		CLayerManager::Instance()->AddObject(&action, layer.GetLayer());
+		//CLayerManager::Instance()->AddObject(action.GetNowBitmap(), layer.GetLayer());
 
 		hp = inithp;
 		isCatched = false;

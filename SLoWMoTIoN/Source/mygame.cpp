@@ -309,7 +309,14 @@ namespace game_framework {
 		mapManager.LoadMapBitmap();
 		
 		#pragma endregion
+
+		#pragma region 載入角色動作
+		role.LoadAction("idle", BitmapPath("RES\\Role\\miku\\idle", "idle", 19, RGB(150, 200, 250)));
+		role.LoadAction("run", BitmapPath("RES\\Role\\miku\\run", "run", 7, RGB(150, 200, 250)));
+		#pragma endregion
+
 		role.Initialize();
+
 		//ririe.LoadBitmap(".\\RES\\End\\ririe.bmp");
 		ririe.m_hObject = LoadImage(NULL, "RES\\End\\ririe.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	}

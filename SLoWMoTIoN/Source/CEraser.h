@@ -19,7 +19,7 @@ namespace game_framework {
 		int  GetX2();					// 擦子右下角 x 座標
 		int  GetY2();					// 擦子右下角 y 座標
 		int  GetY3();                   // 中心點 Y 座標
-		int GetScore();
+		int  GetScore();
 		int  Height();
 		int  Width();
 		bool GetMovingLeft();           // 方方是否在往左走
@@ -29,6 +29,8 @@ namespace game_framework {
 		// 由路徑載入圖形(資料結, name, 張數)
 		void LoadBitmap(string, string, int, COLORREF);
 		void LoadBitmap(BitmapPath);
+
+		void LoadAction(string, BitmapPath);	//載入動應動作
 		
 		void OnMove();					// 移動擦子
 		void OnShow();					// 將擦子圖形貼到畫面
@@ -48,6 +50,8 @@ namespace game_framework {
 
 	protected:
 		CAnimate animation;			// 擦子的動畫
+		CAction  action;
+
 		int height, width;			// 擦子的高、寬
 		int x, y;					// 擦子左上角座標
 		int score;
@@ -116,6 +120,9 @@ namespace game_framework {
 		
 		bool GetDrop();
 		int GetVelocity();
+		bool IsMoving();
+
+		CAction* GetAction() { return &action; };
 
 		#pragma region - Collision -
 		bool IsCollisionBoss(CBoss*);
@@ -152,13 +159,14 @@ namespace game_framework {
 	private:
 		//unsigned AUDIO_THROW;\
 		//unsigned AUDIO_JUMP;
-		CAction  action;
+		//CAction  action;
 		CInteger hp_left;
 		CInteger scoreInteger;
 
 		#pragma region - init information-
 		int inithp = 20;
 		bool isLoaded;
+		string now_action;
 		#pragma endregion
 
 		int hp;

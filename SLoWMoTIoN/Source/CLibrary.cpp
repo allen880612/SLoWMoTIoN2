@@ -829,29 +829,24 @@ namespace game_framework
 	{
 		x = y = 0;
 		SetValid(true);
-		nowAction = NULL;
 		double wiatTime = (double)GetRandom(2, 4) / 5.0;
 		//delayTimer = CTimer(wiatTime);
-
-		//define map string -> action
-		/*paser["run"] = action_run;
-		paser["run_l"] = action_run_l;
-		paser["idle"] = action_idle;
-		paser["idle_l"] = action_idle_l;
-		paser["jump"] = action_jump;
-		paser["jump_l"] = action_jump_l;*/
 	}
 
 	void CAction::OnMove(string _nowAction)
 	{
+
 		if (action != _nowAction)	//切換動作
 		{
 			action_index = 0;
+			action = _nowAction;
 		}
 		else
 		{
-			nowAction = &paser[action];
-			if (action_index < (int)nowAction->size())
+			//現在動作 + 方向，從map取出對應 Action Vector
+			nowAction = &(paser[action + faceTo]);
+
+			if (action_index < (int)(nowAction->size() - 1))
 			{
 				action_index++;
 			}
@@ -860,14 +855,22 @@ namespace game_framework
 				action_index = 0;
 			}
 		}
-		SetTopLeft(x, y);
-		(nowAction->begin() + action_index)->SetTopLeft(x, y);
 
+		nowBitmap = &((paser[_nowAction + faceTo])[action_index]);
+		nowBitmap->SetTopLeft(x, y);
+		//(nowAction->begin() + action_index)->SetTopLeft(x, y);
+
+
+		//狗才用iterator
+		/*vector<CMovingBitmap>::iterator bmp_iter = nowAction->begin() + action_index;
+		bmp_iter->SetTopLeft(x, y);
+		bmp_iter->ShowBitmap();*/
 	}
 
 	void CAction::OnShow()
 	{
-		(nowAction->begin() + action_index)->ShowBitmap();
+		//(nowAction->begin() + action_index)->ShowBitmap();
+		nowBitmap->ShowBitmap();
 	}
 
 	void CAction::SetAction(string _action)
@@ -880,19 +883,69 @@ namespace game_framework
 		return action;
 	}
 
-	//ex : LoadAction("idle", BitmapPath("..\\RES\\miku\\R\\idle", "idle", 19));
+	void CAction::Initialize()
+	{
+		nowAction = NULL;
+		//nowAction->clear();
+
+		nowBitmap = NULL;
+		
+		action = "idle";
+		faceTo = "_R";
+		action_index = 0;
+		if (!paser.empty())
+		{
+			nowAction = &(paser[action + faceTo]);
+			nowBitmap = &((paser[action + faceTo])[0]);
+		}
+	}
+
+	//ex : LoadAction("idle", BitmapPath("..\\RES\\miku\\idle", "idle", 19));
 	void CAction::LoadAction(string _action, BitmapPath loadpath)
 	{
 		#pragma region Load action
-		vector<CMovingBitmap> temp_vector(loadpath.number);
+		vector<CMovingBitmap> vector_R(loadpath.number);
+		vector<CMovingBitmap> vector_L(loadpath.number);
+
 		for (int i = 0; i < loadpath.number; i++)
 		{
-			char* address = ConvertCharPointToString(loadpath.ziliaojia, loadpath.name, i);
-			temp_vector[i].LoadBitmap(address, loadpath.color);
-			delete address;
+			char* address_R = ConvertCharPointToString(loadpath.ziliaojia + "\\R", loadpath.name, i);
+			char* address_L = ConvertCharPointToString(loadpath.ziliaojia + "\\L", loadpath.name + "_L", i);
+
+			vector_R[i].LoadBitmap(address_R, loadpath.color);
+			vector_L[i].LoadBitmap(address_L, loadpath.color);
+
+			delete address_R;
+			delete address_L;
 		}
-		paser[_action] = temp_vector;
+		paser[_action + "_R"] = vector_R;
+		paser[_action + "_L"] = vector_L;
 		#pragma endregion
+
+		#pragma region fuck yor *>*
+		/*vector<CMovingBitmap*> vector_R(loadpath.number);
+		vector<CMovingBitmap*> vector_L(loadpath.number);
+
+		for (int i = 0; i < loadpath.number; i++)
+		{
+
+			char* address_R = ConvertCharPointToString(loadpath.ziliaojia + "\\R", loadpath.name, i);
+			char* address_L = ConvertCharPointToString(loadpath.ziliaojia + "\\L", loadpath.name + "_L", i);
+
+			vector_R[i] = new CMovingBitmap();
+			vector_L[i] = new CMovingBitmap();
+
+			vector_R[i]->LoadBitmap(address_R, loadpath.color);
+			vector_L[i]->LoadBitmap(address_L, loadpath.color);;
+
+			delete address_R;
+			delete address_L;
+		}
+		paser[_action + "_R"] = vector_R;
+		paser[_action + "_L"] = vector_L;*/
+		#pragma endregion
+
+		
 	}
 
 	int CAction::Height()
@@ -917,12 +970,13 @@ namespace game_framework
 
 	int CAction::Left()
 	{
+
 		if (nowAction != NULL)
 		{
 			return 0;
 		}
 
-		return (nowAction->begin())->Left();
+		return x;
 	}
 
 	int CAction::Top()
@@ -932,13 +986,14 @@ namespace game_framework
 			return 0;
 		}
 
-		return (nowAction->begin())->Top();
+		return y;
 	}
 
 	void CAction::SetTopLeft(int _x, int _y)
 	{
 		x = _x;
 		y = _y;
+		nowBitmap->SetTopLeft(x, y);
 	}
 
 	bool CAction::IsNull()
@@ -964,6 +1019,21 @@ namespace game_framework
 	int CAction::GetIndex()
 	{
 		return action_index;
+	}
+
+	void CAction::SetFaceTo(string _faceTo)
+	{
+		faceTo = _faceTo;
+	}
+
+	string CAction::GetFaceTo()
+	{
+		return faceTo;
+	}
+
+	CMovingBitmap* CAction::GetNowBitmap()
+	{
+		return nowBitmap;
 	}
 	#pragma endregion
 

@@ -274,6 +274,7 @@ namespace game_framework
 		{
 			layerBitmap[i].clear();
 			layerAnimate[i].clear();
+			layerAction[i].clear();
 		}
 	}
 
@@ -285,6 +286,11 @@ namespace game_framework
 	void CLayerManager::AddObject(CAnimate* object, int targetLayer)
 	{
 		layerAnimate[targetLayer].push_back(object);
+	}
+
+	void CLayerManager::AddObject(CAction* object, int targetLayer)
+	{
+		layerAction[targetLayer].push_back(object);
 	}
 
 	void CLayerManager::ShowLayer()
@@ -304,6 +310,22 @@ namespace game_framework
 				if ((*k)->IsNull())
 				{
 					k = layerAnimate[i].erase(k);
+				}
+				else
+				{
+					if ((*k)->GetValid())	//if valid then show
+					{
+						(*k)->OnShow();
+					}
+					k++;
+				}
+			}
+
+			for (vector<CAction*>::iterator k = layerAction[i].begin(); k != layerAction[i].end();)
+			{
+				if ((*k)->IsNull())
+				{
+					k = layerAction[i].erase(k);
 				}
 				else
 				{

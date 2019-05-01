@@ -103,12 +103,15 @@ namespace game_framework
 		void Clear();
 		void AddObject(CMovingBitmap*, int);
 		void AddObject(CAnimate*, int);
+		void AddObject(CAction*, int);
+
 		void ShowLayer();
 		static CLayerManager* Instance();
 		void Initialize();
 	private:
 		vector <CMovingBitmap*> layerBitmap[MAX_LAYER_NUMBER];
 		vector <CAnimate*> layerAnimate[MAX_LAYER_NUMBER];
+		vector <CAction*> layerAction[MAX_LAYER_NUMBER];
 		static CLayerManager layerManager;
 	};
 	#pragma endregion

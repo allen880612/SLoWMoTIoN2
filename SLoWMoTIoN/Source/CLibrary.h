@@ -230,18 +230,17 @@ namespace game_framework
 	};
 	#pragma endregion
 
-#pragma region - CAction -
+	#pragma region - CAction -
 	class CAction {
 	public:
 		CAction();
 		
-		void	OnMove(string );
+		void	OnMove(string);
 		void	OnShow();
 
 		//void	LoadAction(vector<CMovingBitmap>*, );
-		void	SetAction(string);
-		string  GetAction();
-		void	LoadAction(string, BitmapPath);	//action ,BitmapPath
+		void  Initialize();
+		void  LoadAction(string, BitmapPath);	//action ,BitmapPath
 
 		int   Height(); 				// 取得動畫的高度
 		int   Width();
@@ -250,19 +249,28 @@ namespace game_framework
 		
 		void  SetTopLeft(int, int);		// 將動畫的左上角座標移至 (x,y)
 							// 取得動畫的寬度
-		bool  IsNull();
-		
-		void  SetValid(bool);
-		bool  GetValid();
-		void  SetIndex(int);
-		int   GetIndex();
+		bool	IsNull();
+
+		void	SetAction(string);
+		string  GetAction();
+		void	SetValid(bool);
+		bool	GetValid();
+		void	SetIndex(int);
+		int		GetIndex();
+		void	SetFaceTo(string);
+		string	GetFaceTo();
 
 		CLayer	layer;
+		CMovingBitmap* GetNowBitmap();
 
 	private:
-		vector<CMovingBitmap>	*nowAction;
+		CMovingBitmap *nowBitmap;
+		//vector<CMovingBitmap>  nowAction;
+		vector<CMovingBitmap>*  nowAction;
 
-		map<string, vector<CMovingBitmap> >	    paser;
+		map<string, vector<CMovingBitmap> >  paser;
+
+		
 
 		/*vector<CMovingBitmap>	action_run;
 		vector<CMovingBitmap>	action_idle;
@@ -279,8 +287,8 @@ namespace game_framework
 		int		x, y;						// 顯示的座標
 		int		action_index;
 		string	action;
-		char	face_to;					// 目前面對方向
+		string	faceTo;					// 目前面對方向
 
 	};
-#pragma endregion
+	#pragma endregion
 }
