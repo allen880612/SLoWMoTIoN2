@@ -121,7 +121,7 @@ namespace game_framework {
 		bool GetDrop();
 		int GetVelocity();
 		bool IsMoving();
-
+		bool IsDead() { return isDead; };
 		CAction* GetAction() { return &action; };
 
 		#pragma region - Collision -
@@ -172,6 +172,7 @@ namespace game_framework {
 		int hp;
 		
 		bool isCatched;
+		bool isDead;
 
 	};
 	#pragma endregion
