@@ -180,3 +180,4 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
 1. add CAction, and use action(string) + faceTo(string) Control
 2. Notice, when loading action resource, just use like BitmapPath("RES\\role\\miku\\run", "run", number of action, trasparent color) as path!
    Load function will load left and right bitmap finished at once 
+3. small bug . when "my voice is dead" play, the game is end, the music still continue play.

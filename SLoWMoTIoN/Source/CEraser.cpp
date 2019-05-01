@@ -308,8 +308,7 @@ namespace game_framework {
 		action.SetTopLeft(x, y);
 		if (isJumping)
 		{
-			//action.OnMove("Jump");
-			action.OnMove("run");
+			action.OnMove("jump");
 		}
 		else if (isMovingLeft || isMovingRight)
 		{

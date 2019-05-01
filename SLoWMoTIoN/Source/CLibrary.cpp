@@ -829,13 +829,24 @@ namespace game_framework
 	{
 		x = y = 0;
 		SetValid(true);
-		double wiatTime = (double)GetRandom(2, 4) / 5.0;
-		//delayTimer = CTimer(wiatTime);
+		double wiatTime = 0.1;
+		delayTimer = CTimer(wiatTime);
 	}
 
 	void CAction::OnMove(string _nowAction)
 	{
 
+		delayTimer.CountDown();
+
+		if (!delayTimer.IsTimeOut())
+		{
+			return;
+		}
+		else
+		{
+			delayTimer.ResetTime();
+		}
+		
 		if (action != _nowAction)	//¤Á´«°Ê§@
 		{
 			action_index = 0;

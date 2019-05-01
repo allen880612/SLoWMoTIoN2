@@ -267,8 +267,8 @@ namespace game_framework
 		CMovingBitmap *nowBitmap;
 		//vector<CMovingBitmap>  nowAction;
 		vector<CMovingBitmap>*  nowAction;
-
 		map<string, vector<CMovingBitmap> >  paser;
+		CTimer delayTimer;
 
 		
 
