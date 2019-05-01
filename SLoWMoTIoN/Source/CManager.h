@@ -130,6 +130,7 @@ namespace game_framework
 		void Stop();
 		void ShowText();
 		bool GetDialogState();
+		void LoadDialog(string, string, bool);
 
 		void OpenMusicPlayer(string flag) { musicFromNPC = flag; };
 	private:
@@ -157,6 +158,7 @@ namespace game_framework
 		int nowShowTextSize;
 		bool IsBitmapLoaded = false;
 		bool IsDialoging = false;
+		bool IsDialogLoad = false;
 		bool IsPrintTips = false; //用於一個對話完畢，要到下一個對話的提示文字 (右下角的next)
 
 		string musicFromNPC = "";

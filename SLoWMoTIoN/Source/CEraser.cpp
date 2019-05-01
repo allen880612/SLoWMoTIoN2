@@ -448,10 +448,7 @@ namespace game_framework {
 
 		if (hp <= 0)
 		{
-			if (!DEBUG_MODE)
-			{
-
-			}
+			isDead = true;
 		}
 	}
 
@@ -512,6 +509,7 @@ namespace game_framework {
 
 		hp = inithp;
 		isCatched = false;
+		isDead = false;
 	}
 
 	vector<CScallion*>* CRole::GetScallion()

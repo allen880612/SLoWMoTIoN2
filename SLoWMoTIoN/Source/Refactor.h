@@ -95,6 +95,10 @@
 #define NPC_LAYER 4
 #pragma endregion
 
+#pragma region - End - Name -
+#define END_NAME_WINXINGTING "WinXingting"
+#define END_NAME_LOSEXINGTING "LoseXingting"
+#pragma endregion
 
 
 

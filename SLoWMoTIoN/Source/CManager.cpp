@@ -529,6 +529,14 @@ namespace game_framework
 		dialogmap[DIALOG_DATA_MEETSTB] = CDialog("RES\\Dialog\\Txt\\MeetStudentB.txt", DIALOG_DATA_MEETSTB, true);
 		dialogmap[DIALOG_DATA_STGHAVEBREAKFAST] = CDialog("RES\\Dialog\\Txt\\StudentGHaveBreakfast.txt", DIALOG_DATA_STGHAVEBREAKFAST, true);
 		dialogmap[DIALOG_DATA_STGSUBMIT] = CDialog("RES\\Dialog\\Txt\\StudentKSubmitHW.txt", DIALOG_DATA_STGSUBMIT, true);
+
+		IsDialogLoad = true;
+	}
+
+
+	void CDialogManager::LoadDialog(string dialogName, string loadPath, bool canReTrigger)
+	{
+		dialogmap[dialogName] = CDialog(loadPath, dialogName, canReTrigger);
 	}
 
 	void CDialogManager::ShowText_Next()
@@ -552,7 +560,17 @@ namespace game_framework
 			Load_Image();
 		}
 		#pragma region - reload - dialog -
-		LoadDialog();
+		if (IsDialogLoad == false)
+		{
+			LoadDialog();
+		}
+		else
+		{
+			for (map<string, CDialog>::iterator dialogiter = dialogmap.begin(); dialogiter != dialogmap.end(); dialogiter++)
+			{
+				dialogiter->second.Initialize();
+			}
+		}
 		#pragma endregion
 
 		avatar_null.SetValid(false);

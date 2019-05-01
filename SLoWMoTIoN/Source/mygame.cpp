@@ -350,6 +350,14 @@ namespace game_framework {
 
 		#pragma endregion
 		
+		#pragma region - role - dead -
+		if (role.IsDead())
+		{
+			GotoGameState(GAME_STATE_OVER);
+		}
+		#pragma endregion
+
+
 		//
 		// 如果希望修改cursor的樣式，則將下面程式的commment取消即可
 		//
@@ -950,6 +958,7 @@ namespace game_framework {
 		//CAudio::Instance()->Load(AUDIO_GAMEOVER, "sounds\\SLoWMoTIoN_Gameover.wav");
 		overBitmap.LoadBitmap(".\\RES\\Map\\Gameover.bmp");
 		ending1.m_hObject = LoadImage(NULL, "RES\\End\\Daan_classroom.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+		//ending1.m_hObject = LoadImage(NULL, "RES\\End\\ririe.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 		ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
 								//
 								// 開始載入資料

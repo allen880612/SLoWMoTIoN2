@@ -126,7 +126,7 @@ namespace game_framework
 		~CDialog();
 		bool GetTriggered();
 		void SetTriggered();
-
+		void Initialize();
 		//void SetTxt();
 		int GetTxtSize();
 		string GetAvatar(unsigned int);
@@ -291,4 +291,24 @@ namespace game_framework
 
 	};
 	#pragma endregion
+
+	#pragma region - CEnd -
+	class CEnd
+	{
+	public:
+		CEnd();
+		CEnd(string);
+		~CEnd();
+	private:
+		string endName;
+
+		vector<string> txt;
+		vector<CBitmap> bmp;
+		vector<char*> bmpPath;
+		CBitmap rref;
+
+		void LoadEnd();
+	};
+	#pragma endregion
+
 }
