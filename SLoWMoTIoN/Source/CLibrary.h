@@ -126,7 +126,7 @@ namespace game_framework
 		~CDialog();
 		bool GetTriggered();
 		void SetTriggered();
-
+		void Initialize();
 		//void SetTxt();
 		int GetTxtSize();
 		string GetAvatar(unsigned int);

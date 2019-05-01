@@ -466,6 +466,10 @@ namespace game_framework
 	{
 		IsTriggered = !CanReTrigger;
 	}
+	void CDialog::Initialize()
+	{
+		IsTriggered = false;
+	}
 	string CDialog::GetAvatar(unsigned int step)
 	{
 		if (step <= avatar.size())
