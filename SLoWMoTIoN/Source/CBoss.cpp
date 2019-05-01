@@ -344,6 +344,7 @@ namespace game_framework
 	}
 
 	void CXingting::Level4Collision(CRole *role)
+
 	{
 		for (vector<CBlackHole*>::iterator bkiter = blackhole.begin(); bkiter != blackhole.end();)
 		{

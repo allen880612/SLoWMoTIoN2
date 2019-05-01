@@ -316,8 +316,8 @@ namespace game_framework {
 
 	void CGameStateRun::OnMove()							// ²¾°Ê¹CÀ¸¤¸¯À
 	{
-		SetCursor(AfxGetApp()->LoadCursor(IDC_CURSOR));
-
+		SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
+		//SetCursor(AfxGetApp()->LoadCursor("..\\RES\\gamecurs.cur"));
 		#pragma region - pause game state in dialoging -
 		if (CDialogManager::Instance()->GetDialogState())
 		{

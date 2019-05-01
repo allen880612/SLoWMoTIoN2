@@ -86,7 +86,7 @@ namespace game_framework
 		void  SetValid(bool);
 		bool  GetValid();
 		void  SetIndex(int);
-		int  GetIndex();
+		int   GetIndex();
 		
 		void  ResetDelayTime(double);
 		CRect GetRect();
@@ -229,4 +229,58 @@ namespace game_framework
 			
 	};
 	#pragma endregion
+
+#pragma region - CAction -
+	class CAction {
+	public:
+		CAction();
+		
+		void	OnMove(string );
+		void	OnShow();
+
+		//void	LoadAction(vector<CMovingBitmap>*, );
+		void	SetAction(string);
+		string  GetAction();
+		void	LoadAction(string, BitmapPath);	//action ,BitmapPath
+
+		int   Height(); 				// 取得動畫的高度
+		int   Width();
+		int   Left();					// 取得動畫的左上角的 x 座標
+		int   Top();					// 取得動畫的左上角的 y 座標
+		
+		void  SetTopLeft(int, int);		// 將動畫的左上角座標移至 (x,y)
+							// 取得動畫的寬度
+		bool  IsNull();
+		
+		void  SetValid(bool);
+		bool  GetValid();
+		void  SetIndex(int);
+		int   GetIndex();
+
+		CLayer	layer;
+
+	private:
+		vector<CMovingBitmap>	*nowAction;
+
+		map<string, vector<CMovingBitmap> >	    paser;
+
+		/*vector<CMovingBitmap>	action_run;
+		vector<CMovingBitmap>	action_idle;
+		vector<CMovingBitmap>	action_jump;
+
+		vector<CMovingBitmap>	action_run_L;
+		vector<CMovingBitmap>	action_idle_L;
+		vector<CMovingBitmap>	action_jump_L;*/
+
+		
+		bool	isBmpLoaded;				// 是否已經載入圖形
+		bool	isValid;
+
+		int		x, y;						// 顯示的座標
+		int		action_index;
+		string	action;
+		char	face_to;					// 目前面對方向
+
+	};
+#pragma endregion
 }

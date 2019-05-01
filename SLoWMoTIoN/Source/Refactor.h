@@ -23,7 +23,7 @@
 #define KEY_B 66
 
 
-#define GAME_TIME 5
+#define GAME_TIME 60
 #define AUDIO_NUM 7
 
 #pragma region - Layer -

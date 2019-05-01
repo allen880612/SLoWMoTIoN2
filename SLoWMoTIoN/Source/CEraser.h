@@ -150,8 +150,9 @@ namespace game_framework {
 		CRect collisionRect;
 		void ResetCollisionRect();
 	private:
-		//unsigned AUDIO_THROW;
+		//unsigned AUDIO_THROW;\
 		//unsigned AUDIO_JUMP;
+		CAction  action;
 		CInteger hp_left;
 		CInteger scoreInteger;
 

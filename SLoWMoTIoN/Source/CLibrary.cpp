@@ -824,5 +824,163 @@ namespace game_framework
 
 	#pragma endregion
 
-	
+	#pragma region - CAction -
+	CAction::CAction()
+	{
+		x = y = 0;
+		SetValid(true);
+		nowAction = NULL;
+		double wiatTime = (double)GetRandom(2, 4) / 5.0;
+		//delayTimer = CTimer(wiatTime);
+
+		//define map string -> action
+		/*paser["run"] = action_run;
+		paser["run_l"] = action_run_l;
+		paser["idle"] = action_idle;
+		paser["idle_l"] = action_idle_l;
+		paser["jump"] = action_jump;
+		paser["jump_l"] = action_jump_l;*/
+	}
+
+	void CAction::OnMove(string _nowAction)
+	{
+		if (action != _nowAction)	//¤Á´«°Ê§@
+		{
+			action_index = 0;
+		}
+		else
+		{
+			nowAction = &paser[action];
+			if (action_index < (int)nowAction->size())
+			{
+				action_index++;
+			}
+			else
+			{
+				action_index = 0;
+			}
+		}
+		SetTopLeft(x, y);
+		i(nowAction->begin() + action_index)->SetTopLeft(x, y);
+
+	}
+
+	void CAction::OnShow()
+	{
+		
+	}
+
+	void CAction::SetAction(string _action)
+	{
+		action = _action;
+	}
+
+	string CAction::GetAction()
+	{
+		return action;
+	}
+
+	void CAction::LoadAction(string _action, BitmapPath loadpath)
+	{
+		#pragma region Load right action
+		vector<CMovingBitmap> temp_vector(loadpath.number);
+		for (int i = 0; i < loadpath.number; i++)
+		{
+			char* address = ConvertCharPointToString(loadpath.ziliaojia, loadpath.name, i);
+			temp_vector[i].LoadBitmap(address, loadpath.color);
+			delete address;
+		}
+		paser[_action] = temp_vector;
+		#pragma endregion
+
+		#pragma region Load left action
+		//clear & resize vector
+		temp_vector.clear();
+		temp_vector.resize(loadpath.number);
+
+		for (int i = 0; i < loadpath.number; i++)
+		{
+			char* address = ConvertCharPointToString(loadpath.ziliaojia, loadpath.name, i);
+
+			temp_vector[i].LoadBitmap(address, loadpath.color);
+			delete address;
+		}
+		paser[_action + "_L"] = temp_vector;
+		#pragma endregion		
+	}
+
+	int CAction::Height()
+	{
+		if (nowAction != NULL)
+		{
+			return 0;
+		}
+
+		return (nowAction->begin())->Height();
+	}
+
+	int CAction::Width()
+	{
+		if (nowAction != NULL)
+		{
+			return 0;
+		}
+
+		return (nowAction->begin())->Width();
+	}
+
+	int CAction::Left()
+	{
+		if (nowAction != NULL)
+		{
+			return 0;
+		}
+
+		return (nowAction->begin())->Left();
+	}
+
+	int CAction::Top()
+	{
+		if (nowAction != NULL)
+		{
+			return 0;
+		}
+
+		return (nowAction->begin())->Top();
+	}
+
+	void CAction::SetTopLeft(int _x, int _y)
+	{
+		x = _x;
+		y = _y;
+	}
+
+	bool CAction::IsNull()
+	{
+		return (nowAction == NULL || nowAction->size() <= 0);
+	}
+
+	void CAction::SetValid(bool _valid)
+	{
+		isValid = _valid;
+	}
+
+	bool CAction::GetValid()
+	{
+		return isValid;
+	}
+
+	void CAction::SetIndex(int _index)
+	{
+		action_index = _index;
+	}
+
+	int CAction::GetIndex()
+	{
+		return action_index;
+	}
+	#pragma endregion
+
+
+
 }
