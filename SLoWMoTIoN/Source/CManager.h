@@ -239,7 +239,7 @@ namespace game_framework
 		map< string, CEnd > endmap;
 		CEnd *nowEnd;
 
-		CBitmap endBmp;
+		CToumeiImage endBmp;
 
 		CTimer time_remaining;
 

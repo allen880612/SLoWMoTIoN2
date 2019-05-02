@@ -42,6 +42,17 @@ namespace myLibrary
 		return address;
 	}
 
+	char * ConvertCharPointToString(string str)
+	{
+		char* address;
+		string file = str;
+
+		address = new char[file.length() + 1];
+		strcpy(address, file.c_str());
+
+		return address;
+	}
+
 	void DeleteCharPoint(vector<char*> &addresses)
 	{
 		for (vector<char*>::iterator it = addresses.begin(); it != addresses.end(); it++)
@@ -1094,12 +1105,32 @@ namespace game_framework
 	#pragma endregion
 
 	#pragma region - CToumeiImage -
-	/*CToumeiImage::CToumeiImage()
+	CToumeiImage::CToumeiImage()
 	{
+		SetAlpha(0);
 	}
 
 	CToumeiImage::~CToumeiImage()
 	{
-	}*/
+	}
+	void CToumeiImage::SetAlpha(int _a)
+	{
+		alpha = _a;
+
+		if (alpha <= 0)
+			alpha = 0;
+		else if (alpha >= 255)
+			alpha = 255;
+	}
+
+	void CToumeiImage::FadeIn()
+	{
+		SetAlpha(alpha + dFadeInValue);
+	}
+
+	void CToumeiImage::FadeOut()
+	{
+		SetAlpha(alpha + dFadeInValue);
+	}
 	#pragma endregion
 }

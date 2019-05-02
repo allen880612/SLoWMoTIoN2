@@ -4,6 +4,7 @@ namespace myLibrary
 {
 	char* ConvertCharPointToString(string, string, int = -1);
 	//char* ConvertCharPointToString(BitmapPath)
+	char* ConvertCharPointToString(string);
 	void DeleteCharPoint(vector<char*>&);
 	int GetPostive(int);
 	int GetRandom(int, int); //得到Random數字，min <= k <= max
@@ -320,15 +321,21 @@ namespace game_framework
 	#pragma endregion
 
 	#pragma region - CToumeiImage -
-	/*class CToumeiImage
+	class CToumeiImage
 	{
 	public:
 		CToumeiImage();
 		~CToumeiImage();
-
+		void SetAlpha(int _a);
+		int GetAlpha() { return alpha; };
+		void FadeIn(); //淡入 每次alpha+3
+		void FadeOut(); //淡出 每次alpha-4
 	private:
 		CBitmap bmp;
-	};*/
+		int alpha = 0;
+		int dFadeInValue = 3;
+		int dFadeOutValue = -4;
+	};
 	#pragma endregion
 
 }
