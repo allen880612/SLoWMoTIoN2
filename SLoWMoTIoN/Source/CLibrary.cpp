@@ -1061,10 +1061,45 @@ namespace game_framework
 	CEnd::CEnd(string _endName)
 	{
 		endName = _endName;
+		LoadEnd();
 	}
 
 	CEnd::~CEnd()
 	{
 	}
+	string CEnd::GetBmpPath(int index)
+	{
+		if (index < 0 || index >= (int)bmpPath.size())
+		{
+			return END_EOF;
+		}
+		else
+		{
+			return bmpPath[index];
+		}
+	}
+	void CEnd::LoadEnd()
+	{
+		if (endName == END_NAME_WINXINGTING)
+		{
+
+		}
+		else if (endName == END_NAME_LOSEXINGTING)
+		{
+			bmpPath.push_back("RES\\End\\LoseXingting\\bmp\\WinXingting_0.bmp");
+			bmpPath.push_back("RES\\End\\LoseXingting\\bmp\\WinXingting_1.bmp");
+			bmpPath.push_back("RES\\End\\LoseXingting\\bmp\\WinXingting_2.bmp");
+		}
+	}
+	#pragma endregion
+
+	#pragma region - CToumeiImage -
+	/*CToumeiImage::CToumeiImage()
+	{
+	}
+
+	CToumeiImage::~CToumeiImage()
+	{
+	}*/
 	#pragma endregion
 }

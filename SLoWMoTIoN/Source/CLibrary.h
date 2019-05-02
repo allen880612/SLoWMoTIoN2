@@ -292,15 +292,43 @@ namespace game_framework
 	};
 	#pragma endregion
 
+	#pragma region - CEnd -
 	class CEnd
 	{
 	public:
 		CEnd();
 		CEnd(string);
 		~CEnd();
-
+		string GetBmpPath(int);
+		
 	private:
 		string endName;
+		vector<string> bmpPath;
+		#pragma region -- C plus plus 真的很棒 --
+		//我他媽 在這裡放 CBitmap 會 爆錯??
+		//幹，C plus plus 真的很棒 操你媽的
+		//我簡單說啦
+		//1.不能在vector裡面放CBitmap
+		//2.CBitmap可以重複Load
+		//3.不能在這裡放CBitmap 他會刪掉default operator=
+		//就算你overload operator= 他會說你無法存取，操你媽的
+		//CBitmap endBmp;
+		#pragma endregion
+
+		void LoadEnd();
 	};
+	#pragma endregion
+
+	#pragma region - CToumeiImage -
+	/*class CToumeiImage
+	{
+	public:
+		CToumeiImage();
+		~CToumeiImage();
+
+	private:
+		CBitmap bmp;
+	};*/
+	#pragma endregion
 
 }

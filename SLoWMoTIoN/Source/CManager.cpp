@@ -999,12 +999,53 @@ namespace game_framework
 	#pragma region  - fukcy -
 	CEndManager::CEndManager()
 	{
-		endmap["123"] = CEnd("123");
+		
 	}
 
 	CEndManager::~CEndManager()
 	{
 	}
+
+	void CEndManager::Initialize()
+	{
+		if (isLoadEnd == false)
+		{
+			LoadEnd();
+			isLoadEnd = true;
+		}
+
+		nowEnd = nullptr;
+		isEnding = false;
+		step = 0;
+		alpha = 0;
+		time_remaining = CTimer(1.5);
+	}
+
+	void CEndManager::LoadEnd()
+	{
+		endmap[END_NAME_WINXINGTING] = CEnd(END_NAME_WINXINGTING);
+		endmap[END_NAME_LOSEXINGTING] = CEnd(END_NAME_LOSEXINGTING);
+	}
+
+	void CEndManager::OnCycle()
+	{
+		Play();
+	}
+
+	void CEndManager::Start(string endName)
+	{
+		nowEnd = &endmap[endName];
+		isEnding = true;
+	}
+	
+	void CEndManager::Play()
+	{
+		if (nowEnd->GetBmpPath(step) != END_EOF) //取得的路徑位置還還不是空路徑
+		{
+
+		}
+	}
+
 	#pragma endregion
 
 }

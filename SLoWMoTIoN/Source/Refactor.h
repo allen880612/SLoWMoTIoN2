@@ -100,6 +100,8 @@
 #define END_NAME_LOSEXINGTING "LoseXingting"
 #pragma endregion
 
+#define END_EOF "nonenone"
+
 
 
 

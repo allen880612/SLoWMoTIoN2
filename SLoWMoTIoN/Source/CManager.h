@@ -231,9 +231,28 @@ namespace game_framework
 	public:
 		CEndManager();
 		~CEndManager();
-
+		void Initialize();
+		void Start(string);
+		bool GetEndingState() { return isEnding; };
+		void OnCycle();
 	private:
 		map< string, CEnd > endmap;
+		CEnd *nowEnd;
+
+		CBitmap endBmp;
+
+		CTimer time_remaining;
+
+		int step = 0;
+		int alpha = 0;
+
+		bool isEnding = false;
+		bool isLoadEnd = false;
+		bool isFadeIn = false;
+		bool isFadeOut = false;
+
+		void LoadEnd();
+		void Play();
 	};
 	#pragma endregion
 }
