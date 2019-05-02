@@ -1025,7 +1025,6 @@ namespace game_framework
 		step = 0;
 		alpha = 0;
 		time_remaining = CTimer(1.0);
-		//time_switchNext_noDialog = CTimer(1.5)
 		isFadeIn = true; 
 		isFadeOut = false;
 		isOpenDialog = false;
@@ -1064,10 +1063,15 @@ namespace game_framework
 				{
 					if (!CDialogManager::Instance()->GetDialogState())
 					{
-						if (nowEnd->GetTxt(step) != END_EOF && isOpenDialog == false)
+						if (nowEnd->GetTxt(step) != END_EOF && isOpenDialog == false) //正常結局+對話 (中的對話)
 						{
 							CDialogManager::Instance()->Start(nowEnd->GetTxt(step));
 							isOpenDialog = true;
+						}
+						else if (nowEnd->GetTxt(step) == END_EOF && isOpenDialog == false) //僅有結局，沒有對話 (重設計時器)
+						{
+							time_remaining.ResetTime(1.5);
+							isOpenDialog = true; //! 開啟true後 下一個thread會進入到下方的else並計時
 						}
 						else
 						{
@@ -1077,7 +1081,7 @@ namespace game_framework
 								isFadeIn = false;
 								isFadeOut = true;
 								isOpenDialog = false;
-								time_remaining.ResetTime();
+								time_remaining.ResetTime(1.0);
 							}
 						}
 					}

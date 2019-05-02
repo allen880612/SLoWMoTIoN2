@@ -181,3 +181,11 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
 2. Notice, when loading action resource, just use like BitmapPath("RES\\role\\miku\\run", "run", number of action, trasparent color) as path!
    Load function will load left and right bitmap finished at once 
 3. small bug . when "my voice is dead" play, the game is end, the music still continue play.
+
+==============================================================
+2019/5/03
+1. add CEnd and CEndManager
+   when you start CEndManager (give it a string to start, like as CDialogManager), and goto GameOverState, CEndManager(and CLayerManager, CDialogManager) will show the end with CDialog (if the end have dialog).
+   (now, only have one end, trigger by role is dead)
+1 - btw, now, CEndManager is static, I want to change i to general, but if do it, there has a problem: I need a function let me transfer the local variable from GameStateRun (or GameStateInit) to GameStateOver
+anyway, I can consider this problem.

@@ -1092,7 +1092,7 @@ namespace game_framework
 	}
 	string CEnd::GetTxt(int index)
 	{
-		if (index < 0 || index >= (int)bmpPath.size())
+		if (index < 0 || index >= (int)txt.size())
 		{
 			return END_EOF;
 		}
@@ -1118,7 +1118,7 @@ namespace game_framework
 			CDialogManager::Instance()->LoadDialog("WinXingting2", "RES\\End\\LoseXingting\\txt\\WinXingting_2.txt", true);
 			txt.push_back("WinXingting0");
 			txt.push_back("WinXingting1");
-			txt.push_back("WinXingting2");
+			//txt.push_back("WinXingting2");
 		}
 	}
 	#pragma endregion
