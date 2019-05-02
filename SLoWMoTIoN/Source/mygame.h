@@ -156,10 +156,13 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		int counter;	// 倒數之計數器
-		int alpha;
-		CTimer time_remaining;
+		int alpha; 
+
+		bool canSwitchState = false;
+		bool canDrawGameOverImage = false;
+		CTimer timer_exit; //結局結束後要多久時間離開GameOver
 		CMovingBitmap overBitmap;
-		CBitmap ending1;
+		CToumeiImage gameOverImage;
 	};
 
 }

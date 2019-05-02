@@ -244,6 +244,7 @@ namespace game_framework
 		CToumeiImage endBmp;
 
 		CTimer time_remaining;
+		//CTimer time_switchNext_noDialog;
 
 		int step = 0;
 		int alpha = 0;

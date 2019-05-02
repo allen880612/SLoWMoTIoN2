@@ -933,18 +933,22 @@ namespace game_framework {
 
 	void CGameStateOver::OnMove()
 	{
-		time_remaining.CountDown();
-		if (time_remaining.IsTimeOut())
-		{
-			//CAudio::Instance()->Stop("SOUND_GAMEOVER");
-			//GotoGameState(GAME_STATE_INIT);
-		}
-
 		if (CDialogManager::Instance()->GetDialogState())
 		{
 			CDialogManager::Instance()->OnCycle();
 			return;
 		}
+
+		#pragma region - CountDown for drawGameOverImage -
+		if (!CEndManager::Instance()->GetEndingState())
+		{
+			timer_exit.CountDown();
+			if (timer_exit.IsTimeOut())
+			{
+				canDrawGameOverImage = true;
+			}
+		}
+		#pragma endregion
 
 		/*counter--;
 		if (counter < 0)
@@ -958,8 +962,11 @@ namespace game_framework {
 	{
 		counter = 30 * 5; // 5 seconds
 		alpha = 0;
-		time_remaining.ResetTime(10.0);
+		timer_exit.ResetTime(1.5);
 		CAudio::Instance()->Play("SOUND_GAMEOVER");
+
+		canSwitchState = false;
+		canDrawGameOverImage = false;
 
 		#pragma region - init -
 		CLayerManager::Instance()->Initialize();
@@ -978,8 +985,8 @@ namespace game_framework {
 
 		//CAudio::Instance()->Load(AUDIO_GAMEOVER, "sounds\\SLoWMoTIoN_Gameover.wav");
 		overBitmap.LoadBitmap(".\\RES\\Map\\Gameover.bmp");
-		ending1.m_hObject = LoadImage(NULL, "RES\\End\\Daan_classroom.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-		//ending1.m_hObject = LoadImage(NULL, "RES\\End\\ririe.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+		gameOverImage.SetBmp("RES\\Map\\Gameover.bmp");
+
 		ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
 								//
 								// 開始載入資料
@@ -996,6 +1003,13 @@ namespace game_framework {
 		if (CDialogManager::Instance()->GetDialogState())
 		{
 			CDialogManager::Instance()->Next();
+		}
+		else
+		{
+			if (canSwitchState)
+			{
+				GotoGameState(GAME_STATE_INIT);
+			}
 		}
 	}
 
@@ -1014,6 +1028,22 @@ namespace game_framework {
 			CDialogManager::Instance()->ShowText();
 		}
 		#pragma endregion
+
+		#pragma region - DrawGameOverImage when Ending end -
+		if (canDrawGameOverImage)
+		{
+			gameOverImage.DrawImage();
+			gameOverImage.FadeIn();
+			if (gameOverImage.GetAlpha() >= 255)
+			{
+				canSwitchState = true;
+			}
+		}
+		#pragma endregion
+
+
+
+
 		/*
 		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
 		CFont f, *fp;

@@ -1024,7 +1024,8 @@ namespace game_framework
 		isEnding = false;
 		step = 0;
 		alpha = 0;
-		time_remaining = CTimer(1.5);
+		time_remaining = CTimer(1.0);
+		//time_switchNext_noDialog = CTimer(1.5)
 		isFadeIn = true; 
 		isFadeOut = false;
 		isOpenDialog = false;
@@ -1059,15 +1060,8 @@ namespace game_framework
 			if (isFadeIn)
 			{
 				endBmp.FadeIn();
-				if (endBmp.GetAlpha() >= 255) //到最滿 開始計時1.5s 顯示結局圖
+				if (endBmp.GetAlpha() >= 255)
 				{
-					//time_remaining.CountDown();
-					//if (time_remaining.IsTimeOut()) //1.5s 時間到 換狀態
-					//{
-					//	isFadeIn = false;
-					//	isFadeOut = true;
-					//	time_remaining.ResetTime();
-					//}
 					if (!CDialogManager::Instance()->GetDialogState())
 					{
 						if (nowEnd->GetTxt(step) != END_EOF && isOpenDialog == false)
@@ -1077,9 +1071,14 @@ namespace game_framework
 						}
 						else
 						{
-							isFadeIn = false;
-							isFadeOut = true;
-							isOpenDialog = false;
+							time_remaining.CountDown(); //對話結束後 持續一段時間 才切換下一張
+							if (time_remaining.IsTimeOut()) //1.5s 時間到 換狀態
+							{
+								isFadeIn = false;
+								isFadeOut = true;
+								isOpenDialog = false;
+								time_remaining.ResetTime();
+							}
 						}
 					}
 				}
