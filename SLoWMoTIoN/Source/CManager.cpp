@@ -995,4 +995,16 @@ namespace game_framework
 		}
 	}
 	#pragma endregion
+
+	#pragma region  - fukcy -
+	CEndManager::CEndManager()
+	{
+		endmap["123"] = CEnd("123");
+	}
+
+	CEndManager::~CEndManager()
+	{
+	}
+	#pragma endregion
+
 }

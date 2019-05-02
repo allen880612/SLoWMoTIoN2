@@ -1052,9 +1052,10 @@ namespace game_framework
 	}
 	#pragma endregion
 
-	#pragma region - CEnd -
+	#pragma region - rmtgjowi -
 	CEnd::CEnd()
 	{
+		endName = "";
 	}
 
 	CEnd::CEnd(string _endName)
@@ -1064,40 +1065,6 @@ namespace game_framework
 
 	CEnd::~CEnd()
 	{
-
-	}
-	void CEnd::LoadEnd()
-	{
-		if (endName == END_NAME_WINXINGTING)
-		{
-			string kkk = END_NAME_WINXINGTING;
-			CDialogManager::Instance()->LoadDialog(kkk + "0", "RES\\End\\WinXingting\\txt\\WinXingting_0.txt", true);
-			CDialogManager::Instance()->LoadDialog(kkk + "1", "RES\\End\\WinXingting\\txt\\WinXingting_1.txt", true);
-			CDialogManager::Instance()->LoadDialog(kkk + "2", "RES\\End\\WinXingting\\txt\\WinXingting_2.txt", true);
-
-			txt.push_back(kkk + "0");
-			txt.push_back(kkk + "1");
-			txt.push_back(kkk + "2");
-
-			bmpPath.push_back("RES\\End\\WinXingting\\bmp\\WinXingting_0.bmp");
-			bmpPath.push_back("RES\\End\\WinXingting\\bmp\\WinXingting_1.bmp");
-			bmpPath.push_back("RES\\End\\WinXingting\\bmp\\WinXingting_2.bmp");
-
-			
-			rref.m_hObject = LoadImage(NULL, bmpPath[0], IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-			
-			
-			/*rref.m_hObject = LoadImage(NULL, "RES\\End\\WinXingting\\bmp\\WinXingting_1.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-			bmp.push_back(rref);
-
-			rref.m_hObject = LoadImage(NULL, "RES\\End\\WinXingting\\bmp\\WinXingting_2.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-			bmp.push_back(rref);*/
-
-		}
-		else if (endName == END_NAME_LOSEXINGTING)
-		{
-
-		}
 	}
 	#pragma endregion
 }

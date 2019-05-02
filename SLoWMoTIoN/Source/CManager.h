@@ -225,4 +225,15 @@ namespace game_framework
 	};
 	#pragma endregion
 
+	#pragma region - fuck you -
+	class CEndManager
+	{
+	public:
+		CEndManager();
+		~CEndManager();
+
+	private:
+		map< string, CEnd > endmap;
+	};
+	#pragma endregion
 }
