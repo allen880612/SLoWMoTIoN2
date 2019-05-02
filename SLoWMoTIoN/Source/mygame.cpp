@@ -940,6 +940,12 @@ namespace game_framework {
 			//GotoGameState(GAME_STATE_INIT);
 		}
 
+		if (CDialogManager::Instance()->GetDialogState())
+		{
+			CDialogManager::Instance()->OnCycle();
+			return;
+		}
+
 		/*counter--;
 		if (counter < 0)
 		{
@@ -954,6 +960,13 @@ namespace game_framework {
 		alpha = 0;
 		time_remaining.ResetTime(10.0);
 		CAudio::Instance()->Play("SOUND_GAMEOVER");
+
+		#pragma region - init -
+		CLayerManager::Instance()->Initialize();
+		CDialogManager::Instance()->Initialize();
+		//CEndManager::Instance()->Initialize();
+		#pragma endregion
+
 	}
 
 	void CGameStateOver::OnInit()
@@ -978,14 +991,29 @@ namespace game_framework {
 		ShowInitProgress(100);
 	}
 
+	void CGameStateOver::OnLButtonDown(UINT nFlags, CPoint point)
+	{
+		if (CDialogManager::Instance()->GetDialogState())
+		{
+			CDialogManager::Instance()->Next();
+		}
+	}
+
 	void CGameStateOver::OnShow()
 	{
-
+		
 		if (CEndManager::Instance()->GetEndingState())
 		{
 			CEndManager::Instance()->OnCycle();
 		}
 
+		#pragma region - Draw Dialog -
+		CLayerManager::Instance()->ShowLayer(); //顯示layerManager
+		if (CDialogManager::Instance()->GetDialogState()) //顯示文字
+		{
+			CDialogManager::Instance()->ShowText();
+		}
+		#pragma endregion
 		/*
 		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
 		CFont f, *fp;

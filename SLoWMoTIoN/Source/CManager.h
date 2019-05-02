@@ -252,6 +252,7 @@ namespace game_framework
 		bool isLoadEnd = false;
 		bool isFadeIn = true;
 		bool isFadeOut = false;
+		bool isOpenDialog = false;
 
 		void LoadEnd();
 		void Play();

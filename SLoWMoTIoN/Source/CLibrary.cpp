@@ -1081,15 +1081,24 @@ namespace game_framework
 
 	string CEnd::GetBmpPath(int index)
 	{
-
 		if (index < 0 || index >= (int)bmpPath.size())
 		{
-
 			return END_EOF;
 		}
 		else
 		{
 			return bmpPath[index];
+		}
+	}
+	string CEnd::GetTxt(int index)
+	{
+		if (index < 0 || index >= (int)bmpPath.size())
+		{
+			return END_EOF;
+		}
+		else
+		{
+			return txt[index];
 		}
 	}
 	void CEnd::LoadEnd()
@@ -1103,6 +1112,13 @@ namespace game_framework
 			bmpPath.push_back("RES\\End\\LoseXingting\\bmp\\WinXingting_0.bmp");
 			bmpPath.push_back("RES\\End\\LoseXingting\\bmp\\WinXingting_1.bmp");
 			bmpPath.push_back("RES\\End\\LoseXingting\\bmp\\WinXingting_2.bmp");
+
+			CDialogManager::Instance()->LoadDialog("WinXingting0", "RES\\End\\LoseXingting\\txt\\WinXingting_0.txt", true);
+			CDialogManager::Instance()->LoadDialog("WinXingting1", "RES\\End\\LoseXingting\\txt\\WinXingting_1.txt", true);
+			CDialogManager::Instance()->LoadDialog("WinXingting2", "RES\\End\\LoseXingting\\txt\\WinXingting_2.txt", true);
+			txt.push_back("WinXingting0");
+			txt.push_back("WinXingting1");
+			txt.push_back("WinXingting2");
 		}
 	}
 	#pragma endregion

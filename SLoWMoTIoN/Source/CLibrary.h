@@ -301,10 +301,12 @@ namespace game_framework
 		CEnd(string);
 		~CEnd();
 		string GetBmpPath(int);
+		string GetTxt(int);
 		
 	private:
 		string endName;
 		vector<string> bmpPath;
+		vector<string> txt;
 		#pragma region -- C plus plus 真的很棒 --
 		//我他媽 在這裡放 CBitmap 會 爆錯??
 		//幹，C plus plus 真的很棒 操你媽的

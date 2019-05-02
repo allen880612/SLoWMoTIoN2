@@ -520,7 +520,7 @@ namespace game_framework
 
 	void CDialogManager::LoadDialog()
 	{
-		dialogmap.clear();
+		//dialogmap.clear();
 		dialogmap[DIALOG_DATA_VSXingting1] = CDialog("RES\\Dialog\\Txt\\VSXingting1.txt", DIALOG_DATA_VSXingting1, false);
 		dialogmap[DIALOG_DATA_VSXingting2] = CDialog("RES\\Dialog\\Txt\\VSXingting2.txt", DIALOG_DATA_VSXingting2, false);
 		dialogmap[Tips] = CDialog("RES\\Dialog\\Txt\\InitTip.txt", Tips, false);
@@ -536,7 +536,11 @@ namespace game_framework
 
 	void CDialogManager::LoadDialog(string dialogName, string loadPath, bool canReTrigger)
 	{
+
 		dialogmap[dialogName] = CDialog(loadPath, dialogName, canReTrigger);
+		bool flag = dialogmap[dialogName].GetTriggered();
+
+		flag = !flag;
 	}
 
 	void CDialogManager::ShowText_Next()
@@ -558,7 +562,15 @@ namespace game_framework
 		if (IsBitmapLoaded == false)
 		{
 			Load_Image();
+			#pragma region - Init - Image Point -
+			dialog_background.SetTopLeft(0, SIZE_Y - dialog_background.Height()); //reset dbg's xy
+			for (map<string, CMovingBitmap>::iterator dbmp = dialogAvatar.begin(); dbmp != dialogAvatar.end(); dbmp++)
+			{
+				dbmp->second.SetTopLeft(dialog_background.Left() + MARGIN_DIALOG_AVATAR, dialog_background.Top() + MARGIN_DIALOG_AVATAR);
+			}
+			#pragma endregion
 		}
+
 		#pragma region - reload - dialog -
 		if (IsDialogLoad == false)
 		{
@@ -577,14 +589,6 @@ namespace game_framework
 		dialog_background.SetValid(false);
 		textNext.SetValid(false);
 		avatar = avatar_null;
-
-		#pragma region - Init - Image Point -
-		dialog_background.SetTopLeft(0, SIZE_Y - dialog_background.Height()); //reset dbg's xy
-		for (map<string, CMovingBitmap>::iterator dbmp = dialogAvatar.begin(); dbmp != dialogAvatar.end(); dbmp++)
-		{
-			dbmp->second.SetTopLeft(dialog_background.Left() + MARGIN_DIALOG_AVATAR, dialog_background.Top() + MARGIN_DIALOG_AVATAR);
-		}
-		#pragma endregion
 
 		backgroundLayer.SetLayer(8);
 		avatarLayer.SetLayer(backgroundLayer.GetLayer() + 1);
@@ -607,6 +611,7 @@ namespace game_framework
 
 	void CDialogManager::Start(string mode)
 	{
+
 		if (DebugMode)
 			return;
 
@@ -1022,6 +1027,7 @@ namespace game_framework
 		time_remaining = CTimer(1.5);
 		isFadeIn = true; 
 		isFadeOut = false;
+		isOpenDialog = false;
 	}
 
 	void CEndManager::LoadEnd()
@@ -1055,12 +1061,26 @@ namespace game_framework
 				endBmp.FadeIn();
 				if (endBmp.GetAlpha() >= 255) //到最滿 開始計時1.5s 顯示結局圖
 				{
-					time_remaining.CountDown();
-					if (time_remaining.IsTimeOut()) //1.5s 時間到 換狀態
+					//time_remaining.CountDown();
+					//if (time_remaining.IsTimeOut()) //1.5s 時間到 換狀態
+					//{
+					//	isFadeIn = false;
+					//	isFadeOut = true;
+					//	time_remaining.ResetTime();
+					//}
+					if (!CDialogManager::Instance()->GetDialogState())
 					{
-						isFadeIn = false;
-						isFadeOut = true;
-						time_remaining.ResetTime();
+						if (nowEnd->GetTxt(step) != END_EOF && isOpenDialog == false)
+						{
+							CDialogManager::Instance()->Start(nowEnd->GetTxt(step));
+							isOpenDialog = true;
+						}
+						else
+						{
+							isFadeIn = false;
+							isFadeOut = true;
+							isOpenDialog = false;
+						}
 					}
 				}
 			}
