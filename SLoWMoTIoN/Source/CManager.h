@@ -233,8 +233,10 @@ namespace game_framework
 		~CEndManager();
 		void Initialize();
 		void Start(string);
+		void Stop();
 		bool GetEndingState() { return isEnding; };
 		void OnCycle();
+		static CEndManager* Instance() { return &endManager; };
 	private:
 		map< string, CEnd > endmap;
 		CEnd *nowEnd;
@@ -248,11 +250,13 @@ namespace game_framework
 
 		bool isEnding = false;
 		bool isLoadEnd = false;
-		bool isFadeIn = false;
+		bool isFadeIn = true;
 		bool isFadeOut = false;
 
 		void LoadEnd();
 		void Play();
+
+		static CEndManager endManager;
 	};
 	#pragma endregion
 }

@@ -997,9 +997,10 @@ namespace game_framework
 	#pragma endregion
 
 	#pragma region  - fukcy -
+	CEndManager CEndManager::endManager;
 	CEndManager::CEndManager()
 	{
-		
+		Initialize();
 	}
 
 	CEndManager::~CEndManager()
@@ -1019,6 +1020,8 @@ namespace game_framework
 		step = 0;
 		alpha = 0;
 		time_remaining = CTimer(1.5);
+		isFadeIn = true; 
+		isFadeOut = false;
 	}
 
 	void CEndManager::LoadEnd()
@@ -1036,6 +1039,10 @@ namespace game_framework
 	{
 		nowEnd = &endmap[endName];
 		isEnding = true;
+		endBmp.SetBmp(nowEnd->GetBmpPath(0));
+		step = 0;
+		isFadeIn = true;
+		isFadeOut = false;
 	}
 	
 	void CEndManager::Play()
@@ -1043,7 +1050,45 @@ namespace game_framework
 		if (nowEnd->GetBmpPath(step) != END_EOF) //取得的路徑位置還還不是空路徑
 		{
 
+			if (isFadeIn)
+			{
+				endBmp.FadeIn();
+				if (endBmp.GetAlpha() >= 255) //到最滿 開始計時1.5s 顯示結局圖
+				{
+					time_remaining.CountDown();
+					if (time_remaining.IsTimeOut()) //1.5s 時間到 換狀態
+					{
+						isFadeIn = false;
+						isFadeOut = true;
+						time_remaining.ResetTime();
+					}
+				}
+			}
+			else if (isFadeOut)
+			{
+				endBmp.FadeOut();
+				if (endBmp.GetAlpha() <= 0) //圖片完全透明 換狀態 換圖片
+				{
+					step++;
+					if (nowEnd->GetBmpPath(step) != END_EOF) //更改step 在做一次防呆
+					{
+						endBmp.SetBmp(nowEnd->GetBmpPath(step));
+						isFadeIn = true;
+						isFadeOut = false;
+					}
+				}
+			}
+			endBmp.DrawImage();
 		}
+		else
+		{
+			Stop();
+		}
+	}
+	
+	void CEndManager::Stop()
+	{
+		isEnding = false;
 	}
 
 	#pragma endregion

@@ -1078,10 +1078,13 @@ namespace game_framework
 	CEnd::~CEnd()
 	{
 	}
+
 	string CEnd::GetBmpPath(int index)
 	{
+
 		if (index < 0 || index >= (int)bmpPath.size())
 		{
+
 			return END_EOF;
 		}
 		else
@@ -1123,6 +1126,13 @@ namespace game_framework
 			alpha = 255;
 	}
 
+	void CToumeiImage::SetBmp(string _path)
+	{
+		char *address = ConvertCharPointToString(_path);
+		bmp.m_hObject = LoadImage(NULL, address, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+		delete address;
+	}
+
 	void CToumeiImage::FadeIn()
 	{
 		SetAlpha(alpha + dFadeInValue);
@@ -1130,7 +1140,12 @@ namespace game_framework
 
 	void CToumeiImage::FadeOut()
 	{
-		SetAlpha(alpha + dFadeInValue);
+		SetAlpha(alpha + dFadeOutValue);
+	}
+
+	void CToumeiImage::DrawImage()
+	{
+		DrawBitmap(&bmp, alpha);
 	}
 	#pragma endregion
 }

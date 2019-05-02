@@ -159,7 +159,6 @@ namespace game_framework {
 		CTimer time_remaining;
 		CMovingBitmap overBitmap;
 		CBitmap ending1;
-		CEndManager endManager;
 	};
 
 }

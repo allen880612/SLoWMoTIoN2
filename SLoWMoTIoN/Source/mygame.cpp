@@ -353,6 +353,7 @@ namespace game_framework {
 		#pragma region - role - dead -
 		if (role.IsDead())
 		{
+			CEndManager::Instance()->Start(END_NAME_LOSEXINGTING);
 			GotoGameState(GAME_STATE_OVER);
 		}
 		#pragma endregion
@@ -741,6 +742,13 @@ namespace game_framework {
 			if (alpha >= 0)
 				alpha = 0;
 		}
+		if (nChar == 'T')
+		{
+			for (int i = 0; i < 30; i++)
+			{
+				role.SubHp();
+			}
+		}
 		if (nChar == 86)
 		{
 			CAudio::Instance()->Play("MUSIC_DeadLock");
@@ -928,8 +936,8 @@ namespace game_framework {
 		time_remaining.CountDown();
 		if (time_remaining.IsTimeOut())
 		{
-			CAudio::Instance()->Stop("SOUND_GAMEOVER");
-			GotoGameState(GAME_STATE_INIT);
+			//CAudio::Instance()->Stop("SOUND_GAMEOVER");
+			//GotoGameState(GAME_STATE_INIT);
 		}
 
 		/*counter--;
@@ -972,6 +980,12 @@ namespace game_framework {
 
 	void CGameStateOver::OnShow()
 	{
+
+		if (CEndManager::Instance()->GetEndingState())
+		{
+			CEndManager::Instance()->OnCycle();
+		}
+
 		/*
 		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
 		CFont f, *fp;
@@ -986,18 +1000,18 @@ namespace game_framework {
 		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
 		*/
 		
-		if (time_remaining.GetTime() <= 1.5)	//之後放個 timer 來算那張圖應該要多久後，開始淡出
-		{
-			DrawBitmap(&ending1, alpha-=4);
-		}
-		else if (alpha < 255)
-		{
-			DrawBitmap(&ending1, alpha+=3);
-		}
-		else
-		{
-			DrawBitmap(&ending1, alpha);
-		}
+		//if (time_remaining.GetTime() <= 1.5)	//之後放個 timer 來算那張圖應該要多久後，開始淡出
+		//{
+		//	DrawBitmap(&ending1, alpha-=4);
+		//}
+		//else if (alpha < 255)
+		//{
+		//	DrawBitmap(&ending1, alpha+=3);
+		//}
+		//else
+		//{
+		//	DrawBitmap(&ending1, alpha);
+		//}
 		
 		
 		

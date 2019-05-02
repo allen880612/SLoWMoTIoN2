@@ -328,10 +328,13 @@ namespace game_framework
 		~CToumeiImage();
 		void SetAlpha(int _a);
 		int GetAlpha() { return alpha; };
+		void SetBmp(string _path);
 		void FadeIn(); //淡入 每次alpha+3
 		void FadeOut(); //淡出 每次alpha-4
+		void DrawImage();
 	private:
 		CBitmap bmp;
+		string bmpLoadPath;
 		int alpha = 0;
 		int dFadeInValue = 3;
 		int dFadeOutValue = -4;
