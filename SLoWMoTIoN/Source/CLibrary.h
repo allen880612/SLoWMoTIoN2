@@ -325,6 +325,7 @@ namespace game_framework
 		#pragma endregion
 
 		void LoadEnd();
+		void LoadBmpTxt(string, int, int);	//end name, bmp amount, txt amount
 	};
 	#pragma endregion
 

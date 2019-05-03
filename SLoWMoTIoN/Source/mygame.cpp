@@ -342,6 +342,7 @@ namespace game_framework {
 		{
 			finalScore = role.GetScore();
 			CAudio::Instance()->Stop("MUSIC_GAMEING");
+			CEndManager::Instance()->Start(END_NAME_WINXINGTING);
 			GotoGameState(GAME_STATE_OVER);
 		}
 		if (timer.GetTime() == (int)timer.GetTime())

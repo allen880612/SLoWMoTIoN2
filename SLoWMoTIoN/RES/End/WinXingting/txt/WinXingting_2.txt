@@ -1,3 +1,2 @@
-question test
-role test2
-question test3
+question 這一次，你成功的戰勝杏庭，但...下一次呢
+role 獲得結局《揭竿起義》

@@ -1,3 +1,2 @@
-question test
-role test2
-question test3
+question 就這樣，班級中終於不在聽見：不會念就不要亂念；來，魚竿拿出來。
+role 所以你到底是?

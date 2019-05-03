@@ -23,7 +23,6 @@
 #define KEY_B 66
 
 
-#define GAME_TIME 60
 #define AUDIO_NUM 7
 
 #pragma region - Layer -
@@ -53,8 +52,8 @@
 #define DIALOG_AVATAR_NAME_XINGTING "xingting"
 #define DIALOG_AVATAR_NAME_LOCK "lock"
 #define DIALOG_AVATAR_NAME_QUESTION "question"
-#define DIALOG_AVATAR_NAME_STUDENTB "StudendB"
-#define DIALOG_AVATAR_NAME_STUDENTG "StudentG"
+#define DIALOG_AVATAR_NAME_STUDENTB "studendB"
+#define DIALOG_AVATAR_NAME_STUDENTG "studentG"
 #pragma endregion
 
 
@@ -104,5 +103,5 @@
 
 
 
-
-#define DEBUG_MODE true
+#define GAME_TIME 20		//­­¨î®É¶¡
+#define DEBUG_MODE false
