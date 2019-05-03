@@ -1077,6 +1077,7 @@ namespace game_framework
 
 	CEnd::~CEnd()
 	{
+		
 	}
 
 	string CEnd::GetBmpPath(int index)
@@ -1105,6 +1106,29 @@ namespace game_framework
 	{
 		if (endName == END_NAME_WINXINGTING)
 		{
+			string loadbmpPath = "RES\\End\\" + endName + "\\bmp\\" + endName + "_"; // tail is 0.bmp
+			string loadtxtPath = "RES\\End\\" + endName + "\\txt\\" + endName + "_"; 
+
+			for (int i = 0; i < 3; i++)
+			{
+				stringstream ss;
+				ss << i;
+				string _bmpath = loadbmpPath + ss.str() + ".bmp";
+				bmpPath.push_back(_bmpath);
+			}
+
+			//txt 在 CDialog (map) 中的 index (string) 格式: 
+			//ex: WinXingting_0
+			//ex: WinXingting_1
+			//ex: WinXingting_2
+			for (int i = 0; i < 3; i++)
+			{
+				stringstream ss;
+				ss << i;
+				string _txtpath = loadtxtPath + ss.str() + ".txt";
+				CDialogManager::Instance()->LoadDialog(endName + "_" + ss.str(), _txtpath, true);
+				txt.push_back(endName + "_" + ss.str());
+			}
 
 		}
 		else if (endName == END_NAME_LOSEXINGTING)
