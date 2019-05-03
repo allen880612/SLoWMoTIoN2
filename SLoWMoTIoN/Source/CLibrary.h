@@ -274,7 +274,7 @@ namespace game_framework
 		map <string, double> delayAdapter;
 		double delay_run = 0.08;
 		double delay_idle = 0.12;
-		double delay_jump = 0.5;
+		double delay_jump = 0.04;
 
 
 		

@@ -105,4 +105,4 @@
 
 
 
-#define DEBUG_MODE false
+#define DEBUG_MODE true
