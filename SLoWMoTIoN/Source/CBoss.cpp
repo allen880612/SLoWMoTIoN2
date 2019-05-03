@@ -254,7 +254,7 @@ namespace game_framework
 		{
 			for (int i = 0; i < 12; i++)
 			{
-				double speed = 15.0;
+				double speed = 15.0 / 2;
 				int angle = (-150 + atkCounter * 15) + i * 30;
 				double mx = sin(angle * (PI / 180.0)) * speed;
 				double my = cos(angle * (PI / 180.0)) * speed;
@@ -274,7 +274,7 @@ namespace game_framework
 		if (shoot_atk2_cd.IsTimeOut())
 		{
 			#pragma region - bullet parameter -
-			double speed = 15.0;
+			double speed = 15.0 / 2;
 			int angle = angle_atk2;
 			double mx = sin(angle * (PI / 180.0)) * speed;
 			double my = cos(angle * (PI / 180.0)) * speed;
@@ -298,7 +298,7 @@ namespace game_framework
 			for (int i = 0; i < 18; i++)
 			{
 				#pragma region - bullet parameter -
-				double speed = 10.0;
+				double speed = 10.0 / 2;
 				double angle = i * (360/18);
 				double mx = sin(angle * (PI / 180.0)) * speed;
 				double my = cos(angle * (PI / 180.0)) * speed;
@@ -363,7 +363,7 @@ namespace game_framework
 				for (int i = 0; i < bulletNumber; i++)
 				{
 					#pragma region - bullet parameter -
-					double speed = 15.0;
+					double speed = 15.0 / 2;
 					double angle = i * (360 / bulletNumber);
 					double mx = sin(angle * (PI / 180.0)) * speed;
 					double my = cos(angle * (PI / 180.0)) * speed;

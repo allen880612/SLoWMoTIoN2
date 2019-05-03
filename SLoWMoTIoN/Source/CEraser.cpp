@@ -382,7 +382,7 @@ namespace game_framework {
 		if (shoot_cd.IsTimeOut())
 		{
 			CAudio::Instance()->Play("SOUND_THROW");
-			CScallion *newCScallion = new CScallion(BitmapPath("RES\\Object\\Scallions", "scallion", 4), CPoint(GetX3(), GetY1()), CPoint(mouseX, mouseY)); //先創建一個蔥的物件
+			CScallion *newCScallion = new CScallion(BitmapPath("RES\\Object\\Scallions", "scallion", 2), CPoint(GetX3(), GetY1()), CPoint(mouseX, mouseY)); //先創建一個蔥的物件
 
 			//CScallion *newCScallion = new CScallion("Role\\books", "book", 4, GetX3(), GetY1(), mx, my); //先創建一個蔥的物件
 			scallion.push_back(newCScallion); //將蔥放進vector
@@ -468,8 +468,8 @@ namespace game_framework {
 		isJumping = true;
 		canJumping = false;
 		isFire = false;
-		const int INIT_VELOCITY = 40;				//設定初速度
-		const int GRAVITY = 4;						//設定重力
+		const int INIT_VELOCITY = 30;				//設定初速度
+		const int GRAVITY = 2;						//設定重力
 		init_velocity = velocity = INIT_VELOCITY;
 		gravity = GRAVITY;
 		mouse_x, mouse_y = 0;

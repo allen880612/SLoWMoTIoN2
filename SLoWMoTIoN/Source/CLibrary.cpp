@@ -844,12 +844,22 @@ namespace game_framework
 	{
 		x = y = 0;
 		SetValid(true);
-		double wiatTime = 0.1;
-		delayTimer = CTimer(wiatTime);
+
+		delayAdapter["idle"] = delay_idle;
+		delayAdapter["run"] = delay_run;
+		delayAdapter["jump"] = delay_jump;
+
+		double waitTime = delay_idle;
+		delayTimer = CTimer(waitTime);
 	}
 
 	void CAction::OnMove(string _nowAction)
 	{
+		if (action != _nowAction)
+		{
+			delayTimer.ResetTime(delayAdapter[_nowAction]);
+			action = _nowAction;
+		}
 
 		delayTimer.CountDown();
 

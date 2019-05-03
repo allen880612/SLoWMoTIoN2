@@ -897,12 +897,15 @@ namespace game_framework
 	{
 		for (int i = 0; i < MAX_MAP_NUMBER; i++)
 		{
-			for (vector<CNPC*>::iterator npciter = npc[i].begin(); npciter != npc[i].end(); npciter++)
+			for (vector<CNPC*>::iterator npciter = npc[i].begin(); npciter != npc[i].end(); ++npciter)
 			{
 				delete (*npciter);
 				(*npciter) = NULL;
 			}
 			npc[i].clear();
+			vector<CNPC*> delSwap;
+			npc[i].swap(delSwap);
+
 		}
 	}
 

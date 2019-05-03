@@ -3,7 +3,7 @@
 ////////////////////////////
 #pragma once
 #define MAX_LAYER_NUMBER 10
-#define MOVE_DISTANCE 15
+#define MOVE_DISTANCE 8
 
 #define MAX_MAP_NUMBER 6
 #define NOW_MAP 3

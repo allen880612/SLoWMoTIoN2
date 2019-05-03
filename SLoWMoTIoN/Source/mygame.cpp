@@ -241,7 +241,9 @@ namespace game_framework {
 
 	CGameStateRun::~CGameStateRun()
 	{
-		delete[] ball;		
+		delete[] ball;
+		npcManager.Clear();
+		bossManager.Clear();
 	}
 
 	void CGameStateRun::OnBeginState()
