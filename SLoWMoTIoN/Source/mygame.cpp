@@ -356,6 +356,7 @@ namespace game_framework {
 		if (role.IsDead())
 		{
 			CEndManager::Instance()->Start(END_NAME_LOSEXINGTING);
+			role.SetXY(0, 0);
 			GotoGameState(GAME_STATE_OVER);
 		}
 		#pragma endregion

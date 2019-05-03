@@ -225,7 +225,7 @@ namespace game_framework
 	};
 	#pragma endregion
 
-	#pragma region - fuck you -
+	#pragma region - CEndManager -
 	class CEndManager
 	{
 	public:

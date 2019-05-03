@@ -575,6 +575,7 @@ namespace game_framework
 		if (IsDialogLoad == false)
 		{
 			LoadDialog();
+			IsDialogLoad = true;
 		}
 		else
 		{
@@ -1004,7 +1005,7 @@ namespace game_framework
 	}
 	#pragma endregion
 
-	#pragma region  - fukcy -
+	#pragma region  - CEndManager -
 	CEndManager CEndManager::endManager;
 	CEndManager::CEndManager()
 	{
