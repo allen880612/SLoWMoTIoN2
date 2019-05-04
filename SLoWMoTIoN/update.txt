@@ -189,3 +189,7 @@ Question : 目前Timer以 int為設定標準，但冷卻時間只能以秒為單為計算，
    (now, only have one end, trigger by role is dead)
 1 - btw, now, CEndManager is static, I want to change i to general, but if do it, there has a problem: I need a function let me transfer the local variable from GameStateRun (or GameStateInit) to GameStateOver
 anyway, I can consider this problem.
+
+==============================================================
+2019/5/03
+1. add Cbutton Manager, Create Button in the InitSate of any GameState, and use it cleaner then directly use CButton.

@@ -1120,4 +1120,91 @@ namespace game_framework
 
 	#pragma endregion
 
+	#pragma region - Button Manager -
+	CButtonManager::CButtonManager()
+	{
+		Initialize();
+	}
+
+	CButtonManager::~CButtonManager()
+	{
+		Clear();
+	}
+
+	void CButtonManager::Initialize()
+	{
+		for (map<string, CButton*>::iterator btniter = buttons.begin(); btniter != buttons.end(); btniter++)
+		{
+			(btniter->second)->Initialize();
+		}
+		/*CreateButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true, false);
+		CreateButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true, false);
+		CreateButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(350, 190), false, true);
+		CreateButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(350, 260), false, true);
+		CreateButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(350, 330), false, true);*/
+
+	}
+
+	void CButtonManager::Clear()
+	{
+		for (map<string, CButton*>::iterator btniter = buttons.begin(); btniter != buttons.end(); btniter++)
+		{
+			delete btniter->second;
+			btniter->second = NULL;
+		}
+		buttons.clear();
+	}
+
+	void CButtonManager::AddButton(CButton* _button)
+	{
+		buttons[_button->name] = _button;
+	}
+
+	void CButtonManager::CreateButton(BitmapPath _loadpath, CPoint point, bool _state, bool _needCollision)
+	{
+		AddButton(new CButton(_loadpath, point, _state, _needCollision));
+	}
+
+	void CButtonManager::ClickButton(string _btnName)
+	{
+		(buttons[_btnName])->ClickButton();
+	}
+
+	bool CButtonManager::IsCollisionMouse(string _btnName)
+	{
+		return (buttons[_btnName])->IsCollisionMouse(mouse);
+	}
+
+	bool CButtonManager::GetState(string _btnName)
+	{
+		return (buttons[_btnName])->state;
+		/*return (buttons[_btnName])->GetState();*/
+	}
+
+	void CButtonManager::UpdateState(CPoint _m)
+	{
+		mouse = _m;
+		for (map<string, CButton*>::iterator btniter = buttons.begin(); btniter != buttons.end(); btniter++)
+		{
+			(btniter->second)->CollisonMouse(_m);
+		}
+	}
+
+	void CButtonManager::ShowButton()
+	{
+		for (map<string, CButton*>::iterator btniter = buttons.begin(); btniter != buttons.end(); btniter++)
+		{
+			(btniter->second)->OnShow();
+		}
+	}
+
+	void CButtonManager::OnCycle()
+	{
+		for (map<string, CButton*>::iterator btniter = buttons.begin(); btniter != buttons.end(); btniter++)
+		{
+			(btniter->second)->OnMove();
+		}
+	}
+	#pragma endregion
+
 }

@@ -55,6 +55,7 @@ BEGIN_MESSAGE_MAP(CGameView, CView)
 	ON_WM_LBUTTONUP()
 	ON_WM_RBUTTONDOWN()
 	ON_WM_RBUTTONUP()
+	ON_WM_MOUSEWHEEL()
 	ON_WM_KILLFOCUS()
 	ON_COMMAND(ID_FILE_PAUSE, OnFilePause)
 	ON_UPDATE_COMMAND_UI(ID_FILE_PAUSE, OnUpdateFilePause)
@@ -194,6 +195,12 @@ void CGameView::OnRButtonUp(UINT nFlags, CPoint point)
 	// TODO: Add your message handler code here and/or call default
 	game_framework::CGame::Instance()->OnRButtonUp(nFlags, point);
 	CView::OnRButtonUp(nFlags, point);
+}
+
+BOOL CGameView::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
+{
+	game_framework::CGame::Instance()->OnMouseWheel(nFlags, zDelta, point);
+	return CView::OnMouseWheel(nFlags, zDelta, point);
 }
 
 void CGameView::OnKillFocus(CWnd* pNewWnd) 

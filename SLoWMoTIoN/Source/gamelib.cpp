@@ -798,6 +798,12 @@ void CGame::OnRButtonUp(UINT nFlags, CPoint point)
 		gameState->OnRButtonUp(nFlags, point);
 }
 
+void CGame::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
+{
+	if (running)
+		gameState->OnMouseWheel(nFlags, zDelta, point);
+}
+
 void CGame::OnResume()
 {
 	//

@@ -601,6 +601,8 @@ namespace game_framework
 	CButton::CButton()
 	{
 		x = y = 0;
+		name = "none";
+		state = true;
 	}
 
 	CButton::CButton(const CButton & button)
@@ -608,10 +610,12 @@ namespace game_framework
 		*this = button;
 	}
 
-	CButton::CButton(BitmapPath _loadpath, CPoint initPos, bool initState)
+	CButton::CButton(BitmapPath _loadpath, CPoint initPos, bool initState, bool _needCollision)
 	{
 		//LoadBitmap(_loadpath);
 		loadpath = _loadpath;
+		name = _loadpath.name;
+		needCollision = _needCollision;
 		Initialize(initPos, initState);
 	}
 
@@ -675,7 +679,7 @@ namespace game_framework
 		{
 			LoadBitmap(loadpath);
 		}
-		//SetState(true);
+		SetState(state);
 		SetXY(x, y);
 		animation.SetTopLeft(x, y);
 	}
@@ -686,8 +690,20 @@ namespace game_framework
 		{
 			LoadBitmap(loadpath);
 		}
-		SetState(flag);
+		SetValid(true);
 		SetXY(pos.x, pos.y);
+		animation.SetTopLeft(x, y);
+		CLayerManager::Instance()->AddObject(&animation, INTERFACE_LAYER);
+	}
+
+	void CButton::SetValid(bool _flag)
+	{
+		animation.SetValid(_flag);
+	}
+
+	bool CButton::GetValid()
+	{
+		return animation.GetValid();
 	}
 
 	CAnimate * CButton::GetAnimate()
@@ -695,9 +711,12 @@ namespace game_framework
 		return &animation;
 	}
 
-	void CButton::CollisonMouse(CPoint mouse)
+	void CButton::CollisonMouse(CPoint _m)
 	{
-		if (IsPointInRect(mouse, GetAnimate()->GetRect()))
+		if (!needCollision)
+			return;
+		
+		if (IsCollisionMouse(_m))
 		{
 			if (!GetState())					//只有第一次進入Button有音效
 				CAudio::Instance()->Play("SOUND_JUMP");
@@ -707,12 +726,24 @@ namespace game_framework
 			SetState(false);
 	}
 
+	void CButton::ClickButton()
+	{
+		SetState(!GetState());
+	}
+
+
+	bool CButton::IsCollisionMouse(CPoint _m)
+	{
+		return IsPointInRect(_m, animation.GetRect());
+	}
+
 	void CButton::operator=(const CButton& button)
 	{
-		state = button.state;
 		loadpath = button.loadpath;
-		x = button.x;
-		y = button.y;
+		name = button.loadpath.name;
+		needCollision = button.needCollision;
+		Initialize(CPoint(button.x, button.y), button.state);
+		
 	}
 	#pragma endregion
 

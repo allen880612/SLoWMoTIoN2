@@ -315,6 +315,8 @@ public:
 	virtual void OnMouseMove(UINT nFlags, CPoint point) {}  // 處理滑鼠的動作 
 	virtual void OnRButtonDown(UINT nFlags, CPoint point) {}// 處理滑鼠的動作
 	virtual void OnRButtonUp(UINT nFlags, CPoint point) {}	// 處理滑鼠的動作
+	
+	virtual void OnMouseWheel(UINT nFlags, short, CPoint) {};
 protected:
 	void GotoGameState(int state);							// 跳躍至指定的state
 	void ShowInitProgress(int percent);						// 顯示初始化的進度
@@ -349,6 +351,9 @@ public:
 	void OnMouseMove(UINT nFlags, CPoint point);    // 處理滑鼠的動作 
 	void OnRButtonDown(UINT nFlags, CPoint point);	// 處理滑鼠的動作
 	void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
+
+	void OnMouseWheel(UINT nFlags, short zDelta, CPoint point);  //處理滑鼠滾輪
+
 	void OnResume();								// 處理自「待命」還原的動作
 	void OnSetFocus();								// 處理Focus
 	void OnSuspend();								// 處理「待命」的動作

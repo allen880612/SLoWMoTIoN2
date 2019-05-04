@@ -173,32 +173,40 @@ namespace game_framework
 	#pragma region - CButton -
 	class CButton
 	{
-	public:
-		CButton();
-		CButton(const CButton&);
-		CButton(BitmapPath, CPoint, bool);	//路徑、初始點、初始狀態
-		~CButton();
-		int		GetX();
-		int		GetY();
-		void	SetXY(int, int);
-		void	SetState(bool);
-		bool	GetState();
-		void	LoadBitmap(BitmapPath);
-		void	OnMove();					//更新Button狀態，有需要時也可更改顯示位置
-		void	OnShow();					
-		void	Initialize();
-		void	Initialize(CPoint, bool);
-		CAnimate* GetAnimate();
+		friend class CButtonManager;
+		public:
+			CButton();
+			CButton(const CButton&);
+			CButton(BitmapPath, CPoint, bool, bool);	//路徑、初始點、初始狀態, 是否需要與滑鼠碰撞
+			~CButton();
+			int		GetX();
+			int		GetY();
+			void	SetXY(int, int);
+			void	SetState(bool);
+			bool	GetState();
+			void	LoadBitmap(BitmapPath);
+			void	OnMove();					//更新Button狀態，有需要時也可更改顯示位置
+			void	OnShow();					
+			void	Initialize();
+			void	Initialize(CPoint, bool);
+			void	SetValid(bool);
+			bool	GetValid();
 
-		void CollisonMouse(CPoint);
+			void CollisonMouse(CPoint);
+			void ClickButton();
 
-		void operator=(const CButton&);
+			bool IsCollisionMouse(CPoint);
+			CAnimate* GetAnimate();
+			void operator=(const CButton&);
 
-	private:
-		CAnimate animation;
-		BitmapPath loadpath;
-		int x, y;
-		bool state = true;
+		private:
+			CAnimate animation;
+			BitmapPath loadpath;
+			string name;
+			int x, y;
+			bool needCollision;
+			bool state;
+			bool valid;
 
 	};
 	#pragma endregion
