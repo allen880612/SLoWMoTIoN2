@@ -137,6 +137,7 @@ namespace game_framework {
 		#pragma region - zi din yi -
 		void PositionTrigger();
 		void ChangeMap(string);
+		void SwitchState(int);
 		#pragma endregion
 	};
 

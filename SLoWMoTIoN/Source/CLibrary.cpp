@@ -8,6 +8,7 @@
 #include "gamelib.h"
 #include "CLibrary.h"
 #include "CManager.h"
+#include "dirent.h"
 //以下include安心的
 #include "game.h"
 #include "MainFrm.h"
@@ -51,6 +52,24 @@ namespace myLibrary
 		strcpy(address, file.c_str());
 
 		return address;
+	}
+
+	void getFolderFile(string folderPath, vector<string> *file) //得到資料夾下的所有檔名
+	{
+		DIR *fp; // create folder point
+		fp = opendir(folderPath.c_str());
+		struct dirent *folderp;
+		int k = 0;
+		while ((folderp = readdir(fp)) != NULL)
+		{
+			if (k >= 2)
+			{
+				string newPath = string(folderp->d_name);
+				file->push_back(newPath);
+			}
+			k++;
+		}
+		closedir(fp);
 	}
 
 	void DeleteCharPoint(vector<char*> &addresses)
@@ -523,6 +542,7 @@ namespace game_framework
 			}
 			index++;
 		}
+		dialogTxt.close();
 	}
 
 	#pragma endregion
@@ -1114,47 +1134,37 @@ namespace game_framework
 	}
 	void CEnd::LoadEnd()
 	{
-		if (endName == END_NAME_WINXINGTING)
+		//if (endName == END_NAME_WINXINGTING)
+		//{
+		//	LoadBmpTxt(endName, 3, 3);
+		//}
+		//else if (endName == END_NAME_LOSEXINGTING)
+		//{
+		//	//LoadBmpTxt(endName, 3, 3);
+		//	LoadBmpTxt(endName);
+		//}
+		LoadBmpTxt(endName);
+	}
+
+	void CEnd::LoadBmpTxt(string _endName)
+	{
+		string loadbmpFolderPath = "RES\\End\\" + _endName + "\\bmp\\";
+		string loadtxtFolderPath = "RES\\End\\" + _endName + "\\txt\\";
+		
+		getFolderFile(loadbmpFolderPath, &bmpPath);
+
+		getFolderFile(loadtxtFolderPath, &txt);
+
+		for (unsigned int i = 0; i < bmpPath.size(); i++)
 		{
-			LoadBmpTxt(endName, 3, 3);
-			//string loadbmpPath = "RES\\End\\" + endName + "\\bmp\\" + endName + "_"; // tail is 0.bmp
-			//string loadtxtPath = "RES\\End\\" + endName + "\\txt\\" + endName + "_"; 
-
-			//for (int i = 0; i < 3; i++)
-			//{
-			//	stringstream ss;
-			//	ss << i;
-			//	string _bmpath = loadbmpPath + ss.str() + ".bmp";
-			//	bmpPath.push_back(_bmpath);
-			//}
-
-			////txt 在 CDialog (map) 中的 index (string) 格式: 
-			////ex: WinXingting_0
-			////ex: WinXingting_1
-			////ex: WinXingting_2
-			//for (int i = 0; i < 3; i++)
-			//{
-			//	stringstream ss;
-			//	ss << i;
-			//	string _txtpath = loadtxtPath + ss.str() + ".txt";
-			//	CDialogManager::Instance()->LoadDialog(endName + "_" + ss.str(), _txtpath, true);
-			//	txt.push_back(endName + "_" + ss.str());
-			//}
-
+			bmpPath[i] = loadbmpFolderPath + bmpPath[i];
 		}
-		else if (endName == END_NAME_LOSEXINGTING)
-		{
-			LoadBmpTxt(endName, 3, 3);
-			//bmpPath.push_back("RES\\End\\LoseXingting\\bmp\\WinXingting_0.bmp");
-			//bmpPath.push_back("RES\\End\\LoseXingting\\bmp\\WinXingting_1.bmp");
-			//bmpPath.push_back("RES\\End\\LoseXingting\\bmp\\WinXingting_2.bmp");
 
-			//CDialogManager::Instance()->LoadDialog("WinXingting0", "RES\\End\\LoseXingting\\txt\\WinXingting_0.txt", true);
-			//CDialogManager::Instance()->LoadDialog("WinXingting1", "RES\\End\\LoseXingting\\txt\\WinXingting_1.txt", true);
-			//CDialogManager::Instance()->LoadDialog("WinXingting2", "RES\\End\\LoseXingting\\txt\\WinXingting_2.txt", true);
-			//txt.push_back("WinXingting0");
-			//txt.push_back("WinXingting1");
-			////txt.push_back("WinXingting2");
+		for (unsigned int i = 0; i < txt.size(); i++)
+		{
+			stringstream ss;
+			ss << i;
+			CDialogManager::Instance()->LoadDialog(txt[i], loadtxtFolderPath + txt[i], true);
 		}
 	}
 
@@ -1191,6 +1201,22 @@ namespace game_framework
 	CToumeiImage::CToumeiImage()
 	{
 		SetAlpha(0);
+		dFadeInValue = 3;
+		dFadeOutValue = -4;
+	}
+
+	CToumeiImage::CToumeiImage(int _dFadeInValue, int _dFadeOutValue)
+	{
+		SetAlpha(0);
+		dFadeInValue = _dFadeInValue;
+		dFadeOutValue = _dFadeOutValue;
+	}
+
+	CToumeiImage::CToumeiImage(string _loadbmpPath, int _dFadeInValue, int _dFadeOutValue)
+	{
+		CToumeiImage(_dFadeInValue, _dFadeOutValue);
+		bmpLoadPath = _loadbmpPath;
+		SetBmp(_loadbmpPath);
 	}
 
 	CToumeiImage::~CToumeiImage()

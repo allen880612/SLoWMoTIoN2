@@ -5,6 +5,7 @@ namespace myLibrary
 	char* ConvertCharPointToString(string, string, int = -1);
 	//char* ConvertCharPointToString(BitmapPath)
 	char* ConvertCharPointToString(string);
+	void getFolderFile(string, vector<string>*); 
 	void DeleteCharPoint(vector<char*>&);
 	int GetPostive(int);
 	int GetRandom(int, int); //±o®ÏRandomº∆¶r°Amin <= k <= max
@@ -325,6 +326,7 @@ namespace game_framework
 		#pragma endregion
 
 		void LoadEnd();
+		void LoadBmpTxt(string);
 		void LoadBmpTxt(string, int, int);	//end name, bmp amount, txt amount
 	};
 	#pragma endregion
@@ -334,6 +336,8 @@ namespace game_framework
 	{
 	public:
 		CToumeiImage();
+		CToumeiImage(int, int);
+		CToumeiImage(string, int, int);
 		~CToumeiImage();
 		void SetAlpha(int _a);
 		int GetAlpha() { return alpha; };
