@@ -341,7 +341,7 @@ namespace game_framework {
 			finalScore = role.GetScore();
 			CAudio::Instance()->Stop("MUSIC_GAMEING");
 			CEndManager::Instance()->Start(END_NAME_WINXINGTING);
-			GotoGameState(GAME_STATE_OVER);
+			SwitchState(GAME_STATE_OVER);
 		}
 		if (timer.GetTime() == (int)timer.GetTime())
 		{
@@ -356,7 +356,7 @@ namespace game_framework {
 		{
 			CEndManager::Instance()->Start(END_NAME_LOSEXINGTING);
 			role.SetXY(0, 0);
-			GotoGameState(GAME_STATE_OVER);
+			SwitchState(GAME_STATE_OVER);
 		}
 		#pragma endregion
 
@@ -866,6 +866,16 @@ namespace game_framework {
 		}
 		bossManager.TargetBoss(mapManager.GetNowMap());
 		npcManager.ChangeMap(nowMap, nextMap);
+	}
+
+	void CGameStateRun::SwitchState(int state)
+	{
+		if (bossManager.targetBoss != NULL)
+		{
+			bossManager.targetBoss->ClearBullet();
+			bossManager.targetBoss = NULL;
+		}
+		this->GotoGameState(state);
 	}
 
 	void CGameStateRun::OnShow()

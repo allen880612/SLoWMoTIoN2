@@ -1050,6 +1050,7 @@ namespace game_framework
 		nowEnd = &endmap[endName];
 		isEnding = true;
 		endBmp.SetBmp(nowEnd->GetBmpPath(0));
+
 		step = 0;
 		isFadeIn = true;
 		isFadeOut = false;
@@ -1105,6 +1106,7 @@ namespace game_framework
 					}
 				}
 			}
+			
 			endBmp.DrawImage();
 		}
 		else

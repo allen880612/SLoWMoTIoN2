@@ -152,8 +152,8 @@ void DrawBitmap(CBitmap *bitmap, int alpha)	//傳入Bitmap, 以及透明度
 	CBitmap bmp, *fbmp;
 	mDC.CreateCompatibleDC(NULL);
 	fbmp = mDC.SelectObject(bitmap);
-	BITMAP bitmapSize;
-	fbmp->GetBitmap(&bitmapSize);
+	/*BITMAP bitmapSize;
+	fbmp->GetBitmap(&bitmapSize);*/
 
 	BLENDFUNCTION blend = { AC_SRC_OVER , 0, (BYTE)alpha,0 };
 	pDC->AlphaBlend(0, 0, SIZE_X, SIZE_Y, &mDC, 0, 0, SIZE_X, SIZE_Y, blend);
