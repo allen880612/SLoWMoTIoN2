@@ -18,7 +18,7 @@ namespace game_framework {
 	// CEraser: Eraser class
 	/////////////////////////////////////////////////////////////////////////////
 
-	#pragma region - CEraser
+	#pragma region - CEraser -
 	CEraser::CEraser()
 	{
 		Initialize();
@@ -301,7 +301,14 @@ namespace game_framework {
 		shoot_cd.CountDown();	//設置射擊的 CD時間
 
 		animation.SetTopLeft(x, y);
-		decisionPoint.SetTopLeft(GetX3() - 5, GetY3());
+		if (isJumping)
+		{
+			decisionPoint.SetTopLeft(GetX3() - 5, GetY3() - 20);
+		}
+		else
+		{
+			decisionPoint.SetTopLeft(GetX3() - 5, GetY3());
+		}
 
 		animation.OnMove(dir);
 

@@ -991,7 +991,7 @@ namespace game_framework
 			#pragma endregion
 
 			#pragma region - dialog - vs xingting -
-			if (!dialogWithXingting && nowMap == BOSS_MAP_XINGTING)
+			if (!dialogWithXingting && nowMap == BOSS_MAP_XINGTING && gameState->role.IsDead() == false)
 			{
 				if (rolePosition >= 100)
 				{
