@@ -702,6 +702,7 @@ namespace game_framework
 		SetState(state);
 		SetXY(x, y);
 		animation.SetTopLeft(x, y);
+		CLayerManager::Instance()->AddObject(&animation, INTERFACE_LAYER);
 	}
 
 	void CButton::Initialize(CPoint pos, bool flag)
@@ -900,21 +901,23 @@ namespace game_framework
 		delayAdapter["run"] = delay_run;
 		delayAdapter["jump"] = delay_jump;
 
+		nowAction = NULL;
+		nowAction = NULL;
 		double waitTime = delay_idle;
 		delayTimer = CTimer(waitTime);
 	}
 
 	void CAction::OnMove(string _nowAction)
 	{
-		if (action != _nowAction)
-		{
-			delayTimer.ResetTime(delayAdapter[_nowAction]);
-			action = _nowAction;
-		}
-
 		delayTimer.CountDown();
 
-		if (!delayTimer.IsTimeOut())
+		if (action != _nowAction)	//切換動作
+		{
+			delayTimer.ResetTime(delayAdapter[_nowAction]);
+			SetAction(_nowAction);
+		}
+
+		if (!delayTimer.IsTimeOut())	//延遲
 		{
 			return;
 		}
@@ -923,25 +926,19 @@ namespace game_framework
 			delayTimer.ResetTime();
 		}
 		
-		if (action != _nowAction)	//切換動作
+		
+		//現在動作 + 方向，從map取出對應 Action Vector
+		nowAction = &(paser[action + faceTo]);
+
+		if (action_index < (int)(nowAction->size() - 1))
 		{
-			action_index = 0;
-			action = _nowAction;
+			action_index++;
 		}
 		else
 		{
-			//現在動作 + 方向，從map取出對應 Action Vector
-			nowAction = &(paser[action + faceTo]);
-
-			if (action_index < (int)(nowAction->size() - 1))
-			{
-				action_index++;
-			}
-			else
-			{
-				action_index = 0;
-			}
+			action_index = 0;
 		}
+		
 
 		nowBitmap = &((paser[_nowAction + faceTo])[action_index]);
 		nowBitmap->SetTopLeft(x, y);
@@ -963,6 +960,11 @@ namespace game_framework
 	void CAction::SetAction(string _action)
 	{
 		action = _action;
+		action_index = 0;
+		action = _action;
+		nowAction = &(paser[action + faceTo]);
+		nowBitmap = &((paser[_action + faceTo])[action_index]);
+		nowBitmap->SetTopLeft(x, y);
 	}
 
 	string CAction::GetAction()
@@ -973,11 +975,9 @@ namespace game_framework
 	void CAction::Initialize()
 	{
 		nowAction = NULL;
-		//nowAction->clear();
-
 		nowBitmap = NULL;
 		
-		action = "idle";
+		action = "jump";
 		faceTo = "_R";
 		action_index = 0;
 		if (!paser.empty())
@@ -1037,28 +1037,28 @@ namespace game_framework
 
 	int CAction::Height()
 	{
-		if (nowAction != NULL)
+		if (nowBitmap == NULL)
 		{
 			return 0;
 		}
 
-		return (nowAction->begin())->Height();
+		return nowBitmap->Height();
 	}
 
 	int CAction::Width()
 	{
-		if (nowAction != NULL)
+		if (nowBitmap == NULL)
 		{
 			return 0;
 		}
 
-		return (nowAction->begin())->Width();
+		return nowBitmap->Width();
 	}
 
 	int CAction::Left()
 	{
 
-		if (nowAction != NULL)
+		if (nowBitmap == NULL)
 		{
 			return 0;
 		}
@@ -1068,7 +1068,7 @@ namespace game_framework
 
 	int CAction::Top()
 	{
-		if (nowAction != NULL)
+		if (nowBitmap == NULL)
 		{
 			return 0;
 		}
@@ -1085,7 +1085,7 @@ namespace game_framework
 
 	bool CAction::IsNull()
 	{
-		return (nowAction == NULL || nowAction->size() <= 0);
+		return (nowAction == NULL || nowBitmap == NULL || nowAction->size() <= 0);
 	}
 
 	void CAction::SetValid(bool _valid)
@@ -1121,6 +1121,11 @@ namespace game_framework
 	CMovingBitmap* CAction::GetNowBitmap()
 	{
 		return nowBitmap;
+	}
+
+	CRect CAction::GetRect()
+	{
+		return nowBitmap->GetRect();
 	}
 	#pragma endregion
 

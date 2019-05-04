@@ -598,6 +598,7 @@ namespace game_framework {
 			{
 				role.SetMovingJump(false);
 				role.SetCanJumping(true);
+				role.GetAction()->SetAction("idle");	//żż
 				role.SetXY(role.GetX1(), SIZE_Y - role.Height() - 1);
 			}
 			else

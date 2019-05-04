@@ -26,7 +26,7 @@ namespace game_framework {
 
 	CEraser::~CEraser()
 	{
-		animation.ReleaseAnimate();
+		//animation.ReleaseAnimate();
 	}
 
 	void CEraser::Initialize()
@@ -105,7 +105,7 @@ namespace game_framework {
 			".\\Role\\IDB_ROLE_9.bmp", ".\\Role\\MIKU_10.bmp", ".\\Role\\MIKU_11.bmp",
 			".\\Role\\MIKU_12.bmp" };
 
-		animation.LoadBitmap(role, RGB(255, 255, 255));
+		//animation.LoadBitmap(role, RGB(255, 255, 255));
 	}
 
 	void CEraser::LoadBitmap(string ziliaojia, string name, int number, COLORREF color)
@@ -121,10 +121,10 @@ namespace game_framework {
 		animation.LoadBitmap(loadpath.ziliaojia, loadpath.name, loadpath.number, loadpath.color);
 	}
 
-	void CEraser::LoadAction(string _action, BitmapPath loadpath)
+	/*void CEraser::LoadAction(string _action, BitmapPath loadpath)
 	{
 		action.LoadAction(_action, loadpath);
-	}
+	}*/
 
 	void CEraser::OnMove()
 	{
@@ -159,8 +159,8 @@ namespace game_framework {
 
 	void CEraser::OnShow()
 	{
-		animation.SetTopLeft(x, y);
-		animation.OnShow();
+		//animation.SetTopLeft(x, y);
+		//animation.OnShow();
 	}
 
 	void CEraser::SetMovingDown(bool flag)
@@ -235,6 +235,58 @@ namespace game_framework {
 		vector<CScallion*>().swap(scallion);
 	}
 
+	int CRole::GetX2()
+	{
+		return x + action.Width();
+	}
+
+	int CRole::GetY2()
+	{
+		return y + action.Height();
+	}
+
+	int CRole::GetY3()
+	{
+		return y + action.Height() / 2;
+	}
+
+	int CRole::GetX3()
+	{
+		return x + action.Width() / 2;
+	}
+
+	int CRole::Height()
+	{
+		return action.Height();
+	}
+
+	int CRole::Width()
+	{
+		return action.Width();
+	}
+
+	void CRole::SetXY(int _x, int _y)
+	{
+		x = _x;
+		y = _y;
+		action.SetTopLeft(_x, _y);
+	}
+
+	bool CRole::GetValid()
+	{
+		return action.GetValid();
+	}
+
+	void CRole::SetValid(bool _flag)
+	{
+		action.SetValid(_flag);
+	}
+
+	void CRole::LoadAction(string _action, BitmapPath _loadpath)
+	{
+		action.LoadAction(_action, _loadpath);
+	}
+
 	void CRole::OnMove()
 	{
 		const int STEP_SIZE = move_distance;
@@ -277,6 +329,7 @@ namespace game_framework {
 			if (canJumping)
 			{
 				velocity = init_velocity;
+				canJumping = false;
 			}
 			else
 			{
@@ -290,6 +343,7 @@ namespace game_framework {
 				{
 					velocity -= gravity;
 					y -= velocity;
+					
 				}
 			}
 		}
@@ -300,7 +354,8 @@ namespace game_framework {
 
 		shoot_cd.CountDown();	//設置射擊的 CD時間
 
-		animation.SetTopLeft(x, y);
+		//animation.SetTopLeft(x, y);
+		//animation.OnMove(dir);
 		if (isJumping)
 		{
 			decisionPoint.SetTopLeft(GetX3() - 5, GetY3() + 16);
@@ -309,8 +364,6 @@ namespace game_framework {
 		{
 			decisionPoint.SetTopLeft(GetX3() - 5, GetY3());
 		}
-
-		animation.OnMove(dir);
 
 		action.SetTopLeft(x, y);
 		if (isJumping)
@@ -327,10 +380,10 @@ namespace game_framework {
 		}
 		
 		#pragma region -- Reset collision rect --
-		//collisionRect.left = animation.GetRect().left - move_distance;
-		//collisionRect.right = animation.GetRect().right + move_distance;
-		//collisionRect.top = animation.GetRect().top - move_distance;
-		//collisionRect.bottom = animation.GetRect().bottom + move_distance;
+		/*collisionRect.left = action.GetRect().left - move_distance;
+		collisionRect.right = action.GetRect().right + move_distance;
+		collisionRect.top = action.GetRect().top - move_distance;
+		collisionRect.bottom = action.GetRect().bottom + move_distance;*/
 		#pragma endregion
 
 		for (unsigned int i = 0; i < scallion.size(); i++)
@@ -427,7 +480,7 @@ namespace game_framework {
 	
 	bool CRole::IsCollisionNPC(CNPC *npc)
 	{
-		return IsRectCollision(animation.GetRect(), npc->GetAnimate()->GetRect());
+		return IsRectCollision(action.GetRect(), npc->GetAnimate()->GetRect());
 	}
 
 	bool CRole::IsCollisionBlackHole(CBlackHole *blackHole)
@@ -470,6 +523,8 @@ namespace game_framework {
 
 	void CRole::Initialize()
 	{
+		action.Initialize();
+
 		#pragma region  Normal Setting
 		CEraser::Initialize();
 		isJumping = true;
@@ -485,15 +540,15 @@ namespace game_framework {
 		score = 0;
 		#pragma endregion
 
-
 		shoot_cd = CTimer(0);						//初始化射擊冷卻時間
-		action.Initialize();
+		
 		SetValid(true);
 
 		if ( !isLoaded)
 		{
 			hp_left.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
 			scoreInteger.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
+			decisionPoint.LoadBitmap("RES\\Role\\miku\\cursor.bmp", RGB(214, 214, 214));
 			isLoaded = true;
 		}
 
@@ -502,11 +557,11 @@ namespace game_framework {
 
 		collisionRect = CRect(CPoint(x - move_distance, y - move_distance), CPoint(x + Width() + move_distance, y + Height() + move_distance));
 
-		if (animation.IsNull())
+		/*if (animation.IsNull())
 		{
 			LoadBitmap("RES\\Role\\miku", "MIKU", 13, RGB(255, 255, 255));
 			decisionPoint.LoadBitmap("RES\\Role\\miku\\cursor.bmp", RGB(214, 214, 214));
-		}
+		}*/
 
 		//CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 		CLayerManager::Instance()->AddObject(&decisionPoint, layer.GetLayer() + 1);
@@ -526,7 +581,7 @@ namespace game_framework {
 
 	void CRole::ResetCollisionRect()
 	{
-		collisionRect = animation.GetRect();
+		collisionRect = action.GetRect();
 		int dx = move_distance - 9;
 		if (isMovingRight)
 		{

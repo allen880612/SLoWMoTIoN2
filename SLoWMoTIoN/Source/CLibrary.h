@@ -272,6 +272,7 @@ namespace game_framework
 
 		CLayer	layer;
 		CMovingBitmap* GetNowBitmap();
+		CRect GetRect();
 
 	private:
 		CMovingBitmap *nowBitmap;

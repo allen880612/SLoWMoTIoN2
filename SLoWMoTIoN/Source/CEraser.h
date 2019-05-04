@@ -30,7 +30,7 @@ namespace game_framework {
 		void LoadBitmap(string, string, int, COLORREF);
 		void LoadBitmap(BitmapPath);
 
-		void LoadAction(string, BitmapPath);	//載入動應動作
+		//void LoadAction(string, BitmapPath);	//載入動應動作
 		
 		void OnMove();					// 移動擦子
 		void OnShow();					// 將擦子圖形貼到畫面
@@ -50,7 +50,7 @@ namespace game_framework {
 
 	protected:
 		CAnimate animation;			// 擦子的動畫
-		CAction  action;
+		//CAction  action;
 
 		int height, width;			// 擦子的高、寬
 		int x, y;					// 擦子左上角座標
@@ -100,6 +100,18 @@ namespace game_framework {
 	public:
 		CRole();
 		~CRole();
+		int  GetX3();                   // 中新點 X 座標
+		int  GetX2();					// 擦子右下角 x 座標
+		int  GetY2();					// 擦子右下角 y 座標
+		int  GetY3();                   // 中心點 Y 座標
+		int  Height();
+		int  Width();
+		void SetXY(int _x, int _y);		// 設定擦子左上角座標
+		bool GetValid();
+		void SetValid(bool);
+
+		void LoadAction(string, BitmapPath);	//載入動應動作
+
 		void OnMove();
 		void OnShow();
 		bool GetMovingJump();
@@ -159,7 +171,7 @@ namespace game_framework {
 	private:
 		//unsigned AUDIO_THROW;\
 		//unsigned AUDIO_JUMP;
-		//CAction  action;
+		CAction  action;
 		CInteger hp_left;
 		CInteger scoreInteger;
 
