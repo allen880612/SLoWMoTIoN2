@@ -78,19 +78,21 @@ namespace game_framework {
 
 	void CGameStateInit::OnBeginState()
 	{
+		CLayerManager::Instance()->Initialize();
 		CAudio::Instance()->Initialize();
 		CAudio::Instance()->Play("MUSIC_MENU", true);
 
-		btn_music = CButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true);
-		btn_sound = CButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true);
-		btn_play = CButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(350, 190), false);
-		btn_ending = CButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(350, 260), false);
-		btn_about = CButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(350, 330), false);
+		/*btn_music = CButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true, false);
+		btn_sound = CButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true, false);
+		btn_play = CButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(350, 190), false, true);
+		btn_ending = CButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(350, 260), false, true);
+		btn_about = CButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(350, 330), false, true);
 		btn_music.Initialize();
 		btn_sound.Initialize();
 		btn_play.Initialize();
 		btn_ending.Initialize();
-		btn_about.Initialize();
+		btn_about.Initialize();*/
+		buttonManager.Initialize();
 	}
 
 	void CGameStateInit::OnInit()
@@ -104,6 +106,15 @@ namespace game_framework {
 								// 開始載入資料
 								//
 		logo.LoadBitmap(".\\RES\\Map\\Menu.bmp");
+
+		#pragma region Button Create
+		buttonManager.CreateButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true, false);
+		buttonManager.CreateButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true, false);
+		buttonManager.CreateButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(350, 190), false, true);
+		buttonManager.CreateButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(350, 260), false, true);
+		buttonManager.CreateButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(350, 330), false, true);
+		#pragma endregion
+
 				
 		//Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 								//
@@ -126,24 +137,23 @@ namespace game_framework {
 
 	void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 	{
-		if (IsPointInRect(point, btn_music.GetAnimate()->GetRect()))
+		if (buttonManager.IsCollisionMouse("music"))
 		{
-			btn_music.SetState(!btn_music.GetState());	//ㄎㄧㄤ 可能改 ChageState 會好點?
-			CAudio::Instance()->SetIsPlayMusic(btn_music.GetState());
+			buttonManager.ClickButton("music");
+			CAudio::Instance()->SetIsPlayMusic(buttonManager.GetState("music"));
+		}
 
-		}
-		if (IsPointInRect(point, btn_sound.GetAnimate()->GetRect()))
+		if (buttonManager.IsCollisionMouse("sound"))
 		{
-			btn_sound.SetState(!btn_sound.GetState());
-			CAudio::Instance()->SetIsPlaySound(btn_sound.GetState());
+			buttonManager.ClickButton("sound");
+			CAudio::Instance()->SetIsPlaySound(buttonManager.GetState("sound"));
 		}
-		
-		/*if (!(IsPointInRect(mouse, btn_music.GetAnimate()->GetRect()) || IsPointInRect(mouse, btn_sound.GetAnimate()->GetRect())))
+
+		if (buttonManager.IsCollisionMouse("play"))
 		{
-			GotoGameState(GAME_STATE_RUN);
-		}*/
-		if (IsPointInRect(point, btn_play.GetAnimate()->GetRect()))
 			GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+		}
+	
 	}
 
 	void CGameStateInit::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -152,40 +162,34 @@ namespace game_framework {
 
 	void CGameStateInit::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
-		btn_play.CollisonMouse(point);
-		btn_ending.CollisonMouse(point);
-		btn_about.CollisonMouse(point);
-		//if (IsPointInRect(point, btn_play.GetAnimate()->GetRect()))
-		//{
-		//	if (!btn_play.GetState())					//只有第一次進入Button有音效
-		//		CAudio::Instance()->Play("SOUND_JUMP");
+		buttonManager.UpdateState(point);
+	}
 
-		//	btn_play.SetState(true);
-		//}
-		//else
-		//	btn_play.SetState(false);
-
+	void CGameStateInit::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
+	{	
+		if (zDelta > 0) //往使用者方向滾 -> 往下捲動 (圖片 y -= dy)
+		{
+		}
+		else			//遠離 使用者方向滾 -> 往上捲動 (圖片 y += dy)
+		{
+		}
 	}
 
 	void CGameStateInit::OnMove()
 	{
-		if (!btn_music.GetState())	//music mute
+		#pragma region mute music with menu_bgm
+		if (!buttonManager.GetState("music"))	//music mute
 		{
 			CAudio::Instance()->Pause();
 		}
 		else
 		{
 			CAudio::Instance()->Resume();
-			//CAudio::Instance()->Play("MUSIC_MENU", true);
 		}
+		#pragma endregion
+
 		logo.SetTopLeft(0, 0);
-		btn_play.OnMove();
-		btn_ending.OnMove();
-		btn_about.OnMove();
-		btn_music.OnMove();
-		btn_sound.OnMove();
-		/*btn_music.SetXY(200, 200);
-		btn_sound.SetXY(400, 200);*/
+		buttonManager.OnCycle();
 	}
 
 	void CGameStateInit::OnShow()
@@ -197,14 +201,10 @@ namespace game_framework {
 		// 貼上logo
 		//
 		//logo.SetTopLeft((SIZE_X - logo.Width()) / 2, SIZE_Y / 8);
+
 		logo.ShowBitmap();
-		btn_play.OnShow();
-		btn_ending.OnShow();
-		btn_about.OnShow();
-		btn_music.OnShow();
-		btn_sound.OnShow();
-
-
+		//buttonManager.ShowButton();
+		CLayerManager::Instance()->ShowLayer();
 		//
 		// Demo螢幕字型的使用，不過開發時請盡量避免直接使用字型，改用CMovingBitmap比較好
 		//
@@ -249,19 +249,19 @@ namespace game_framework {
 	void CGameStateRun::OnBeginState()
 	{
 		finalScore = 0;
-		const int BALL_GAP = 90;
-		const int BALL_XY_OFFSET = 45;
-		const int BALL_PER_ROW = 7;
-		const int BACKGROUND_X = 60;
-		const int ANIMATION_SPEED = 15;
+		//const int BALL_GAP = 90;
+		//const int BALL_XY_OFFSET = 45;
+		//const int BALL_PER_ROW = 7;
+		//const int BACKGROUND_X = 60;
+		//const int ANIMATION_SPEED = 15;
 
-		for (int i = 0; i < NUMBALLS; i++) {				// 設定球的起始座標
-			int x_pos = i % BALL_PER_ROW;
-			int y_pos = i / BALL_PER_ROW;
-			ball[i].SetXY(x_pos * BALL_GAP + BALL_XY_OFFSET, y_pos * BALL_GAP + BALL_XY_OFFSET);
-			ball[i].SetDelay(x_pos);
-			ball[i].SetIsAlive(true);
-		}
+		//for (int i = 0; i < NUMBALLS; i++) {				// 設定球的起始座標
+		//	int x_pos = i % BALL_PER_ROW;
+		//	int y_pos = i / BALL_PER_ROW;
+		//	ball[i].SetXY(x_pos * BALL_GAP + BALL_XY_OFFSET, y_pos * BALL_GAP + BALL_XY_OFFSET);
+		//	ball[i].SetDelay(x_pos);
+		//	ball[i].SetIsAlive(true);
+		//}
 
 		CLayerManager::Instance()->Initialize();
 		CDialogManager::Instance()->Initialize();
@@ -317,8 +317,6 @@ namespace game_framework {
 		role.LoadAction("run", BitmapPath("RES\\Role\\miku\\run", "run", 7, RGB(150, 200, 250)));
 		role.LoadAction("jump", BitmapPath("RES\\Role\\miku\\jump", "jump", 7, RGB(150, 200, 250)));
 		#pragma endregion
-
-		role.Initialize();
 
 		//ririe.LoadBitmap(".\\RES\\End\\ririe.bmp");
 		ririe.m_hObject = LoadImage(NULL, "RES\\End\\ririe.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
@@ -833,6 +831,19 @@ namespace game_framework {
 
 	}
 
+	void CGameStateRun::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
+	{
+		//測試用：上滾score增加，下滾減少
+		if (zDelta > 0) //往使用者方向滾 -> 往下捲動 (圖片 y -= dy)
+		{
+			role.AddScore(5);
+		}
+		else			//遠離 使用者方向滾 -> 往上捲動 (圖片 y += dy)
+		{
+			role.AddScore(-5);
+		}
+	}
+
 	void CGameStateRun::PositionTrigger()
 	{
 		eventManager.trigger();
@@ -978,6 +989,7 @@ namespace game_framework {
 		alpha = 0;
 		timer_exit.ResetTime(1.5);
 		CAudio::Instance()->Play("SOUND_GAMEOVER");
+		//CLayerManager::Instance()->Clear();
 
 		canSwitchState = false;
 		canDrawGameOverImage = false;

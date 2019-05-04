@@ -261,4 +261,32 @@ namespace game_framework
 		static CEndManager endManager;
 	};
 	#pragma endregion
+
+	#pragma region - ButtonManager -
+	class CButtonManager
+	{
+		public:
+			CButtonManager();
+			~CButtonManager();
+			void Initialize();
+			void Clear();
+		
+			void AddButton(CButton*);
+			void CreateButton(BitmapPath, CPoint, bool, bool);	//loadpath, init location, init state
+			
+			void ClickButton(string);
+
+			bool IsCollisionMouse(string);
+			bool GetState(string);
+
+			void UpdateState(CPoint);
+			void ShowButton();
+			void OnCycle();
+			//void ShowButton();
+
+		private:
+			map <string, CButton*> buttons;
+			CPoint mouse;
+	};
+	#pragma endregion
 }

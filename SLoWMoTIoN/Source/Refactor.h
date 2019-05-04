@@ -104,4 +104,4 @@
 
 
 #define GAME_TIME 20		//­­¨î®É¶¡
-#define DEBUG_MODE false
+#define DEBUG_MODE true
