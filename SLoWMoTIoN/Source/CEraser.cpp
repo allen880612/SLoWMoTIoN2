@@ -303,7 +303,7 @@ namespace game_framework {
 		animation.SetTopLeft(x, y);
 		if (isJumping)
 		{
-			decisionPoint.SetTopLeft(GetX3() - 5, GetY3() - 20);
+			decisionPoint.SetTopLeft(GetX3() - 5, GetY3() + 16);
 		}
 		else
 		{

@@ -1239,8 +1239,7 @@ namespace game_framework
 	CToumeiImage::CToumeiImage(int _dFadeInValue, int _dFadeOutValue)
 	{
 		SetAlpha(0);
-		dFadeInValue = _dFadeInValue;
-		dFadeOutValue = _dFadeOutValue;
+		SetFadeInOut(_dFadeInValue, _dFadeOutValue);
 	}
 
 	CToumeiImage::CToumeiImage(string _loadbmpPath, int _dFadeInValue, int _dFadeOutValue)
@@ -1268,6 +1267,12 @@ namespace game_framework
 		char *address = ConvertCharPointToString(_path);
 		bmp.m_hObject = LoadImage(NULL, address, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 		delete address;
+	}
+
+	void CToumeiImage::SetFadeInOut(int dFIV, int dFOV)
+	{
+		dFadeInValue = dFIV;
+		dFadeOutValue = dFOV;
 	}
 
 	void CToumeiImage::FadeIn()

@@ -998,7 +998,7 @@ namespace game_framework {
 		CLayerManager::Instance()->Initialize();
 		CDialogManager::Instance()->Initialize();
 		//CEndManager::Instance()->Initialize();
-		#pragma endregion
+		#pragma endregion		
 
 	}
 
@@ -1012,6 +1012,7 @@ namespace game_framework {
 		//CAudio::Instance()->Load(AUDIO_GAMEOVER, "sounds\\SLoWMoTIoN_Gameover.wav");
 		overBitmap.LoadBitmap(".\\RES\\Map\\Gameover.bmp");
 		gameOverImage.SetBmp("RES\\Map\\Gameover.bmp");
+		gameOverImage.SetFadeInOut(60, -40);
 
 		ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
 								//

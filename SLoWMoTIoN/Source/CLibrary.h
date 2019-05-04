@@ -350,6 +350,7 @@ namespace game_framework
 		void SetAlpha(int _a);
 		int GetAlpha() { return alpha; };
 		void SetBmp(string _path);
+		void SetFadeInOut(int, int);
 		void FadeIn(); //淡入 每次alpha+3
 		void FadeOut(); //淡出 每次alpha-4
 		void DrawImage();
