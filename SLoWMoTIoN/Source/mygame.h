@@ -82,6 +82,8 @@ namespace game_framework {
 		CButtonManager buttonManager;
 		CPoint		  mouse;
 		CMovingBitmap logo;								// csieªºlogo
+
+		CWindows windowsEnding;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

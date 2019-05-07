@@ -282,6 +282,16 @@ namespace game_framework {
 		action.SetValid(_flag);
 	}
 
+	void CRole::Load()
+	{
+		LoadAction("idle", BitmapPath("RES\\Role\\miku\\idle", "idle", 19, RGB(150, 200, 250)));
+		LoadAction("run", BitmapPath("RES\\Role\\miku\\run", "run", 7, RGB(150, 200, 250)));
+		LoadAction("jump", BitmapPath("RES\\Role\\miku\\jump", "jump", 7, RGB(150, 200, 250)));
+		hp_left.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
+		scoreInteger.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
+		decisionPoint.LoadBitmap("RES\\Role\\miku\\cursor.bmp", RGB(214, 214, 214));
+	}
+
 	void CRole::LoadAction(string _action, BitmapPath _loadpath)
 	{
 		action.LoadAction(_action, _loadpath);
@@ -512,15 +522,6 @@ namespace game_framework {
 		}
 	}
 
-	/*void CRole::LoadBitmap()
-	{
-		animation.LoadBitmap(BitmapPath("RES\\Role\\miku", "MIKU", 13, RGB(255, 255, 255)));
-		hp_left.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
-		scoreInteger.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
-		decisionPoint.LoadBitmap("RES\\Role\\miku\\cursor.bmp", RGB(214, 214, 214));
-
-	}*/
-
 	void CRole::Initialize()
 	{
 		action.Initialize();
@@ -538,40 +539,29 @@ namespace game_framework {
 		x = 0;
 		y = -Height();
 		score = 0;
-		#pragma endregion
 
 		shoot_cd = CTimer(0);						//初始化射擊冷卻時間
-		
+		hp = inithp;
+		isCatched = false;
+		isDead = false;
 		SetValid(true);
+		#pragma endregion
 
-		if ( !isLoaded)
+		#pragma region 終於不用這廢物了
+		if (!isLoaded)
 		{
-			hp_left.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
-			scoreInteger.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
-			decisionPoint.LoadBitmap("RES\\Role\\miku\\cursor.bmp", RGB(214, 214, 214));
 			isLoaded = true;
 		}
+		#pragma endregion
 
 		hp_left.Initialize(CPoint(20, 100), inithp, 2);
 		scoreInteger.Initialize(CPoint(500, 0), 0, 3);
 
 		collisionRect = CRect(CPoint(x - move_distance, y - move_distance), CPoint(x + Width() + move_distance, y + Height() + move_distance));
 
-		/*if (animation.IsNull())
-		{
-			LoadBitmap("RES\\Role\\miku", "MIKU", 13, RGB(255, 255, 255));
-			decisionPoint.LoadBitmap("RES\\Role\\miku\\cursor.bmp", RGB(214, 214, 214));
-		}*/
-
-		//CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 		CLayerManager::Instance()->AddObject(&decisionPoint, layer.GetLayer() + 1);
-
 		CLayerManager::Instance()->AddObject(&action, layer.GetLayer());
-		//CLayerManager::Instance()->AddObject(action.GetNowBitmap(), layer.GetLayer());
 
-		hp = inithp;
-		isCatched = false;
-		isDead = false;
 	}
 
 	vector<CScallion*>* CRole::GetScallion()

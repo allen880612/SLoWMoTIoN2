@@ -670,6 +670,22 @@ namespace game_framework
 		return state;
 	}
 
+	int CButton::Width()
+	{
+		return animation.Width();
+	}
+
+	int CButton::Height()
+	{
+		return animation.Height();
+	}
+
+	void CButton::LoadBitmap()
+	{
+		if (animation.IsNull())
+			animation.LoadBitmap(loadpath.ziliaojia, loadpath.name, loadpath.number, loadpath.color);
+	}
+
 	void CButton::LoadBitmap(BitmapPath _loadpath)
 	{
 		animation.LoadBitmap(_loadpath.ziliaojia, _loadpath.name, _loadpath.number, loadpath.color);
@@ -695,12 +711,14 @@ namespace game_framework
 
 	void CButton::Initialize()
 	{
+		
 		if (animation.IsNull())
-		{
 			LoadBitmap(loadpath);
-		}
+
+		SetValid(true);
 		SetState(state);
 		SetXY(x, y);
+
 		animation.SetTopLeft(x, y);
 		CLayerManager::Instance()->AddObject(&animation, INTERFACE_LAYER);
 	}
@@ -708,11 +726,12 @@ namespace game_framework
 	void CButton::Initialize(CPoint pos, bool flag)
 	{
 		if (animation.IsNull())
-		{
 			LoadBitmap(loadpath);
-		}
+		
 		SetValid(true);
+		SetState(flag);
 		SetXY(pos.x, pos.y);
+
 		animation.SetTopLeft(x, y);
 		CLayerManager::Instance()->AddObject(&animation, INTERFACE_LAYER);
 	}
@@ -1293,6 +1312,121 @@ namespace game_framework
 	void CToumeiImage::DrawImage()
 	{
 		DrawBitmap(&bmp, alpha);
+	}
+	#pragma endregion
+
+	#pragma region - CWindows -
+	CWindows::CWindows()
+	{
+		x = y = 0;
+		isLoaded = false;
+		isOpen = false;
+		//closeButton = CButton(BitmapPath("RES\\Button", "close", 2, RGB(214, 214, 214)), CPoint(0, 0), false, true);
+	}
+
+	CWindows::CWindows(CPoint _p)
+	{
+		SetXY(_p);
+		isLoaded = false;
+		isOpen = false;
+		//closeButton = CButton(BitmapPath("RES\\Button", "close", 2, RGB(214, 214, 214)), CPoint(0, 0), false, true);
+
+	}
+
+	CWindows::~CWindows()
+	{
+
+	}
+
+	void CWindows::LoadResource()
+	{
+		closeButton = new CButton(BitmapPath("RES\\Button", "close", 2, RGB(214, 214, 214)), CPoint(0, 0), false, true);
+		//closeButton.LoadBitmap();
+		background.LoadBitmap("RES\\Windows", "ground", RGB(255, 255, 255));
+	}
+
+	void CWindows::Initialize(CPoint _initP)
+	{
+
+		SetXY(_initP);
+
+		const int CLSBTN_INIT_X = x + background.Width() - closeButton->Width() - 10;
+		const int CLSBTN_INIT_Y = y + 10;
+
+		closeButton->Initialize(CPoint(CLSBTN_INIT_X, CLSBTN_INIT_Y), false);
+		background.SetTopLeft(x, y);
+
+		/*const int CLSBTN_INIT_X = x + background.Width() - closeButton.Width();
+		const int CLSBTN_INIT_Y = y + closeButton.Height();
+
+		closeButton.Initialize(CPoint(CLSBTN_INIT_X, CLSBTN_INIT_Y), false);*/
+
+
+	}
+
+	void CWindows::Open()
+	{
+		if (!isOpen)
+			isOpen = true;
+	}
+
+	void CWindows::Close()
+	{
+		if (isOpen)
+			isOpen = false;
+	}
+
+	bool CWindows::IsCollisionClose(CPoint _m)
+	{
+		return closeButton->IsCollisionMouse(_m) & isOpen;
+		//return closeButton.IsCollisionMouse(_m) & isOpen;
+	}
+
+	bool CWindows::IsOpen()
+	{
+		return isOpen;
+	}
+
+	void CWindows::SetCloseButton(CPoint _p)
+	{
+		closeButton->SetXY(_p.x, _p.y);
+		//closeButton.SetXY(_p.x, _p.y);
+	}
+
+	void CWindows::SetXY(CPoint _p)
+	{
+		x = _p.x;
+		y = _p.y;
+	}
+
+	void CWindows::CollisionClose(CPoint _p)
+	{
+		closeButton->CollisonMouse(_p);
+	}
+
+	void CWindows::OnCycle()
+	{
+		if (isOpen)
+		{
+			closeButton->OnMove();
+			//closeButton.OnMove();
+			background.SetTopLeft(x, y);
+			return;
+		}
+		background.SetValid(false);
+
+		closeButton->SetValid(false);
+		//closeButton.SetValid(false);
+	}
+
+	void CWindows::OnShow()
+	{
+		if (!isOpen)
+			return;
+
+		background.ShowBitmap();
+		closeButton->OnShow();
+		//closeButton.OnShow();
 	}
 	#pragma endregion
 }

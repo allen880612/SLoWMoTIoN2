@@ -110,6 +110,7 @@ namespace game_framework {
 		bool GetValid();
 		void SetValid(bool);
 
+		void Load();
 		void LoadAction(string, BitmapPath);	//載入動應動作
 
 		void OnMove();
@@ -122,7 +123,6 @@ namespace game_framework {
 		void AddScore(int);
 		void SubHp();
 		int  GetHp() { return hp; }; //我懶ㄌ
-		//void LoadBitmap();
 
 		void Initialize();
 

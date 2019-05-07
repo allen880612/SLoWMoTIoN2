@@ -73,14 +73,30 @@ namespace game_framework {
 	CGameStateInit::CGameStateInit(CGame *g)
 		: CGameState(g)
 	{
-		
+
 	}
 
 	void CGameStateInit::OnBeginState()
 	{
+		static bool isLoaded = false;
+
 		CLayerManager::Instance()->Initialize();
 		CAudio::Instance()->Initialize();
 		CAudio::Instance()->Play("MUSIC_MENU", true);
+
+		#pragma region Button Create
+		buttonManager.CreateButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true, false);
+		buttonManager.CreateButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true, false);
+		buttonManager.CreateButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(350, 190), false, true);
+		buttonManager.CreateButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(350, 260), false, true);
+		buttonManager.CreateButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(350, 330), false, true);
+		#pragma endregion
+
+		if (!isLoaded)
+		{
+			buttonManager.Load();
+			windowsEnding.LoadResource();
+		}
 
 		/*btn_music = CButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true, false);
 		btn_sound = CButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true, false);
@@ -92,7 +108,13 @@ namespace game_framework {
 		btn_play.Initialize();
 		btn_ending.Initialize();
 		btn_about.Initialize();*/
-		buttonManager.Initialize();
+
+		
+
+		buttonManager.Initialize();		
+		windowsEnding.Initialize(CPoint(0, 80));
+
+		isLoaded = true;
 	}
 
 	void CGameStateInit::OnInit()
@@ -106,14 +128,8 @@ namespace game_framework {
 								// 開始載入資料
 								//
 		logo.LoadBitmap(".\\RES\\Map\\Menu.bmp");
-
-		#pragma region Button Create
-		buttonManager.CreateButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true, false);
-		buttonManager.CreateButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true, false);
-		buttonManager.CreateButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(350, 190), false, true);
-		buttonManager.CreateButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(350, 260), false, true);
-		buttonManager.CreateButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(350, 330), false, true);
-		#pragma endregion
+		
+		
 
 				
 		//Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
@@ -149,6 +165,16 @@ namespace game_framework {
 			CAudio::Instance()->SetIsPlaySound(buttonManager.GetState("sound"));
 		}
 
+		if (buttonManager.IsCollisionMouse("ending"))
+		{
+			windowsEnding.Open();
+		}
+
+		if (windowsEnding.IsCollisionClose(point))
+		{
+			windowsEnding.Close();
+		}
+
 		if (buttonManager.IsCollisionMouse("play"))
 		{
 			GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
@@ -163,6 +189,7 @@ namespace game_framework {
 	void CGameStateInit::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
 		buttonManager.UpdateState(point);
+		windowsEnding.CollisionClose(point);
 	}
 
 	void CGameStateInit::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
@@ -190,6 +217,7 @@ namespace game_framework {
 
 		logo.SetTopLeft(0, 0);
 		buttonManager.OnCycle();
+		windowsEnding.OnCycle();
 	}
 
 	void CGameStateInit::OnShow()
@@ -203,27 +231,29 @@ namespace game_framework {
 		//logo.SetTopLeft((SIZE_X - logo.Width()) / 2, SIZE_Y / 8);
 
 		logo.ShowBitmap();
-		//buttonManager.ShowButton();
 		CLayerManager::Instance()->ShowLayer();
+
+		windowsEnding.OnShow();
+
+		////
+		//// Demo螢幕字型的使用，不過開發時請盡量避免直接使用字型，改用CMovingBitmap比較好
+		////
+		//CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
+		//CFont f, *fp;
+		//f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
+		//fp = pDC->SelectObject(&f);					// 選用 font f
 		//
-		// Demo螢幕字型的使用，不過開發時請盡量避免直接使用字型，改用CMovingBitmap比較好
-		//
-		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
-		CFont f, *fp;
-		f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
-		fp = pDC->SelectObject(&f);					// 選用 font f
-		
-		/*
-		pDC->SetBkColor(RGB(0, 0, 0));
-		pDC->SetTextColor(RGB(255, 255, 0));
-		pDC->TextOut(120, 220, "Please click mouse or press SPACE to begin.");
-		pDC->TextOut(5, 395, "Press Ctrl-F to switch in between window mode and full screen mode.");
-		if (enable_game_pause)
-			pdc->textout(5, 425, "press ctrl-q to pause the game.");
-		pDC->TextOut(5, 455, "Press Alt-F4 or ESC to Quit.");
-		*/
-		pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
-		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
+		///*
+		//pDC->SetBkColor(RGB(0, 0, 0));
+		//pDC->SetTextColor(RGB(255, 255, 0));
+		//pDC->TextOut(120, 220, "Please click mouse or press SPACE to begin.");
+		//pDC->TextOut(5, 395, "Press Ctrl-F to switch in between window mode and full screen mode.");
+		//if (enable_game_pause)
+		//	pdc->textout(5, 425, "press ctrl-q to pause the game.");
+		//pDC->TextOut(5, 455, "Press Alt-F4 or ESC to Quit.");
+		//*/
+		//pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
+		//CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -306,19 +336,18 @@ namespace game_framework {
 		ShowInitProgress(50);										// 載入圖形
 		time_left.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
 		
-		//role.LoadBitmap();
 		#pragma region - Initialize - MapManager -
 		mapManager.LoadMapBitmap();
 		
 		#pragma endregion
 
-		#pragma region 載入角色動作
-		role.LoadAction("idle", BitmapPath("RES\\Role\\miku\\idle", "idle", 19, RGB(150, 200, 250)));
+		#pragma region 載入角色
+		role.Load();
+		/*role.LoadAction("idle", BitmapPath("RES\\Role\\miku\\idle", "idle", 19, RGB(150, 200, 250)));
 		role.LoadAction("run", BitmapPath("RES\\Role\\miku\\run", "run", 7, RGB(150, 200, 250)));
-		role.LoadAction("jump", BitmapPath("RES\\Role\\miku\\jump", "jump", 7, RGB(150, 200, 250)));
+		role.LoadAction("jump", BitmapPath("RES\\Role\\miku\\jump", "jump", 7, RGB(150, 200, 250)));*/
 		#pragma endregion
 
-		//ririe.LoadBitmap(".\\RES\\End\\ririe.bmp");
 		ririe.m_hObject = LoadImage(NULL, "RES\\End\\ririe.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	}
 
@@ -990,6 +1019,7 @@ namespace game_framework {
 		alpha = 0;
 		timer_exit.ResetTime(1.5);
 		CAudio::Instance()->Play("SOUND_GAMEOVER");
+		CAudio::Instance()->Stop("MUSIC_GAMEING");
 		//CLayerManager::Instance()->Clear();
 
 		canSwitchState = false;

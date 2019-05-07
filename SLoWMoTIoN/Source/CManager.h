@@ -268,6 +268,8 @@ namespace game_framework
 		public:
 			CButtonManager();
 			~CButtonManager();
+
+			void Load();
 			void Initialize();
 			void Clear();
 		

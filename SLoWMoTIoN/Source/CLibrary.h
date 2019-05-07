@@ -185,7 +185,12 @@ namespace game_framework
 			void	SetXY(int, int);
 			void	SetState(bool);
 			bool	GetState();
+			int		Width();
+			int		Height();
+
+			void	LoadBitmap();
 			void	LoadBitmap(BitmapPath);
+
 			void	OnMove();					//更新Button狀態，有需要時也可更改顯示位置
 			void	OnShow();					
 			void	Initialize();
@@ -363,5 +368,40 @@ namespace game_framework
 		int dFadeOutValue = -4;
 	};
 	#pragma endregion
+
+#pragma region - CWindows -
+	class CWindows
+	{
+		public:
+			CWindows();
+			CWindows(CPoint);
+			~CWindows();
+			
+			void LoadResource();
+			void Initialize(CPoint);
+
+			void Open();
+			void Close();
+
+			bool IsCollisionClose(CPoint);
+			bool IsOpen();
+
+			void SetCloseButton(CPoint);
+			void SetXY(CPoint);
+			
+			void CollisionClose(CPoint);
+			void OnCycle();
+			void OnShow();
+
+		protected:
+			int x, y;
+			CButton *closeButton;
+			CMovingBitmap background;
+		private:
+			bool isOpen;
+			bool isLoaded;
+			
+	};
+#pragma endregion	
 
 }

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ #include "stdafx.h"
 #include "Resource.h"
 #include "Refactor.h"
 #include <mmsystem.h>
@@ -1134,18 +1134,20 @@ namespace game_framework
 		Clear();
 	}
 
+	void CButtonManager::Load()
+	{
+		for (map<string, CButton*>::iterator btniter = buttons.begin(); btniter != buttons.end(); btniter++)
+		{
+			(btniter->second)->LoadBitmap();
+		}
+	}
+
 	void CButtonManager::Initialize()
 	{
 		for (map<string, CButton*>::iterator btniter = buttons.begin(); btniter != buttons.end(); btniter++)
 		{
 			(btniter->second)->Initialize();
 		}
-		/*CreateButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true, false);
-		CreateButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true, false);
-		CreateButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(350, 190), false, true);
-		CreateButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(350, 260), false, true);
-		CreateButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(350, 330), false, true);*/
-
 	}
 
 	void CButtonManager::Clear()

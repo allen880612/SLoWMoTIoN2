@@ -193,3 +193,14 @@ anyway, I can consider this problem.
 ==============================================================
 2019/5/03
 1. add Cbutton Manager, Create Button in the InitSate of any GameState, and use it cleaner then directly use CButton.
+
+==============================================================
+2019/5/08
+1. just forget to write here, add OnWheel in CGameState, use zDelta to decide up or down
+   (zDelta > 0 is Moving up, < 0 is Moving down)
+   Notice : the type of zDelta is short. 
+2. add CWindows, when Initialize give it initial CPoint, the close button currently on it's
+   right top (press ending on the menu to test it).
+Problem : the CButton now is Loading in Constructor, it's werid and hard to use,
+ 	  however use copy constructor and correctly pass the BitmapPath,
+          it's can't show.(maybe don't use buttonManager to debug tomorrow)
