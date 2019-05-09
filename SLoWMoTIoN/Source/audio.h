@@ -102,7 +102,7 @@ public:
 private:
 	map <string , unsigned> adapter;
 	string adapterString[99] = { "MUSIC_MENU", "MUSIC_GAMEING", "SOUND_THROW", "SOUND_JUMP", "SOUND_HIT", "SOUND_GAMEOVER"
-								 , "MUSIC_DeadLock"};
+								 , "MUSIC_DeadLock", "SOUND_FAQAI" };
 
 	bool isPlayMusic = true;
 	bool isPlaySound = true;

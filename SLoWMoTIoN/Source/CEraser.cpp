@@ -761,6 +761,7 @@ namespace game_framework {
 	{
 		int dx = CCamera::Instance()->GetX();
 		SetCurrentXY(currentX, currentY);
+		animation.OnMove();
 	}
 
 	CNPC::~CNPC()
@@ -807,6 +808,7 @@ namespace game_framework {
 	{
 		openMusic = _music;
 		openTxt = _txt;
+		animation.ResetDelayTime(0.05);
 	}
 
 	CNPC3::~CNPC3()
@@ -816,7 +818,7 @@ namespace game_framework {
 	void CNPC3::RoleCollision()
 	{
 		CAudio::Instance()->Stop("MUSIC_GAMEING");
-		CAudio::Instance()->Play(openMusic);
+		CAudio::Instance()->Play(openMusic, true);
 
 		CDialogManager::Instance()->OpenMusicPlayer(openMusic);
 		CDialogManager::Instance()->Start(openTxt);

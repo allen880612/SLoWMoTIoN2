@@ -1,0 +1,6 @@
+role 這是，妙蛙種子?
+role 不對好像哪裡怪怪的
+role 你知道怎麼離開這世界嗎?
+faqaiSeed 發財
+role 所以我實際上要做什麼?
+faqaiSeed 發財

@@ -23,7 +23,7 @@
 #define KEY_B 66
 
 
-#define AUDIO_NUM 7
+#define AUDIO_NUM 9
 
 #pragma region - Layer -
 #define BULLET_LAYER 6
@@ -54,6 +54,8 @@
 #define DIALOG_AVATAR_NAME_QUESTION "question"
 #define DIALOG_AVATAR_NAME_STUDENTB "studendB"
 #define DIALOG_AVATAR_NAME_STUDENTG "studentG"
+#define DIALOG_AVATAR_NAME_FAQAISEED "faqaiSeed"
+
 #pragma endregion
 
 
@@ -66,6 +68,7 @@
 #define DIALOG_DATA_STGHAVEBREAKFAST "StudentGHaveBreakfast"
 #define DIALOG_DATA_MEETSTB "StudentSmoke"
 #define DIALOG_DATA_STGSUBMIT "StudentSubmit"
+#define DIALOG_DATA_FAQAI "Faqai"
 #pragma endregion
 
 #pragma region - dialog - add a text on cycle -
@@ -104,4 +107,5 @@
 
 
 #define GAME_TIME 20		//­­¨î®É¶¡
-#define DEBUG_MODE true
+#define DEBUG_MODE false
+

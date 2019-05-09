@@ -369,7 +369,7 @@ namespace game_framework
 	};
 	#pragma endregion
 
-#pragma region - CWindows -
+	#pragma region - CWindows -
 	class CWindows
 	{
 		public:
@@ -402,6 +402,15 @@ namespace game_framework
 			bool isLoaded;
 			
 	};
-#pragma endregion	
+
+	class CScrollWindows : public CWindows
+	{
+		CScrollWindows();
+		~CScrollWindows();
+		public:
+
+		private:
+	};
+	#pragma endregion	
 
 }
