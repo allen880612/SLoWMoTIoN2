@@ -378,7 +378,7 @@ namespace game_framework {
 			}
 			else
 			{
-				CEndManager::Instance()->Start(END_NAME_LOSEXINGTING);
+				CEndManager::Instance()->Start(END_NAME_SALTEDFISH);
 			}
 			SwitchState(GAME_STATE_OVER);
 		}

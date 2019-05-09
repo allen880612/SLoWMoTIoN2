@@ -100,12 +100,13 @@
 #pragma region - End - Name -
 #define END_NAME_WINXINGTING "WinXingting"
 #define END_NAME_LOSEXINGTING "LoseXingting"
+#define END_NAME_SALTEDFISH "SaltedFish"
 #pragma endregion
 
 #define END_EOF "nonenone"
 
 
 
-#define GAME_TIME 20		//限制時間
+#define GAME_TIME 4		//限制時間
 #define DEBUG_MODE false
 

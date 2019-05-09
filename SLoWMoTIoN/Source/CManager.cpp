@@ -987,7 +987,6 @@ namespace game_framework
 	}
 	#pragma endregion
 
-
 	#pragma region - CEventManager -
 	CEventManager::CEventManager()
 	{
@@ -1072,6 +1071,7 @@ namespace game_framework
 	{
 		endmap[END_NAME_WINXINGTING] = CEnd(END_NAME_WINXINGTING);
 		endmap[END_NAME_LOSEXINGTING] = CEnd(END_NAME_LOSEXINGTING);
+		endmap[END_NAME_SALTEDFISH] = CEnd(END_NAME_SALTEDFISH);
 	}
 
 	void CEndManager::OnCycle()
