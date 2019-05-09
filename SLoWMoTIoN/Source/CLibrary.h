@@ -428,6 +428,7 @@ namespace game_framework
 			int colNum, rowNum;
 			int img_x, img_y;
 			int img_height, img_width;
+			int limit_top, limit_buttom;
 	};
 	#pragma endregion	
 
