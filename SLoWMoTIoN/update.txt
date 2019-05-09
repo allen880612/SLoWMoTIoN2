@@ -210,3 +210,8 @@ Problem : the CButton now is Loading in Constructor, it's werid and hard to use,
 2019/5/09
 1. CScrollWindows alomost done, if you wish to add end image, remember update
    the colNum & rowNom in the constructor (lazy to add copy constructor)
+
+==============================================================
+2019/5/10
+1. CSrollWindows done
+2. add facai seed as NPC

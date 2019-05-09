@@ -99,21 +99,9 @@ namespace game_framework {
 			windowsEnding.LoadResource();
 		}
 
-		/*btn_music = CButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true, false);
-		btn_sound = CButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true, false);
-		btn_play = CButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(350, 190), false, true);
-		btn_ending = CButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(350, 260), false, true);
-		btn_about = CButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(350, 330), false, true);
-		btn_music.Initialize();
-		btn_sound.Initialize();
-		btn_play.Initialize();
-		btn_ending.Initialize();
-		btn_about.Initialize();*/
-
-		
 
 		buttonManager.Initialize();		
-		windowsEnding.Initialize(CPoint(60, 0));
+		windowsEnding.Initialize(CPoint(60, 60));
 
 		isLoaded = true;
 	}

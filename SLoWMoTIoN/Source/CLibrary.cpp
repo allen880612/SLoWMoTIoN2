@@ -1440,7 +1440,7 @@ namespace game_framework
 	CScrollWindows::CScrollWindows():CWindows()
 	{
 		rowNum = 2;
-		colNum = 2;
+		colNum = 4;
 		
 	}
 
@@ -1574,7 +1574,8 @@ namespace game_framework
 		{
 			for (int c = 0; c < colNum; c++)
 			{
-				endingVector[r][c].OnShow();
+				if (endingVector[r][c].GetRect().bottom <= background.GetRect().bottom && endingVector[r][c].Top() >= y)
+					endingVector[r][c].OnShow();
 			}
 		}
 

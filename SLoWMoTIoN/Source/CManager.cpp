@@ -480,13 +480,13 @@ namespace game_framework
 
 		#pragma region - load xingting - avatar -
 		address = ConvertCharPointToString("RES\\Dialog\\Avatar", "xingting");
-		dialogAvatar[DIALOG_AVATAR_NAME_XINGTING].LoadBitmap(address);
+		dialogAvatar[DIALOG_AVATAR_NAME_XINGTING].LoadBitmap(address, RGB(214, 214, 214));
 		delete address;
 		#pragma endregion
 
 		#pragma region - load role avatar -
 		address = ConvertCharPointToString("RES\\Dialog\\Avatar", "mikuAvatar");
-		dialogAvatar[DIALOG_AVATAR_NAME_ROLE].LoadBitmap(address, RGB(255,255,255));
+		dialogAvatar[DIALOG_AVATAR_NAME_ROLE].LoadBitmap(address, RGB(214,214,214));
 		delete address;
 		#pragma endregion
 
@@ -502,7 +502,7 @@ namespace game_framework
 		#pragma endregion
 
 		#pragma region - load lock -
-		dialogAvatar[DIALOG_AVATAR_NAME_LOCK].LoadBitmap("RES\\Dialog\\Avatar\\lock_0.bmp", RGB(255,255,255));
+		dialogAvatar[DIALOG_AVATAR_NAME_LOCK].LoadBitmap("RES\\Dialog\\Avatar\\lock_0.bmp", RGB(214,214,214));
 		#pragma endregion
 
 		#pragma region - load question -
@@ -984,9 +984,9 @@ namespace game_framework
 
 		npc[3].push_back(new CNPC1(CPoint(50, 350), BitmapPath("RES\\NPC\\studentB", "studentB", 1, RGB(255, 255, 255)), DIALOG_AVATAR_NAME_STUDENTB, DIALOG_DATA_MEETSTB));
 		npc[3].push_back(new CNPC1(CPoint(450, 350), BitmapPath("RES\\NPC\\studentG", "studentG", 1, RGB(255, 255, 255)), DIALOG_AVATAR_NAME_STUDENTG, DIALOG_DATA_STGHAVEBREAKFAST));
-		npc[3].push_back(new CNPC1(CPoint(700, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255, 255, 255)), "zy", DIALOG_DATA_STGSUBMIT));
+		//npc[3].push_back(new CNPC1(CPoint(700, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255, 255, 255)), "zy", DIALOG_DATA_STGSUBMIT));
 
-		npc[3].push_back(new CNPC1(CPoint(200, 360), BitmapPath("RES\\NPC\\faqai", "faqai", 20, RGB(255, 255, 255)), "faqai", DIALOG_DATA_FAQAI));
+		npc[3].push_back(new CNPC1(CPoint(680, 360), BitmapPath("RES\\NPC\\faqai", "faqai", 20, RGB(255, 255, 255)), "faqai", DIALOG_DATA_FAQAI));
 
 
 	}
