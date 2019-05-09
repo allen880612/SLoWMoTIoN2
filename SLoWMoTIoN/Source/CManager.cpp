@@ -139,20 +139,23 @@ namespace game_framework
 		nowMap = changeMap;
 		loadMap = blockMap[nowMap].loadMap;
 		background = blockMap[nowMap].backgroundBitmap;
+		CCamera::Instance()->Reset();
 		if (nextMap == "left") //下一張地圖(要換的地圖)，在原本地圖的左邊 (移動到左邊的地圖)
 		{
-			x = init_x = -(GetBitmapWidth() - SIZE_X);
+			//x = init_x = -(GetBitmapWidth() - SIZE_X);
+			CCamera::Instance()->SetXY((GetBitmapWidth() - SIZE_X), 0);
 		}
 		else if (nextMap == "right")  //下一張地圖(要換的地圖)，在原本地圖的右邊 (移動到右邊的地圖)
 		{
-			x = init_x =  0; 
+			//x = init_x =  0;
+			CCamera::Instance()->SetXY(0, 0);
 		}
 		background.SetTopLeft(x, 0);
 
 		passerbyManager.Clear();
 		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
-
-		CCamera::Instance()->Reset();
+		x = CCamera::Instance()->GetX();
+		
 	}
 
 	void CMapManager::SetMovingLeft(bool _flag)
@@ -185,7 +188,7 @@ namespace game_framework
 		//SetXY(x - CCamera::Instance()->GetX(), 0);
 
 		int dx = CCamera::Instance()->GetX();
-		x = init_x - dx;
+		x = -dx;
 		SetXY(x, 0);
 	}
 
@@ -670,9 +673,11 @@ namespace game_framework
 		dialog_background.SetValid(false);
 		textNext.SetValid(false);
 		IsDialoging = false;
+		IsPrintTips = false;
 		nowDialog->SetTriggered();
 		nowDialog = NULL;
 		nowShowTextSize = 0;
+		step = 0;
 		nowTxtName = "";
 		if (musicFromNPC != "")
 		{

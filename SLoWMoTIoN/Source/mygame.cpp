@@ -1,4 +1,4 @@
-/*
+ /*
 * mygame.cpp: 本檔案儲遊戲本身的class的implementation
 * Copyright (C) 2002-2008 Woei-Kae Chen <wkc@csie.ntut.edu.tw>
 *
@@ -469,6 +469,7 @@ namespace game_framework {
 		int CameraBoundary_R = (mapManager.GetBitmapWidth() / 2 - mapL) + (mapR - mapManager.GetBitmapWidth() / 2);//鏡頭右邊界
 		int CameraBoundary_L = -CameraBoundary_R;//鏡頭左邊界
 		CCamera::Instance()->SetCanMoving(true);
+		
 		#pragma endregion
 
 		#pragma region --- role - collision with boss ---
@@ -494,10 +495,9 @@ namespace game_framework {
 			{
 				//mapManager.SetMovingLeft(true);
 				//mapManager.SetMovingRight(false);
-				if (CCamera::Instance()->GetX() > CameraBoundary_L && screenPosX > mapL)
+				if (/*CCamera::Instance()->GetX() > 0 &&*/ screenPosX > mapL)
 				{
 					CCamera::Instance()->AddX(-MOVE_DISTANCE);
-					mapManager.OnMove();
 					role.SetCanMoving(false);
 				}
 				else
@@ -529,10 +529,9 @@ namespace game_framework {
 			{
 				//mapManager.SetMovingLeft(false);
 				//mapManager.SetMovingRight(true);
-				if (CCamera::Instance()->GetX() < CameraBoundary_R && screenPosX < mapR)
+				if (/*CCamera::Instance()->GetX() < CameraBoundary_R &&*/ screenPosX < mapR)
 				{
 					CCamera::Instance()->AddX(MOVE_DISTANCE);
-					mapManager.OnMove();
 					role.SetCanMoving(false);
 				}
 				else
@@ -553,6 +552,8 @@ namespace game_framework {
 			}
 		}
 		#pragma endregion
+
+		mapManager.OnMove();
 
 		/*
 		if (CCamera::Instance()->GetX() > mapManager.GetSplitRight())
@@ -921,6 +922,7 @@ namespace game_framework {
 			nextMap = mapManager.GetLeftMap();
 			role.SetXY(SIZE_X + (role.GetX2() - role.GetX1()), role.GetY1());
 			mapManager.ChangeMap(mapManager.GetLeftMap(), "left");
+			//CCamera::Instance()->SetXY(mapManager.GetBitmapWidth() / 2, 0);
 		}
 		else if (dir == "right")
 		{
