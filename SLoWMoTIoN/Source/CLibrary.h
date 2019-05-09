@@ -179,7 +179,7 @@ namespace game_framework
 			CButton();
 			CButton(const CButton&);
 			CButton(BitmapPath, CPoint, bool, bool);	//路徑、初始點、初始狀態, 是否需要與滑鼠碰撞
-			~CButton();
+			//~CButton();
 			int		GetX();
 			int		GetY();
 			void	SetXY(int, int);
@@ -372,6 +372,8 @@ namespace game_framework
 	#pragma region - CWindows -
 	class CWindows
 	{
+		friend class CScrollWindows;
+		
 		public:
 			CWindows();
 			CWindows(CPoint);
@@ -379,6 +381,7 @@ namespace game_framework
 			
 			void LoadResource();
 			void Initialize(CPoint);
+			void Clear();
 
 			void Open();
 			void Close();
@@ -405,11 +408,26 @@ namespace game_framework
 
 	class CScrollWindows : public CWindows
 	{
-		CScrollWindows();
-		~CScrollWindows();
+			
 		public:
+			CScrollWindows();
+			~CScrollWindows();
+
+			void LoadResource();
+			void Initialize(CPoint);
+			//void Clear();
+
+			void OnCycle();
+			void OnShow();
+			void OnScrolling(short _s);
 
 		private:
+			CMovingBitmap cover;
+			vector< vector <CAnimate> > endingVector;
+
+			int colNum, rowNum;
+			int img_x, img_y;
+			int img_height, img_width;
 	};
 	#pragma endregion	
 

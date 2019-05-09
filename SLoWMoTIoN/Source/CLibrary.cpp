@@ -636,11 +636,10 @@ namespace game_framework
 		loadpath = _loadpath;
 		name = _loadpath.name;
 		needCollision = _needCollision;
-		Initialize(initPos, initState);
-	}
-
-	CButton::~CButton()
-	{
+		x = initPos.x;
+		y = initPos.y;
+		SetState(initState);
+		//Initialize(initPos, initState);
 	}
 
 	int CButton::GetX()
@@ -1316,12 +1315,14 @@ namespace game_framework
 	#pragma endregion
 
 	#pragma region - CWindows -
+	
+	#pragma region windows
 	CWindows::CWindows()
 	{
 		x = y = 0;
 		isLoaded = false;
 		isOpen = false;
-		//closeButton = CButton(BitmapPath("RES\\Button", "close", 2, RGB(214, 214, 214)), CPoint(0, 0), false, true);
+		closeButton = new CButton(BitmapPath("RES\\Button", "close", 2, RGB(214, 214, 214)), CPoint(0, 0), false, true);
 	}
 
 	CWindows::CWindows(CPoint _p)
@@ -1335,14 +1336,14 @@ namespace game_framework
 
 	CWindows::~CWindows()
 	{
-
+		Clear();
 	}
 
 	void CWindows::LoadResource()
 	{
-		closeButton = new CButton(BitmapPath("RES\\Button", "close", 2, RGB(214, 214, 214)), CPoint(0, 0), false, true);
-		//closeButton.LoadBitmap();
-		background.LoadBitmap("RES\\Windows", "ground", RGB(255, 255, 255));
+		//closeButton = new CButton(BitmapPath("RES\\Button", "close", 2, RGB(214, 214, 214)), CPoint(0, 0), false, true);
+		closeButton->LoadBitmap();
+		background.LoadBitmap("RES\\Windows", "EndingWindows", RGB(214, 214, 214));
 	}
 
 	void CWindows::Initialize(CPoint _initP)
@@ -1356,12 +1357,11 @@ namespace game_framework
 		closeButton->Initialize(CPoint(CLSBTN_INIT_X, CLSBTN_INIT_Y), false);
 		background.SetTopLeft(x, y);
 
-		/*const int CLSBTN_INIT_X = x + background.Width() - closeButton.Width();
-		const int CLSBTN_INIT_Y = y + closeButton.Height();
+	}
 
-		closeButton.Initialize(CPoint(CLSBTN_INIT_X, CLSBTN_INIT_Y), false);*/
-
-
+	void CWindows::Clear()
+	{
+		delete closeButton;
 	}
 
 	void CWindows::Open()
@@ -1414,7 +1414,6 @@ namespace game_framework
 			return;
 		}
 		background.SetValid(false);
-
 		closeButton->SetValid(false);
 		//closeButton.SetValid(false);
 	}
@@ -1428,5 +1427,131 @@ namespace game_framework
 		closeButton->OnShow();
 		//closeButton.OnShow();
 	}
+	#pragma endregion
+
+	#pragma region scroll windows
+
+	CScrollWindows::CScrollWindows():CWindows()
+	{
+		rowNum = 2;
+		colNum = 2;
+		
+	}
+
+	CScrollWindows::~CScrollWindows()
+	{
+
+	}
+
+	void CScrollWindows::OnScrolling(short _s)
+	{
+		/*short s0 = 0;
+		int move = s0 << 16 | _s;*/
+
+		int move = (int)_s;
+		move /= 12;
+
+		for (int r = 0; r < rowNum; r++)
+		{
+			for (int c = 0; c < colNum; c++)
+			{
+				int orgin_x = endingVector[r][c].Left();
+				int orgin_y = endingVector[r][c].Top();
+				endingVector[r][c].SetTopLeft(orgin_x, orgin_y - move);
+			}
+		}
+		//SetCloseButton(CPoint(closeButton->GetX(), closeButton->GetY() - move));
+	}
+
+	void CScrollWindows::LoadResource()
+	{
+		CWindows::LoadResource();
+
+
+
+		for (int r = 0; r < rowNum; r++)
+		{
+			vector<CAnimate> columnBitmaps(colNum);
+			for (int c = 0; c < colNum; c++)
+			{
+				int endID = r + c;
+
+				if (c != 0)
+					endID++;
+
+				columnBitmaps[c].LoadBitmap("RES\\End\\EndImg", "end_" + to_string(endID), 1, RGB(214, 214, 214));
+			}
+
+			endingVector.push_back(columnBitmaps);
+			//columnBitmaps.clear();
+		}
+
+		img_height = (endingVector[0][0]).Height();
+		img_width =  (endingVector[0][0]).Width();
+
+	}
+
+	void CScrollWindows::Initialize(CPoint _p)
+	{
+		//const int HEIGHT = endingVector[0][0].Height();
+		//const int WIDTH = endingVector[0][0].Width();
+		CWindows::Initialize(_p);
+
+		img_x = x + 20;
+		img_y = y + 20;
+
+		const int PADDING_X = 10;
+		const int PADDING_Y = 10;
+
+
+		for (int r = 0; r < rowNum; r++)
+		{
+			for (int c = 0; c < colNum; c++)
+			{
+				endingVector[r][c].SetTopLeft(img_x + r*(img_width + PADDING_X), img_y + c*(img_height + PADDING_Y));
+			}
+		}
+	}
+
+
+	//void CScrollWindows::Clear()
+	//{
+	//	CWindows::Clear();
+	//}
+
+
+	void CScrollWindows::OnCycle()
+	{
+		
+		CWindows::OnCycle();
+		for (int r = 0; r < rowNum; r++)
+		{
+			for (int c = 0; c < colNum; c++)
+			{
+				endingVector[r][c].OnMove();
+			}
+		}
+
+	}
+
+	void CScrollWindows::OnShow()
+	{
+		if (!isOpen)
+			return;
+
+		CWindows::OnShow();
+
+		for (int r = 0; r < rowNum; r++)
+		{
+			for (int c = 0; c < colNum; c++)
+			{
+				endingVector[r][c].OnShow();
+			}
+		}
+	}
+
+	#pragma endregion
+
+
 	#pragma endregion
 }
