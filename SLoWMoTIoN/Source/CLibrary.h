@@ -417,6 +417,7 @@ namespace game_framework
 			void Initialize(CPoint);
 			//void Clear();
 
+			void Close();
 			void OnCycle();
 			void OnShow();
 			void OnScrolling(short _s);

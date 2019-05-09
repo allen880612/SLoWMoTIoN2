@@ -154,6 +154,17 @@ namespace game_framework {
 
 	void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 	{
+		
+		if (windowsEnding.IsCollisionClose(point))
+		{
+			windowsEnding.Close();
+		}
+
+		if (windowsEnding.IsOpen())	//Stop the Other button 
+		{
+			return;
+		}
+
 		if (buttonManager.IsCollisionMouse("music"))
 		{
 			buttonManager.ClickButton("music");
@@ -171,11 +182,6 @@ namespace game_framework {
 			windowsEnding.Open();
 		}
 
-		if (windowsEnding.IsCollisionClose(point))
-		{
-			windowsEnding.Close();
-		}
-
 		if (buttonManager.IsCollisionMouse("play"))
 		{
 			GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
@@ -189,8 +195,14 @@ namespace game_framework {
 
 	void CGameStateInit::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
-		buttonManager.UpdateState(point);
 		windowsEnding.CollisionClose(point);
+
+		if (windowsEnding.IsOpen())
+		{
+			return;
+		}
+
+		buttonManager.UpdateState(point);
 	}
 
 	void CGameStateInit::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)

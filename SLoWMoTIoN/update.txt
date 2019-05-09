@@ -204,3 +204,9 @@ anyway, I can consider this problem.
 Problem : the CButton now is Loading in Constructor, it's werid and hard to use,
  	  however use copy constructor and correctly pass the BitmapPath,
           it's can't show.(maybe don't use buttonManager to debug tomorrow)
+#problem solve
+
+==============================================================
+2019/5/09
+1. CScrollWindows alomost done, if you wish to add end image, remember update
+   the colNum & rowNom in the constructor (lazy to add copy constructor)
