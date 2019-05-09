@@ -531,6 +531,7 @@ namespace game_framework
 		//dialogmap.clear();
 		dialogmap[DIALOG_DATA_VSXingting1] = CDialog("RES\\Dialog\\Txt\\VSXingting1.txt", DIALOG_DATA_VSXingting1, false);
 		dialogmap[DIALOG_DATA_VSXingting2] = CDialog("RES\\Dialog\\Txt\\VSXingting2.txt", DIALOG_DATA_VSXingting2, false);
+		dialogmap[DIALOG_DATA_VSXingting3] = CDialog("RES\\Dialog\\Txt\\VSXingting3.txt", DIALOG_DATA_VSXingting3, false);
 		dialogmap[Tips] = CDialog("RES\\Dialog\\Txt\\InitTip.txt", Tips, false);
 		dialogmap[FROG] = CDialog("RES\\Dialog\\Txt\\test.txt", FROG, true);
 		dialogmap[Music_Deadlock] = CDialog("RES\\Dialog\\Txt\\MyVoiceIsDead.txt", Music_Deadlock, true);
