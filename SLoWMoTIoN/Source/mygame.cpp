@@ -154,35 +154,31 @@ namespace game_framework {
 
 	void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 	{
+
 		
 		if (windowsEnding.IsCollisionClose(point))
 		{
 			windowsEnding.Close();
 		}
-
-		if (windowsEnding.IsOpen())	//Stop the Other button 
+		else if (windowsEnding.IsOpen())	 
 		{
-			return;
+			//stop the other button
 		}
-
-		if (buttonManager.IsCollisionMouse("music"))
+		else if (buttonManager.IsCollisionMouse("music"))
 		{
 			buttonManager.ClickButton("music");
 			CAudio::Instance()->SetIsPlayMusic(buttonManager.GetState("music"));
 		}
-
-		if (buttonManager.IsCollisionMouse("sound"))
+		else if (buttonManager.IsCollisionMouse("sound"))
 		{
 			buttonManager.ClickButton("sound");
 			CAudio::Instance()->SetIsPlaySound(buttonManager.GetState("sound"));
 		}
-
-		if (buttonManager.IsCollisionMouse("ending"))
+		else if (buttonManager.IsCollisionMouse("ending"))	//他媽最好 close button 可以跟 這個同時觸發
 		{
 			windowsEnding.Open();
 		}
-
-		if (buttonManager.IsCollisionMouse("play"))
+		else if (buttonManager.IsCollisionMouse("play"))
 		{
 			GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 		}
@@ -195,10 +191,11 @@ namespace game_framework {
 
 	void CGameStateInit::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
-		windowsEnding.CollisionClose(point);
+		
 
 		if (windowsEnding.IsOpen())
 		{
+			windowsEnding.CollisionClose(point);
 			return;
 		}
 

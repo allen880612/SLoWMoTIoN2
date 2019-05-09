@@ -1378,7 +1378,7 @@ namespace game_framework
 
 	bool CWindows::IsCollisionClose(CPoint _m)
 	{
-		return closeButton->IsCollisionMouse(_m) & isOpen;
+		return closeButton->IsCollisionMouse(_m);
 		//return closeButton.IsCollisionMouse(_m) & isOpen;
 	}
 
@@ -1406,7 +1406,7 @@ namespace game_framework
 
 	void CWindows::OnCycle()
 	{
-		if (!isOpen)
+		if (!IsOpen())
 		{
 			background.SetValid(false);
 			closeButton->SetValid(false);
@@ -1424,7 +1424,7 @@ namespace game_framework
 
 	void CWindows::OnShow()
 	{
-		if (!isOpen)
+		if (!IsOpen())
 		{
 			return;
 		}
@@ -1537,7 +1537,7 @@ namespace game_framework
 
 	void CScrollWindows::Close()
 	{
-		CWindows::Close();
+		isOpen = false;
 		Initialize(CPoint(x, y));
 	}
 
@@ -1568,11 +1568,7 @@ namespace game_framework
 			return;
 		}
 
-		//CWindows::OnShow();
-
-
 		background.ShowBitmap();
-			
 
 		for (int r = 0; r < rowNum; r++)
 		{
