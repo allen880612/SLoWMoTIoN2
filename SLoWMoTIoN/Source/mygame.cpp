@@ -299,6 +299,7 @@ namespace game_framework {
 		mapManager.Initialize();
 		bossManager.Initialize();
 		npcManager.Initialize(mapManager.GetNowMap()); //npcManager初始化所有NPC的同時，顯示nowMap上的NPC
+		eventManager.Initialize();
 
 		role.Initialize();
 		time_left.Initialize(CPoint(250, 0), GAME_TIME, 2); 
@@ -317,6 +318,7 @@ namespace game_framework {
 		CAudio::Instance()->Stop("MUSIC_MENU");
 		CAudio::Instance()->Play("MUSIC_GAMEING");
 		isWinXingting = false;
+		
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -785,7 +787,8 @@ namespace game_framework {
 
 		if (nChar == 'U')
 		{
-			
+			nowUsedTimer->ResetTime(5.0);
+			time_left.SetInteger(nowUsedTimer->GetTime(2), 2);
 		}
 		if (nChar == 'T')
 		{

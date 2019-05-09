@@ -174,7 +174,11 @@ namespace game_framework
 		AliveTime.CountDown();
 		if (AliveTime.IsTimeOut()) //時間到 杏庭自爆
 		{
-			IsAlive = false;
+			if (IsAlive)
+			{
+				CDialogManager::Instance()->Start(DIALOG_DATA_VSXingting3);
+				IsAlive = false;
+			}
 		}
 
 		if (!IsDead())

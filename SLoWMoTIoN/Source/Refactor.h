@@ -6,7 +6,7 @@
 #define MOVE_DISTANCE 8
 
 #define MAX_MAP_NUMBER 6
-#define NOW_MAP 3
+#define NOW_MAP 0
 
 #define KEY_SPACE 32
 #define KEY_LEFT 37		// keyboard左箭頭
@@ -62,6 +62,7 @@
 #pragma region - dialog - txt data - 
 #define DIALOG_DATA_VSXingting1 "roleVsXingting1"
 #define DIALOG_DATA_VSXingting2 "roleVsXingting2"
+#define DIALOG_DATA_VSXingting3 "roleVsXingting3"
 #define Tips "InitTip"
 #define FROG "frog"
 #define Music_Deadlock "MyVoiceIsDead"
@@ -107,6 +108,6 @@
 
 
 
-#define GAME_TIME 60		//限制時間
+#define GAME_TIME 20		//限制時間
 #define DEBUG_MODE false
 

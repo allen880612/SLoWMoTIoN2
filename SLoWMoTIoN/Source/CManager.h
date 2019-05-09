@@ -219,6 +219,7 @@ namespace game_framework
 	public:
 		CEventManager();
 		~CEventManager();
+		void Initialize();
 		void SetGameStateRun(CGameStateRun*);
 		void trigger();
 	private:
