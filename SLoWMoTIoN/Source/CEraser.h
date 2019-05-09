@@ -75,11 +75,13 @@ namespace game_framework {
 		CNPC();
 		CNPC(CPoint, BitmapPath, string);
 		~CNPC();
-		void Initialize();
+		
 		void SetCurrentXY(int, int);
 		void SetXY();
-		void OnMove();
+		virtual void OnMove();
+		virtual void Initialize();
 		virtual void RoleCollision() {}; //碰撞到後要做的事情
+		virtual void SetValid(bool);
 
 	protected:
 	#pragma region - init information -
@@ -217,7 +219,7 @@ namespace game_framework {
 	{
 	public:
 		CNPC1();
-		CNPC1(CPoint, BitmapPath, string, string);
+		CNPC1(CPoint, BitmapPath, string, string); //座標 路徑 id 對話文本
 		~CNPC1();
 		void RoleCollision();
 	private:
@@ -236,12 +238,17 @@ namespace game_framework {
 	{
 	public:
 		CNPC3();
-		CNPC3(CPoint, BitmapPath, string, string, string);
+		CNPC3(CPoint, BitmapPath, string, string, string); //座標 路徑 ID 音樂 對話文本
 		~CNPC3();
 		void RoleCollision();
+		void Initialize();
+		void SetValid(bool);
+		void OnMove();
 	private:
 		string openTxt;
 		string openMusic;
+		CMovingBitmap headphoneIcon;
+		bool isLoadHeadPhoneIcon;
 	};
 	#pragma endregion
 

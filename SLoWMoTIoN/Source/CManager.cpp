@@ -401,7 +401,7 @@ namespace game_framework
 	}
 	#pragma endregion
 
-	#pragma region - DialogManager -
+	#pragma region - CDialogManager -
 	CDialogManager CDialogManager::dialogManager;
 
 	CDialogManager::CDialogManager()
@@ -563,6 +563,17 @@ namespace game_framework
 		}
 	}
 
+	void CDialogManager::DialogWithSound()
+	{
+		if (nowTxtName == DIALOG_DATA_FAQAI)
+		{
+			if (step == 3 || step == 5)
+			{
+				CAudio::Instance()->Play("SOUND_FAQAI");
+			}
+		}
+	}
+
 	void CDialogManager::Initialize()
 	{
 		if (IsBitmapLoaded == false)
@@ -628,6 +639,7 @@ namespace game_framework
 			nowDialog = NULL;
 			return;
 		}
+		nowTxtName = mode;
 		IsDialoging = true;
 		IsPrintTips = false;
 		dialog_background.SetValid(true);
@@ -661,6 +673,7 @@ namespace game_framework
 		nowDialog->SetTriggered();
 		nowDialog = NULL;
 		nowShowTextSize = 0;
+		nowTxtName = "";
 		if (musicFromNPC != "")
 		{
 			CAudio::Instance()->Stop(musicFromNPC);
@@ -786,6 +799,7 @@ namespace game_framework
 		{
 			avatar = dialogAvatar[nowDialog->GetAvatar(step)];
 			showtext = nowDialog->GetDialogTxt(step);
+			DialogWithSound();
 		}
 		else
 		{
@@ -956,11 +970,11 @@ namespace game_framework
 		npc[4].push_back(new CNPC3(CPoint(450, 388), BitmapPath("RES\\NPC\\test", "test2", 1, RGB(255, 255, 255)), "deadlock", "MUSIC_DeadLock", Music_Deadlock));
 
 
-		npc[3].push_back(new CNPC1(CPoint(50, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255, 255, 255)), DIALOG_AVATAR_NAME_STUDENTB, DIALOG_DATA_MEETSTB));
-		npc[3].push_back(new CNPC1(CPoint(450, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255, 255, 255)), DIALOG_AVATAR_NAME_STUDENTG, DIALOG_DATA_STGHAVEBREAKFAST));
+		npc[3].push_back(new CNPC1(CPoint(50, 350), BitmapPath("RES\\NPC\\studentB", "studentB", 1, RGB(255, 255, 255)), DIALOG_AVATAR_NAME_STUDENTB, DIALOG_DATA_MEETSTB));
+		npc[3].push_back(new CNPC1(CPoint(450, 350), BitmapPath("RES\\NPC\\studentG", "studentG", 1, RGB(255, 255, 255)), DIALOG_AVATAR_NAME_STUDENTG, DIALOG_DATA_STGHAVEBREAKFAST));
 		npc[3].push_back(new CNPC1(CPoint(700, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255, 255, 255)), "zy", DIALOG_DATA_STGSUBMIT));
 
-		npc[3].push_back(new CNPC3(CPoint(200, 360), BitmapPath("RES\\NPC\\faqai", "faqai", 20, RGB(255, 255, 255)), "faqai", "SOUND_FAQAI", DIALOG_DATA_FAQAI));
+		npc[3].push_back(new CNPC1(CPoint(200, 360), BitmapPath("RES\\NPC\\faqai", "faqai", 20, RGB(255, 255, 255)), "faqai", DIALOG_DATA_FAQAI));
 
 
 	}

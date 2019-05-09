@@ -740,6 +740,11 @@ namespace game_framework {
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 	}
 
+	void CNPC::SetValid(bool flag)
+	{
+		animation.SetValid(flag);
+	}
+
 	void CNPC::SetCurrentXY(int _x, int _y)
 	{
 		currentX = _x;
@@ -790,7 +795,7 @@ namespace game_framework {
 	{
 		if (false) // ko no if wa ¨Ò¥~±Ô­z
 		{
-			
+
 		}
 		else
 		{
@@ -809,6 +814,7 @@ namespace game_framework {
 		openMusic = _music;
 		openTxt = _txt;
 		animation.ResetDelayTime(0.05);
+		isLoadHeadPhoneIcon = false;
 	}
 
 	CNPC3::~CNPC3()
@@ -822,6 +828,29 @@ namespace game_framework {
 
 		CDialogManager::Instance()->OpenMusicPlayer(openMusic);
 		CDialogManager::Instance()->Start(openTxt);
+	}
+	void CNPC3::Initialize()
+	{
+		CNPC::Initialize();
+		if (!isLoadHeadPhoneIcon)
+		{
+			headphoneIcon.LoadBitmap("RES\\NPC\\headphone3.bmp", RGB(255, 255, 255));
+			isLoadHeadPhoneIcon = true;
+		}
+		headphoneIcon.SetTopLeft(GetX3() - headphoneIcon.Width() / 2, GetY1() - headphoneIcon.Height() - 10);
+		headphoneIcon.SetValid(false);
+		CLayerManager::Instance()->AddObject(&headphoneIcon, layer.GetLayer());
+	}
+
+	void CNPC3::SetValid(bool flag)
+	{
+		animation.SetValid(flag);
+		headphoneIcon.SetValid(flag);
+	}
+	void CNPC3::OnMove()
+	{
+		CNPC::OnMove();
+		headphoneIcon.SetTopLeft(GetX3() - headphoneIcon.Width() / 2, GetY1() - headphoneIcon.Height() - 10);
 	}
 	#pragma endregion
 }
