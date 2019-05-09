@@ -14,7 +14,7 @@ namespace game_framework
 	{
 	public:
 		CBoss();
-		CBoss(int, int, int, BitmapPath, COLORREF); //x, y, hp, (路徑, 顏色)
+		CBoss(int, int, int, string, BitmapPath); //x, y, hp, (路徑, 顏色)
 		~CBoss();
 
 		void LoadBitmap();
@@ -24,6 +24,7 @@ namespace game_framework
 		void SetCurrentXY(int, int);
 		void SetHp(int);
 		void SetIsAlive(bool);
+		bool GetAlive() { return IsAlive; };
 		void OnMove();
 		void MoveWithMap(string);
 		
@@ -32,14 +33,17 @@ namespace game_framework
 		virtual void OnCycle(CRole*) {};
 		virtual void Attack(CRole*) {};
 
-		virtual void ClearBullet() {};
+		virtual void Clear() {};
 
 		virtual vector<CScallion*>* GetBullet() { return nullptr; };
+		bool IsDead() { return !IsAlive; };
+
+		virtual CTimer* GetAliveTimer() { return nullptr; };
 
 		CLayer layer;
 
 		CAnimate* GetAnimate();
-
+		string GetBossId() { return id; };
 	protected:
 	#pragma region Init boss Information
 		int initx, inity, initHp;
@@ -54,6 +58,7 @@ namespace game_framework
 		int x, y;
 		int width, height;
 		bool IsAlive = true;
+		string id;
 
 	};
 	#pragma endregion
@@ -63,13 +68,16 @@ namespace game_framework
 	{
 	public:
 		CXingting();
-		CXingting(int, int, int, BitmapPath, COLORREF);
+		CXingting(int, int, int, string, BitmapPath);
 		~CXingting();
 		void Initialize();
 		void OnCycle(CRole*);
 		void OnMove();
 		void Attack(CRole*);
+		void Clear();
 		void ClearBullet();
+		bool IsDead();
+		CTimer* GetAliveTimer() { return &AliveTime; };
 	private:
 		vector<CScallion*>	level4;
 		vector<CBlackHole*> blackhole;
@@ -83,6 +91,8 @@ namespace game_framework
 		CTimer moveToGoal;
 		CTimer mode_Attack2_timer;
 		CTimer mode_Attack4_CreateBlackHole;
+
+		CTimer AliveTime;
 
 		int goal_x, goal_y;
 		int angle_atk2;

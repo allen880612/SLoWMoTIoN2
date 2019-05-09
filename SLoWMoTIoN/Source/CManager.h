@@ -186,6 +186,7 @@ namespace game_framework
 		void TargetBoss(int);
 		void SetBattle(bool flag) { isBattle = flag; };
 		bool IsBattle() { return isBattle; };
+		void BossDead();
 		CBoss *targetBoss;
 	private:
 		map<string, CBoss*> bossInformation;

@@ -122,7 +122,8 @@ namespace game_framework {
 		CEraser			eraser;		// 拍子
 		CRole role;
 		CInteger		time_left;	// 剩下的撞擊數
-		CTimer timer; //stateRun狀態下的timer (其實好像在什麼狀態下都無所謂)
+		CTimer timer; //stateRun狀態下的timer (其實好像在什麼狀態下都無所謂) (gameRun timer)
+		CTimer *nowUsedTimer; //現在被使用的計時器 (BOSS戰鬥的時候 原本的遊戲計時器不會倒數)
 
 		vector<CScallion*>*	scallions;
 		vector<CPasserby*>*	passerbys;
@@ -132,13 +133,12 @@ namespace game_framework {
 
 		CEventManager eventManager;
 
-		bool goTest = false;
-		int alpha = 0;
-		CBitmap ririe;
+		bool isWinXingting;
 		#pragma region - zi din yi -
 		void PositionTrigger();
 		void ChangeMap(string);
 		void SwitchState(int);
+		void SwitchTimer(CTimer *);
 		#pragma endregion
 	};
 
