@@ -51,6 +51,7 @@
 *      1. Demo MP3 support: use lake.mp3 to replace lake.wav.
 */
 #pragma once
+
 #include "stdafx.h"
 #include "Resource.h"
 #include <mmsystem.h>
@@ -112,7 +113,7 @@ namespace game_framework {
 		
 
 		buttonManager.Initialize();		
-		windowsEnding.Initialize(CPoint(0, 80));
+		windowsEnding.Initialize(CPoint(60, 60));
 
 		isLoaded = true;
 	}
@@ -200,6 +201,8 @@ namespace game_framework {
 		else			//遠離 使用者方向滾 -> 往上捲動 (圖片 y += dy)
 		{
 		}
+
+		windowsEnding.OnScrolling(zDelta);
 	}
 
 	void CGameStateInit::OnMove()
