@@ -1406,22 +1406,28 @@ namespace game_framework
 
 	void CWindows::OnCycle()
 	{
-		if (isOpen)
+		if (!isOpen)
 		{
-			closeButton->OnMove();
-			//closeButton.OnMove();
-			background.SetTopLeft(x, y);
+			background.SetValid(false);
+			closeButton->SetValid(false);
 			return;
 		}
-		background.SetValid(false);
-		closeButton->SetValid(false);
-		//closeButton.SetValid(false);
+
+		closeButton->OnMove();
+		//closeButton.OnMove();
+		background.SetTopLeft(x, y);
+
+		//background.SetValid(false);
+		//closeButton->SetValid(false);
+		////closeButton.SetValid(false);
 	}
 
 	void CWindows::OnShow()
 	{
 		if (!isOpen)
+		{
 			return;
+		}
 
 		background.ShowBitmap();
 		closeButton->OnShow();
@@ -1445,11 +1451,16 @@ namespace game_framework
 
 	void CScrollWindows::OnScrolling(short _s)
 	{
-		/*short s0 = 0;
-		int move = s0 << 16 | _s;*/
-
 		int move = (int)_s;
 		move /= 12;
+
+		const int NOW_BOTTOM = (endingVector[rowNum - 1][colNum - 1]).GetRect().bottom;
+		const int LAST_TOP = (endingVector[rowNum - 1][colNum - 1]).Top();
+
+		if (LAST_TOP - move < cover.GetRect().bottom || NOW_BOTTOM - move > limit_buttom)
+		{
+			return;
+		}
 
 		for (int r = 0; r < rowNum; r++)
 		{
@@ -1466,7 +1477,7 @@ namespace game_framework
 	void CScrollWindows::LoadResource()
 	{
 		CWindows::LoadResource();
-
+		cover.LoadBitmap("RES\\Windows", "EndingWindows_Cover", RGB(214, 214, 214));
 
 
 		for (int r = 0; r < rowNum; r++)
@@ -1496,13 +1507,19 @@ namespace game_framework
 		//const int HEIGHT = endingVector[0][0].Height();
 		//const int WIDTH = endingVector[0][0].Width();
 		CWindows::Initialize(_p);
+		cover.SetTopLeft(_p.x, _p.y);
 
-		img_x = x + 20;
-		img_y = y + 20;
+		// set image initial position
+		img_x = x + 50;
+		img_y = cover.GetRect().bottom + 10;
 
+		// set padding
 		const int PADDING_X = 10;
 		const int PADDING_Y = 10;
 
+		//set limit of scrolling
+		limit_top = img_y;
+		limit_buttom = img_y + colNum*(img_height + PADDING_Y);
 
 		for (int r = 0; r < rowNum; r++)
 		{
@@ -1522,8 +1539,14 @@ namespace game_framework
 
 	void CScrollWindows::OnCycle()
 	{
-		
 		CWindows::OnCycle();
+		if (!IsOpen())
+		{	
+			return;
+		}
+
+		cover.SetTopLeft(x, y);
+
 		for (int r = 0; r < rowNum; r++)
 		{
 			for (int c = 0; c < colNum; c++)
@@ -1536,10 +1559,16 @@ namespace game_framework
 
 	void CScrollWindows::OnShow()
 	{
-		if (!isOpen)
+		if (!IsOpen())
+		{
 			return;
+		}
 
-		CWindows::OnShow();
+		//CWindows::OnShow();
+
+
+		background.ShowBitmap();
+			
 
 		for (int r = 0; r < rowNum; r++)
 		{
@@ -1548,6 +1577,9 @@ namespace game_framework
 				endingVector[r][c].OnShow();
 			}
 		}
+
+		cover.ShowBitmap();
+		closeButton->OnShow();
 	}
 
 	#pragma endregion

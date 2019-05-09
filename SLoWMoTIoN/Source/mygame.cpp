@@ -113,7 +113,7 @@ namespace game_framework {
 		
 
 		buttonManager.Initialize();		
-		windowsEnding.Initialize(CPoint(60, 60));
+		windowsEnding.Initialize(CPoint(60, 0));
 
 		isLoaded = true;
 	}
