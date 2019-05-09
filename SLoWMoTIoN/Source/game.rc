@@ -144,7 +144,6 @@ IDR_MAINFRAME           ICON                    "..\\res\\game.ico"
 
 IDR_GAMETYPE            ICON                    "..\\res\\gameDoc.ico"
 
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // Toolbar

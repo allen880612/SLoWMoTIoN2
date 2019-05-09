@@ -108,6 +108,6 @@
 
 
 
-#define GAME_TIME 20		//限制時間
+#define GAME_TIME 30		//限制時間
 #define DEBUG_MODE false
 
