@@ -1003,6 +1003,16 @@ namespace game_framework
 	{
 	}
 
+	void CEventManager::Initialize()
+	{
+		if (gameState != NULL)
+		{
+			dialogWithXingting = false;
+		}
+	}
+
+	
+
 	void CEventManager::SetGameStateRun(CGameStateRun *state)
 	{
 		if (gameState == NULL)
