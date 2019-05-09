@@ -100,6 +100,7 @@
 #pragma region - End - Name -
 #define END_NAME_WINXINGTING "WinXingting"
 #define END_NAME_LOSEXINGTING "LoseXingting"
+#define END_NAME_SALTEDFISH "SaltedFish"
 #pragma endregion
 
 #define END_EOF "nonenone"
