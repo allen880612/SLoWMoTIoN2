@@ -164,11 +164,13 @@ namespace game_framework
 		string musicFromNPC = "";
 		//string mode = "";
 		CDialog *nowDialog;
+		string nowTxtName; //目前使用的文本名稱
 		CTimer AddShowTextTimer;
 
 		void Load_Image();
 		void LoadDialog();
 		void ShowText_Next();
+		void DialogWithSound(); //例外處理 - 配合對話播出語音 (因為不是每句都有 所以用利外處理)
 		bool DebugMode = DEBUG_MODE;
 	};
 	#pragma endregion
