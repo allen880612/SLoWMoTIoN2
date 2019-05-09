@@ -1530,12 +1530,16 @@ namespace game_framework
 		}
 	}
 
-
 	//void CScrollWindows::Clear()
 	//{
 	//	CWindows::Clear();
 	//}
 
+	void CScrollWindows::Close()
+	{
+		CWindows::Close();
+		Initialize(CPoint(x, y));
+	}
 
 	void CScrollWindows::OnCycle()
 	{
