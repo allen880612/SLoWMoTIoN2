@@ -316,8 +316,10 @@ namespace game_framework {
 		//CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
 		//CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
 		timer = CTimer(GAME_TIME); //ㄎㄧㄤ==
+		nowUsedTimer = &timer;
 		CAudio::Instance()->Stop("MUSIC_MENU");
 		CAudio::Instance()->Play("MUSIC_GAMEING");
+		isWinXingting = false;
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -350,8 +352,6 @@ namespace game_framework {
 		role.LoadAction("run", BitmapPath("RES\\Role\\miku\\run", "run", 7, RGB(150, 200, 250)));
 		role.LoadAction("jump", BitmapPath("RES\\Role\\miku\\jump", "jump", 7, RGB(150, 200, 250)));*/
 		#pragma endregion
-
-		ririe.m_hObject = LoadImage(NULL, "RES\\End\\ririe.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -367,15 +367,22 @@ namespace game_framework {
 		#pragma endregion
 
 		#pragma region - timer count down -
-		timer.CountDown();
+		nowUsedTimer->CountDown();
 		if (timer.IsTimeOut())
 		{
 			finalScore = role.GetScore();
 			CAudio::Instance()->Stop("MUSIC_GAMEING");
-			CEndManager::Instance()->Start(END_NAME_WINXINGTING);
+			if (isWinXingting)
+			{
+				CEndManager::Instance()->Start(END_NAME_WINXINGTING);
+			}
+			else
+			{
+				CEndManager::Instance()->Start(END_NAME_LOSEXINGTING);
+			}
 			SwitchState(GAME_STATE_OVER);
 		}
-		if (timer.GetTime() == (int)timer.GetTime())
+		if (nowUsedTimer->GetTime() == (int)nowUsedTimer->GetTime())
 		{
 			time_left.Add(-1);
 		}
@@ -389,6 +396,18 @@ namespace game_framework {
 			CEndManager::Instance()->Start(END_NAME_LOSEXINGTING);
 			role.SetXY(0, 0);
 			SwitchState(GAME_STATE_OVER);
+		}
+		#pragma endregion
+
+		#pragma region - boos - dead -
+		if (bossManager.targetBoss != NULL && bossManager.targetBoss->IsDead())
+		{
+			if (bossManager.targetBoss->GetBossId() == "Xingting")
+			{
+				isWinXingting = true;
+			}
+			bossManager.BossDead();
+			SwitchTimer(&timer);
 		}
 		#pragma endregion
 
@@ -768,20 +787,20 @@ namespace game_framework {
 
 		if (nChar == 'U')
 		{
-			goTest = !goTest;
-			alpha = 255;
-		}
-		if (nChar == 'I')
-		{
-			alpha -= 20;
-			if (alpha >= 0)
-				alpha = 0;
+			
 		}
 		if (nChar == 'T')
 		{
 			for (int i = 0; i < 30; i++)
 			{
 				role.SubHp();
+			}
+		}
+		if (nChar == 'Y')
+		{
+			if (CDialogManager::Instance()->GetDialogState())
+			{
+				CDialogManager::Instance()->Stop();
 			}
 		}
 		if (nChar == 86)
@@ -905,10 +924,16 @@ namespace game_framework {
 	{
 		if (bossManager.targetBoss != NULL)
 		{
-			bossManager.targetBoss->ClearBullet();
+			bossManager.targetBoss->Clear();
 			bossManager.targetBoss = NULL;
 		}
 		this->GotoGameState(state);
+	}
+
+	void CGameStateRun::SwitchTimer(CTimer *swtimer)
+	{
+		nowUsedTimer = swtimer;
+		time_left.SetInteger(nowUsedTimer->GetTime(2), 2);
 	}
 
 	void CGameStateRun::OnShow()
@@ -956,28 +981,6 @@ namespace game_framework {
 		role.OnShow();
 		time_left.ShowBitmap();	// 剩餘時間\
 		//hp_left.ShowBitmap();	// 剩餘HP	
-
-
-		if (goTest)
-		{
-			CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
-			CDC mDC;
-			CBitmap bmp, *fbmp;
-			mDC.CreateCompatibleDC(NULL);
-			fbmp = mDC.SelectObject(&ririe);
-			BITMAP bitmapSize;
-			fbmp->GetBitmap(&bitmapSize);
-
-			BLENDFUNCTION blend = { AC_SRC_OVER , 0, (BYTE)alpha,0 };
-			pDC->AlphaBlend(0, 0, SIZE_X, SIZE_Y, &mDC, 0, 0, SIZE_X, SIZE_Y, blend);
-			//pDC->AlphaBlend(0, 0, bitmapSize.bmWidth, bitmapSize.bmHeight, &mDC, 0, 0, bitmapSize.bmWidth, bitmapSize.bmHeight, blend);
-			//pDC->BitBlt(0, 0, SIZE_X, SIZE_Y, &mDC, 0, 0, SRCCOPY);
-
-			mDC.SelectObject(fbmp);
-			mDC.DeleteDC();
-
-			CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
-		}
 	}
 
 	/////////////////////////////////////////////////////////////////////////////

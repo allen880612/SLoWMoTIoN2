@@ -24,14 +24,13 @@ namespace game_framework
 		inity = 0;
 	}
 
-	CBoss::CBoss(int _x, int _y, int _hp, BitmapPath _loadPath, COLORREF color)
+	CBoss::CBoss(int _x, int _y, int _hp, string _id, BitmapPath _loadPath)
 	{
 		initx = _x;
 		inity = _y;
 		initHp = _hp;
 		loadPath = _loadPath;
-		transparentColor = color;
-
+		id = _id;
 		//Initialize();
 	}
 
@@ -49,7 +48,7 @@ namespace game_framework
 		//	delete address;
 		//}
 
-		animation.LoadBitmap(loadPath.ziliaojia, loadPath.name, loadPath.number, transparentColor);
+		animation.LoadBitmap(loadPath.ziliaojia, loadPath.name, loadPath.number, loadPath.color);
 
 		animation.SetTopLeft(x, y);
 		height = animation.Height();
@@ -70,6 +69,7 @@ namespace game_framework
 		SetXY(initx, inity);
 		hp = initHp;
 		layer.SetLayer(BOSS_LAYER);
+		IsAlive = true;
 	}
 
 	void CBoss::SetXY(int _x, int _y)
@@ -122,10 +122,10 @@ namespace game_framework
 	#pragma region - CXingting -
 	CXingting::CXingting()
 	{
-		CBoss();
+		//CBoss();
 	}
 
-	CXingting::CXingting(int _x, int _y, int _hp, BitmapPath _loadPath, COLORREF color) : CBoss(_x, _y, _hp, _loadPath, color)
+	CXingting::CXingting(int _x, int _y, int _hp, string _id, BitmapPath _loadPath) : CBoss(_x, _y, _hp, _id,  _loadPath)
 	{
 		
 	}
@@ -151,7 +151,7 @@ namespace game_framework
 		shoot_atk3_cd = CTimer(2.5);
 
 		moveToGoal = CTimer(0.04);
-		mode_Attack2_timer = CTimer(15.0);
+		mode_Attack2_timer = CTimer(8.0);
 		mode_Attack4_CreateBlackHole = CTimer(0.5);
 		mode4_AttackTime = 1.8; //mode4時 每1.8發射一顆黑洞
 
@@ -165,20 +165,31 @@ namespace game_framework
 		mode_Attack4 = false;
 
 		atkCounter = 0;
+
+		AliveTime = CTimer(40.0);
 	}
 
 	void CXingting::OnCycle(CRole *role)
 	{
-		OnMove();
-		Attack(role);
+		AliveTime.CountDown();
+		if (AliveTime.IsTimeOut()) //時間到 杏庭自爆
+		{
+			IsAlive = false;
+		}
+
+		if (!IsDead())
+		{
+			OnMove();
+			Attack(role);
+		}
 	}
 
 	void CXingting::OnMove()
 	{
 		if (moveToGoalPoint)
 		{
-			int move_dx = (currentX > goal_x) ? (initx - goal_x) / 100 : 0;
-			int move_dy = (currentY > goal_y) ? (inity - goal_y) / 100 : 0;
+			int move_dx = (currentX > goal_x) ? (initx - goal_x) / 50 : 0;
+			int move_dy = (currentY > goal_y) ? (inity - goal_y) / 50 : 0;
 			moveToGoal.CountDown();
 			if (moveToGoal.IsTimeOut())
 			{
@@ -327,6 +338,13 @@ namespace game_framework
 		}
 	}
 
+	void CXingting::Clear()
+	{
+		ClearBullet();
+		animation.SetValid(false);
+
+	}
+
 	void CXingting::ClearBullet()
 	{
 		for (vector<CBlackHole*>::iterator bkiter = blackhole.begin(); bkiter != blackhole.end(); bkiter++)
@@ -341,6 +359,11 @@ namespace game_framework
 		}
 		level4.clear();
 		blackhole.clear();
+	}
+
+	bool CXingting::IsDead()
+	{
+		return AliveTime.IsTimeOut();
 	}
 
 	void CXingting::Level4Collision(CRole *role)

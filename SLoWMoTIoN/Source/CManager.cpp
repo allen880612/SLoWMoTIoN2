@@ -841,7 +841,7 @@ namespace game_framework
 	CBossManager::CBossManager()
 	{
 		#pragma region -- Create Boss --
-		bossInformation[BOSS_XINGTING] = new CXingting(450, 250, 8787, BitmapPath("RES\\Boss", "xingting", 2), RGB(214, 214, 214));
+		bossInformation[BOSS_XINGTING] = new CXingting(450, 250, 8787, "Xingting", BitmapPath("RES\\Boss", "xingting", 2, RGB(214, 214, 214)));
 		#pragma endregion
 		targetBoss = NULL;
 		isBattle = false;
@@ -851,7 +851,7 @@ namespace game_framework
 	{
 		if (targetBoss != NULL)
 		{
-			targetBoss->ClearBullet();
+			targetBoss->Clear();
 		}
 		Clear();
 	}
@@ -885,7 +885,7 @@ namespace game_framework
 
 	void CBossManager::TargetBoss(int nowMap)
 	{
-		if (nowMap == BOSS_MAP_XINGTING)
+		if (nowMap == BOSS_MAP_XINGTING && bossInformation[BOSS_XINGTING]->GetAlive())
 		{
 			targetBoss = bossInformation[BOSS_XINGTING];
 			targetBoss->GetAnimate()->SetValid(true);
@@ -895,11 +895,18 @@ namespace game_framework
 			if (targetBoss != NULL)
 			{
 				targetBoss->GetAnimate()->SetValid(false);
-				targetBoss->ClearBullet();
+				targetBoss->Clear();
 				isBattle = false;
 				targetBoss = NULL;
 			}
 		}
+	}
+
+	void CBossManager::BossDead()
+	{
+		targetBoss->Clear();
+		targetBoss = NULL;
+		SetBattle(false);
 	}
 	#pragma endregion
 
@@ -1016,13 +1023,14 @@ namespace game_framework
 			#pragma endregion
 
 			#pragma region - dialog - vs xingting -
-			if (!dialogWithXingting && nowMap == BOSS_MAP_XINGTING && gameState->role.IsDead() == false)
+			if (!dialogWithXingting && nowMap == BOSS_MAP_XINGTING && gameState->role.IsDead() == false && gameState->bossManager.IsBattle() == false)
 			{
 				if (rolePosition >= 100)
 				{
 					CDialogManager::Instance()->Start(DIALOG_DATA_VSXingting1);
-					dialogWithXingting = false;
+					dialogWithXingting = true;
 					gameState->bossManager.SetBattle(true);
+					gameState->SwitchTimer(gameState->bossManager.targetBoss->GetAliveTimer());
 				}
 			}
 			#pragma endregion
