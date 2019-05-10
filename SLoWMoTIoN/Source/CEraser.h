@@ -74,7 +74,7 @@ namespace game_framework {
 	public:
 		CNPC();
 		CNPC(CPoint, BitmapPath, string);
-		~CNPC();
+		virtual ~CNPC();
 		
 		void SetCurrentXY(int, int);
 		void SetXY();

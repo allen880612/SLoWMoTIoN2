@@ -789,7 +789,7 @@ namespace game_framework {
 
 	CNPC1::~CNPC1()
 	{
-
+		
 	}
 
 	void CNPC1::RoleCollision()
@@ -820,6 +820,7 @@ namespace game_framework {
 
 	CNPC3::~CNPC3()
 	{
+
 	}
 
 	void CNPC3::RoleCollision()

@@ -15,7 +15,7 @@ namespace game_framework
 	public:
 		CBoss();
 		CBoss(int, int, int, string, BitmapPath); //x, y, hp, (¸ô®|, ÃC¦â)
-		~CBoss();
+		virtual ~CBoss();
 
 		void LoadBitmap();
 

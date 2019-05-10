@@ -937,9 +937,6 @@ namespace game_framework
 				(*npciter) = NULL;
 			}
 			npc[i].clear();
-			vector<CNPC*> delSwap;
-			npc[i].swap(delSwap);
-
 		}
 	}
 
