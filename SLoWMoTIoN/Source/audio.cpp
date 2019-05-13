@@ -48,7 +48,7 @@
  *         slow down is more obvious in Win7 64 bit version; in WinXP, the slow down cannot
  *         be observed.
 */
-
+#pragma once
 #include "stdafx.h"
 #include "game.h"
 #include "MainFrm.h"
@@ -60,6 +60,9 @@
 #include "gamelib.h"
 #include "audio.h"
 #include "Refactor.h"
+#include "CLibrary.h"
+#include "dirent.h"
+
 
 namespace game_framework {
 
@@ -102,19 +105,60 @@ CAudio::~CAudio()
 
 void CAudio::Initialize()
 {
-	for (int i = 0; i < AUDIO_NUM; i++)
-	{
-		adapter.insert(pair<string, unsigned>(adapterString[i], i));
-	}
+	vector<string> fileName;
+	string loadFolder_Music = "RES\\Sounds\\Music\\";
+	string loadFolder_Sound = "RES\\Sounds\\Sound\\";
 	
-	Load(adapter["MUSIC_MENU"], "RES\\sounds\\SLoWMoTIoN_Menu.wav");
-	Load(adapter["MUSIC_GAMEING"], "RES\\sounds\\SLoWMoTIoN_Game.wav");
-	Load(adapter["SOUND_THROW"], "RES\\sounds\\throw.wav");
-	Load(adapter["SOUND_JUMP"], "RES\\sounds\\jump.wav");
-	Load(adapter["SOUND_HIT"], "RES\\sounds\\hit.wav");
-	Load(adapter["SOUND_GAMEOVER"], "RES\\sounds\\SLoWMoTIoN_Gameover.wav");
-	Load(adapter["MUSIC_DeadLock"], "RES\\sounds\\MyVoiceIsDead.mp3");
-	Load(adapter["SOUND_FAQAI"], "RES\\sounds\\faqai.mp3");
+	unsigned int totalSoundSize = 0;
+
+	#pragma region - Load Music-
+	getFolderFile(loadFolder_Music, &fileName);
+	for (unsigned int i = 0; i < fileName.size(); i++, totalSoundSize++)
+	{
+		#pragma region - Construct map -
+		adapter.insert(pair<string, soundType>(fileName[i].substr(0, fileName[i].size() - 4), soundType(totalSoundSize, "MUSIC")));
+		#pragma endregion
+
+		#pragma region - Load Sound -
+		char *address = ConvertCharPointToString(loadFolder_Music + fileName[i]);
+		Load(totalSoundSize, address);
+		delete address;
+		#pragma endregion
+
+		//adapter.insert(pair<string, unsigned>(adapterString[i], i));
+	}
+	#pragma endregion
+	
+	fileName.clear();
+
+	#pragma region - Load Sound -
+	getFolderFile(loadFolder_Sound, &fileName);
+
+	for (unsigned int i = 0; i < fileName.size(); i++, totalSoundSize++)
+	{
+
+		#pragma region - Construct map -
+		adapter.insert(pair<string, soundType>(fileName[i].substr(0, fileName[i].size() - 4), soundType(totalSoundSize, "SOUND")));
+		#pragma endregion
+
+		#pragma region - Load Sound -
+		char *address = ConvertCharPointToString(loadFolder_Sound + fileName[i]);
+		Load(totalSoundSize, address);
+		delete address;
+		#pragma endregion
+
+	}
+
+	#pragma endregion	
+	
+	/*Load(adapter["SLoWMoTIoN_Menu"], "RES\\sounds\\SLoWMoTIoN_Menu.wav");
+	Load(adapter["SLoWMoTIoN_Game"], "RES\\sounds\\SLoWMoTIoN_Game.wav");
+	Load(adapter["throw"], "RES\\sounds\\throw.wav");
+	Load(adapter["jump"], "RES\\sounds\\jump.wav");
+	Load(adapter["hit"], "RES\\sounds\\hit.wav");
+	Load(adapter["SLoWMoTIoN_Gameover"], "RES\\sounds\\SLoWMoTIoN_Gameover.wav");
+	Load(adapter["MyVoiceIsDead"], "RES\\sounds\\MyVoiceIsDead.mp3");
+	Load(adapter["faqai"], "RES\\sounds\\faqai.mp3");*/
 
 	SetIsPlayMusic(true);
 	SetIsPlaySound(true);
@@ -333,12 +377,13 @@ void CAudio::Play(unsigned id, bool repeat_flag)
 
 void CAudio::Play(string _id, bool repeat_flag)
 {
-	string type = _id.substr(0, 5);
-	unsigned id = adapter[_id];
+	string type = adapter[_id].GetType();
+	unsigned id = adapter[_id].GetIndex();
 
-	if (type == "MUSIC" && !isPlayMusic)
-		return;
+	
 	if (type == "SOUND" && !isPlaySound)
+		return;
+	if (type == "MUSIC" && !isPlayMusic)
 		return;
 	if (!isOpened)
 		return;
@@ -390,7 +435,7 @@ void CAudio::Stop(unsigned id)
 
 void CAudio::Stop(string _id)
 {
-	unsigned id = adapter[_id];
+	unsigned id = adapter[_id].GetIndex();
 	if (!isOpened)
 		return;
 	GAME_ASSERT(info.find(id) != info.end(), "Can not stop audio: incorrect Audio ID!");

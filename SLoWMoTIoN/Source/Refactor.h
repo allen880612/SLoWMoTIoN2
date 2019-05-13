@@ -65,7 +65,7 @@
 #define DIALOG_DATA_VSXingting3 "roleVsXingting3"
 #define Tips "InitTip"
 #define FROG "frog"
-#define Music_Deadlock "MyVoiceIsDead"
+#define MyVoiceIsDead "MyVoiceIsDead"
 #define DIALOG_DATA_STGHAVEBREAKFAST "StudentGHaveBreakfast"
 #define DIALOG_DATA_MEETSTB "StudentSmoke"
 #define DIALOG_DATA_STGSUBMIT "StudentSubmit"

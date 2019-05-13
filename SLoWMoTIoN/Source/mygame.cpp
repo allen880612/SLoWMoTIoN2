@@ -83,7 +83,7 @@ namespace game_framework {
 
 		CLayerManager::Instance()->Initialize();
 		CAudio::Instance()->Initialize();
-		CAudio::Instance()->Play("MUSIC_MENU", true);
+		CAudio::Instance()->Play("SLoWMoTIoN_Menu", true);
 
 		#pragma region Button Create
 		buttonManager.CreateButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true, false);
@@ -315,8 +315,8 @@ namespace game_framework {
 		//CAudio::Instance()->Play(AUDIO_NTUT, true);			// ¼·©ñ MIDI
 		timer = CTimer(GAME_TIME); //£}£¸£µ==
 		nowUsedTimer = &timer;
-		CAudio::Instance()->Stop("MUSIC_MENU");
-		CAudio::Instance()->Play("MUSIC_GAMEING");
+		CAudio::Instance()->Stop("SLoWMoTIoN_Menu");
+		CAudio::Instance()->Play("SLoWMoTIoN_Game");
 		isWinXingting = false;
 		
 	}
@@ -370,7 +370,7 @@ namespace game_framework {
 		if (timer.IsTimeOut())
 		{
 			finalScore = role.GetScore();
-			CAudio::Instance()->Stop("MUSIC_GAMEING");
+			CAudio::Instance()->Stop("SLoWMoTIoN_Game");
 			if (isWinXingting)
 			{
 				CEndManager::Instance()->Start(END_NAME_WINXINGTING);
@@ -680,7 +680,7 @@ namespace game_framework {
 			{
 				if ((*scallionk)->IsCollision(*passerbyj) && (*passerbyj)->GetValid() && (*scallionk)->IsAlive())
 				{
-					CAudio::Instance()->Play("SOUND_HIT");
+					CAudio::Instance()->Play("hit");
 					role.AddScore((*passerbyj)->GetScore());
 					(*scallionk)->SetIsAlive(false);
 					
@@ -777,7 +777,7 @@ namespace game_framework {
 		if (nChar == 67)
 		{
 			CAudio::Instance()->Pause();
-			//CAudio::Instance()->Play("MUSIC_DeadLock");
+			//CAudio::Instance()->Play("MyVoiceIsDead");
 		}
 
 		if (nChar == KEY_B)
@@ -806,8 +806,8 @@ namespace game_framework {
 		}
 		if (nChar == 86)
 		{
-			CAudio::Instance()->Play("MUSIC_DeadLock");
-			//CAudio::Instance()->Play("SOUND_GAMEOVER");
+			CAudio::Instance()->Play("MyVoiceIsDead");
+			//CAudio::Instance()->Play("SLoWMoTIoN_Gameover");
 		}
 
 		if (nChar == KEY_Z) //dialog with npc
@@ -1016,7 +1016,7 @@ namespace game_framework {
 		/*counter--;
 		if (counter < 0)
 		{
-			CAudio::Instance()->Stop("SOUND_GAMEOVER");
+			CAudio::Instance()->Stop("SLoWMoTIoN_Gameover");
 			GotoGameState(GAME_STATE_INIT);
 		}*/
 	}
@@ -1026,8 +1026,8 @@ namespace game_framework {
 		counter = 30 * 5; // 5 seconds
 		alpha = 0;
 		timer_exit.ResetTime(1.5);
-		CAudio::Instance()->Play("SOUND_GAMEOVER");
-		CAudio::Instance()->Stop("MUSIC_GAMEING");
+		CAudio::Instance()->Play("SLoWMoTIoN_Gameover");
+		CAudio::Instance()->Stop("SLoWMoTIoN_Game");
 		//CLayerManager::Instance()->Clear();
 
 		canSwitchState = false;

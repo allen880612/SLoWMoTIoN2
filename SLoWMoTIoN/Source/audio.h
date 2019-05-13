@@ -100,9 +100,10 @@ public:
 	void		   SetIsPlaySound(bool);
 	bool		   IsOpened();
 private:
-	map <string , unsigned> adapter;
-	string adapterString[99] = { "MUSIC_MENU", "MUSIC_GAMEING", "SOUND_THROW", "SOUND_JUMP", "SOUND_HIT", "SOUND_GAMEOVER"
-								 , "MUSIC_DeadLock", "SOUND_FAQAI" };
+	class soundType;
+	map <string , soundType> adapter;
+	string adapterString[99] = { "SLoWMoTIoN_Menu", "SLoWMoTIoN_Game", "throw", "jump", "hit", "SLoWMoTIoN_Gameover"
+								 , "MyVoiceIsDead", "faqai" };
 
 	bool isPlayMusic = true;
 	bool isPlaySound = true;
@@ -114,6 +115,21 @@ private:
 		}
 		bool repeat, isGood;
 		string fileName;
+	};
+	class soundType
+	{
+	public:
+		soundType() { index = 0; type = ""; };
+		soundType(unsigned int _index, string _type) {
+			index = _index;
+			type = _type;
+		};
+		int GetIndex() { return index; };
+		string GetType() { return type; };
+		~soundType() {};
+	private:
+		unsigned int index;
+		string type;
 	};
 	static void MCIThread(HANDLE);	// MCI thread method
 	static void ExecuteMciCommand(char *); // 

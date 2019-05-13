@@ -758,7 +758,7 @@ namespace game_framework
 		if (IsCollisionMouse(_m))
 		{
 			if (!GetState())					//只有第一次進入Button有音效
-				CAudio::Instance()->Play("SOUND_JUMP");
+				CAudio::Instance()->Play("jump");
 			SetState(true);
 		}
 		else

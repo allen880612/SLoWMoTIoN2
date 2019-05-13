@@ -534,7 +534,7 @@ namespace game_framework
 		dialogmap[DIALOG_DATA_VSXingting3] = CDialog("RES\\Dialog\\Txt\\VSXingting3.txt", DIALOG_DATA_VSXingting3, false);
 		dialogmap[Tips] = CDialog("RES\\Dialog\\Txt\\InitTip.txt", Tips, false);
 		dialogmap[FROG] = CDialog("RES\\Dialog\\Txt\\test.txt", FROG, true);
-		dialogmap[Music_Deadlock] = CDialog("RES\\Dialog\\Txt\\MyVoiceIsDead.txt", Music_Deadlock, true);
+		dialogmap[MyVoiceIsDead] = CDialog("RES\\Dialog\\Txt\\MyVoiceIsDead.txt", MyVoiceIsDead, true);
 		dialogmap[DIALOG_DATA_MEETSTB] = CDialog("RES\\Dialog\\Txt\\MeetStudentB.txt", DIALOG_DATA_MEETSTB, true);
 		dialogmap[DIALOG_DATA_STGHAVEBREAKFAST] = CDialog("RES\\Dialog\\Txt\\StudentGHaveBreakfast.txt", DIALOG_DATA_STGHAVEBREAKFAST, true);
 		dialogmap[DIALOG_DATA_STGSUBMIT] = CDialog("RES\\Dialog\\Txt\\StudentKSubmitHW.txt", DIALOG_DATA_STGSUBMIT, true);
@@ -573,7 +573,7 @@ namespace game_framework
 		{
 			if (step == 3 || step == 5)
 			{
-				CAudio::Instance()->Play("SOUND_FAQAI");
+				CAudio::Instance()->Play("faqai");
 			}
 		}
 	}
@@ -683,7 +683,7 @@ namespace game_framework
 		if (musicFromNPC != "")
 		{
 			CAudio::Instance()->Stop(musicFromNPC);
-			CAudio::Instance()->Play("MUSIC_GAMEING");
+			CAudio::Instance()->Play("SLoWMoTIoN_Game");
 			musicFromNPC = "";
 		}
 	}
@@ -977,7 +977,7 @@ namespace game_framework
 	void CNPCManager::LoadNPC()
 	{
 		npc[4].push_back(new CNPC1(CPoint(50, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255, 255, 255)), "frog", FROG));
-		npc[4].push_back(new CNPC3(CPoint(450, 388), BitmapPath("RES\\NPC\\test", "test2", 1, RGB(255, 255, 255)), "deadlock", "MUSIC_DeadLock", Music_Deadlock));
+		npc[4].push_back(new CNPC3(CPoint(450, 388), BitmapPath("RES\\NPC\\test", "test2", 1, RGB(255, 255, 255)), "deadlock", "MyVoiceIsDead", MyVoiceIsDead));
 
 
 		npc[3].push_back(new CNPC1(CPoint(50, 350), BitmapPath("RES\\NPC\\studentB", "studentB", 1, RGB(255, 255, 255)), DIALOG_AVATAR_NAME_STUDENTB, DIALOG_DATA_MEETSTB));

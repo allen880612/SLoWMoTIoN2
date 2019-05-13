@@ -307,7 +307,7 @@ namespace game_framework {
 			dir = 1;
 			if (canJumping)
 			{
-				CAudio::Instance()->Play("SOUND_JUMP");
+				CAudio::Instance()->Play("jump");
 				isJumping = true;
 				//y -= STEP_SIZE;
 			}
@@ -451,7 +451,7 @@ namespace game_framework {
 	{		
 		if (shoot_cd.IsTimeOut())
 		{
-			CAudio::Instance()->Play("SOUND_THROW");
+			CAudio::Instance()->Play("throw");
 			CScallion *newCScallion = new CScallion(BitmapPath("RES\\Object\\Scallions", "scallion", 2), CPoint(GetX3(), GetY1()), CPoint(mouseX, mouseY)); //先創建一個蔥的物件
 
 			//CScallion *newCScallion = new CScallion("Role\\books", "book", 4, GetX3(), GetY1(), mx, my); //先創建一個蔥的物件
@@ -825,7 +825,7 @@ namespace game_framework {
 
 	void CNPC3::RoleCollision()
 	{
-		CAudio::Instance()->Stop("MUSIC_GAMEING");
+		CAudio::Instance()->Stop("SLoWMoTIoN_Game");
 		CAudio::Instance()->Play(openMusic, true);
 
 		CDialogManager::Instance()->OpenMusicPlayer(openMusic);
