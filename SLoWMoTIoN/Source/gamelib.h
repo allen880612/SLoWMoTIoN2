@@ -75,15 +75,18 @@
 #define SHOW_GAME_CYCLE_TIME false		// 是否在debug mode顯示cycle time
 #define ENABLE_GAME_PAUSE	 true		// 是否允許以 Ctrl-Q 暫停遊戲
 #define ENABLE_AUDIO		 true		// 啟動音效介面
+#define GAMESTATE_NUMER      4
 
 /////////////////////////////////////////////////////////////////////////////
 // 定義CGame及CGameState所使用的三個狀態常數
+// 野格三加一
 /////////////////////////////////////////////////////////////////////////////
 
 enum GAME_STATES {
 	GAME_STATE_INIT,
 	GAME_STATE_RUN,
-	GAME_STATE_OVER
+	GAME_STATE_OVER,
+	GAME_STATE_MAPEDITER
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -364,7 +367,7 @@ private:
 	bool            suspended;			// 遊戲是否被suspended
 	const int		NUM_GAME_STATES;	// 遊戲的狀態數(3個狀態)
 	CGameState		*gameState;			// pointer指向目前的遊戲狀態
-	CGameState		*gameStateTable[3];	// 遊戲狀態物件的pointer
+	CGameState		*gameStateTable[GAMESTATE_NUMER];	// 遊戲狀態物件的pointer
 	static CGame	instance;			// 遊戲唯一的instance
 };
 

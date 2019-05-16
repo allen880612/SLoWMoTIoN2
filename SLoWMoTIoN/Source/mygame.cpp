@@ -104,6 +104,7 @@ namespace game_framework {
 		windowsEnding.Initialize(CPoint(60, 60));
 
 		isLoaded = true;
+		IsKeyCtrl = false;
 	}
 
 	void CGameStateInit::OnInit()
@@ -127,13 +128,21 @@ namespace game_framework {
 								//
 	}
 
+	void CGameStateInit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+	{
+		if (nChar == 'N')
+		{
+			GotoGameState(GAME_STATE_MAPEDITER);
+		}
+	}
+
 	void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		const char KEY_ESC = 27;
-
 		if (nChar == KEY_SPACE)
 		{
 			//CAudio::Instance()->Stop(AUDIO_MENU);
+
 			GotoGameState(GAME_STATE_RUN);			// 切換至GAME_STATE_RUN
 		}						
 		else if (nChar == KEY_ESC)								// Demo 關閉遊戲的方法
@@ -1107,9 +1116,6 @@ namespace game_framework {
 		}
 		#pragma endregion
 
-
-
-
 		/*
 		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
 		CFont f, *fp;
@@ -1146,5 +1152,56 @@ namespace game_framework {
 		//sprintf(str, "Score: %d", finalScore);
 		//PaintText(str, 100, 360, "微軟正黑體", 20, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 	}
+
+	#pragma region - MapEditer -
+	CGameStateMapEditer::CGameStateMapEditer(CGame * g) : CGameState(g)
+	{
+	}
+
+	CGameStateMapEditer::~CGameStateMapEditer()
+	{
+	}
+
+	void CGameStateMapEditer::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+	{
+	}
+
+	void CGameStateMapEditer::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
+	{
+		if (nChar == 27) //Key ESC
+		{
+			GotoGameState(GAME_STATE_INIT);
+		}
+	}
+
+	void CGameStateMapEditer::OnLButtonDown(UINT nFlags, CPoint point)
+	{
+	}
+
+	void CGameStateMapEditer::OnLButtonUp(UINT nFlags, CPoint point)
+	{
+	}
+
+	void CGameStateMapEditer::OnMouseMove(UINT nFlags, CPoint point)
+	{
+	}
+
+	void CGameStateMapEditer::OnRButtonDown(UINT nFlags, CPoint point)
+	{
+	}
+
+	void CGameStateMapEditer::OnRButtonUp(UINT nFlags, CPoint point)
+	{
+	}
+
+	void CGameStateMapEditer::OnMove()
+	{
+	}
+	void CGameStateMapEditer::OnShow()
+	{
+		PaintText("EditerTest", 100, 360, "微軟正黑體", 20, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+	}	
+
+	#pragma endregion
 
 }//End

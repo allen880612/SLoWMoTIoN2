@@ -249,6 +249,7 @@
     <None Include="RES\eraser1.bmp" />
     <None Include="RES\eraser2.bmp" />
     <None Include="RES\eraser3.bmp" />
+    <None Include="RES\Game.cur" />
     <None Include="res\game.ico" />
     <None Include="res\game.rc2" />
     <None Include="RES\gamecurs.cur" />

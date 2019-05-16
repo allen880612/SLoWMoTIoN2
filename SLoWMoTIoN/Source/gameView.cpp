@@ -228,7 +228,23 @@ void CGameView::OnUpdateFilePause(CCmdUI* pCmdUI)
 void CGameView::OnFileNew() 
 {
 	// TODO: Add your command handler code here
-	
+	BOOL isOpen = TRUE;
+	//CFileDialog openFileDlg(isOpen, defaultDir, fileName, OFN_HIDEREADONLY | OFN_READONLY, filter, NULL);
+	CFileDialog openFileDlg(isOpen);
+	INT_PTR result = openFileDlg.DoModal(); //open FileDialog
+
+	if (result == IDOK)
+	{
+		CString OriginalFilePath = openFileDlg.GetPathName(); //原檔案路徑 + 檔名
+		CString GoalFilePath = "RES\\Map\\Test\\" + openFileDlg.GetFileName(); //目的地路徑 + 檔名
+
+		//原檔案路徑, 目的地路徑, true = 若有同檔名，不覆蓋檔案，同時return false
+		BOOL m = CopyFile(OriginalFilePath, GoalFilePath, true);
+	}
+	else if (result == IDCANCEL)
+	{
+		// TODO: Add your command handler code here
+	}
 }
 
 void CGameView::OnButtonPause() 

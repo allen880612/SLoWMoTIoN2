@@ -62,47 +62,11 @@ END
 // Bitmap
 //
 
-//IDB_BALL                BITMAP                  "..\\res\\ball.bmp"
-
-//IDB_ERASER1             BITMAP                  "..\\res\\eraser1.bmp"
-
-//IDB_BACKGROUND          BITMAP                  "..\\res\\ntutcsie.bmp"
-
-//IDB_CORNER              BITMAP                  "..\\res\\corner.bmp"
-
-//idb_0                   bitmap                  "..\\res\\bmp0.bmp"
-//
-//idb_1                   bitmap                  "..\\res\\bmp1.bmp"
-//
-//idb_2                   bitmap                  "..\\res\\bmp2.bmp"
-//
-//idb_3                   bitmap                  "..\\res\\bmp3.bmp"
-//
-//idb_4                   bitmap                  "..\\res\\bmp4.bmp"
-//
-//idb_5                   bitmap                  "..\\res\\bmp5.bmp"
-//
-//idb_6                   bitmap                  "..\\res\\bmp6.bmp"
-//
-//idb_7                   bitmap                  "..\\res\\bmp7.bmp"
-//
-//idb_8                   bitmap                  "..\\res\\bmp8.bmp"
-//
-//idb_9                   bitmap                  "..\\res\\bmp9.bmp"
-
 IDB_CONTINUE            BITMAP                  "..\\res\\continue.bmp"
 
 IDB_HELP                BITMAP                  "..\\res\\help.bmp"
 
 IDB_LOADING             BITMAP                  "..\\res\\loading.bmp"
-
-//IDB_MAP0                BITMAP                  "..\\RES\\IDB_MAP0.bmp"
-//
-//IDB_MAP1                BITMAP                  "..\\RES\\IDB_MAP_1.bmp"
-//
-//IDB_MAP2                BITMAP                  "..\\RES\\IDB_MAP_2.bmp"
-//
-//IDB_MAP0_2              BITMAP                  "..\\RES\\IDB_MAP_0.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -111,8 +75,6 @@ IDB_LOADING             BITMAP                  "..\\res\\loading.bmp"
 //
 
 IDC_GAMECURSOR          CURSOR                  "..\\RES\\Game.cur"
-
-//IDC_CURSOR              CURSOR                  "..\\RES\\Gamecursor.cur"
 
 #endif    // 中文 (繁體，台灣) resources
 /////////////////////////////////////////////////////////////////////////////
@@ -144,6 +106,7 @@ IDR_MAINFRAME           ICON                    "..\\res\\game.ico"
 
 IDR_GAMETYPE            ICON                    "..\\res\\gameDoc.ico"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Toolbar
@@ -156,6 +119,8 @@ BEGIN
     SEPARATOR
     BUTTON      ID_FILE_OPEN
     BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_FILE_NEW
 END
 
 

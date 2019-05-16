@@ -1054,7 +1054,7 @@ namespace game_framework
 	CEndManager CEndManager::endManager;
 	CEndManager::CEndManager()
 	{
-		endBmp.SetFadeInOut(30, -40);
+		endBmp.SetFadeInOut(3, -4);
 		Initialize();
 	}
 

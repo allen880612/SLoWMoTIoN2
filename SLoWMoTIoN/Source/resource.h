@@ -57,6 +57,7 @@
 #define ID_BUTTON_FULLSCREEN            32773
 #define ID_BUTTON_PAUSE                 32774
 #define ID_BUTTON_UNITTEST              32775
+#define ID_EDITMAP_NEW                  32776
 #define ID_RED                          57670
 
 // Next default values for new objects
@@ -65,7 +66,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        171
-#define _APS_NEXT_COMMAND_VALUE         32776
+#define _APS_NEXT_COMMAND_VALUE         32777
 #define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           102
 #endif

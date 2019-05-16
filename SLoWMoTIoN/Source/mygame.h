@@ -70,6 +70,7 @@ namespace game_framework {
 		CGameStateInit(CGame *g);
 		void OnBeginState();							// 設定每次重玩所需的變數
 		void OnInit();  								// 遊戲的初值及圖形設定
+		void OnKeyDown(UINT, UINT, UINT); 				// 處理鍵盤Down的動作
 		void OnKeyUp(UINT, UINT, UINT); 				// 處理鍵盤Up的動作
 		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
 		void OnLButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
@@ -86,6 +87,8 @@ namespace game_framework {
 		
 		CScrollWindows windowsEnding;
 		//CWindows windowsEnding;
+
+		bool IsKeyCtrl;
 		
 	};
 
@@ -165,6 +168,27 @@ namespace game_framework {
 		CTimer timer_exit; //結局結束後要多久時間離開GameOver
 		CMovingBitmap overBitmap;
 		CToumeiImage gameOverImage;
+	};
+
+	class CGameStateMapEditer : public CGameState
+	{
+		public:
+			CGameStateMapEditer(CGame *g);
+			~CGameStateMapEditer();
+
+			void OnKeyDown(UINT, UINT, UINT);
+			void OnKeyUp(UINT, UINT, UINT);
+			void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
+			void OnLButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
+			void OnMouseMove(UINT nFlags, CPoint point);	// 處理滑鼠的動作 
+			void OnRButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
+			void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
+
+		protected:
+			void OnMove();
+			void OnShow();
+		private:
+			int kk = 0;
 	};
 
 }
