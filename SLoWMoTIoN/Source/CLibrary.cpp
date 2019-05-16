@@ -470,7 +470,7 @@ namespace game_framework
 
 	#pragma endregion
 
-	#pragma region - Dialog -
+	#pragma region - CDialog -
 	CDialog::CDialog()
 	{
 	}
@@ -786,7 +786,7 @@ namespace game_framework
 	}
 	#pragma endregion
 
-	#pragma region - CInteger
+	#pragma region - CInteger -
 	//CMovingBitmap CInteger::digit[11];
 
 	CInteger::CInteger(int digits)

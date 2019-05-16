@@ -25,18 +25,21 @@
  * 2012-05-13 V4.8
  *      1. Fix Ctrl-Q display bug. Add Invalidate() at the end of CGameView::OnKillFocus.
  */
-
+#pragma once
 #include "stdafx.h"
 #include "game.h"
 
 #include "gameDoc.h"
 #include <mmsystem.h>
+#include <fstream>
 #include <ddraw.h>
 #include <direct.h>
 #include <string.h>
 #include "gamelib.h"
 #include "mygame.h"
 #include "gameView.h"
+
+#include "CManager.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -240,6 +243,10 @@ void CGameView::OnFileNew()
 
 		//原檔案路徑, 目的地路徑, true = 若有同檔名，不覆蓋檔案，同時return false
 		BOOL m = CopyFile(OriginalFilePath, GoalFilePath, true);
+		//DeleteFile("RES\\Map\\FileName.txt");
+		fstream dataFile("RES\\Map\\FileName.txt", ios::out);
+		dataFile << openFileDlg.GetFileName();
+		dataFile.close();
 	}
 	else if (result == IDCANCEL)
 	{

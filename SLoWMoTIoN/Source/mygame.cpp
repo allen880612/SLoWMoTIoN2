@@ -62,6 +62,8 @@
 #include "CManager.h"
 #include "CBall.h"
 #include "CLibrary.h"
+#include <string>
+#include <fstream>
 #include <vector>
 using namespace std;
 using namespace myLibrary;
@@ -1162,8 +1164,22 @@ namespace game_framework {
 	{
 	}
 
+	void CGameStateMapEditer::OnInit()
+	{
+	}
+
+	void CGameStateMapEditer::OnBeginState()
+	{
+		mapEditer.Initialize();
+	}
+
 	void CGameStateMapEditer::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
+		//if (nChar == 'G')
+		//{
+		//	CFileDialog openFileDlg(true);
+		//	INT_PTR result = openFileDlg.DoModal(); //open FileDialgo
+		//}
 	}
 
 	void CGameStateMapEditer::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -1196,9 +1212,35 @@ namespace game_framework {
 
 	void CGameStateMapEditer::OnMove()
 	{
+		//這裡好髒 看要不要改放
+		#pragma region - 判斷檔案是否存在 -
+		bool isDataExist = false; //先假設檔案不存在
+		fstream dataFileName;
+
+		dataFileName.open("RES\\Map\\FileName.txt");
+		#pragma region -- 檔案存在 --
+		if (dataFileName.is_open()) //有檔案就鳥ㄊ
+		{
+			string fileName;
+			dataFileName >> fileName;
+			mapEditer.AddImage(fileName);
+			isDataExist = true; //檔案存在
+		}
+		#pragma endregion
+		dataFileName.close(); //關檔
+
+		#pragma region -- 檔案真的存在 - 刪除檔案^^ --
+		if (isDataExist)
+		{
+			DeleteFile("RES\\Map\\FileName.txt");
+		}
+		#pragma endregion
+
+		#pragma endregion
 	}
 	void CGameStateMapEditer::OnShow()
 	{
+		mapEditer.OnShow();
 		PaintText("EditerTest", 100, 360, "微軟正黑體", 20, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 	}	
 

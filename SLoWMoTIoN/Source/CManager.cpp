@@ -6,6 +6,7 @@
 #include "audio.h"
 #include "gamelib.h"
 #include <map>
+#include <fstream>
 #include "mygame.h"
 #include "CManager.h"
 using namespace myLibrary;
@@ -1258,4 +1259,37 @@ namespace game_framework
 	}
 	#pragma endregion
 
+
+	#pragma region - CMapEditer -
+	CMapEditer::CMapEditer()
+	{
+	}
+
+	CMapEditer::~CMapEditer()
+	{
+	}
+	void CMapEditer::Initialize()
+	{
+		img.clear();
+	}
+	void CMapEditer::AddImage(string path)
+	{
+		CMovingBitmap tempb;
+		string ppath = "RES\\Map\\" + path;
+		char *address = ConvertCharPointToString(ppath);
+		tempb.LoadBitmap(address);
+		delete address;
+
+		img.push_back(tempb);
+	}
+
+	void CMapEditer::OnShow()
+	{
+
+		for (vector<CMovingBitmap>::iterator mbiter = img.begin(); mbiter != img.end(); mbiter++)
+		{
+			mbiter->ShowBitmap();
+		}
+	}
+	#pragma endregion
 }

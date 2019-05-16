@@ -295,4 +295,21 @@ namespace game_framework
 			CPoint mouse;
 	};
 	#pragma endregion
+
+	#pragma region - CMapEditer -
+	class CMapEditer
+	{
+	public:
+		CMapEditer();
+		~CMapEditer();
+		void Initialize();
+		void AddImage(string);
+
+		void OnShow();
+	private:
+		vector<CMovingBitmap> img;
+	};
+	#pragma endregion
+
+
 }
