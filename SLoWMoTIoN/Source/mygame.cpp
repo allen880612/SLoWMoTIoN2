@@ -1175,11 +1175,10 @@ namespace game_framework {
 
 	void CGameStateMapEditer::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		//if (nChar == 'G')
-		//{
-		//	CFileDialog openFileDlg(true);
-		//	INT_PTR result = openFileDlg.DoModal(); //open FileDialgo
-		//}
+		if (nChar == 'S')
+		{
+			mapEditer.OnSave();
+		}
 	}
 
 	void CGameStateMapEditer::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -1221,9 +1220,14 @@ namespace game_framework {
 		#pragma region -- 檔案存在 --
 		if (dataFileName.is_open()) //有檔案就鳥ㄊ
 		{
+			vector<string> fileContext;
+			fileContext.clear();
 			string fileName;
-			dataFileName >> fileName;
-			mapEditer.AddImage(fileName);
+			while (dataFileName >> fileName)
+			{
+				fileContext.push_back(fileName);
+			}
+			mapEditer.AddImage(fileContext);
 			isDataExist = true; //檔案存在
 		}
 		#pragma endregion

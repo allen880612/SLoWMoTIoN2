@@ -74,6 +74,10 @@ protected:
 	afx_msg void OnFilePause();
 	afx_msg void OnUpdateFilePause(CCmdUI* pCmdUI);
 	afx_msg void OnFileNew();
+	//
+	void NewBackGround();
+	void NewBlock();
+	//
 	afx_msg void OnButtonPause();
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);

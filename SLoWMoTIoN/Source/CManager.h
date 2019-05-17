@@ -303,11 +303,38 @@ namespace game_framework
 		CMapEditer();
 		~CMapEditer();
 		void Initialize();
-		void AddImage(string);
-
+		void AddImage(vector<string>);
+		void OnSave();
+		
 		void OnShow();
 	private:
-		vector<CMovingBitmap> img;
+		#pragma region - image info -
+		class ImageInfo
+		{
+		public:
+			ImageInfo() { x = y = 0; };
+			ImageInfo(string _path)
+			{
+				path = _path;
+				string ppath = "RES\\Map\\Test\\" + path;
+				char *address = ConvertCharPointToString(ppath);
+				bmp.LoadBitmap(address);
+				delete address;
+				x = y = 0;
+				bmp.SetTopLeft(0, 0);
+			}
+			~ImageInfo() {};
+			CMovingBitmap bmp;
+			string path;
+			int x = 0, y = 0;
+		#pragma endregion
+		};
+
+		ImageInfo background;
+		vector<ImageInfo> block;
+
+		bool haveBG;
+		string WriteSaveInfo(string, string, CPoint);
 	};
 	#pragma endregion
 

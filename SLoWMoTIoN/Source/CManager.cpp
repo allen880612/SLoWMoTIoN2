@@ -6,6 +6,7 @@
 #include "audio.h"
 #include "gamelib.h"
 #include <map>
+#include <sstream>
 #include <fstream>
 #include "mygame.h"
 #include "CManager.h"
@@ -1055,7 +1056,7 @@ namespace game_framework
 	CEndManager CEndManager::endManager;
 	CEndManager::CEndManager()
 	{
-		endBmp.SetFadeInOut(3, -4);
+		endBmp.SetFadeInOut(30, -40);
 		Initialize();
 	}
 
@@ -1259,7 +1260,6 @@ namespace game_framework
 	}
 	#pragma endregion
 
-
 	#pragma region - CMapEditer -
 	CMapEditer::CMapEditer()
 	{
@@ -1267,28 +1267,58 @@ namespace game_framework
 
 	CMapEditer::~CMapEditer()
 	{
+		block.clear();
 	}
 	void CMapEditer::Initialize()
 	{
-		img.clear();
+		haveBG = false;
+		block.clear();
 	}
-	void CMapEditer::AddImage(string path)
+	void CMapEditer::AddImage(vector<string> path)
 	{
-		CMovingBitmap tempb;
-		string ppath = "RES\\Map\\" + path;
-		char *address = ConvertCharPointToString(ppath);
-		tempb.LoadBitmap(address);
-		delete address;
+		//類型(背景 / block), 圖片路徑
+		if (path[0] == "background")
+		{
+			haveBG = true;
+			background = ImageInfo(path[1]);
+		}
+		else if (path[0] == "block")
+		{
+			block.push_back(ImageInfo(path[1]));
+		}
+	}
 
-		img.push_back(tempb);
+	void CMapEditer::OnSave()
+	{
+		fstream mapData;
+		mapData.open("RES\\Map\\mapTest.txt", ios::out);
+		mapData << WriteSaveInfo("background", background.path, CPoint(background.x, background.y));
+		#pragma region - write block info -
+		for (unsigned int i = 0; i < block.size(); i++)
+		{
+			mapData << WriteSaveInfo("block", block[i].path, CPoint(block[i].x, block[i].y));
+		}
+		#pragma endregion
+		mapData.close();
+	}
+
+
+	string CMapEditer::WriteSaveInfo(string type, string path, CPoint point)
+	{
+		string returnStr = type + " " + path + " " + std::to_string(point.x) + " " + std::to_string(point.y) + "\n";
+		return returnStr;
 	}
 
 	void CMapEditer::OnShow()
 	{
-
-		for (vector<CMovingBitmap>::iterator mbiter = img.begin(); mbiter != img.end(); mbiter++)
+		if (haveBG)
 		{
-			mbiter->ShowBitmap();
+			background.bmp.ShowBitmap();
+		}
+
+		for (vector<ImageInfo>::iterator mbiter = block.begin(); mbiter != block.end(); mbiter++)
+		{
+			mbiter->bmp.ShowBitmap();
 		}
 	}
 	#pragma endregion
