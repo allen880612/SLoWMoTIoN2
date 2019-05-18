@@ -215,3 +215,17 @@ Problem : the CButton now is Loading in Constructor, it's werid and hard to use,
 2019/5/10
 1. CSrollWindows done
 2. add facai seed as NPC
+
+==============================================================
+2019/5/19
+1. add mapEditer: 
+   When you in StateInit, Key n to go to State Editer
+   - In Editer
+   (now, preset a map)
+   Select Tool Bar Editer - New Block to add a block
+   the new block will appear at (0, 0)
+   you can drag the block to the position you want the block appear
+   -
+   Key D to move the background right
+   Key A to move the background left
+   Key S to save the map infomation

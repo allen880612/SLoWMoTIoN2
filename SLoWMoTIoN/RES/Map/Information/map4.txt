@@ -1,0 +1,7 @@
+background IDB_MAP_4 0 0
+up -1
+down -1
+left -1
+right 1
+passerbyNumber 0
+passerbyID 0 1

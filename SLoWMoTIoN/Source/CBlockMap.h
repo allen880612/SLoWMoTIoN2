@@ -20,5 +20,7 @@ namespace game_framework
 		vector<int> passerbyID = {0, 1};
 		string ziliaojia, name;
 		int number;
+	private:
+		void CreateInformation();
 	};
 }
