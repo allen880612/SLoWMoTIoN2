@@ -229,3 +229,7 @@ Problem : the CButton now is Loading in Constructor, it's werid and hard to use,
    Key D to move the background right
    Key A to move the background left
    Key S to save the map infomation
+2. the use "read file" to add blockMap
+   (the file put in Map\\Information)
+3. find many memory leak when the game has gone to "End" (State GameOver)
+   plz solve this   555

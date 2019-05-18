@@ -360,6 +360,7 @@ namespace game_framework
 		void FadeIn(); //淡入 每次alpha+3
 		void FadeOut(); //淡出 每次alpha-4
 		void DrawImage();
+		bool temp = false;
 	private:
 		CBitmap bmp;
 		string bmpLoadPath;

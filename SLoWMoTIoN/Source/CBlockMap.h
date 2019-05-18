@@ -8,6 +8,7 @@ namespace game_framework
 	{
 	public:
 		CBlockMap(); //default constructor (其實用到的地方是因為CManager創建一般陣列時需要他，有一種方法可以避開→在宣告陣列時直接指定給予值進行初始化，而不是在Initlize裡面初始化。只是我覺得在Initlize裡面初始化比較好看)
+		CBlockMap(int);
 		CBlockMap(int, int, int, int, int, int);
 		CBlockMap(int, int, int, int, int, int, string, string, int);
 		~CBlockMap();
@@ -20,7 +21,10 @@ namespace game_framework
 		vector<int> passerbyID = {0, 1};
 		string ziliaojia, name;
 		int number;
+
+		string loadPath;
 	private:
+		void LoadInformation(int);
 		void CreateInformation();
 	};
 }

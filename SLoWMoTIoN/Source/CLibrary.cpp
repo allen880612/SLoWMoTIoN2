@@ -1156,7 +1156,7 @@ namespace game_framework
 	}
 	#pragma endregion
 
-	#pragma region - rmtgjowi -
+	#pragma region - CEnd -
 	CEnd::CEnd()
 	{
 		endName = "";

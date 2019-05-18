@@ -1075,6 +1075,17 @@ namespace game_framework {
 		ShowInitProgress(100);
 	}
 
+	void CGameStateOver::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+	{
+		if (nChar == 'Y')
+		{
+			if (CDialogManager::Instance()->GetDialogState())
+			{
+				CDialogManager::Instance()->Stop();
+			}
+		}
+	}
+
 	void CGameStateOver::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 		if (CDialogManager::Instance()->GetDialogState())

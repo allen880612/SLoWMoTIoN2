@@ -219,7 +219,7 @@ namespace game_framework
 	{
 		for (int mapIndex = 0; mapIndex < MAX_MAP_NUMBER; mapIndex++) //初始化blockMap的上下左右地圖資訊，增加可讀性使用switch敘述
 		{
-			switch (mapIndex)
+			/*switch (mapIndex)
 			{				//順序：目前 上 下 左 右 地圖上有幾個passerby存在， -1表示不存在
 			case 0:
 				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 1, 2, 5, "RES\\Map", "IDB_MAP", mapIndex);
@@ -248,15 +248,17 @@ namespace game_framework
 			default:
 				blockMap[mapIndex] = CBlockMap(-1, -1, -1, -1, -1, 0, "RES\\Map", "IDB_MAP", 0);
 				break;
-			}
+			}*/
+			blockMap[mapIndex] = CBlockMap(mapIndex);
 		}
 	}
 
 	void CMapManager::LoadMapBitmap() //如字面意思，LoadMapBitmap，在GameStateRun:OnInit運行，一次性load blockMap的所有圖片
 	{
 		for (int mapIndex = 0; mapIndex < MAX_MAP_NUMBER; mapIndex++)
-		{
-			char *address = ConvertCharPointToString(blockMap[mapIndex].ziliaojia, blockMap[mapIndex].name, blockMap[mapIndex].number);
+		{	
+			//char *address = ConvertCharPointToString(blockMap[mapIndex].ziliaojia, blockMap[mapIndex].name, blockMap[mapIndex].number);
+			char *address = ConvertCharPointToString(blockMap[mapIndex].loadPath);
 			blockMap[mapIndex].backgroundBitmap.LoadBitmap(address);
 			delete address;
 		}
