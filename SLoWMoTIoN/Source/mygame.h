@@ -191,6 +191,7 @@ namespace game_framework {
 			void OnShow();
 		private:
 			CMapEditer mapEditer;
+			CPoint mousePoint;
 	};
 
 }

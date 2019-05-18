@@ -304,14 +304,32 @@ namespace game_framework
 		~CMapEditer();
 		void Initialize();
 		void AddImage(vector<string>);
+		void SetImageXY(CPoint point) {
+
+		};
+		void SetMapMoveDir(string);
 		void OnSave();
-		
+		void OnMove();
 		void OnShow();
+
+		void SelectBlock(CPoint);
+		void DragBlock(CPoint); //拖曳Block
+
+		bool GetMouseState() { return isMouseDown; };   //取得滑鼠狀態(是否按住)
+		void SetMouseState(bool f) { isMouseDown = f; }; //設置滑鼠狀態
+
+		void LoadImgInfo();
+		void SetDPoint_MouseToTopLeft(CPoint mouse) {if (selectObj != NULL) dpoint_mouseToTopleft = CPoint(mouse.x - selectObj->bmp.Left() - cameraX, mouse.y - selectObj->bmp.Top());};
+		void SetDPoint_MouseToTopLeft() { dpoint_mouseToTopleft = CPoint(0, 0); };
 	private:
 		#pragma region - image info -
 		class ImageInfo
 		{
 		public:
+			void SetXY(int _x, int _y, int camera){
+				x = _x; y = _y; 
+				bmp.SetTopLeft(x - camera, y);
+			};
 			ImageInfo() { x = y = 0; };
 			ImageInfo(string _path)
 			{
@@ -327,14 +345,21 @@ namespace game_framework
 			CMovingBitmap bmp;
 			string path;
 			int x = 0, y = 0;
-		#pragma endregion
 		};
+		#pragma endregion
 
 		ImageInfo background;
 		vector<ImageInfo> block;
 
+		ImageInfo *selectObj;
 		bool haveBG;
+		bool isMouseDown;
 		string WriteSaveInfo(string, string, CPoint);
+
+		CPoint dpoint_mouseToTopleft; //儲存滑鼠座標與block座標的 x, y座標差
+
+		bool isMapRight, isMapLeft;
+		int cameraX;
 	};
 	#pragma endregion
 

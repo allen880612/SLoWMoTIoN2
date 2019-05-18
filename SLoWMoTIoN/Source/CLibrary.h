@@ -9,7 +9,7 @@ namespace myLibrary
 	void DeleteCharPoint(vector<char*>&);
 	int GetPostive(int);
 	int GetRandom(int, int); //±o®ÏRandomº∆¶r°Amin <= k <= max
-
+	int ConvertStringToInt(string);
 	class BitmapPath
 	{
 	public:

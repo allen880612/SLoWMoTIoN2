@@ -98,6 +98,15 @@ namespace myLibrary
 		return random;
 	}
 
+	int ConvertStringToInt(string str)
+	{
+		stringstream ss;
+		int cs;
+		ss << str;
+		ss >> cs;
+		return cs;
+	}
+
 }
 using namespace myLibrary;
 namespace game_framework

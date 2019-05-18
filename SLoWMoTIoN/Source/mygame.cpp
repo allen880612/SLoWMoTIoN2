@@ -1171,6 +1171,7 @@ namespace game_framework {
 	void CGameStateMapEditer::OnBeginState()
 	{
 		mapEditer.Initialize();
+		mapEditer.LoadImgInfo();
 	}
 
 	void CGameStateMapEditer::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -1178,6 +1179,15 @@ namespace game_framework {
 		if (nChar == 'S')
 		{
 			mapEditer.OnSave();
+		}
+
+		if (nChar == 'A') // map move left
+		{
+			mapEditer.SetMapMoveDir("left");
+		}
+		if (nChar == 'D') //map move right
+		{
+			mapEditer.SetMapMoveDir("right");
 		}
 	}
 
@@ -1187,18 +1197,31 @@ namespace game_framework {
 		{
 			GotoGameState(GAME_STATE_INIT);
 		}
+		if (nChar == 'A')
+		{
+			mapEditer.SetMapMoveDir("cleft");
+		}
+		if (nChar == 'D')
+		{
+			mapEditer.SetMapMoveDir("cright");
+		}
 	}
 
 	void CGameStateMapEditer::OnLButtonDown(UINT nFlags, CPoint point)
 	{
+		mapEditer.SetMouseState(true);
+		mapEditer.SelectBlock(point);
 	}
 
 	void CGameStateMapEditer::OnLButtonUp(UINT nFlags, CPoint point)
 	{
+
+		mapEditer.SetMouseState(false);
 	}
 
 	void CGameStateMapEditer::OnMouseMove(UINT nFlags, CPoint point)
 	{
+		mousePoint = point;
 	}
 
 	void CGameStateMapEditer::OnRButtonDown(UINT nFlags, CPoint point)
@@ -1241,6 +1264,16 @@ namespace game_framework {
 		#pragma endregion
 
 		#pragma endregion
+
+		#pragma region - ©ì¦²block -
+		if (mapEditer.GetMouseState()) //·Æ¹««ö¦í¤¤
+		{
+			mapEditer.DragBlock(mousePoint);
+		}
+		#pragma endregion
+		
+		mapEditer.OnMove();
+
 	}
 	void CGameStateMapEditer::OnShow()
 	{

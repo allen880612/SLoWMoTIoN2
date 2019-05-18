@@ -1271,7 +1271,11 @@ namespace game_framework
 	}
 	void CMapEditer::Initialize()
 	{
+		isMouseDown = false;
 		haveBG = false;
+		isMapRight = isMapLeft = false;
+		selectObj = NULL;
+		cameraX = 0;
 		block.clear();
 	}
 	void CMapEditer::AddImage(vector<string> path)
@@ -1288,6 +1292,26 @@ namespace game_framework
 		}
 	}
 
+	void CMapEditer::SetMapMoveDir(string dir)
+	{
+		if (dir == "right")
+		{
+			isMapRight = true;
+		}
+		else if (dir == "left")
+		{
+			isMapLeft = true;
+		}
+		else if (dir == "cleft")
+		{
+			isMapLeft = false;
+		}
+		else if (dir == "cright")
+		{
+			isMapRight = false;
+		}
+	}
+
 	void CMapEditer::OnSave()
 	{
 		fstream mapData;
@@ -1300,6 +1324,41 @@ namespace game_framework
 		}
 		#pragma endregion
 		mapData.close();
+	}
+
+	void CMapEditer::OnMove()
+	{
+		if (isMapRight)
+		{
+			if (cameraX >= 0 && (cameraX + SIZE_X) < background.bmp.Width())
+			{
+				cameraX += MOVE_DISTANCE;
+			}
+			else
+			{
+				cameraX = background.bmp.Width() - SIZE_X;
+			}
+		}
+		if (isMapLeft)
+		{
+			if (cameraX > 0 && cameraX + SIZE_X <= background.bmp.Width())
+			{
+				cameraX -= MOVE_DISTANCE;
+			}
+			else
+			{
+				cameraX = 0;
+			}
+		}
+
+		if (haveBG)
+		{
+			background.bmp.SetTopLeft(background.x - cameraX, background.y);
+		}
+		for (vector<ImageInfo>::iterator mbiter = block.begin(); mbiter != block.end(); mbiter++)
+		{
+			mbiter->bmp.SetTopLeft(mbiter->x - cameraX, mbiter->y);
+		}
 	}
 
 
@@ -1320,6 +1379,66 @@ namespace game_framework
 		{
 			mbiter->bmp.ShowBitmap();
 		}
+	}
+
+	void CMapEditer::SelectBlock(CPoint mouse)
+	{
+		for (vector<ImageInfo>::reverse_iterator mbiter = block.rbegin(); mbiter != block.rend(); mbiter++)
+		{
+			if (IsPointInRect(mouse, mbiter->bmp.GetRect()))
+			{
+				selectObj = &(*mbiter);
+				SetDPoint_MouseToTopLeft(mouse);
+				return;
+			}
+		}
+		selectObj = NULL;
+		SetDPoint_MouseToTopLeft();
+	}
+
+	void CMapEditer::DragBlock(CPoint mouse)
+	{
+		if (selectObj == NULL)
+			return;
+
+		selectObj->SetXY(mouse.x - dpoint_mouseToTopleft.x, mouse.y - dpoint_mouseToTopleft.y, cameraX);
+	}
+
+	void CMapEditer::LoadImgInfo()
+	{
+		fstream mapData;
+		mapData.open("RES\\Map\\mapTest.txt", ios::in);
+		if (!mapData.is_open()) //打不開 回去
+		{
+			mapData.close();
+			return;
+		}
+		string lineData;
+		while (mapData >> lineData)
+		{
+			if (lineData == "background")
+			{
+				haveBG = true;
+				mapData >> lineData;
+				string path = lineData;
+				background = ImageInfo(path); //LoadPath
+				string _x, _y;
+				mapData >> _x >> _y;
+				background.SetXY(ConvertStringToInt(_x), ConvertStringToInt(_y), 0);
+			}
+			else if (lineData == "block")
+			{
+				ImageInfo tempk;
+				mapData >> lineData;
+				string path = lineData;
+				tempk = ImageInfo(path); //LoadPath
+				string _x, _y;
+				mapData >> _x >> _y;
+				tempk.SetXY(ConvertStringToInt(_x), ConvertStringToInt(_y), 0);
+				block.push_back(tempk);
+			}
+		}
+		mapData.close();
 	}
 	#pragma endregion
 }
