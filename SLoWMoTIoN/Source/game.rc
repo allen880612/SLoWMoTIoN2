@@ -161,6 +161,7 @@ BEGIN
     BEGIN
         MENUITEM "&New Background",             ID_EDITER_NEWBG
         MENUITEM "&New Block",                  ID_EDITER_NEWBLOCK
+        MENUITEM "&Edit Map",                   ID_EDITER_EDITMAP
     END
 END
 

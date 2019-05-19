@@ -1296,9 +1296,10 @@ namespace game_framework
 
 	void CToumeiImage::SetBmp(string _path)
 	{
-		char *address = ConvertCharPointToString(_path);
-		bmp.m_hObject = LoadImage(NULL, address, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-		delete address;
+		//char *address = ConvertCharPointToString(_path);
+		bmp.DeleteObject();
+		bmp.m_hObject = LoadImage(NULL, _path.c_str(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+		//delete address;
 	}
 
 	void CToumeiImage::SetFadeInOut(int dFIV, int dFOV)

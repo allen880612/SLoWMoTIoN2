@@ -77,6 +77,7 @@ protected:
 	//
 	void NewBackGround();
 	void NewBlock();
+	void EditMap();
 	//
 	afx_msg void OnButtonPause();
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);

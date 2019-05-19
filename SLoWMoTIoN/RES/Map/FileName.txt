@@ -1,0 +1,1 @@
+load map0.txt

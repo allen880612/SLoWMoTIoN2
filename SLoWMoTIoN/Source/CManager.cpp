@@ -258,9 +258,10 @@ namespace game_framework
 		for (int mapIndex = 0; mapIndex < MAX_MAP_NUMBER; mapIndex++)
 		{	
 			//char *address = ConvertCharPointToString(blockMap[mapIndex].ziliaojia, blockMap[mapIndex].name, blockMap[mapIndex].number);
-			char *address = ConvertCharPointToString(blockMap[mapIndex].loadPath);
+			/*char *address = ConvertCharPointToString(blockMap[mapIndex].loadPath);
 			blockMap[mapIndex].backgroundBitmap.LoadBitmap(address);
-			delete address;
+			delete address;*/
+			blockMap[mapIndex].LoadImg();
 		}
 	}
 	#pragma endregion
@@ -1273,6 +1274,7 @@ namespace game_framework
 	}
 	void CMapEditer::Initialize()
 	{
+		InitializeMapInfo();
 		isMouseDown = false;
 		haveBG = false;
 		isMapRight = isMapLeft = false;
@@ -1282,6 +1284,7 @@ namespace game_framework
 	}
 	void CMapEditer::AddImage(vector<string> path)
 	{
+		//類型 load (load map)
 		//類型(背景 / block), 圖片路徑
 		if (path[0] == "background")
 		{
@@ -1291,6 +1294,10 @@ namespace game_framework
 		else if (path[0] == "block")
 		{
 			block.push_back(ImageInfo(path[1]));
+		}
+		else if (path[0] == "load")
+		{
+			LoadMapInfo(path[1]);
 		}
 	}
 
@@ -1406,10 +1413,11 @@ namespace game_framework
 		selectObj->SetXY(mouse.x - dpoint_mouseToTopleft.x, mouse.y - dpoint_mouseToTopleft.y, cameraX);
 	}
 
-	void CMapEditer::LoadImgInfo()
+	void CMapEditer::LoadMapInfo(string fileName)
 	{
 		fstream mapData;
-		mapData.open("RES\\Map\\mapTest.txt", ios::in);
+		string path = "RES\\Map\\Information\\" + fileName;
+		mapData.open(path, ios::in);
 		if (!mapData.is_open()) //打不開 回去
 		{
 			mapData.close();

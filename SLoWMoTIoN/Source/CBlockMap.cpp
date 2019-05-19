@@ -15,10 +15,10 @@ namespace game_framework
 	CBlockMap::CBlockMap()
 	{
 		nowMap = 0;
-		upMap = 0;
-		downMap = 0;
-		leftMap = 0;
-		rightMap = 0;
+		upMap = -1;
+		downMap = -1;
+		leftMap = -1;
+		rightMap = -1;
 		loadMap = IDB_MAP0;
 		passerbyMaxSize = 5;
 		loadPath = "RES\\Map\\IDB_Map_0.bmp";
@@ -60,11 +60,36 @@ namespace game_framework
 	{
 	}
 
+	void CBlockMap::LoadImg()
+	{
+		char *address = ConvertCharPointToString(loadPath);
+		backgroundBitmap.LoadBitmap(address);
+		delete address;
+
+		for (vector<CBlock>::iterator blockiter = block.begin(); blockiter != block.end(); blockiter++)
+		{
+			address = ConvertCharPointToString(blockiter->path);
+			blockiter->blockBmp.LoadBitmap(address);
+			delete address;
+		}
+	}
+
 	void CBlockMap::LoadInformation(int mapIndex)
 	{
+		string mapFilePath = "RES\\Map\\Information\\map" + std::to_string(mapIndex) + ".txt";
+		LoadMap(mapFilePath);
+	}
+
+	void CBlockMap::LoadInformation(string mapFileName)
+	{
+		string mapFilePath = "RES\\Map\\Information\\" + mapFileName; //§tªþÀÉ¦W
+		LoadMap(mapFileName);
+	}
+
+	void CBlockMap::LoadMap(string mapFilePath)
+	{
 		fstream mapData;
-		string mapFileName = "RES\\Map\\Information\\map" + std::to_string(mapIndex) + ".txt";
-		mapData.open(mapFileName);
+		mapData.open(mapFilePath);
 		string lineData;
 		stringstream ss;
 		while (getline(mapData, lineData))
@@ -86,6 +111,10 @@ namespace game_framework
 			if (tempString[0] == "background")
 			{
 				loadPath = "RES\\Map\\" + tempString[1];
+			}
+			else if(tempString[0] == "block")
+			{
+				block.push_back(CBlock(tempString[1], ConvertStringToInt(tempString[2]), ConvertStringToInt(tempString[3])));
 			}
 			else if (tempString[0] == "up")
 			{

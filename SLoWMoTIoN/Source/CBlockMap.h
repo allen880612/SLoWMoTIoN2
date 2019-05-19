@@ -4,6 +4,24 @@
 using namespace std;
 namespace game_framework
 {
+	#pragma region - CBlock -
+	class CBlock
+	{
+	public:
+		CBlock() { path = ""; x = y = 0; };
+		CBlock(string _p, int _x, int _y) {
+			path = _p;
+			x = _x;
+			y = _y;
+		};
+		~CBlock() {};
+
+		CMovingBitmap blockBmp;
+		string path;
+		int x, y; //實際位置上的x y
+	};
+	#pragma endregion
+
 	class CBlockMap
 	{
 	public:
@@ -11,6 +29,13 @@ namespace game_framework
 		CBlockMap(int);
 		CBlockMap(int, int, int, int, int, int);
 		CBlockMap(int, int, int, int, int, int, string, string, int);
+
+		void LoadImg();
+		void LoadInformation(int);
+		void LoadInformation(string);
+		void CreateInformation();
+
+
 		~CBlockMap();
 		//private:
 		int nowMap; //目前地圖的編號
@@ -23,8 +48,10 @@ namespace game_framework
 		int number;
 
 		string loadPath;
+		vector<CBlock> block;
 	private:
-		void LoadInformation(int);
-		void CreateInformation();
+		void LoadMap(string);
 	};
+	
+	
 }

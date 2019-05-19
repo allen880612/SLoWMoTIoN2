@@ -318,7 +318,7 @@ namespace game_framework
 		bool GetMouseState() { return isMouseDown; };   //¨ú±o·Æ¹«ª¬ºA(¬O§_«ö¦í)
 		void SetMouseState(bool f) { isMouseDown = f; }; //³]¸m·Æ¹«ª¬ºA
 
-		void LoadImgInfo();
+		void LoadMapInfo(string);
 		void SetDPoint_MouseToTopLeft(CPoint mouse) {if (selectObj != NULL) dpoint_mouseToTopleft = CPoint(mouse.x - selectObj->bmp.Left() - cameraX, mouse.y - selectObj->bmp.Top());};
 		void SetDPoint_MouseToTopLeft() { dpoint_mouseToTopleft = CPoint(0, 0); };
 	private:
@@ -360,6 +360,18 @@ namespace game_framework
 
 		bool isMapRight, isMapLeft;
 		int cameraX;
+
+		#pragma region - map Info -
+		int upMap, downMap, leftMap, rightMap;
+		int passerbyMaxSize;
+		vector<int> passerbyID;
+		void InitializeMapInfo() {
+			upMap = downMap = leftMap = rightMap = -1;
+			passerbyMaxSize = 0;
+			passerbyID.push_back(0);
+			passerbyID.push_back(1);
+		}
+		#pragma endregion
 	};
 	#pragma endregion
 
