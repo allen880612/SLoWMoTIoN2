@@ -334,13 +334,12 @@ namespace game_framework
 			ImageInfo(string _path)
 			{
 				path = _path;
-				string ppath = "RES\\Map\\Test\\" + path;
-				char *address = ConvertCharPointToString(ppath);
+				char *address = ConvertCharPointToString(path);
 				bmp.LoadBitmap(address);
 				delete address;
 				x = y = 0;
 				bmp.SetTopLeft(0, 0);
-			}
+			};
 			~ImageInfo() {};
 			CMovingBitmap bmp;
 			string path;
@@ -358,20 +357,13 @@ namespace game_framework
 
 		CPoint dpoint_mouseToTopleft; //儲存滑鼠座標與block座標的 x, y座標差
 
+		CBlockMap map;
+
 		bool isMapRight, isMapLeft;
 		int cameraX;
 
-		#pragma region - map Info -
-		int upMap, downMap, leftMap, rightMap;
-		int passerbyMaxSize;
-		vector<int> passerbyID;
-		void InitializeMapInfo() {
-			upMap = downMap = leftMap = rightMap = -1;
-			passerbyMaxSize = 0;
-			passerbyID.push_back(0);
-			passerbyID.push_back(1);
-		}
-		#pragma endregion
+		void CreateBlockMap();
+		void LoadBlockMap(string);
 	};
 	#pragma endregion
 

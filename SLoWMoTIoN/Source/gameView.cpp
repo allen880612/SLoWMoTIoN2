@@ -268,12 +268,12 @@ void CGameView::NewBackGround()
 	if (result == IDOK)
 	{
 		CString OriginalFilePath = openFileDlg.GetPathName(); //原檔案路徑 + 檔名
-		CString GoalFilePath = "RES\\Map\\Test\\" + openFileDlg.GetFileName(); //目的地路徑 + 檔名
+		CString GoalFilePath = "RES\\Map\\" + openFileDlg.GetFileName(); //目的地路徑 + 檔名
 
 		//原檔案路徑, 目的地路徑, true = 若有同檔名，不覆蓋檔案，同時return false
 		BOOL m = CopyFile(OriginalFilePath, GoalFilePath, true);
 		//DeleteFile("RES\\Map\\FileName.txt");
-		string txtContext = "background " + openFileDlg.GetFileName();
+		string txtContext = "background " + GoalFilePath;
 		fstream dataFile("RES\\Map\\FileName.txt", ios::out);
 		dataFile << txtContext.c_str();
 		dataFile.close();
@@ -292,12 +292,12 @@ void CGameView::NewBlock()
 	if (result == IDOK)
 	{
 		CString OriginalFilePath = openFileDlg.GetPathName(); //原檔案路徑 + 檔名
-		CString GoalFilePath = "RES\\Map\\Test\\" + openFileDlg.GetFileName(); //目的地路徑 + 檔名
+		CString GoalFilePath = "RES\\Map\\" + openFileDlg.GetFileName(); //目的地路徑 + 檔名
 
 																			   //原檔案路徑, 目的地路徑, true = 若有同檔名，不覆蓋檔案，同時return false
 		BOOL m = CopyFile(OriginalFilePath, GoalFilePath, true);
 		//DeleteFile("RES\\Map\\FileName.txt");
-		string txtContext = "block " + openFileDlg.GetFileName();
+		string txtContext = "block " + GoalFilePath;
 		fstream dataFile("RES\\Map\\FileName.txt", ios::out);
 		dataFile << txtContext.c_str();
 		dataFile.close();

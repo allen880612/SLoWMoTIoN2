@@ -20,7 +20,7 @@ namespace game_framework
 		leftMap = -1;
 		rightMap = -1;
 		loadMap = IDB_MAP0;
-		passerbyMaxSize = 5;
+		passerbyMaxSize = 0;
 		loadPath = "RES\\Map\\IDB_Map_0.bmp";
 	}
 
@@ -83,7 +83,7 @@ namespace game_framework
 	void CBlockMap::LoadInformation(string mapFileName)
 	{
 		string mapFilePath = "RES\\Map\\Information\\" + mapFileName; //§tªþÀÉ¦W
-		LoadMap(mapFileName);
+		LoadMap(mapFilePath);
 	}
 
 	void CBlockMap::LoadMap(string mapFilePath)
@@ -110,7 +110,7 @@ namespace game_framework
 			#pragma region - load map information -
 			if (tempString[0] == "background")
 			{
-				loadPath = "RES\\Map\\" + tempString[1];
+				loadPath = tempString[1];
 			}
 			else if(tempString[0] == "block")
 			{
@@ -151,11 +151,26 @@ namespace game_framework
 
 	void CBlockMap::CreateInformation()
 	{
-		fstream data;
 		string fileName = "RES\\Map\\Information\\map" + std::to_string(nowMap) + ".txt";
+		WriteMap(fileName);
+	}
+
+	void CBlockMap::CreateInformation(string mapName) //§tªþÀÉ¦W
+	{
+		string fileName = "RES\\Map\\Information\\" + mapName;
+		WriteMap(fileName);
+	}
+
+	void CBlockMap::WriteMap(string fileName)
+	{
+		fstream data;
 		data.open(fileName, ios::out);
 		vector<string> r;
-		r.push_back("background " + name + "_" + std::to_string(nowMap) + ".bmp" + " 0 0\n");
+		r.push_back("background " + loadPath + " 0 0\n");
+		for (unsigned int i = 0; i < block.size(); i++)
+		{
+			r.push_back("block " + block[i].path + " " + std::to_string(block[i].x) + " " + std::to_string(block[i].y) + "\n");
+		}
 		r.push_back("up " + std::to_string(upMap) + "\n");
 		r.push_back("down " + std::to_string(downMap) + "\n");
 		r.push_back("left " + std::to_string(leftMap) + "\n");

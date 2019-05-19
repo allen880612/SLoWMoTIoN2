@@ -219,36 +219,36 @@ namespace game_framework
 	{
 		for (int mapIndex = 0; mapIndex < MAX_MAP_NUMBER; mapIndex++) //初始化blockMap的上下左右地圖資訊，增加可讀性使用switch敘述
 		{
-			/*switch (mapIndex)
-			{				//順序：目前 上 下 左 右 地圖上有幾個passerby存在， -1表示不存在
-			case 0:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 1, 2, 5, "RES\\Map", "IDB_MAP", mapIndex);
-				break;
+			//switch (mapIndex)
+			//{				//順序：目前 上 下 左 右 地圖上有幾個passerby存在， -1表示不存在
+			//case 0:
+			//	blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 1, 2, 5, "RES\\Map", "IDB_MAP", mapIndex);
+			//	break;
 
-			case 1:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 4, 0, 2, "RES\\Map", "IDB_MAP", mapIndex);
-				break;
+			//case 1:
+			//	blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 4, 0, 2, "RES\\Map", "IDB_MAP", mapIndex);
+			//	break;
 
-			case 2:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 0, 3, 3, "RES\\Map", "IDB_MAP", mapIndex);
-				break;
+			//case 2:
+			//	blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 0, 3, 3, "RES\\Map", "IDB_MAP", mapIndex);
+			//	break;
 
-			case 3:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 2, 5, 0, "RES\\Map", "IDB_MAP", mapIndex);
-				break;
+			//case 3:
+			//	blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 2, 5, 0, "RES\\Map", "IDB_MAP", mapIndex);
+			//	break;
 
-			case 4:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, -1, 1, 0, "RES\\Map", "IDB_MAP", mapIndex);
-				break;
+			//case 4:
+			//	blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, -1, 1, 0, "RES\\Map", "IDB_MAP", mapIndex);
+			//	break;
 
-			case 5:
-				blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 3, -1, 0, "RES\\Map", "IDB_MAP", mapIndex);
-				break;
+			//case 5:
+			//	blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 3, -1, 0, "RES\\Map", "IDB_MAP", mapIndex);
+			//	break;
 
-			default:
-				blockMap[mapIndex] = CBlockMap(-1, -1, -1, -1, -1, 0, "RES\\Map", "IDB_MAP", 0);
-				break;
-			}*/
+			//default:
+			//	blockMap[mapIndex] = CBlockMap(-1, -1, -1, -1, -1, 0, "RES\\Map", "IDB_MAP", 0);
+			//	break;
+			//}
 			blockMap[mapIndex] = CBlockMap(mapIndex);
 		}
 	}
@@ -261,7 +261,11 @@ namespace game_framework
 			/*char *address = ConvertCharPointToString(blockMap[mapIndex].loadPath);
 			blockMap[mapIndex].backgroundBitmap.LoadBitmap(address);
 			delete address;*/
-			blockMap[mapIndex].LoadImg();
+			if (!blockMap[mapIndex].isLoad)
+			{
+				blockMap[mapIndex].LoadImg();
+				blockMap[mapIndex].isLoad = true;
+			}
 		}
 	}
 	#pragma endregion
@@ -1274,13 +1278,11 @@ namespace game_framework
 	}
 	void CMapEditer::Initialize()
 	{
-		InitializeMapInfo();
 		isMouseDown = false;
 		haveBG = false;
 		isMapRight = isMapLeft = false;
 		selectObj = NULL;
 		cameraX = 0;
-		block.clear();
 	}
 	void CMapEditer::AddImage(vector<string> path)
 	{
@@ -1297,7 +1299,7 @@ namespace game_framework
 		}
 		else if (path[0] == "load")
 		{
-			LoadMapInfo(path[1]);
+			LoadBlockMap(path[1]);
 		}
 	}
 
@@ -1323,7 +1325,7 @@ namespace game_framework
 
 	void CMapEditer::OnSave()
 	{
-		fstream mapData;
+		/*fstream mapData;
 		mapData.open("RES\\Map\\mapTest.txt", ios::out);
 		mapData << WriteSaveInfo("background", background.path, CPoint(background.x, background.y));
 		#pragma region - write block info -
@@ -1332,7 +1334,32 @@ namespace game_framework
 			mapData << WriteSaveInfo("block", block[i].path, CPoint(block[i].x, block[i].y));
 		}
 		#pragma endregion
-		mapData.close();
+		mapData.close();*/
+		CreateBlockMap();
+		map.CreateInformation("mapTest.txt");
+	}
+
+	void CMapEditer::CreateBlockMap()
+	{
+		map.block.clear();
+		map.loadPath = background.path;
+		for (vector<ImageInfo>::iterator mbiter = block.begin(); mbiter != block.end(); mbiter++)
+		{
+			map.block.push_back(CBlock(mbiter->path, mbiter->x, mbiter->y));
+		}
+	}
+
+	void CMapEditer::LoadBlockMap(string mapName)
+	{
+		map.LoadInformation(mapName);
+		background = ImageInfo(map.loadPath);
+		haveBG = true;
+		for (vector<CBlock>::iterator mbiter = map.block.begin(); mbiter != map.block.end(); mbiter++)
+		{
+			ImageInfo tempk = ImageInfo(mbiter->path);
+			tempk.SetXY(mbiter->x, mbiter->y, cameraX);
+			block.push_back(tempk);
+		}
 	}
 
 	void CMapEditer::OnMove()
@@ -1413,7 +1440,7 @@ namespace game_framework
 		selectObj->SetXY(mouse.x - dpoint_mouseToTopleft.x, mouse.y - dpoint_mouseToTopleft.y, cameraX);
 	}
 
-	void CMapEditer::LoadMapInfo(string fileName)
+	void CMapEditer::LoadMapInfo(string fileName) //目前沒用中
 	{
 		fstream mapData;
 		string path = "RES\\Map\\Information\\" + fileName;

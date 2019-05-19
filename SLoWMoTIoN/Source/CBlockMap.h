@@ -9,15 +9,19 @@ namespace game_framework
 	{
 	public:
 		CBlock() { path = ""; x = y = 0; };
-		CBlock(string _p, int _x, int _y) {
-			path = _p;
+		CBlock(string _path, int _x, int _y) {
+			path = _path;
 			x = _x;
 			y = _y;
 		};
 		~CBlock() {};
-
+		void SetXY(int _x, int _y, int camera = 0) {
+			x = _x; y = _y;
+			blockBmp.SetTopLeft(x - camera, y);
+		};
 		CMovingBitmap blockBmp;
 		string path;
+		string name;
 		int x, y; //實際位置上的x y
 	};
 	#pragma endregion
@@ -34,7 +38,9 @@ namespace game_framework
 		void LoadInformation(int);
 		void LoadInformation(string);
 		void CreateInformation();
+		void CreateInformation(string);
 
+		bool isLoad = false;
 
 		~CBlockMap();
 		//private:
@@ -50,7 +56,8 @@ namespace game_framework
 		string loadPath;
 		vector<CBlock> block;
 	private:
-		void LoadMap(string);
+		void LoadMap(string); //讀取string的txt
+		void WriteMap(string); //寫下string的txt
 	};
 	
 	
