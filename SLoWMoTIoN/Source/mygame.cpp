@@ -86,9 +86,7 @@ namespace game_framework {
 		CLayerManager::Instance()->Initialize();
 		CAudio::Instance()->Initialize();
 		CAudio::Instance()->Play("SLoWMoTIoN_Menu", true);
-
 		
-
 		//temp
 		if (!isLoaded)
 		{

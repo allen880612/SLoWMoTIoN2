@@ -102,6 +102,7 @@
 
 #define END_EOF "nonenone"
 
+#define EDITER_PRESET_SAVETXTNAME "mapTest.txt"
 
 
 #define GAME_TIME 30		//­­¨î®É¶¡

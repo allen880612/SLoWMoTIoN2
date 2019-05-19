@@ -1278,6 +1278,7 @@ namespace game_framework
 	}
 	void CMapEditer::Initialize()
 	{
+		saveTxtName = EDITER_PRESET_SAVETXTNAME;
 		isMouseDown = false;
 		haveBG = false;
 		isMapRight = isMapLeft = false;
@@ -1300,6 +1301,7 @@ namespace game_framework
 		else if (path[0] == "load")
 		{
 			LoadBlockMap(path[1]);
+			saveTxtName = path[1];
 		}
 	}
 
@@ -1336,7 +1338,20 @@ namespace game_framework
 		#pragma endregion
 		mapData.close();*/
 		CreateBlockMap();
-		map.CreateInformation("mapTest.txt");
+		if (saveTxtName == EDITER_PRESET_SAVETXTNAME) //saveTxtName¬O¹w³]
+		{
+			CString saveDir = ".txt";
+			CString saveName = EDITER_PRESET_SAVETXTNAME;
+			CString saveExt = "txt (*.txt)|*.txt||";
+			CFileDialog saveDlg(false, saveDir, saveName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, saveExt);
+			int result = saveDlg.DoModal();
+
+			if (result == IDOK)
+			{
+				saveTxtName = saveDlg.GetFileName();
+			}
+		}
+		map.CreateInformation(saveTxtName);
 	}
 
 	void CMapEditer::CreateBlockMap()

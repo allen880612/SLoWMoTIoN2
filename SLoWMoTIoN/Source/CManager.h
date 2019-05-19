@@ -353,7 +353,8 @@ namespace game_framework
 		ImageInfo *selectObj;
 		bool haveBG;
 		bool isMouseDown;
-		string WriteSaveInfo(string, string, CPoint);
+		
+		string saveTxtName;
 
 		CPoint dpoint_mouseToTopleft; //儲存滑鼠座標與block座標的 x, y座標差
 
@@ -364,8 +365,8 @@ namespace game_framework
 
 		void CreateBlockMap();
 		void LoadBlockMap(string);
+		string WriteSaveInfo(string, string, CPoint);
 	};
 	#pragma endregion
-
 
 }

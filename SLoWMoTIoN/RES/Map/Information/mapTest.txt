@@ -1,9 +1,0 @@
-background RES\Map\IDB_MAP_0.bmp 0 0
-block RES\Map\bm.bmp 324 93
-block RES\Map\bm.bmp 115 263
-up -1
-down -1
-left 1
-right 2
-passerbyNumber 5
-passerbyID 0 1
