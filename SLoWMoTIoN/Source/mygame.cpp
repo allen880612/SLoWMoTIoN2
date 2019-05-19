@@ -87,24 +87,24 @@ namespace game_framework {
 		CAudio::Instance()->Initialize();
 		CAudio::Instance()->Play("SLoWMoTIoN_Menu", true);
 
-		#pragma region Button Create
+		/*#pragma region Button Create
 		buttonManager.CreateButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true, false);
 		buttonManager.CreateButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true, false);
 		buttonManager.CreateButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(350, 190), false, true);
 		buttonManager.CreateButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(350, 260), false, true);
 		buttonManager.CreateButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(350, 330), false, true);
-		#pragma endregion
+		#pragma endregion*/
 
 		//temp
 		if (!isLoaded)
 		{
-			/*#pragma region Button Create
+			#pragma region Button Create
 			buttonManager.CreateButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true, false);
 			buttonManager.CreateButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true, false);
 			buttonManager.CreateButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(350, 190), false, true);
 			buttonManager.CreateButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(350, 260), false, true);
 			buttonManager.CreateButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(350, 330), false, true);
-			#pragma endregion*/
+			#pragma endregion
 			buttonManager.Load();
 			windowsEnding.LoadResource();
 		}

@@ -1,2 +1,8 @@
 讀檔 > 圖片統一讀取路徑
-寫檔 > 寫檔統一寫路徑
+寫檔 > 圖片統一寫路徑
+
+地圖 > 讀取統一寫檔名(地圖放在Information)
+
+
+讀取 > mapTxt > Editer > CBlock > 寫入ImageInfo
+寫檔 > ImageInfo 寫入 CBlock > 寫入TXT

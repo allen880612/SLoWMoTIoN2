@@ -120,6 +120,7 @@ namespace game_framework
 
 	#pragma region - Dialog -
 	//I don't know what time use this?
+	//這是我打ㄉ?
 	class CDialog
 	{
 	public:
