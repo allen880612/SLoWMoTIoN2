@@ -87,26 +87,23 @@ namespace game_framework {
 		CAudio::Instance()->Initialize();
 		CAudio::Instance()->Play("SLoWMoTIoN_Menu", true);
 
-		#pragma region Button Create
-		buttonManager.CreateButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true, false);
-		buttonManager.CreateButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true, false);
-		buttonManager.CreateButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(350, 190), false, true);
-		buttonManager.CreateButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(350, 260), false, true);
-		buttonManager.CreateButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(350, 330), false, true);
-		#pragma endregion
+		
 
 		//temp
 		if (!isLoaded)
 		{
-			/*#pragma region Button Create
+			#pragma region Button Create
 			buttonManager.CreateButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true, false);
 			buttonManager.CreateButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true, false);
 			buttonManager.CreateButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(350, 190), false, true);
 			buttonManager.CreateButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(350, 260), false, true);
 			buttonManager.CreateButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(350, 330), false, true);
-			#pragma endregion*/
+			#pragma endregion
 			buttonManager.Load();
 			windowsEnding.LoadResource();
+
+			//frame.LoadBitmap(".\\RES\\UI\\blood_frame.bmp", RGB(214, 214, 214));
+			//blood.LoadBitmap(".\\RES\\UI\\blood.bmp", RGB(214, 214, 214));
 		}
 
 
@@ -241,38 +238,9 @@ namespace game_framework {
 
 	void CGameStateInit::OnShow()
 	{
-		/*CEraser *fuck;
-		CNPC ddd;
-		fuck = &ddd;*/
-		//
-		// 貼上logo
-		//
-		//logo.SetTopLeft((SIZE_X - logo.Width()) / 2, SIZE_Y / 8);
-
 		logo.ShowBitmap();
 		CLayerManager::Instance()->ShowLayer();
-
 		windowsEnding.OnShow();
-
-		////
-		//// Demo螢幕字型的使用，不過開發時請盡量避免直接使用字型，改用CMovingBitmap比較好
-		////
-		//CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
-		//CFont f, *fp;
-		//f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
-		//fp = pDC->SelectObject(&f);					// 選用 font f
-		//
-		///*
-		//pDC->SetBkColor(RGB(0, 0, 0));
-		//pDC->SetTextColor(RGB(255, 255, 0));
-		//pDC->TextOut(120, 220, "Please click mouse or press SPACE to begin.");
-		//pDC->TextOut(5, 395, "Press Ctrl-F to switch in between window mode and full screen mode.");
-		//if (enable_game_pause)
-		//	pdc->textout(5, 425, "press ctrl-q to pause the game.");
-		//pDC->TextOut(5, 455, "Press Alt-F4 or ESC to Quit.");
-		//*/
-		//pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
-		//CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
 	}
 
 	/////////////////////////////////////////////////////////////////////////////

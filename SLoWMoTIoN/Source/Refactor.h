@@ -25,9 +25,11 @@
 
 #define AUDIO_NUM 9
 
-#pragma region - Layer -
+#pragma region - Layer 
+#define INTERFACE_LAYER 9
 #define BULLET_LAYER 6
 #define BOSS_LAYER 5
+#define NPC_LAYER 4
 #pragma endregion
 
 
@@ -92,12 +94,6 @@
 #define BLOCK_DEPRATMENT "block"
 #pragma endregion
 
-#pragma region - layer -
-#define INTERFACE_LAYER 9
-#define BULLET_LAYER 6
-#define NPC_LAYER 4
-#pragma endregion
-
 #pragma region - End - Name -
 #define END_NAME_WINXINGTING "WinXingting"
 #define END_NAME_LOSEXINGTING "LoseXingting"
@@ -109,5 +105,5 @@
 
 
 #define GAME_TIME 30		//­­¨î®É¶¡
-#define DEBUG_MODE false
+#define DEBUG_MODE true
 

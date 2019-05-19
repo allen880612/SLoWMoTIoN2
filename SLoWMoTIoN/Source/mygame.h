@@ -85,7 +85,9 @@ namespace game_framework {
 		CPoint		  mouse;
 		CMovingBitmap logo;								// csieªºlogo
 
-		
+		CMovingBitmap blood;
+		CMovingBitmap frame;
+
 		CScrollWindows windowsEnding;
 		//CWindows windowsEnding;
 

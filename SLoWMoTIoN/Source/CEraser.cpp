@@ -287,9 +287,12 @@ namespace game_framework {
 		LoadAction("idle", BitmapPath("RES\\Role\\miku\\idle", "idle", 19, RGB(150, 200, 250)));
 		LoadAction("run", BitmapPath("RES\\Role\\miku\\run", "run", 7, RGB(150, 200, 250)));
 		LoadAction("jump", BitmapPath("RES\\Role\\miku\\jump", "jump", 7, RGB(150, 200, 250)));
-		hp_left.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
+		//hp_left.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
 		scoreInteger.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
 		decisionPoint.LoadBitmap("RES\\Role\\miku\\cursor.bmp", RGB(214, 214, 214));
+
+		blood.LoadBitmap("RES\\UI\\blood.bmp", RGB(214, 214, 214));
+		blood_frame.LoadBitmap("RES\\UI\\blood_frame.bmp", RGB(214, 214, 214));
 	}
 
 	void CRole::LoadAction(string _action, BitmapPath _loadpath)
@@ -404,7 +407,7 @@ namespace game_framework {
 
 	void CRole::OnShow()
 	{
-		hp_left.ShowBitmap();
+		//hp_left.ShowBitmap();
 		scoreInteger.ShowBitmap();
 		//action.OnShow();
 		/*animation.SetTopLeft(x, y);
@@ -514,7 +517,11 @@ namespace game_framework {
 	void CRole::SubHp()
 	{
 		hp--;
-		hp_left.Add(-1);
+	
+		int deltaHP = blood.Width() / inithp;
+		blood.SetTopLeft(blood.Left() - deltaHP, 0);
+
+		//hp_left.Add(-1);
 
 		if (hp <= 0)
 		{
@@ -554,13 +561,19 @@ namespace game_framework {
 		}
 		#pragma endregion
 
-		hp_left.Initialize(CPoint(20, 100), inithp, 2);
+		blood.SetTopLeft(0, 0);
+		blood_frame.SetTopLeft(0, 0);
+
+		//hp_left.Initialize(CPoint(20, 100), inithp, 2);
 		scoreInteger.Initialize(CPoint(500, 0), 0, 3);
 
 		collisionRect = CRect(CPoint(x - move_distance, y - move_distance), CPoint(x + Width() + move_distance, y + Height() + move_distance));
 
 		CLayerManager::Instance()->AddObject(&decisionPoint, layer.GetLayer() + 1);
 		CLayerManager::Instance()->AddObject(&action, layer.GetLayer());
+
+		CLayerManager::Instance()->AddObject(&blood, INTERFACE_LAYER - 1);
+		CLayerManager::Instance()->AddObject(&blood_frame, INTERFACE_LAYER);
 
 	}
 
