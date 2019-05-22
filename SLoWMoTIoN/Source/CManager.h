@@ -363,6 +363,8 @@ namespace game_framework
 		bool isMapRight, isMapLeft;
 		int cameraX;
 
+		bool isSaved; //曾經有儲存過地圖
+
 		void CreateBlockMap();
 		void LoadBlockMap(string);
 		string WriteSaveInfo(string, string, CPoint);

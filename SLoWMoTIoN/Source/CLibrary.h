@@ -6,6 +6,7 @@ namespace myLibrary
 	//char* ConvertCharPointToString(BitmapPath)
 	char* ConvertCharPointToString(string);
 	void getFolderFile(string, vector<string>*); 
+	int getFolerFileNumber(string);
 	void DeleteCharPoint(vector<char*>&);
 	int GetPostive(int);
 	int GetRandom(int, int); //±o®ÏRandomº∆¶r°Amin <= k <= max

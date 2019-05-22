@@ -1174,6 +1174,10 @@ namespace game_framework {
 		{
 			mapEditer.SetMapMoveDir("right");
 		}
+
+		if (nChar == 'K')
+		{
+		}
 	}
 
 	void CGameStateMapEditer::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)

@@ -50,6 +50,18 @@ namespace game_framework
 		background = blockMap[nowMap].backgroundBitmap;
 		background.SetTopLeft(0, 0);
 		CLayerManager::Instance()->AddObject(&background, layer.GetLayer());
+		#pragma region - 設置block -
+		for (int i = 0 ; i < MAX_MAP_NUMBER; i++)
+		{
+			for (vector<CBlock>::iterator bkiter = blockMap[i].block.begin(); bkiter != blockMap[i].block.end(); bkiter++)
+			{
+				bkiter->blockBmp.SetValid(false | (i == nowMap));
+				bkiter->SetXY(bkiter->x, bkiter->y);
+				CLayerManager::Instance()->AddObject(&(bkiter->blockBmp), 7);
+			}
+		}
+		#pragma endregion
+
 		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
 	}
 
@@ -138,6 +150,19 @@ namespace game_framework
 
 	void CMapManager::ChangeMap(int changeMap, string nextMap)
 	{
+		#pragma region - 設置block -
+		//關掉原本的
+		for (vector<CBlock>::iterator bkiter = blockMap[nowMap].block.begin(); bkiter != blockMap[nowMap].block.end(); bkiter++)
+		{
+			bkiter->blockBmp.SetValid(false);
+		}
+		//打開後來的
+		for (vector<CBlock>::iterator bkiter = blockMap[changeMap].block.begin(); bkiter != blockMap[changeMap].block.end(); bkiter++)
+		{
+			bkiter->blockBmp.SetValid(true);
+		}
+		#pragma endregion
+
 		nowMap = changeMap;
 		loadMap = blockMap[nowMap].loadMap;
 		background = blockMap[nowMap].backgroundBitmap;
@@ -156,6 +181,7 @@ namespace game_framework
 
 		passerbyManager.Clear();
 		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
+
 		x = CCamera::Instance()->GetX();
 		
 	}
@@ -189,9 +215,19 @@ namespace game_framework
 		//}
 		//SetXY(x - CCamera::Instance()->GetX(), 0);
 
+		#pragma region - 螢幕上的 background 要移動 -
 		int dx = CCamera::Instance()->GetX();
 		x = -dx;
 		SetXY(x, 0);
+		#pragma endregion
+
+
+		#pragma region - 螢幕上的 block 也要移動 -
+		for (vector<CBlock>::iterator bkiter = blockMap[nowMap].block.begin(); bkiter != blockMap[nowMap].block.end(); bkiter++)
+		{
+			bkiter->SetXY(bkiter->x, bkiter->y, dx);
+		}
+		#pragma endregion
 	}
 
 	void CMapManager::SetXY(int _x, int _y)
@@ -1063,7 +1099,7 @@ namespace game_framework
 	CEndManager CEndManager::endManager;
 	CEndManager::CEndManager()
 	{
-		endBmp.SetFadeInOut(30, -40);
+		endBmp.SetFadeInOut(3, -4);
 		Initialize();
 	}
 
@@ -1276,15 +1312,18 @@ namespace game_framework
 	{
 		block.clear();
 	}
+
 	void CMapEditer::Initialize()
 	{
 		saveTxtName = EDITER_PRESET_SAVETXTNAME;
 		isMouseDown = false;
+		isSaved = false;
 		haveBG = false;
 		isMapRight = isMapLeft = false;
 		selectObj = NULL;
 		cameraX = 0;
 	}
+
 	void CMapEditer::AddImage(vector<string> path)
 	{
 		//類型 load (load map)
@@ -1338,10 +1377,11 @@ namespace game_framework
 		#pragma endregion
 		mapData.close();*/
 		CreateBlockMap();
-		if (saveTxtName == EDITER_PRESET_SAVETXTNAME) //saveTxtName是預設
+		if (!isSaved) //沒有儲存過地圖
 		{
 			CString saveDir = ".txt";
-			CString saveName = EDITER_PRESET_SAVETXTNAME;
+			string tempSaveName = "map" + std::to_string(getFolerFileNumber("RES\\Map\\Information\\")) + ".txt"; //緩衝
+			CString saveName = tempSaveName.c_str();
 			CString saveExt = "txt (*.txt)|*.txt||";
 			CFileDialog saveDlg(false, saveDir, saveName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, saveExt);
 			int result = saveDlg.DoModal();
@@ -1349,6 +1389,11 @@ namespace game_framework
 			if (result == IDOK)
 			{
 				saveTxtName = saveDlg.GetFileName();
+				isSaved = true;
+			}
+			if (result == IDCANCEL)
+			{
+				return;
 			}
 		}
 		map.CreateInformation(saveTxtName);
@@ -1367,6 +1412,7 @@ namespace game_framework
 	void CMapEditer::LoadBlockMap(string mapName)
 	{
 		map.LoadInformation(mapName);
+		isSaved = true;
 		background = ImageInfo(map.loadPath);
 		haveBG = true;
 		for (vector<CBlock>::iterator mbiter = map.block.begin(); mbiter != map.block.end(); mbiter++)
@@ -1412,7 +1458,7 @@ namespace game_framework
 		}
 	}
 
-
+	//沒路用ING
 	string CMapEditer::WriteSaveInfo(string type, string path, CPoint point)
 	{
 		string returnStr = type + " " + path + " " + std::to_string(point.x) + " " + std::to_string(point.y) + "\n";
@@ -1455,7 +1501,8 @@ namespace game_framework
 		selectObj->SetXY(mouse.x - dpoint_mouseToTopleft.x, mouse.y - dpoint_mouseToTopleft.y, cameraX);
 	}
 
-	void CMapEditer::LoadMapInfo(string fileName) //目前沒用中
+	//目前沒用
+	void CMapEditer::LoadMapInfo(string fileName)
 	{
 		fstream mapData;
 		string path = "RES\\Map\\Information\\" + fileName;
