@@ -17,6 +17,7 @@ namespace game_framework
 	#pragma region - mapManager -
 	CMapManager::CMapManager()
 	{
+		max_map_number = getFolerFileNumber("RES\\Map\\Information\\");
 		InitializeCBlockMap();
 		//Initialize();
 	}
@@ -51,7 +52,7 @@ namespace game_framework
 		background.SetTopLeft(0, 0);
 		CLayerManager::Instance()->AddObject(&background, layer.GetLayer());
 		#pragma region - 設置block -
-		for (int i = 0 ; i < MAX_MAP_NUMBER; i++)
+		for (int i = 0 ; i < max_map_number; i++)
 		{
 			for (vector<CBlock>::iterator bkiter = blockMap[i].block.begin(); bkiter != blockMap[i].block.end(); bkiter++)
 			{
@@ -258,7 +259,7 @@ namespace game_framework
 
 	void CMapManager::InitializeCBlockMap()
 	{
-		for (int mapIndex = 0; mapIndex < MAX_MAP_NUMBER; mapIndex++) //初始化blockMap的上下左右地圖資訊，增加可讀性使用switch敘述
+		for (int mapIndex = 0; mapIndex < max_map_number; mapIndex++) //初始化blockMap的上下左右地圖資訊，增加可讀性使用switch敘述
 		{
 			//switch (mapIndex)
 			//{				//順序：目前 上 下 左 右 地圖上有幾個passerby存在， -1表示不存在
@@ -296,7 +297,7 @@ namespace game_framework
 
 	void CMapManager::LoadMapBitmap() //如字面意思，LoadMapBitmap，在GameStateRun:OnInit運行，一次性load blockMap的所有圖片
 	{
-		for (int mapIndex = 0; mapIndex < MAX_MAP_NUMBER; mapIndex++)
+		for (int mapIndex = 0; mapIndex < max_map_number; mapIndex++)
 		{	
 			//char *address = ConvertCharPointToString(blockMap[mapIndex].ziliaojia, blockMap[mapIndex].name, blockMap[mapIndex].number);
 			/*char *address = ConvertCharPointToString(blockMap[mapIndex].loadPath);
@@ -1320,6 +1321,8 @@ namespace game_framework
 
 	void CMapEditer::Initialize()
 	{
+		nowMap = getFolerFileNumber("RES\\Map\\Information\\");
+		isPrintNowMap = false;
 		saveTxtName = EDITER_PRESET_SAVETXTNAME;
 		isMouseDown = false;
 		isSaved = false;
@@ -1385,7 +1388,7 @@ namespace game_framework
 		if (!isSaved) //沒有儲存過地圖
 		{
 			CString saveDir = ".txt";
-			string tempSaveName = "map" + std::to_string(getFolerFileNumber("RES\\Map\\Information\\")) + ".txt"; //緩衝
+			string tempSaveName = "map" + std::to_string(nowMap) + ".txt"; //緩衝
 			CString saveName = tempSaveName.c_str();
 			CString saveExt = "txt (*.txt)|*.txt||";
 			CFileDialog saveDlg(false, saveDir, saveName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, saveExt);
@@ -1416,6 +1419,9 @@ namespace game_framework
 
 	void CMapEditer::LoadBlockMap(string mapName)
 	{
+		//char *fff = ConvertCharPointToString(fileName);
+		sscanf(mapName.c_str(), "map%d.txt", &nowMap);
+		//delete fff;
 		map.LoadInformation(mapName);
 		isSaved = true;
 		background = ImageInfo(map.loadPath);
@@ -1517,6 +1523,7 @@ namespace game_framework
 			mapData.close();
 			return;
 		}
+
 		string lineData;
 		while (mapData >> lineData)
 		{
@@ -1543,6 +1550,10 @@ namespace game_framework
 			}
 		}
 		mapData.close();
+	}
+	string CMapEditer::GetNowMap()
+	{
+		return "now map: " + std::to_string(nowMap);
 	}
 	#pragma endregion
 }
