@@ -458,6 +458,18 @@ namespace game_framework {
 		}
 		#pragma endregion
 
+		#pragma region - role - collision with block -
+		vector<CBlock> *block = mapManager.GetBlockVector();
+		
+		for (vector<CBlock>::iterator bkiter = block->begin(); bkiter != block->end(); bkiter++)
+		{
+			if (role.IsCollisionBlock(&(*bkiter))) //collision with boss
+			{
+				CCamera::Instance()->SetCanMoving(false);
+				role.SetCanMoving(false);
+			}
+		}
+		#pragma endregion
 
 		#pragma region -- Moving Left --
 		if (role.GetMovingLeft())

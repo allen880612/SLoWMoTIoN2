@@ -112,6 +112,11 @@ namespace game_framework
 		return passerbyManager.passerby[npcIndex]->GetValid();
 	}
 
+	vector<CBlock>* CMapManager::GetBlockVector()
+	{
+		return &blockMap[nowMap].block;
+	}
+
 	CMovingBitmap* CMapManager::GetBitmap()
 	{
 		return &background;

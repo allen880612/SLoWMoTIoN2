@@ -50,6 +50,8 @@ namespace game_framework
 		int GetNpcLayer(int);
 		bool GetNpcValid(int);
 
+		vector<CBlock> *GetBlockVector();
+
 		void SetMovingLeft(bool);
 		void SetMovingRight(bool);
 		void OnMove();

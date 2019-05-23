@@ -486,6 +486,13 @@ namespace game_framework {
 		return IsRectCollision(collisionRect, boss->GetAnimate()->GetRect());
 	}
 
+	bool CRole::IsCollisionBlock(CBlock *block) //get iterator in mygame.cpp
+	{
+		ResetCollisionRect();
+
+		return IsRectCollision(collisionRect, block->blockBmp.GetRect());
+	}
+
 	bool CRole::IsCollisionLevel4(CScallion *level4)
 	{
 		return IsRectCollision(decisionPoint.GetRect(), level4->GetAnimate()->GetRect());
