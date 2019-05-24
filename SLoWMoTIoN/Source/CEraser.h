@@ -135,6 +135,8 @@ namespace game_framework {
 		
 		bool GetDrop();
 		int GetVelocity();
+		void SetVelocity(int v) { velocity = v; };
+
 		bool IsMoving();
 		bool IsDead() { return isDead; };
 		CAction* GetAction() { return &action; };

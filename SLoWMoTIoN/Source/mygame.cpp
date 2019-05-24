@@ -437,7 +437,7 @@ namespace game_framework {
 		#pragma region - role - collision with block -
 		vector<CBlock> *block = mapManager.GetBlockVector();
 		bool isOnFloor = false;
-		int floorY = 0;
+		int floorY = SIZE_Y;
 		for (vector<CBlock>::iterator bkiter = block->begin(); bkiter != block->end(); bkiter++)
 		{
 			if (role.IsCollisionBlock(&(*bkiter))) //collision with block
@@ -620,6 +620,12 @@ namespace game_framework {
 		#pragma endregion
 
 		#pragma region - Jump -
+		/*if (!isOnFloor)
+		{
+			role.SetMovingJump(true);
+			role.SetCanJumping(false);
+			role.SetVelocity(0);
+		}*/
 		if (role.GetMovingJump())
 		{
 			if (role.GetY2() - role.GetVelocity() >= SIZE_Y && role.GetDrop() || isOnFloor)
@@ -645,7 +651,6 @@ namespace game_framework {
 				role.SetMovingJump(true);
 				role.SetCanJumping(false);
 			}
-
 		}
 		#pragma endregion
 		

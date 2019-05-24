@@ -465,7 +465,7 @@ namespace game_framework {
 
 	bool CRole::GetDrop()
 	{
-		return velocity <= 0;
+		return velocity < 0;
 	}
 
 	int CRole::GetVelocity()

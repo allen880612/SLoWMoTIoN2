@@ -1,6 +1,6 @@
 background RES\Map\IDB_MAP_0.bmp 0 0
-block RES\Map\bm.bmp 183 306
-block RES\Map\bm.bmp 572 303
+block RES\Map\bm.bmp 76 83
+block RES\Map\bm.bmp 477 37
 block RES\Map\bm.bmp 453 405
 up -1
 down -1
