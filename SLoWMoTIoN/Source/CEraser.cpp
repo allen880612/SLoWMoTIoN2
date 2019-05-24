@@ -493,6 +493,13 @@ namespace game_framework {
 		return IsRectCollision(collisionRect, block->blockBmp.GetRect());
 	}
 
+	bool CRole::IsRoleOnBlock(CBlock *block)
+	{
+		ResetCollisionRect();
+
+		return IsRectCollision(collisionDownRect, block->blockBmp.GetRect());
+	}
+
 	bool CRole::IsCollisionLevel4(CScallion *level4)
 	{
 		return IsRectCollision(decisionPoint.GetRect(), level4->GetAnimate()->GetRect());
@@ -593,6 +600,7 @@ namespace game_framework {
 	{
 		collisionRect = action.GetRect();
 		int dx = move_distance + 9;
+		collisionRect.bottom -= 6;
 		if (isMovingRight)
 		{
 			collisionRect.right += dx;
@@ -601,9 +609,14 @@ namespace game_framework {
 		{
 			collisionRect.left -= dx;
 		}
+
+		collisionDownRect = action.GetRect();
+		int dy = move_distance ;
+		if (GetDrop())
+		{
+			collisionDownRect.bottom += dy;
+		}
 	}
-
-
 	#pragma endregion
 
 	#pragma region - CPasserby -

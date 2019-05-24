@@ -436,7 +436,8 @@ namespace game_framework {
 
 		#pragma region - role - collision with block -
 		vector<CBlock> *block = mapManager.GetBlockVector();
-
+		bool isOnFloor = false;
+		int floorY = 0;
 		for (vector<CBlock>::iterator bkiter = block->begin(); bkiter != block->end(); bkiter++)
 		{
 			if (role.IsCollisionBlock(&(*bkiter))) //collision with block
@@ -444,6 +445,12 @@ namespace game_framework {
 				CCamera::Instance()->SetCanMoving(false);
 				//role.SetCanMoving(false);
 				roleCanMoving = false;
+			}
+
+			if (role.IsRoleOnBlock(&(*bkiter)) && role.GetDrop())
+			{
+				floorY = bkiter->y;
+				isOnFloor = true;
 			}
 		}
 		#pragma endregion
@@ -615,12 +622,23 @@ namespace game_framework {
 		#pragma region - Jump -
 		if (role.GetMovingJump())
 		{
-			if (role.GetY2() - role.GetVelocity() >= SIZE_Y && role.GetDrop())
+			if (role.GetY2() - role.GetVelocity() >= SIZE_Y && role.GetDrop() || isOnFloor)
 			{
-				role.SetMovingJump(false);
-				role.SetCanJumping(true);
-				role.GetAction()->SetAction("idle");	//żż
-				role.SetXY(role.GetX1(), SIZE_Y - role.Height() - 1);
+				int ddddy = 2;
+				if (isOnFloor)
+				{
+					role.SetMovingJump(false);
+					role.SetCanJumping(true);
+					role.GetAction()->SetAction("idle");
+					role.SetXY(role.GetX1(), floorY - role.Height() + ddddy);
+				}
+				else
+				{
+					role.SetMovingJump(false);
+					role.SetCanJumping(true);
+					role.GetAction()->SetAction("idle");	//żż
+					role.SetXY(role.GetX1(), SIZE_Y - role.Height() + ddddy);
+				}
 			}
 			else
 			{

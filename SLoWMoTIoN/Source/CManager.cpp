@@ -291,7 +291,7 @@ namespace game_framework
 			//	blockMap[mapIndex] = CBlockMap(-1, -1, -1, -1, -1, 0, "RES\\Map", "IDB_MAP", 0);
 			//	break;
 			//}
-			blockMap[mapIndex] = CBlockMap(mapIndex);
+			blockMap.push_back(CBlockMap(mapIndex));
 		}
 	}
 
@@ -1321,6 +1321,7 @@ namespace game_framework
 
 	void CMapEditer::Initialize()
 	{
+		block.clear();
 		nowMap = getFolerFileNumber("RES\\Map\\Information\\");
 		isPrintNowMap = false;
 		saveTxtName = EDITER_PRESET_SAVETXTNAME;

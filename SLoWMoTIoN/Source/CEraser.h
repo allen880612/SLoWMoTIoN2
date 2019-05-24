@@ -142,6 +142,7 @@ namespace game_framework {
 		#pragma region - Collision -
 		bool IsCollisionBoss(CBoss*);
 		bool IsCollisionBlock(CBlock*);
+		bool IsRoleOnBlock(CBlock*);
 		bool IsCollisionLevel4(CScallion*);
 
 		bool IsCollisionNPC(CNPC*);
@@ -171,6 +172,7 @@ namespace game_framework {
 
 		CMovingBitmap decisionPoint;
 		CRect collisionRect;
+		CRect collisionDownRect;
 		void ResetCollisionRect();
 	private:
 		CAction  action;

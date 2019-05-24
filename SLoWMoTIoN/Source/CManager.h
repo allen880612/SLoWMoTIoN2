@@ -76,7 +76,7 @@ namespace game_framework
 		int nowMap;
 		int loadMap;
 		string loadMapPath;
-		CBlockMap blockMap[MAX_MAP_NUMBER];
+		vector<CBlockMap> blockMap;
 		CMovingBitmap background;
 		int x, init_x;
 		bool isMovingLeft;

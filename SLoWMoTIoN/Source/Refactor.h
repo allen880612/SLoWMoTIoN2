@@ -106,5 +106,5 @@
 
 
 #define GAME_TIME 999		//­­¨î®É¶¡
-#define DEBUG_MODE true
+#define DEBUG_MODE false
 
