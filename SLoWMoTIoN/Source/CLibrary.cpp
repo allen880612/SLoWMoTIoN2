@@ -72,6 +72,20 @@ namespace myLibrary
 		closedir(fp);
 	}
 
+	int getFolerFileNumber(string folderPath)
+	{
+		DIR *fp; // create folder point
+		fp = opendir(folderPath.c_str());
+		struct dirent *folderp;
+		int k = 0;
+		while ((folderp = readdir(fp)) != NULL)
+		{
+			k++;
+		}
+		closedir(fp);
+		return k - 2;
+	}
+
 	void DeleteCharPoint(vector<char*> &addresses)
 	{
 		for (vector<char*>::iterator it = addresses.begin(); it != addresses.end(); it++)

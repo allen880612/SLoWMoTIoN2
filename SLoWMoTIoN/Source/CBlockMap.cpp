@@ -8,6 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include "CBlockMap.h"
+#include "CManager.h"
 #include "CEraser.h"
 using namespace std;
 namespace game_framework

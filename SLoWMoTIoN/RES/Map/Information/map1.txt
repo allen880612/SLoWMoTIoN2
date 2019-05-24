@@ -1,4 +1,5 @@
 background RES\Map\IDB_MAP_1.bmp 0 0
+block RES\Map\bm.bmp 100 100
 up -1
 down -1
 left 4

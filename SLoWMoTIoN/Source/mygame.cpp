@@ -458,6 +458,18 @@ namespace game_framework {
 		}
 		#pragma endregion
 
+		#pragma region - role - collision with block -
+		vector<CBlock> *block = mapManager.GetBlockVector();
+		
+		for (vector<CBlock>::iterator bkiter = block->begin(); bkiter != block->end(); bkiter++)
+		{
+			if (role.IsCollisionBlock(&(*bkiter))) //collision with boss
+			{
+				CCamera::Instance()->SetCanMoving(false);
+				role.SetCanMoving(false);
+			}
+		}
+		#pragma endregion
 
 		#pragma region -- Moving Left --
 		if (role.GetMovingLeft())
@@ -1174,6 +1186,15 @@ namespace game_framework {
 		{
 			mapEditer.SetMapMoveDir("right");
 		}
+
+		if (nChar == 'K')
+		{
+		}
+
+		if (nChar == 9) //TAB?
+		{
+			mapEditer.isPrintNowMap = !mapEditer.isPrintNowMap;
+		}
 	}
 
 	void CGameStateMapEditer::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -1264,6 +1285,13 @@ namespace game_framework {
 	{
 		mapEditer.OnShow();
 		PaintText("EditerTest", 100, 360, "微軟正黑體", 20, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+
+		if (mapEditer.isPrintNowMap)
+		{
+			char *address = ConvertCharPointToString(mapEditer.GetNowMap());
+			PaintText(address, 240, 0, "微軟正黑體", 20, RGB(0, 0, 0), RGB(255, 255, 255));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+			delete address;
+		}
 	}	
 
 	#pragma endregion

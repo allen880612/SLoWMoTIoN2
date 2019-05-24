@@ -96,6 +96,7 @@ namespace game_framework {
 
 	#pragma region - CRole -
 	class CBlackHole;
+	class CBlock;
 	class CRole : public CEraser
 	{
 		friend class CScallion;
@@ -140,6 +141,7 @@ namespace game_framework {
 
 		#pragma region - Collision -
 		bool IsCollisionBoss(CBoss*);
+		bool IsCollisionBlock(CBlock*);
 		bool IsCollisionLevel4(CScallion*);
 
 		bool IsCollisionNPC(CNPC*);

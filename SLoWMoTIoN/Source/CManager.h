@@ -50,6 +50,8 @@ namespace game_framework
 		int GetNpcLayer(int);
 		bool GetNpcValid(int);
 
+		vector<CBlock> *GetBlockVector();
+
 		void SetMovingLeft(bool);
 		void SetMovingRight(bool);
 		void OnMove();
@@ -82,6 +84,8 @@ namespace game_framework
 		int npcNumber;
 
 		void InitializeCBlockMap();
+
+		int max_map_number = MAX_MAP_NUMBER;
 	};
 	#pragma endregion
 
@@ -321,6 +325,9 @@ namespace game_framework
 		void LoadMapInfo(string);
 		void SetDPoint_MouseToTopLeft(CPoint mouse) {if (selectObj != NULL) dpoint_mouseToTopleft = CPoint(mouse.x - selectObj->bmp.Left() - cameraX, mouse.y - selectObj->bmp.Top());};
 		void SetDPoint_MouseToTopLeft() { dpoint_mouseToTopleft = CPoint(0, 0); };
+
+		bool isPrintNowMap = false;
+		string GetNowMap();
 	private:
 		#pragma region - image info -
 		class ImageInfo
@@ -351,7 +358,7 @@ namespace game_framework
 		vector<ImageInfo> block;
 
 		ImageInfo *selectObj;
-		bool haveBG;
+		bool haveBG = false;
 		bool isMouseDown;
 		
 		string saveTxtName;
@@ -363,9 +370,14 @@ namespace game_framework
 		bool isMapRight, isMapLeft;
 		int cameraX;
 
+		bool isSaved; //曾經有儲存過地圖
+
 		void CreateBlockMap();
 		void LoadBlockMap(string);
 		string WriteSaveInfo(string, string, CPoint);
+
+		int nowMap;
+
 	};
 	#pragma endregion
 
