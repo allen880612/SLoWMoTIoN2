@@ -374,6 +374,8 @@ namespace game_framework {
 
 		#pragma endregion
 		
+		bool roleCanMoving = true;
+
 		#pragma region - role - dead -
 		if (role.IsDead())
 		{
@@ -395,42 +397,12 @@ namespace game_framework {
 		}
 		#pragma endregion
 
-
-		//
-		// 如果希望修改cursor的樣式，則將下面程式的commment取消即可
-		//
-		
-		//
-		// 移動背景圖的座標
-		//
-		
-		// 移動MIKU
-		//miku.OnMove();
-
-		// 移動球
-		//
-		//int i;
-		//for (i = 0; i < NUMBALLS; i++)
-		//	ball[i].OnMove();
-		//
-		// 移動擦子
-		//
-
-
-		
-
 		#pragma region - Position Trigger -
 		PositionTrigger();
 		#pragma endregion
 
 		#pragma region - Moving -
 		int screenPosX = ScreenX(mapManager.GetX1(), role.GetX3());
-		/*bool isCollisionBlock = false;
-		if (bossManager.targetBoss != NULL)
-		{
-			isCollisionBlock = role.IsCollisionBoss(bossManager.targetBoss);
-		}*/
-		//temp
 
 		#pragma region SetCamera
 		//CCamera::Instance()->SetCameraBoundary(mapManager.GetSplitLeft(), mapManager.GetSplitRight());
@@ -451,8 +423,12 @@ namespace game_framework {
 			{
 				if (role.IsCollisionBoss(bossManager.targetBoss)) //collision with boss
 				{
-					CCamera::Instance()->SetCanMoving(false);
-					role.SetCanMoving(false);
+					if (bossManager.targetBoss->GetID() != "Xingting")
+					{
+						CCamera::Instance()->SetCanMoving(false);
+						//role.SetCanMoving(false);
+						roleCanMoving = false;
+					}
 				}
 			}
 		}
@@ -460,13 +436,14 @@ namespace game_framework {
 
 		#pragma region - role - collision with block -
 		vector<CBlock> *block = mapManager.GetBlockVector();
-		
+
 		for (vector<CBlock>::iterator bkiter = block->begin(); bkiter != block->end(); bkiter++)
 		{
-			if (role.IsCollisionBlock(&(*bkiter))) //collision with boss
+			if (role.IsCollisionBlock(&(*bkiter))) //collision with block
 			{
 				CCamera::Instance()->SetCanMoving(false);
-				role.SetCanMoving(false);
+				//role.SetCanMoving(false);
+				roleCanMoving = false;
 			}
 		}
 		#pragma endregion
@@ -482,25 +459,22 @@ namespace game_framework {
 				if (/*CCamera::Instance()->GetX() > 0 &&*/ screenPosX > mapL)
 				{
 					CCamera::Instance()->AddX(-MOVE_DISTANCE);
-					role.SetCanMoving(false);
+					//role.SetCanMoving(false);
+					roleCanMoving = false;
 				}
 				else
 				{
-					role.SetCanMoving(true);
+					//role.SetCanMoving(true);
 				}
 				
 				if (bossManager.targetBoss != NULL)
 				{
-					//bossManager.targetBoss->MoveWithMap("left");
 					bossManager.targetBoss->OnMove();
-
 				}
 			}
 			else
 			{
-				//mapManager.SetMovingLeft(false);
-				//mapManager.SetMovingRight(false);
-				role.SetCanMoving(true);
+				//role.SetCanMoving(true);
 			}
 		}
 		#pragma endregion
@@ -516,23 +490,19 @@ namespace game_framework {
 				if (/*CCamera::Instance()->GetX() < CameraBoundary_R &&*/ screenPosX < mapR)
 				{
 					CCamera::Instance()->AddX(MOVE_DISTANCE);
-					role.SetCanMoving(false);
+					//role.SetCanMoving(false);
+					roleCanMoving = false;
 				}
 				else
 				{
-					role.SetCanMoving(true);
-				}
-				if (bossManager.targetBoss != NULL)
-				{
-					//bossManager.targetBoss->MoveWithMap("right");
-					bossManager.targetBoss->OnMove();
+					//role.SetCanMoving(true);
 				}
 			}
 			else
 			{
 				//mapManager.SetMovingLeft(false);
 				//mapManager.SetMovingRight(false);
-				role.SetCanMoving(true);
+				//role.SetCanMoving(true);
 			}
 		}
 		#pragma endregion
@@ -610,7 +580,8 @@ namespace game_framework {
 		#pragma region --- 右邊沒有地圖且人物往右邊行走 ---
 		if (role.GetX2() >= SIZE_X && role.GetMovingRight() && (mapManager.GetRightMap() < 0 || bossManager.IsBattle()))
 		{
-			role.SetCanMoving(false); //沒有地圖，卡邊界
+			//role.SetCanMoving(false); //沒有地圖，卡邊界
+			roleCanMoving = false;
 		}
 		#pragma endregion
 
@@ -629,12 +600,14 @@ namespace game_framework {
 		#pragma region --- 左邊沒有地圖且人物往左邊行走 ---
 		if (role.GetX1() <= 0 && role.GetMovingLeft() && (mapManager.GetLeftMap() < 0 || bossManager.IsBattle()))
 		{
-			role.SetCanMoving(false); //沒有地圖，卡邊界
+			//role.SetCanMoving(false); //沒有地圖，卡邊界
+			roleCanMoving = false;
 		}
 		#pragma endregion
 		#pragma endregion
 
 		#pragma region -- role Moving --
+		role.SetCanMoving(roleCanMoving);
 		role.OnMove();
 		#pragma endregion
 		#pragma endregion
@@ -817,6 +790,12 @@ namespace game_framework {
 					(*npciter)->RoleCollision();
 				}
 			}
+		}
+
+		if (nChar == 'N')
+		{
+			role.SetMovingJump(false);
+			role.SetCanJumping(true);
 		}
 	}
 

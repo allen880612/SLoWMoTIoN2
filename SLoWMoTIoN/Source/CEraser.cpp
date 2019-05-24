@@ -592,7 +592,7 @@ namespace game_framework {
 	void CRole::ResetCollisionRect()
 	{
 		collisionRect = action.GetRect();
-		int dx = move_distance - 4;
+		int dx = move_distance + 9;
 		if (isMovingRight)
 		{
 			collisionRect.right += dx;

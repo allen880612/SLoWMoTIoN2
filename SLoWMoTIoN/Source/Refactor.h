@@ -105,6 +105,6 @@
 #define EDITER_PRESET_SAVETXTNAME "mapTest.txt"
 
 
-#define GAME_TIME 30		//限制時間
+#define GAME_TIME 999		//限制時間
 #define DEBUG_MODE true
 

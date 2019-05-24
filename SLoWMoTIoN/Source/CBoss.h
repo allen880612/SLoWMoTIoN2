@@ -25,6 +25,7 @@ namespace game_framework
 		void SetHp(int);
 		void SetIsAlive(bool);
 		bool GetAlive() { return IsAlive; };
+		string GetID() { return id; };
 		void OnMove();
 		void MoveWithMap(string);
 		
