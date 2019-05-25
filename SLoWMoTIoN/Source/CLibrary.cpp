@@ -1171,7 +1171,7 @@ namespace game_framework
 
 	int CAction::GetActionHeight(string _action)
 	{
-		if (!paser[_action].empty())
+		if (paser.count(_action) && !paser[_action].empty())
 		{
 			return paser[_action].begin()->Height();
 		}
