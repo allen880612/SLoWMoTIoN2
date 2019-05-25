@@ -1340,7 +1340,9 @@ namespace game_framework
 		if (path[0] == "background")
 		{
 			haveBG = true;
-			background = ImageInfo(path[1]);
+			ImageInfo tempcv;
+			tempcv = ImageInfo(path[1]);
+			background = tempcv;
 		}
 		else if (path[0] == "block")
 		{
