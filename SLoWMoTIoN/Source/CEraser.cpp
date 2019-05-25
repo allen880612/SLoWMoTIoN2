@@ -372,6 +372,7 @@ namespace game_framework {
 		if (isJumping)
 		{
 			decisionPoint.SetTopLeft(GetX3() - 5, GetY3() + 16);
+			//decisionPoint.SetTopLeft(GetX3() - 5, GetY3() + 5);
 		}
 		else
 		{
@@ -382,6 +383,7 @@ namespace game_framework {
 		if (isJumping)
 		{
 			action.OnMove("jump");
+			action.SetTopLeft(x, y - (action.GetActionHeight("jump") - action.GetActionHeight("idle")));
 		}
 		else if (isMovingLeft || isMovingRight)
 		{
@@ -463,6 +465,13 @@ namespace game_framework {
 		}
 	}
 
+	void CRole::SetDrop()
+	{
+		SetMovingJump(true);
+		SetCanJumping(false);
+		SetVelocity(0);
+	}
+
 	bool CRole::GetDrop()
 	{
 		return velocity < 0;
@@ -498,6 +507,13 @@ namespace game_framework {
 		ResetCollisionRect();
 
 		return IsRectCollision(collisionDownRect, block->blockBmp.GetRect());
+	}
+
+	bool CRole::IsCollisionBlockOnJumping(CBlock *block)
+	{
+		ResetCollisionRect();
+
+		return IsRectCollision(collisionTopRect, block->blockBmp.GetRect());
 	}
 
 	bool CRole::IsCollisionLevel4(CScallion *level4)
@@ -598,9 +614,10 @@ namespace game_framework {
 
 	void CRole::ResetCollisionRect()
 	{
+		#pragma region - collision Rect - Right and Left -
 		collisionRect = action.GetRect();
 		int dx = move_distance;
-		collisionRect.bottom -= 6;
+		collisionRect.bottom -= 10;
 		if (isMovingRight)
 		{
 			//Test地方調整往右/往左的判斷寬度 (原本人物寬度 + dx，改成從中心點算起的寬度 + dx)
@@ -612,7 +629,9 @@ namespace game_framework {
 			collisionRect.left -= dx;
 			collisionRect.right = GetX3(); //Test
 		}
-
+		#pragma endregion
+		
+		#pragma region - collision Rect - Down -
 		collisionDownRect = action.GetRect();
 		//調整 下方判斷方塊的高度，以及縮減左/右的寬度
 		collisionDownRect.top = GetY2() - 5; //調整判斷的高度
@@ -623,6 +642,23 @@ namespace game_framework {
 		{
 			collisionDownRect.bottom += dy;
 		}
+		#pragma endregion
+
+		#pragma region - collision Rect - Top -
+		collisionTopRect = action.GetRect();
+		//縮減左/右的寬度
+		collisionTopRect.right -= dx * 3;
+		collisionTopRect.left += dx * 3;
+		collisionTopRect.bottom = GetY3(); //調整判斷方塊高度
+		if (!GetMovingJump()) //沒跳躍
+		{
+			collisionTopRect.top -= dy * 3;
+		}
+		else if (GetMovingJump() && !GetDrop()) //跳躍中
+		{
+			collisionTopRect.top += dy * 3;
+		}
+		#pragma endregion
 	}
 	#pragma endregion
 

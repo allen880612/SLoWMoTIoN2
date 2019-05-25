@@ -133,6 +133,7 @@ namespace game_framework {
 		void SetIsFire(bool);
 		void Fire(int, int);			//傳入滑鼠座標
 		
+		void SetDrop();
 		bool GetDrop();
 		int GetVelocity();
 		void SetVelocity(int v) { velocity = v; };
@@ -143,8 +144,13 @@ namespace game_framework {
 
 		#pragma region - Collision -
 		bool IsCollisionBoss(CBoss*);
-		bool IsCollisionBlock(CBlock*);
-		bool IsRoleOnBlock(CBlock*);
+
+		#pragma region -- Collision - Block --
+		bool IsCollisionBlock(CBlock*); //一般左右 跟block碰撞
+		bool IsRoleOnBlock(CBlock*); //站在方塊上
+		bool IsCollisionBlockOnJumping(CBlock*); //跳起來撞到方塊
+		#pragma endregion
+
 		bool IsCollisionLevel4(CScallion*);
 
 		bool IsCollisionNPC(CNPC*);
@@ -173,8 +179,11 @@ namespace game_framework {
 		CTimer shoot_cd;
 
 		CMovingBitmap decisionPoint;
+
 		CRect collisionRect;
 		CRect collisionDownRect;
+		CRect collisionTopRect;
+
 		void ResetCollisionRect();
 	private:
 		CAction  action;
@@ -183,7 +192,7 @@ namespace game_framework {
 		CMovingBitmap blood;
 		CMovingBitmap blood_frame;
 
-		#pragma region - init information-
+		#pragma region - init information -
 		int inithp = 20;
 		bool isLoaded;
 		string now_action;

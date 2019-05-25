@@ -1168,6 +1168,15 @@ namespace game_framework
 	{
 		return nowBitmap->GetRect();
 	}
+
+	int CAction::GetActionHeight(string _action)
+	{
+		if (!paser[_action].empty())
+		{
+			return paser[_action].begin()->Height();
+		}
+		return 108;
+	}
 	#pragma endregion
 
 	#pragma region - CEnd -

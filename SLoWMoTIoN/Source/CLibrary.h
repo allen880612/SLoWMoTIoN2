@@ -280,6 +280,8 @@ namespace game_framework
 		CLayer	layer;
 		CMovingBitmap* GetNowBitmap();
 		CRect GetRect();
+		
+		int GetActionHeight(string);
 
 	private:
 		CMovingBitmap *nowBitmap;

@@ -452,6 +452,11 @@ namespace game_framework {
 				floorY = bkiter->y;
 				isOnFloor = true;
 			}
+
+			if (role.IsCollisionBlockOnJumping(&(*bkiter)) && !role.GetDrop())
+			{
+				role.SetDrop();
+			}
 		}
 		if (role.GetY2() >= SIZE_Y - 1)
 		{
@@ -644,12 +649,9 @@ namespace game_framework {
 		}
 		else
 		{
-			if ((!isOnFloor) && !isDrop)
+			if (!isOnFloor)
 			{
-				isDrop = true;
-				role.SetMovingJump(true);
-				role.SetCanJumping(false);
-				role.SetVelocity(0);
+				role.SetDrop();
 			}
 		}
 		#pragma endregion
@@ -756,7 +758,21 @@ namespace game_framework {
 		if (nChar == KEY_D)
 			role.SetMovingRight(true);
 		if (nChar == KEY_W)
-			role.SetMovingUp(true);
+		{
+			bool canRoleJump = true;
+			for (vector<CBlock>::iterator bkiter = mapManager.GetBlockVector()->begin(); bkiter != mapManager.GetBlockVector()->end(); bkiter++)
+			{
+				if (role.GetCanJumping())
+				{
+					if (role.IsCollisionBlockOnJumping(&(*bkiter)))
+					{
+						canRoleJump = false;
+					}
+				}
+			}
+			if(canRoleJump)
+				role.SetMovingUp(true);
+		}
 		if (nChar == KEY_S)
 		{
 			role.SetMovingDown(false);
