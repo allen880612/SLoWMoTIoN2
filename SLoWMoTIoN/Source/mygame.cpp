@@ -453,6 +453,10 @@ namespace game_framework {
 				isOnFloor = true;
 			}
 		}
+		if (role.GetY2() >= SIZE_Y - 2)
+		{
+			isOnFloor = true;
+		}
 		#pragma endregion
 
 		#pragma region -- Moving Left --
@@ -620,15 +624,10 @@ namespace game_framework {
 		#pragma endregion
 
 		#pragma region - Jump -
-		/*if (!isOnFloor)
-		{
-			role.SetMovingJump(true);
-			role.SetCanJumping(false);
-			role.SetVelocity(0);
-		}*/
+		bool isDrop = false;
 		if (role.GetMovingJump())
 		{
-			if (role.GetY2() - role.GetVelocity() >= SIZE_Y && role.GetDrop() || isOnFloor)
+			if ((role.GetY2() - role.GetVelocity() >= SIZE_Y || isOnFloor) && role.GetDrop())
 			{
 				int ddddy = 2;
 				if (isOnFloor)
@@ -650,6 +649,16 @@ namespace game_framework {
 			{
 				role.SetMovingJump(true);
 				role.SetCanJumping(false);
+			}
+		}
+		else
+		{
+			if ((!isOnFloor) && !isDrop)
+			{
+				isDrop = true;
+				role.SetMovingJump(true);
+				role.SetCanJumping(false);
+				role.SetVelocity(0);
 			}
 		}
 		#pragma endregion
