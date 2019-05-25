@@ -599,18 +599,25 @@ namespace game_framework {
 	void CRole::ResetCollisionRect()
 	{
 		collisionRect = action.GetRect();
-		int dx = move_distance + 9;
+		int dx = move_distance;
 		collisionRect.bottom -= 6;
 		if (isMovingRight)
 		{
+			//Test地方調整往右/往左的判斷寬度 (原本人物寬度 + dx，改成從中心點算起的寬度 + dx)
+			collisionRect.left = GetX3(); //Test
 			collisionRect.right += dx;
 		}
 		else if (isMovingLeft)
 		{
 			collisionRect.left -= dx;
+			collisionRect.right = GetX3(); //Test
 		}
 
 		collisionDownRect = action.GetRect();
+		//調整 下方判斷方塊的高度，以及縮減左/右的寬度
+		collisionDownRect.top = GetY2() - 5; //調整判斷的高度
+		collisionDownRect.right -= dx * 3;
+		collisionDownRect.left += dx * 3;
 		int dy = move_distance ;
 		if (GetDrop())
 		{

@@ -453,8 +453,9 @@ namespace game_framework {
 				isOnFloor = true;
 			}
 		}
-		if (role.GetY2() >= SIZE_Y - 2)
+		if (role.GetY2() >= SIZE_Y - 1)
 		{
+			floorY = SIZE_Y - 1;
 			isOnFloor = true;
 		}
 		#pragma endregion
@@ -627,25 +628,15 @@ namespace game_framework {
 		bool isDrop = false;
 		if (role.GetMovingJump())
 		{
-			if ((role.GetY2() - role.GetVelocity() >= SIZE_Y || isOnFloor) && role.GetDrop())
+			if ((role.GetY2() - role.GetVelocity() >= SIZE_Y || isOnFloor) && role.GetDrop()) //on Floor
 			{
-				int ddddy = 2;
-				if (isOnFloor)
-				{
-					role.SetMovingJump(false);
-					role.SetCanJumping(true);
-					role.GetAction()->SetAction("idle");
-					role.SetXY(role.GetX1(), floorY - role.Height() + ddddy);
-				}
-				else
-				{
-					role.SetMovingJump(false);
-					role.SetCanJumping(true);
-					role.GetAction()->SetAction("idle");	//żż
-					role.SetXY(role.GetX1(), SIZE_Y - role.Height() + ddddy);
-				}
+				int ddy = 2;
+				role.SetMovingJump(false);
+				role.SetCanJumping(true);
+				role.GetAction()->SetAction("idle");	//żż
+				role.SetXY(role.GetX1(), floorY - role.Height() + ddy);
 			}
-			else
+			else //Jumping
 			{
 				role.SetMovingJump(true);
 				role.SetCanJumping(false);
