@@ -233,3 +233,8 @@ Problem : the CButton now is Loading in Constructor, it's werid and hard to use,
    (the file put in Map\\Information)
 3. find many memory leak when the game has gone to "End" (State GameOver)
    plz solve this   555
+
+==============================================================
+2019/5/26
+1. now mapEditer can reload background when click "New Background"
+2. add Block, and its collision
