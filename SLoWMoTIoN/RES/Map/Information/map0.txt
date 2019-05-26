@@ -1,4 +1,4 @@
-background RES\Map\IDB_MAP_0.bmp 0 0
+background RES\Map\hospital_0.bmp 0 0
 block RES\Map\bm.bmp 76 83
 block RES\Map\bm.bmp 477 37
 block RES\Map\bm.bmp 453 405

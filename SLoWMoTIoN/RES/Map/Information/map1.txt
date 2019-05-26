@@ -1,5 +1,15 @@
-background RES\Map\IDB_MAP_1.bmp 0 0
-block RES\Map\bm.bmp 100 100
+background RES\Map\hospital_1.bmp 0 0
+block RES\Map\bm.bmp 41 301
+block RES\Map\bm.bmp 237 257
+block RES\Map\bm.bmp 470 161
+block RES\Map\bm.bmp 507 325
+block RES\Map\bm.bmp 651 249
+block RES\Map\bm.bmp 88 133
+block RES\Map\bm.bmp 312 73
+block RES\Map\bm.bmp 797 325
+block RES\Map\bm.bmp 1275 146
+block RES\Map\bm.bmp 860 130
+block RES\Map\bm.bmp 297 362
 up -1
 down -1
 left 4
