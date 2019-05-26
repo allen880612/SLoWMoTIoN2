@@ -63,7 +63,7 @@ namespace game_framework
 		}
 		#pragma endregion
 
-		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
+		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitblockmap.Width());
 	}
 
 	#pragma region - GetMap -
@@ -186,7 +186,7 @@ namespace game_framework
 		background.SetTopLeft(x, 0);
 
 		passerbyManager.Clear();
-		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
+		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitblockmap.Width());
 
 		x = CCamera::Instance()->GetX();
 		
@@ -291,7 +291,7 @@ namespace game_framework
 			//	blockMap[mapIndex] = CBlockMap(-1, -1, -1, -1, -1, 0, "RES\\Map", "IDB_MAP", 0);
 			//	break;
 			//}
-			blockMap.push_back(CBlockMap(mapIndex));
+			blockblockmap.push_back(CBlockMap(mapIndex));
 		}
 	}
 
@@ -301,7 +301,7 @@ namespace game_framework
 		{	
 			//char *address = ConvertCharPointToString(blockMap[mapIndex].ziliaojia, blockMap[mapIndex].name, blockMap[mapIndex].number);
 			/*char *address = ConvertCharPointToString(blockMap[mapIndex].loadPath);
-			blockMap[mapIndex].backgroundBitmap.LoadBitmap(address);
+			blockMap[mapIndex].backgroundBitblockmap.LoadBitmap(address);
 			delete address;*/
 			if (!blockMap[mapIndex].isLoad)
 			{
@@ -472,7 +472,7 @@ namespace game_framework
 
 	CDialogManager::~CDialogManager()
 	{
-		dialogmap.clear();
+		dialogblockmap.clear();
 		nowDialog = NULL;
 	}
 
@@ -579,7 +579,7 @@ namespace game_framework
 
 	void CDialogManager::LoadDialog()
 	{
-		//dialogmap.clear();
+		//dialogblockmap.clear();
 		dialogmap[DIALOG_DATA_VSXingting1] = CDialog("RES\\Dialog\\Txt\\VSXingting1.txt", DIALOG_DATA_VSXingting1, false);
 		dialogmap[DIALOG_DATA_VSXingting2] = CDialog("RES\\Dialog\\Txt\\VSXingting2.txt", DIALOG_DATA_VSXingting2, false);
 		dialogmap[DIALOG_DATA_VSXingting3] = CDialog("RES\\Dialog\\Txt\\VSXingting3.txt", DIALOG_DATA_VSXingting3, false);
@@ -651,7 +651,7 @@ namespace game_framework
 		}
 		else
 		{
-			for (map<string, CDialog>::iterator dialogiter = dialogmap.begin(); dialogiter != dialogmap.end(); dialogiter++)
+			for (map<string, CDialog>::iterator dialogiter = dialogblockmap.begin(); dialogiter != dialogblockmap.end(); dialogiter++)
 			{
 				dialogiter->second.Initialize();
 			}
@@ -1323,7 +1323,11 @@ namespace game_framework
 	void CMapEditer::Initialize()
 	{
 		block.clear();
+
+		reloadMap.clear();
 		nowMap = getFolerFileNumber("RES\\Map\\Information\\");
+		nowMapNumber = nowMap;
+
 		isPrintNowMap = false;
 		saveTxtName = EDITER_PRESET_SAVETXTNAME;
 		isMouseDown = false;
@@ -1402,22 +1406,27 @@ namespace game_framework
 			{
 				saveTxtName = saveDlg.GetFileName();
 				isSaved = true;
+				nowMapNumber++; //儲存成功，地圖總數 + 1
 			}
 			if (result == IDCANCEL)
 			{
-				return;
+				return; //什麼事情都沒發生
 			}
 		}
-		map.CreateInformation(saveTxtName);
+		else //之前就儲存過了
+		{
+			//reloadMap[nowMap] = true;
+		}
+		blockmap.CreateInformation(saveTxtName);
 	}
 
 	void CMapEditer::CreateBlockMap()
 	{
-		map.block.clear();
-		map.loadPath = background.path;
+		blockmap.block.clear();
+		blockmap.loadPath = background.path;
 		for (vector<ImageInfo>::iterator mbiter = block.begin(); mbiter != block.end(); mbiter++)
 		{
-			map.block.push_back(CBlock(mbiter->path, mbiter->x, mbiter->y));
+			blockmap.block.push_back(CBlock(mbiter->path, mbiter->x, mbiter->y));
 		}
 	}
 
@@ -1426,11 +1435,11 @@ namespace game_framework
 		//char *fff = ConvertCharPointToString(fileName);
 		sscanf(mapName.c_str(), "map%d.txt", &nowMap);
 		//delete fff;
-		map.LoadInformation(mapName);
+		blockmap.LoadInformation(mapName);
 		isSaved = true;
-		background = ImageInfo(map.loadPath);
+		background = ImageInfo(blockmap.loadPath);
 		haveBG = true;
-		for (vector<CBlock>::iterator mbiter = map.block.begin(); mbiter != map.block.end(); mbiter++)
+		for (vector<CBlock>::iterator mbiter = blockmap.block.begin(); mbiter != blockmap.block.end(); mbiter++)
 		{
 			ImageInfo tempk = ImageInfo(mbiter->path);
 			tempk.SetXY(mbiter->x, mbiter->y, cameraX);
