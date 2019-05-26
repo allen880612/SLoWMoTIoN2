@@ -824,16 +824,17 @@ namespace game_framework
 			//下面那傢伙測試用的
 			//PaintText(split_showtext[0], 0 + 20, 100, "微軟正黑體", DIALOG_TEXT_SIZE, RGB(0, 0, 0), RGB(0, 255, 0));
 
+			#pragma region - Set Print Text Color -
+			COLORREF txtColor = DIALOG_TEXT_COLOR;
+			if (nowDialog != NULL)
+			{
+				txtColor = nowDialog->GetDialogColor(step);
+			}
+			#pragma endregion
 			#pragma region - draw text -
-			//char* showpointer;
-			//showpointer = new char[showtext.length() + 1];
-			//strcpy(showpointer, showtext.c_str());
-			////x = 160, endx = 480
-			//PaintText(showpointer, avatar.Left() + avatar.Width() + MARGIN_DIALOG_TEXT_X, avatar.Top() + MARGIN_DIALOG_TEXT_Y, "微軟正黑體", DIALOG_TEXT_SIZE, RGB(0, 0, 0), RGB(232, 232, 232));
-			//delete showpointer;
 			for (unsigned int i = 0; i < split_showtext.size(); i++)
 			{
-				PaintText(split_showtext[i], avatar.Left() + avatar.Width() + MARGIN_DIALOG_TEXT_X, avatar.Top() + MARGIN_DIALOG_TEXT_Y + i * 35, "微軟正黑體", DIALOG_TEXT_SIZE, DIALOG_TEXT_COLOR, DIALOG_BACKGROUND_COLOR);
+				PaintText(split_showtext[i], avatar.Left() + avatar.Width() + MARGIN_DIALOG_TEXT_X, avatar.Top() + MARGIN_DIALOG_TEXT_Y + i * 35, "微軟正黑體", DIALOG_TEXT_SIZE, txtColor, DIALOG_BACKGROUND_COLOR);
 				delete split_showtext[i];
 			}
 			#pragma endregion

@@ -54,6 +54,24 @@ namespace myLibrary
 		return address;
 	}
 
+	COLORREF ConvertStringToColor(string _color)
+	{
+		if (_color == "red")
+			return RGB(255, 0, 0);
+		else if (_color == "green")
+			return RGB(0, 255, 0);
+		else if (_color == "blue")
+			return RGB(0, 0, 255);
+		else if (_color == "white")
+			return RGB(255, 255, 255);
+		else if (_color == "black")
+			return RGB(0, 0, 0);
+
+		else if (_color == "txtColor")
+			return DIALOG_TEXT_COLOR;
+		return RGB(255, 255, 255); //white
+	}
+
 	void getFolderFile(string folderPath, vector<string> *file) //得到資料夾下的所有檔名
 	{
 		DIR *fp; // create folder point
@@ -525,17 +543,24 @@ namespace game_framework
 	}
 	string CDialog::GetAvatar(unsigned int step)
 	{
-		if (step <= avatar.size())
+		if (step < avatar.size())
 			return avatar[step];
 		else
 			return "RREF";
 	}
 	string CDialog::GetDialogTxt(unsigned int step)
 	{
-		if (step <= txt.size())
+		if (step < txt.size())
 			return txt[step];
 		else
 			return "RREF";
+	}
+	COLORREF CDialog::GetDialogColor(unsigned int step)
+	{
+		if (step < color.size())
+			return color[step];
+
+		return ConvertStringToColor("txtColor");
 	}
 	int CDialog::GetTxtSize()
 	{
@@ -553,7 +578,7 @@ namespace game_framework
 		
 		int index = 0;
 		string dialogData; //文本資料的一行 (index = 偶數 > 儲存avatar, index = 奇數 > 儲存對話文字)
-		while (dialogTxt >> dialogData)
+		/*while (dialogTxt >> dialogData)
 		{
 			if (!(index & 1)) //even
 			{
@@ -564,7 +589,36 @@ namespace game_framework
 				txt.push_back(dialogData);
 			}
 			index++;
+		}*/
+		stringstream ss;
+		while (getline(dialogTxt, dialogData)) //get line
+		{
+			#pragma region - init stringstream -
+			ss.str("");
+			ss.clear();
+			#pragma endregion
+			ss << dialogData;
+			vector<string> lineInfo;
+			#pragma region - split string -
+			while (ss)
+			{
+				string templine;
+				ss >> templine;
+				if (templine != "")
+				{
+					lineInfo.push_back(templine);
+				}
+			}
+			#pragma endregion
+			#pragma region - save txt information -
+			COLORREF txtColor = ConvertStringToColor(lineInfo.size() >= 3 ? lineInfo[2] : "txtColor"); //get print txt color
+			avatar.push_back(lineInfo[0]);
+			txt.push_back(lineInfo[1]);
+			color.push_back(txtColor);
+			#pragma endregion
+
 		}
+
 		dialogTxt.close();
 	}
 

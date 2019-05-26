@@ -5,6 +5,7 @@ namespace myLibrary
 	char* ConvertCharPointToString(string, string, int = -1);
 	//char* ConvertCharPointToString(BitmapPath)
 	char* ConvertCharPointToString(string);
+	COLORREF ConvertStringToColor(string);
 	void getFolderFile(string, vector<string>*); 
 	int getFolerFileNumber(string);
 	void DeleteCharPoint(vector<char*>&);
@@ -119,7 +120,7 @@ namespace game_framework
 	};
 	#pragma endregion
 
-	#pragma region - Dialog -
+	#pragma region - CDialog -
 	//I don't know what time use this?
 	//這是我打ㄉ?
 	class CDialog
@@ -133,8 +134,10 @@ namespace game_framework
 		void Initialize();
 		//void SetTxt();
 		int GetTxtSize();
+
 		string GetAvatar(unsigned int);
 		string GetDialogTxt(unsigned int);
+		COLORREF GetDialogColor(unsigned int);
 
 		string GetMode();
 
@@ -142,10 +145,15 @@ namespace game_framework
 	private:
 		string path;
 		string mode;
+
 		vector<string> txt;
 		vector<string> avatar;
+		vector<COLORREF> color;
+
 		bool IsTriggered;
 		bool CanReTrigger;
+
+		//COLORREF ConvertStringToColor(string);
 	};
 	#pragma endregion
 
