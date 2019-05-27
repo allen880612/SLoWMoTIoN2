@@ -39,7 +39,7 @@ namespace game_framework
 		void LoadInformation(string);
 		void CreateInformation();
 		void CreateInformation(string);
-
+		void Initialize(); //有用到的東西都歸0(or 歸-1?)
 		bool isLoad = false;
 
 		~CBlockMap();

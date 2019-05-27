@@ -6,3 +6,16 @@
 
 讀取 > mapTxt > Editer > CBlock > 寫入ImageInfo
 寫檔 > ImageInfo 寫入 CBlock > 寫入TXT
+
+reload map information
+(現有地圖數)
+
+(reload的地圖)
+(↑)
+(↑...)
+
+
+mapManager Constructor > init Cblockmap
+stateRun > Load Bitmap
+
+mapManager Initlize > Reload

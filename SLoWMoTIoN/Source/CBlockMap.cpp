@@ -162,6 +162,16 @@ namespace game_framework
 		WriteMap(fileName);
 	}
 
+	void CBlockMap::Initialize()
+	{
+		isLoad = false;
+		nowMap = 0;
+		leftMap = rightMap = upMap = downMap = -1;
+		block.clear();
+		passerbyMaxSize = 0;
+		loadPath = "";
+	}
+
 	void CBlockMap::WriteMap(string fileName)
 	{
 		fstream data;

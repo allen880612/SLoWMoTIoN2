@@ -44,6 +44,8 @@ namespace game_framework
 
 	void CMapManager::Initialize()
 	{
+		ReloadBlockMap(); //每次init都檢查是否要重新載入blockmap
+
 		nowMap = NOW_MAP;
 		loadMap = blockMap[nowMap].loadMap;
 		x = 0;
@@ -51,6 +53,7 @@ namespace game_framework
 		background = blockMap[nowMap].backgroundBitmap;
 		background.SetTopLeft(0, 0);
 		CLayerManager::Instance()->AddObject(&background, layer.GetLayer());
+
 		#pragma region - 設置block -
 		for (int i = 0 ; i < max_map_number; i++)
 		{
@@ -64,6 +67,63 @@ namespace game_framework
 		#pragma endregion
 
 		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
+	}
+
+	void CMapManager::ReloadBlockMap()
+	{
+		bool isreloadDataExist = false; //先假設檔案不存在
+
+		fstream reloadData;
+		reloadData.open("RES\\Map\\ReloadMapInformation.txt");
+		#pragma region - 檔案存在 - reload -
+		if (reloadData.is_open()) //檔案存在
+		{
+			isreloadDataExist = true;
+			string line; //temp string
+
+			#pragma region -- 檢查是否有新增的地圖 --
+			reloadData >> line; // load first string in reloadData
+			int nowMapNumber = ConvertStringToInt(line); //現在Map - Information有的地圖總數
+			int nowBlockSize = blockMap.size();
+			if (nowBlockSize < nowMapNumber) //blockMap的size 比 目前的地圖總數小 > 新增地圖
+			{
+				max_map_number = nowMapNumber;
+				for (int mapIndex = nowBlockSize; mapIndex < nowMapNumber; mapIndex++)
+				{
+					blockMap.push_back(CBlockMap(mapIndex));
+				}
+			}
+			#pragma endregion
+
+			#pragma region -- 重新載入編輯過的地圖 --
+			while (reloadData >> line)
+			{
+				if (line != "")
+				{
+					int reloadMapIndex = ConvertStringToInt(line); //取得要重新載入的地圖編號
+					if (reloadMapIndex < nowBlockSize) //small small 防呆
+					{
+						blockMap[reloadMapIndex] = CBlockMap(reloadMapIndex);
+					}
+				}
+			}
+			#pragma endregion
+
+			#pragma region -- 新增&重新載入完成 - 載入新的圖片 --
+			LoadMapBitmap();
+			#pragma endregion
+
+		}
+		#pragma endregion
+		reloadData.close();
+
+		#pragma region - 檔案存在 - 刪檔 -
+		if (isreloadDataExist)
+		{
+			DeleteFile("RES\\Map\\ReloadMapInformation.txt");
+		}
+		#pragma endregion
+
 	}
 
 	#pragma region - GetMap -
@@ -1323,7 +1383,11 @@ namespace game_framework
 	void CMapEditer::Initialize()
 	{
 		block.clear();
+		bkmap.Initialize();
 		nowMap = getFolerFileNumber("RES\\Map\\Information\\");
+		
+		LoadReloadMapInformation();
+
 		isPrintNowMap = false;
 		saveTxtName = EDITER_PRESET_SAVETXTNAME;
 		isMouseDown = false;
@@ -1388,7 +1452,9 @@ namespace game_framework
 		}
 		#pragma endregion
 		mapData.close();*/
+
 		CreateBlockMap();
+
 		if (!isSaved) //沒有儲存過地圖
 		{
 			CString saveDir = ".txt";
@@ -1402,22 +1468,27 @@ namespace game_framework
 			{
 				saveTxtName = saveDlg.GetFileName();
 				isSaved = true;
+				nowMapNumber++;
 			}
 			if (result == IDCANCEL)
 			{
 				return;
 			}
 		}
-		map.CreateInformation(saveTxtName);
+		if (nowMap < (int)reloadMap.size())
+		{
+			reloadMap[nowMap] = true;
+		}
+		bkmap.CreateInformation(saveTxtName);
 	}
 
 	void CMapEditer::CreateBlockMap()
 	{
-		map.block.clear();
-		map.loadPath = background.path;
+		bkmap.block.clear();
+		bkmap.loadPath = background.path;
 		for (vector<ImageInfo>::iterator mbiter = block.begin(); mbiter != block.end(); mbiter++)
 		{
-			map.block.push_back(CBlock(mbiter->path, mbiter->x, mbiter->y));
+			bkmap.block.push_back(CBlock(mbiter->path, mbiter->x, mbiter->y));
 		}
 	}
 
@@ -1426,11 +1497,13 @@ namespace game_framework
 		//char *fff = ConvertCharPointToString(fileName);
 		sscanf(mapName.c_str(), "map%d.txt", &nowMap);
 		//delete fff;
-		map.LoadInformation(mapName);
+		
+		bkmap.LoadInformation(mapName);
 		isSaved = true;
-		background = ImageInfo(map.loadPath);
+		background = ImageInfo(bkmap.loadPath);
 		haveBG = true;
-		for (vector<CBlock>::iterator mbiter = map.block.begin(); mbiter != map.block.end(); mbiter++)
+
+		for (vector<CBlock>::iterator mbiter = bkmap.block.begin(); mbiter != bkmap.block.end(); mbiter++)
 		{
 			ImageInfo tempk = ImageInfo(mbiter->path);
 			tempk.SetXY(mbiter->x, mbiter->y, cameraX);
@@ -1473,6 +1546,7 @@ namespace game_framework
 		}
 	}
 
+	#pragma region - 沒路用ING -
 	//沒路用ING
 	string CMapEditer::WriteSaveInfo(string type, string path, CPoint point)
 	{
@@ -1480,43 +1554,6 @@ namespace game_framework
 		return returnStr;
 	}
 
-	void CMapEditer::OnShow()
-	{
-		if (haveBG)
-		{
-			background.bmp.ShowBitmap();
-		}
-
-		for (vector<ImageInfo>::iterator mbiter = block.begin(); mbiter != block.end(); mbiter++)
-		{
-			mbiter->bmp.ShowBitmap();
-		}
-	}
-
-	void CMapEditer::SelectBlock(CPoint mouse)
-	{
-		for (vector<ImageInfo>::reverse_iterator mbiter = block.rbegin(); mbiter != block.rend(); mbiter++)
-		{
-			if (IsPointInRect(mouse, mbiter->bmp.GetRect()))
-			{
-				selectObj = &(*mbiter);
-				SetDPoint_MouseToTopLeft(mouse);
-				return;
-			}
-		}
-		selectObj = NULL;
-		SetDPoint_MouseToTopLeft();
-	}
-
-	void CMapEditer::DragBlock(CPoint mouse)
-	{
-		if (selectObj == NULL)
-			return;
-
-		selectObj->SetXY(mouse.x - dpoint_mouseToTopleft.x, mouse.y - dpoint_mouseToTopleft.y, cameraX);
-	}
-
-	//目前沒用
 	void CMapEditer::LoadMapInfo(string fileName)
 	{
 		fstream mapData;
@@ -1555,9 +1592,76 @@ namespace game_framework
 		}
 		mapData.close();
 	}
+	#pragma endregion
+
+	void CMapEditer::OnShow()
+	{
+		if (haveBG)
+		{
+			background.bmp.ShowBitmap();
+		}
+
+		for (vector<ImageInfo>::iterator mbiter = block.begin(); mbiter != block.end(); mbiter++)
+		{
+			mbiter->bmp.ShowBitmap();
+		}
+	}
+
+	void CMapEditer::SelectBlock(CPoint mouse)
+	{
+		for (vector<ImageInfo>::reverse_iterator mbiter = block.rbegin(); mbiter != block.rend(); mbiter++)
+		{
+			if (IsPointInRect(mouse, mbiter->bmp.GetRect()))
+			{
+				selectObj = &(*mbiter);
+				SetDPoint_MouseToTopLeft(mouse);
+				return;
+			}
+		}
+		selectObj = NULL;
+		SetDPoint_MouseToTopLeft();
+	}
+
+	void CMapEditer::DragBlock(CPoint mouse)
+	{
+		if (selectObj == NULL)
+			return;
+
+		selectObj->SetXY(mouse.x - dpoint_mouseToTopleft.x, mouse.y - dpoint_mouseToTopleft.y, cameraX);
+	}
+
 	string CMapEditer::GetNowMap()
 	{
 		return "now map: " + std::to_string(nowMap);
+	}
+
+	void CMapEditer::CreateReloadMapInformation()
+	{
+		fstream reloadData;
+		reloadData.open("RES\\Map\\ReloadMapInformation.txt", ios::out);
+		
+		reloadData << std::to_string(nowMapNumber) + "\n"; //write目前有多少張地圖ㄌ
+		for (unsigned int i = 0; i < reloadMap.size(); i++)
+		{
+			if (reloadMap[i])
+			{
+				reloadData << std::to_string(i) + "\n"; //write 那些地圖要reload
+			}
+		}
+		reloadData.close();
+	}
+
+	void CMapEditer::LoadReloadMapInformation()
+	{
+		fstream reloadData;
+		reloadData.open("RES\\Map\\ReloadMapInformation.txt");
+		if (!reloadData.is_open()) //開啟失敗
+		{
+			nowMapNumber = nowMap;
+			reloadMap.clear();
+			reloadMap.resize(nowMapNumber, false);
+		}
+		reloadData.close();
 	}
 	#pragma endregion
 }

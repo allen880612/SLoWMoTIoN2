@@ -1217,8 +1217,9 @@ namespace game_framework {
 
 	void CGameStateMapEditer::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		if (nChar == 27) //Key ESC
+		if (nChar == 27) //Key ESC, return to stateInit
 		{
+			mapEditer.CreateReloadMapInformation();
 			GotoGameState(GAME_STATE_INIT);
 		}
 		if (nChar == 'A')
@@ -1265,7 +1266,7 @@ namespace game_framework {
 
 		dataFileName.open("RES\\Map\\FileName.txt");
 		#pragma region -- 檔案存在 --
-		if (dataFileName.is_open()) //有檔案就鳥ㄊ
+		if (dataFileName.is_open()) //有檔案就load他
 		{
 			vector<string> fileContext;
 			fileContext.clear();

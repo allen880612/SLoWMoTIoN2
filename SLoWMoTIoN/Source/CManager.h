@@ -71,6 +71,8 @@ namespace game_framework
 		void AddPasserby();
 		void Initialize();
 		CPasserbyManager passerbyManager; //temp
+
+		void ReloadBlockMap(); //如果有更新map，線上更新
 	private:
 		const int directionX = MOVE_DISTANCE;
 		int nowMap;
@@ -328,6 +330,9 @@ namespace game_framework
 
 		bool isPrintNowMap = false;
 		string GetNowMap();
+
+		void CreateReloadMapInformation(); //按ESC離開mapEditer時，寫下reload的資訊
+		void LoadReloadMapInformation();   //進入mapEditer時，如果上次有留下來的reload資訊就留著
 	private:
 		#pragma region - image info -
 		class ImageInfo
@@ -365,7 +370,7 @@ namespace game_framework
 
 		CPoint dpoint_mouseToTopleft; //儲存滑鼠座標與block座標的 x, y座標差
 
-		CBlockMap map;
+		CBlockMap bkmap;
 
 		bool isMapRight, isMapLeft;
 		int cameraX;
@@ -377,7 +382,8 @@ namespace game_framework
 		string WriteSaveInfo(string, string, CPoint);
 
 		int nowMap;
-
+		int nowMapNumber; //reload前的地圖數 (求大佬賜個名，我可能沒有取名的天份)
+		vector<bool> reloadMap;
 	};
 	#pragma endregion
 
