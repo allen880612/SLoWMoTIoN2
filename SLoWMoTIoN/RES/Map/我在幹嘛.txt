@@ -6,10 +6,3 @@
 
 讀取 > mapTxt > Editer > CBlock > 寫入ImageInfo
 寫檔 > ImageInfo 寫入 CBlock > 寫入TXT
-
-re load information:
-
-(目前有幾張地圖)
-
-(哪幾張地圖要ReLoad)
-(多個數字 每個數字代表要Re Load的地圖的編號，一個地圖一行)

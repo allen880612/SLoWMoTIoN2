@@ -1209,11 +1209,10 @@ namespace game_framework {
 		{
 		}
 
-		if (nChar == 9) //TAB
+		if (nChar == 9) //TAB?
 		{
 			mapEditer.isPrintNowMap = !mapEditer.isPrintNowMap;
 		}
-
 	}
 
 	void CGameStateMapEditer::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)

@@ -365,7 +365,7 @@ namespace game_framework
 
 		CPoint dpoint_mouseToTopleft; //儲存滑鼠座標與block座標的 x, y座標差
 
-		CBlockMap blockmap;
+		CBlockMap map;
 
 		bool isMapRight, isMapLeft;
 		int cameraX;
@@ -377,8 +377,6 @@ namespace game_framework
 		string WriteSaveInfo(string, string, CPoint);
 
 		int nowMap;
-		int nowMapNumber; //目前有幾張地圖
-		map<int, bool> reloadMap;
 
 	};
 	#pragma endregion
