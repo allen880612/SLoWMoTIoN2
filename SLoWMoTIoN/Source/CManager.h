@@ -333,6 +333,13 @@ namespace game_framework
 
 		void CreateReloadMapInformation(); //按ESC離開mapEditer時，寫下reload的資訊
 		void LoadReloadMapInformation();   //進入mapEditer時，如果上次有留下來的reload資訊就留著
+
+
+		bool IsInSelectMapMode() { //是否在選擇地圖的模式中
+			return (selectMapMode == "up" || selectMapMode == "down" || selectMapMode == "left" || selectMapMode == "right");
+		}
+
+		void SetSelectMapMode(string _mode);
 	private:
 		#pragma region - image info -
 		class ImageInfo
@@ -381,9 +388,14 @@ namespace game_framework
 		void LoadBlockMap(string);
 		string WriteSaveInfo(string, string, CPoint);
 
+		int *printNowMap = NULL;
 		int nowMap;
 		int nowMapNumber; //reload前的地圖數 (求大佬賜個名，我可能沒有取名的天份)
 		vector<bool> reloadMap;
+
+		vector<CBlockMap> blockMap; //所有地圖
+		string selectMapMode;
+		int selectNowMap;
 	};
 	#pragma endregion
 

@@ -73,6 +73,7 @@ namespace game_framework
 			blockiter->blockBmp.LoadBitmap(address);
 			delete address;
 		}
+		isLoad = true;
 	}
 
 	void CBlockMap::LoadInformation(int mapIndex)

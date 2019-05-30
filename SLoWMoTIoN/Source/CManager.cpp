@@ -1382,12 +1382,26 @@ namespace game_framework
 
 	void CMapEditer::Initialize()
 	{
-		block.clear();
-		bkmap.Initialize();
 		nowMap = getFolerFileNumber("RES\\Map\\Information\\");
+
+		#pragma region - blockMap - ReLoad -
+		blockMap.clear();
+		for (int i = 0; i < nowMap; i++)
+		{
+			blockMap.push_back(CBlockMap(i));
+			blockMap[i].LoadImg();
+		}
+		selectNowMap = 0;
+		selectMapMode = "none";
+		#pragma endregion
+
+		block.clear(); //ImageInfo - block
+		bkmap.Initialize();
+		
 		
 		LoadReloadMapInformation();
 
+		printNowMap = &nowMap;
 		isPrintNowMap = false;
 		saveTxtName = EDITER_PRESET_SAVETXTNAME;
 		isMouseDown = false;
@@ -1596,14 +1610,24 @@ namespace game_framework
 
 	void CMapEditer::OnShow()
 	{
-		if (haveBG)
+		if (!IsInSelectMapMode()) //不在選擇地圖的模式中
 		{
-			background.bmp.ShowBitmap();
-		}
+			if (haveBG)
+			{
+				background.bmp.ShowBitmap();
+			}
 
-		for (vector<ImageInfo>::iterator mbiter = block.begin(); mbiter != block.end(); mbiter++)
+			for (vector<ImageInfo>::iterator mbiter = block.begin(); mbiter != block.end(); mbiter++)
+			{
+				mbiter->bmp.ShowBitmap();
+			}
+		}
+		else //選擇地圖中
 		{
-			mbiter->bmp.ShowBitmap();
+			if (selectNowMap < (int)blockMap.size())
+			{
+				blockMap[selectNowMap].backgroundBitmap.ShowBitmap();
+			}
 		}
 	}
 
@@ -1632,7 +1656,7 @@ namespace game_framework
 
 	string CMapEditer::GetNowMap()
 	{
-		return "now map: " + std::to_string(nowMap);
+		return "now map: " + std::to_string(*printNowMap);
 	}
 
 	void CMapEditer::CreateReloadMapInformation()
@@ -1662,6 +1686,16 @@ namespace game_framework
 			reloadMap.resize(nowMapNumber, false);
 		}
 		reloadData.close();
+	}
+
+	void CMapEditer::SetSelectMapMode(string _mode)
+	{
+		if (_mode == "up" || _mode == "down" || _mode == "left" || _mode == "right")
+			printNowMap = &selectNowMap;
+		else
+			printNowMap = &nowMap;
+
+		selectMapMode = _mode;
 	}
 	#pragma endregion
 }

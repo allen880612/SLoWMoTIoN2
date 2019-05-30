@@ -1209,18 +1209,42 @@ namespace game_framework {
 		{
 		}
 
-		if (nChar == 9) //TAB?
+		if (nChar == 9) //Key Tab
 		{
 			mapEditer.isPrintNowMap = !mapEditer.isPrintNowMap;
 		}
+
+		if (nChar == 127) //Key Delete
+		{
+
+		}
+
+		#pragma region - Set upMap / downMap / leftMap / rightMap -
+		if (!mapEditer.IsInSelectMapMode()) //不在設定地圖模式中
+		{
+			string dir[4] = { "up", "down", "left", "right" };
+			//Key 1, 2, 3, 4
+			if (nChar >= '1' && nChar <= '4')
+			{
+				mapEditer.SetSelectMapMode(dir[nChar - 48 - 1]);
+			}
+		}
+		#pragma endregion
 	}
 
 	void CGameStateMapEditer::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		if (nChar == 27) //Key ESC, return to stateInit
 		{
-			mapEditer.CreateReloadMapInformation();
-			GotoGameState(GAME_STATE_INIT);
+			if (!mapEditer.IsInSelectMapMode())
+			{
+				mapEditer.CreateReloadMapInformation();
+				GotoGameState(GAME_STATE_INIT);
+			}
+			else
+			{
+				mapEditer.SetSelectMapMode("none");
+			}
 		}
 		if (nChar == 'A')
 		{
@@ -1259,7 +1283,11 @@ namespace game_framework {
 
 	void CGameStateMapEditer::OnMove()
 	{
-		//這裡好髒 看要不要改放
+		if(mapEditer.IsInSelectMapMode()) //選擇地圖中 - 下面功能不動作
+		{
+			return;
+		}
+
 		#pragma region - 判斷檔案是否存在 -
 		bool isDataExist = false; //先假設檔案不存在
 		fstream dataFileName;
