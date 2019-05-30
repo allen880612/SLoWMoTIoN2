@@ -1468,47 +1468,58 @@ namespace game_framework
 
 	void CMapEditer::OnSave()
 	{
-		/*fstream mapData;
-		mapData.open("RES\\Map\\mapTest.txt", ios::out);
-		mapData << WriteSaveInfo("background", background.path, CPoint(background.x, background.y));
-		#pragma region - write block info -
-		for (unsigned int i = 0; i < block.size(); i++)
+		if (IsInSelectMapMode())
 		{
-			mapData << WriteSaveInfo("block", block[i].path, CPoint(block[i].x, block[i].y));
-		}
-		#pragma endregion
-		mapData.close();*/
-
-		CreateBlockMap();
-
-		if (!isSaved) //沒有儲存過地圖
-		{
-			CString saveDir = ".txt";
-			string tempSaveName = "map" + std::to_string(nowMap) + ".txt"; //緩衝
-			CString saveName = tempSaveName.c_str();
-			CString saveExt = "txt (*.txt)|*.txt||";
-			CFileDialog saveDlg(false, saveDir, saveName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, saveExt);
-			int result = saveDlg.DoModal();
-
-			if (result == IDOK)
+			if (selectMapMode == "up")
 			{
-				saveTxtName = saveDlg.GetFileName();
-				isSaved = true;
-				nowMapNumber++;
+				bkmap.upMap = selectNowMap;
 			}
-			if (result == IDCANCEL)
+			else if (selectMapMode == "down")
 			{
-				return;
+				bkmap.downMap = selectNowMap;
 			}
+			else if (selectMapMode == "left")
+			{
+				bkmap.leftMap = selectNowMap;
+			}
+			else if (selectMapMode == "right")
+			{
+				bkmap.rightMap = selectNowMap;
+			}
+			SetSelectMapMode("none");
 		}
-		if (nowMap < (int)reloadMap.size())
+		else
 		{
-			reloadMap[nowMap] = true;
+			CreateBlockToBkmap();
+			if (!isSaved) //沒有儲存過地圖
+			{
+				CString saveDir = ".txt";
+				string tempSaveName = "map" + std::to_string(nowMap) + ".txt"; //緩衝
+				CString saveName = tempSaveName.c_str();
+				CString saveExt = "txt (*.txt)|*.txt||";
+				CFileDialog saveDlg(false, saveDir, saveName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, saveExt);
+				int result = saveDlg.DoModal();
+
+				if (result == IDOK)
+				{
+					saveTxtName = saveDlg.GetFileName();
+					isSaved = true;
+					nowMapNumber++;
+				}
+				if (result == IDCANCEL)
+				{
+					return;
+				}
+			}
+			if (nowMap < (int)reloadMap.size())
+			{
+				reloadMap[nowMap] = true;
+			}
+			bkmap.CreateInformation(saveTxtName);
 		}
-		bkmap.CreateInformation(saveTxtName);
 	}
 
-	void CMapEditer::CreateBlockMap()
+	void CMapEditer::CreateBlockToBkmap()
 	{
 		bkmap.block.clear();
 		bkmap.loadPath = background.path;

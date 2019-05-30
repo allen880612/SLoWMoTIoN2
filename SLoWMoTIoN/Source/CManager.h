@@ -389,7 +389,7 @@ namespace game_framework
 
 		bool isSaved; //曾經有儲存過地圖
 
-		void CreateBlockMap();
+		void CreateBlockToBkmap();
 		void LoadBlockMap(string);
 		string WriteSaveInfo(string, string, CPoint);
 
