@@ -1373,6 +1373,10 @@ namespace game_framework
 	#pragma region - CMapEditer -
 	CMapEditer::CMapEditer()
 	{
+		arrow[0] = Arrow("up");
+		arrow[1] = Arrow("down");
+		arrow[2] = Arrow("left");
+		arrow[3] = Arrow("right");
 	}
 
 	CMapEditer::~CMapEditer()
@@ -1395,9 +1399,17 @@ namespace game_framework
 		selectMapMode = "none";
 		#pragma endregion
 
+		#pragma region - Load arrow -
+		for (int i = 0; i < 4; i++)
+		{
+			arrow[i].Initialize();
+		}
+		SetArrowCanShow();
+		#pragma endregion
+
+
 		block.clear(); //ImageInfo - block
 		bkmap.Initialize();
-		
 		
 		LoadReloadMapInformation();
 
@@ -1628,6 +1640,14 @@ namespace game_framework
 			{
 				blockMap[selectNowMap].backgroundBitmap.ShowBitmap();
 			}
+
+			for (int i = 0; i < 4; i++)
+			{
+				if (arrow[i].CanShow())
+				{
+					arrow[i].GetBmp()->ShowBitmap();
+				}
+			}
 		}
 	}
 
@@ -1696,6 +1716,54 @@ namespace game_framework
 			printNowMap = &nowMap;
 
 		selectMapMode = _mode;
+	}
+
+	void CMapEditer::ClickArrow(CPoint _mouse)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			if (arrow[i].CanShow() && IsPointInRect(_mouse, arrow[i].GetBmp()->GetRect()))
+			{
+				SwitchMap(arrow[i].GetDir());
+			}
+		}
+	}
+
+	void CMapEditer::SwitchMap(string _dir)
+	{
+		if (_dir == "up")
+		{
+			GotoMap(blockMap[selectNowMap].upMap);
+		}
+		else if (_dir == "down")
+		{
+			GotoMap(blockMap[selectNowMap].downMap);
+		}
+		else if (_dir == "left")
+		{
+			GotoMap(blockMap[selectNowMap].leftMap);
+		}
+		else if (_dir == "right")
+		{
+			GotoMap(blockMap[selectNowMap].rightMap);
+		}
+	}
+
+	void CMapEditer::GotoMap(int mapIndex)
+	{
+		if (mapIndex != -1)
+		{
+			selectNowMap = mapIndex;
+			SetArrowCanShow();
+		}
+	}
+
+	void CMapEditer::SetArrowCanShow()
+	{
+		arrow[0].SetCanShow(blockMap[selectNowMap].upMap >= 0 && blockMap[selectNowMap].upMap < (int)blockMap.size());
+		arrow[1].SetCanShow(blockMap[selectNowMap].downMap >= 0 && blockMap[selectNowMap].downMap < (int)blockMap.size());
+		arrow[2].SetCanShow(blockMap[selectNowMap].leftMap >= 0 && blockMap[selectNowMap].leftMap < (int)blockMap.size());
+		arrow[3].SetCanShow(blockMap[selectNowMap].rightMap >= 0 && blockMap[selectNowMap].rightMap < (int)blockMap.size());
 	}
 	#pragma endregion
 }

@@ -1258,14 +1258,27 @@ namespace game_framework {
 
 	void CGameStateMapEditer::OnLButtonDown(UINT nFlags, CPoint point)
 	{
-		mapEditer.SetMouseState(true);
-		mapEditer.SelectBlock(point);
+		if (mapEditer.IsInSelectMapMode()) //在選擇地圖的模式中
+		{
+			mapEditer.ClickArrow(point);
+		}
+		else
+		{
+			mapEditer.SetMouseState(true);
+			mapEditer.SelectBlock(point);
+		}
 	}
 
 	void CGameStateMapEditer::OnLButtonUp(UINT nFlags, CPoint point)
 	{
+		if (mapEditer.IsInSelectMapMode())
+		{
 
-		mapEditer.SetMouseState(false);
+		}
+		else
+		{
+			mapEditer.SetMouseState(false);
+		}
 	}
 
 	void CGameStateMapEditer::OnMouseMove(UINT nFlags, CPoint point)
@@ -1275,6 +1288,7 @@ namespace game_framework {
 
 	void CGameStateMapEditer::OnRButtonDown(UINT nFlags, CPoint point)
 	{
+		
 	}
 
 	void CGameStateMapEditer::OnRButtonUp(UINT nFlags, CPoint point)

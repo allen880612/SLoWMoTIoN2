@@ -340,6 +340,11 @@ namespace game_framework
 		}
 
 		void SetSelectMapMode(string _mode);
+
+		void ClickArrow(CPoint);
+
+		void SwitchMap(string);
+		void GotoMap(int);
 	private:
 		#pragma region - image info -
 		class ImageInfo
@@ -396,6 +401,60 @@ namespace game_framework
 		vector<CBlockMap> blockMap; //所有地圖
 		string selectMapMode;
 		int selectNowMap;
+
+		#pragma region - Arrow -
+		class Arrow
+		{
+		public:
+			Arrow() { dir = ""; isLoad = false; };
+			Arrow(string _dir) { dir = _dir; };
+			~Arrow() {};
+			void Initialize() {
+				LoadImg();
+				canShow = true;
+			}
+			void LoadImg(){
+				if (!isLoad)
+				{
+					#pragma region - Load Image -
+					if (dir == "up")
+					{
+						bmp.LoadBitmap("RES\\Object\\Arrow\\up_arrow.bmp", RGB(255, 255, 255));
+						bmp.SetTopLeft(320 - bmp.Width() / 2, 0);
+					}
+					else if (dir == "down")
+					{
+						bmp.LoadBitmap("RES\\Object\\Arrow\\down_arrow.bmp", RGB(255, 255, 255));
+						bmp.SetTopLeft(320 - bmp.Width() / 2, 480 - bmp.Height());
+					}
+					else if (dir == "left")
+					{
+						bmp.LoadBitmap("RES\\Object\\Arrow\\left_arrow.bmp", RGB(255, 255, 255));
+						bmp.SetTopLeft(0, 240 - bmp.Height() / 2);
+					}
+					else if (dir == "right")
+					{
+						bmp.LoadBitmap("RES\\Object\\Arrow\\right_arrow.bmp", RGB(255, 255, 255));
+						bmp.SetTopLeft(620 - bmp.Width(), 240 - bmp.Height() / 2);
+					}
+					#pragma endregion
+					isLoad = true;
+				}
+			}
+			bool CanShow() { return canShow; };
+			void SetCanShow(bool f) { canShow = f; };
+			CMovingBitmap* GetBmp() { return &bmp; };
+			string GetDir() { return dir; };
+		private:
+			string dir;
+			CMovingBitmap bmp;
+			bool isLoad = false;
+			bool canShow;
+		};
+		#pragma endregion
+
+		Arrow arrow[4];
+		void SetArrowCanShow();
 	};
 	#pragma endregion
 
