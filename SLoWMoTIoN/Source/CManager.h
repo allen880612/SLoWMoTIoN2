@@ -213,9 +213,10 @@ namespace game_framework
 		void OnMove(int);
 		vector<CNPC*>* GetNpc(int nowMap) { return &npc[nowMap]; };
 	private:
-		vector<CNPC*> npc[MAX_MAP_NUMBER];
+		vector<CNPC*> npc[99];
 
 		void LoadNPC();
+		int map_max_Number;
 	};
 	#pragma endregion
 

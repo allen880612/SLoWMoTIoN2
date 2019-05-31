@@ -1041,7 +1041,7 @@ namespace game_framework
 	}
 	void CNPCManager::Clear()
 	{
-		for (int i = 0; i < MAX_MAP_NUMBER; i++)
+		for (int i = 0; i < map_max_Number; i++)
 		{
 			for (vector<CNPC*>::iterator npciter = npc[i].begin(); npciter != npc[i].end(); ++npciter)
 			{
@@ -1054,7 +1054,8 @@ namespace game_framework
 
 	void CNPCManager::Initialize(int nowMap)
 	{
-		for (int i = 0; i < MAX_MAP_NUMBER; i++)
+		map_max_Number = getFolerFileNumber("RES\\Map\\Information\\");
+		for (int i = 0; i < map_max_Number; i++)
 		{
 			for (vector<CNPC*>::iterator npciter = npc[i].begin(); npciter != npc[i].end(); npciter++)
 			{
@@ -1441,7 +1442,7 @@ namespace game_framework
 		}
 		else if (path[0] == "block")
 		{
-			block.push_back(ImageInfo(path[1]), "block");
+			block.push_back(ImageInfo(path[1], "block"));
 		}
 		else if (path[0] == "load")
 		{
@@ -1477,23 +1478,29 @@ namespace game_framework
 			if (selectMapMode == "up")
 			{
 				bkmap.upMap = selectNowMap;
+				blockMap[selectNowMap].downMap = nowMap;
 			}
 			else if (selectMapMode == "down")
 			{
 				bkmap.downMap = selectNowMap;
+				blockMap[selectNowMap].upMap = nowMap;
 			}
 			else if (selectMapMode == "left")
 			{
 				bkmap.leftMap = selectNowMap;
+				blockMap[selectNowMap].rightMap = nowMap;
 			}
 			else if (selectMapMode == "right")
 			{
 				bkmap.rightMap = selectNowMap;
+				blockMap[selectNowMap].leftMap = nowMap;
 			}
+			reloadMap[selectNowMap] = true;
 			SetSelectMapMode("none");
 		}
 		else
 		{
+			bkmap.nowMap = nowMap;
 			CreateBlockToBkmap();
 			if (!isSaved) //沒有儲存過地圖
 			{
@@ -1524,11 +1531,11 @@ namespace game_framework
 			#pragma region - bkmap write to blockmap -
 			if (nowMap < (int)blockMap.size()) //要新增一張地圖
 			{
-				blockMap.push_back(bkmap);
+				blockMap[nowMap] = bkmap; 
 			}
 			else //修改一張地圖
 			{
-				blockMap[nowMap] = bkmap;
+				blockMap.push_back(bkmap);
 			}
 			#pragma endregion
 		}
@@ -1636,7 +1643,7 @@ namespace game_framework
 				haveBG = true;
 				mapData >> lineData;
 				string path = lineData;
-				background = ImageInfo(path); //LoadPath
+				background = ImageInfo(path, "background"); //LoadPath
 				string _x, _y;
 				mapData >> _x >> _y;
 				background.SetXY(ConvertStringToInt(_x), ConvertStringToInt(_y), 0);
@@ -1646,7 +1653,7 @@ namespace game_framework
 				ImageInfo tempk;
 				mapData >> lineData;
 				string path = lineData;
-				tempk = ImageInfo(path); //LoadPath
+				tempk = ImageInfo(path, "block"); //LoadPath
 				string _x, _y;
 				mapData >> _x >> _y;
 				tempk.SetXY(ConvertStringToInt(_x), ConvertStringToInt(_y), 0);
