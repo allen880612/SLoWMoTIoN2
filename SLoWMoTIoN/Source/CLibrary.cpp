@@ -1236,12 +1236,14 @@ namespace game_framework
 	#pragma region - CEnd -
 	CEnd::CEnd()
 	{
+		isGet = false;
 		endName = "";
 	}
 
 	CEnd::CEnd(string _endName)
 	{
 		endName = _endName;
+		isGet = false;
 		LoadEnd();
 	}
 

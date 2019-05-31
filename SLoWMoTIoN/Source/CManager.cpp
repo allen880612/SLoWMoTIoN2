@@ -1041,7 +1041,7 @@ namespace game_framework
 	}
 	void CNPCManager::Clear()
 	{
-		for (int i = 0; i < map_max_Number; i++)
+		for (int i = 0; i < 99; i++)
 		{
 			for (vector<CNPC*>::iterator npciter = npc[i].begin(); npciter != npc[i].end(); ++npciter)
 			{
@@ -1205,6 +1205,11 @@ namespace game_framework
 		Play();
 	}
 
+	bool CEndManager::IsPassEnd(string endName)
+	{
+		return endmap[endName].IsGetEnd();
+	}
+
 	void CEndManager::Start(string endName)
 	{
 		nowEnd = &endmap[endName];
@@ -1271,6 +1276,7 @@ namespace game_framework
 		}
 		else
 		{
+			nowEnd->SetGetEnd();
 			Stop();
 		}
 	}

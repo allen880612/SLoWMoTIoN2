@@ -335,7 +335,8 @@ namespace game_framework
 		~CEnd();
 		string GetBmpPath(int);
 		string GetTxt(int);
-		
+		void SetGetEnd(bool f = true) { isGet = f; }
+		bool IsGetEnd() { return isGet; };
 	private:
 		string endName;
 		vector<string> bmpPath;
@@ -354,6 +355,7 @@ namespace game_framework
 		void LoadEnd();
 		void LoadBmpTxt(string);
 		void LoadBmpTxt(string, int, int);	//end name, bmp amount, txt amount
+		bool isGet;
 	};
 	#pragma endregion
 

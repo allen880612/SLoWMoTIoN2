@@ -247,6 +247,7 @@ namespace game_framework
 		void Stop();
 		bool GetEndingState() { return isEnding; };
 		void OnCycle();
+		bool IsPassEnd(string);
 		static CEndManager* Instance() { return &endManager; };
 	private:
 		map< string, CEnd > endmap;
