@@ -320,6 +320,7 @@ namespace game_framework
 
 		void SelectBlock(CPoint);
 		void DragBlock(CPoint); //拖曳Block
+		void DeleteBlock();
 
 		bool GetMouseState() { return isMouseDown; };   //取得滑鼠狀態(是否按住)
 		void SetMouseState(bool f) { isMouseDown = f; }; //設置滑鼠狀態
@@ -334,17 +335,20 @@ namespace game_framework
 		void CreateReloadMapInformation(); //按ESC離開mapEditer時，寫下reload的資訊
 		void LoadReloadMapInformation();   //進入mapEditer時，如果上次有留下來的reload資訊就留著
 
+		void StoreMapInformaion(); //儲存所有blockMap的資料
 
 		bool IsInSelectMapMode() { //是否在選擇地圖的模式中
 			return (selectMapMode == "up" || selectMapMode == "down" || selectMapMode == "left" || selectMapMode == "right");
 		}
 
+		void SetSelectMapZero(); //上/下/左/右的連結地圖 -> 歸零
 		void SetSelectMapMode(string _mode);
 
 		void ClickArrow(CPoint);
 
 		void SwitchMap(string);
 		void GotoMap(int);
+
 	private:
 		#pragma region - image info -
 		class ImageInfo
@@ -355,8 +359,9 @@ namespace game_framework
 				bmp.SetTopLeft(x - camera, y);
 			};
 			ImageInfo() { x = y = 0; };
-			ImageInfo(string _path)
+			ImageInfo(string _path, string _id)
 			{
+				id = _id;
 				path = _path;
 				char *address = ConvertCharPointToString(path);
 				bmp.LoadBitmap(address);
@@ -367,6 +372,7 @@ namespace game_framework
 			~ImageInfo() {};
 			CMovingBitmap bmp;
 			string path;
+			string id;
 			int x = 0, y = 0;
 		};
 		#pragma endregion

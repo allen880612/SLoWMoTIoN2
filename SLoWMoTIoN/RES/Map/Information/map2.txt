@@ -34,6 +34,6 @@ block RES\Map\bm.bmp 1240 0
 up -1
 down -1
 left 0
-right 3
+right -1
 passerbyNumber 3
 passerbyID 0 1

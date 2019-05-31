@@ -1214,9 +1214,18 @@ namespace game_framework {
 			mapEditer.isPrintNowMap = !mapEditer.isPrintNowMap;
 		}
 
-		if (nChar == 127) //Key Delete
-		{
+		//maybe ctrl = 11
 
+		if (nChar == 46) //Key Delete
+		{
+			if (mapEditer.IsInSelectMapMode())
+			{
+				mapEditer.SetSelectMapZero();
+			}
+			else
+			{
+				mapEditer.DeleteBlock();
+			}
 		}
 
 		#pragma region - Set upMap / downMap / leftMap / rightMap -
@@ -1238,6 +1247,7 @@ namespace game_framework {
 		{
 			if (!mapEditer.IsInSelectMapMode())
 			{
+				mapEditer.StoreMapInformaion();
 				mapEditer.CreateReloadMapInformation();
 				GotoGameState(GAME_STATE_INIT);
 			}

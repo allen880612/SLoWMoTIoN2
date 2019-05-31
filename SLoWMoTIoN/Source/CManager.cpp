@@ -1382,6 +1382,10 @@ namespace game_framework
 	CMapEditer::~CMapEditer()
 	{
 		block.clear();
+		if (!blockMap.empty())
+		{
+			StoreMapInformaion();
+		}
 	}
 
 	void CMapEditer::Initialize()
@@ -1432,12 +1436,12 @@ namespace game_framework
 		{
 			haveBG = true;
 			ImageInfo tempcv;
-			tempcv = ImageInfo(path[1]);
+			tempcv = ImageInfo(path[1], "background");
 			background = tempcv;
 		}
 		else if (path[0] == "block")
 		{
-			block.push_back(ImageInfo(path[1]));
+			block.push_back(ImageInfo(path[1]), "block");
 		}
 		else if (path[0] == "load")
 		{
@@ -1515,7 +1519,18 @@ namespace game_framework
 			{
 				reloadMap[nowMap] = true;
 			}
-			bkmap.CreateInformation(saveTxtName);
+			//bkmap.CreateInformation(saveTxtName);
+			
+			#pragma region - bkmap write to blockmap -
+			if (nowMap < (int)blockMap.size()) //要新增一張地圖
+			{
+				blockMap.push_back(bkmap);
+			}
+			else //修改一張地圖
+			{
+				blockMap[nowMap] = bkmap;
+			}
+			#pragma endregion
 		}
 	}
 
@@ -1534,18 +1549,29 @@ namespace game_framework
 		//char *fff = ConvertCharPointToString(fileName);
 		sscanf(mapName.c_str(), "map%d.txt", &nowMap);
 		//delete fff;
-		
-		bkmap.LoadInformation(mapName);
+		bkmap = blockMap[nowMap];
+		//bkmap.LoadInformation(mapName);
 		isSaved = true;
-		background = ImageInfo(bkmap.loadPath);
+		background = ImageInfo(bkmap.loadPath, "background"); //load background
 		haveBG = true;
 
+		#pragma region - Load block -
 		for (vector<CBlock>::iterator mbiter = bkmap.block.begin(); mbiter != bkmap.block.end(); mbiter++)
 		{
-			ImageInfo tempk = ImageInfo(mbiter->path);
+			ImageInfo tempk = ImageInfo(mbiter->path, "block");
 			tempk.SetXY(mbiter->x, mbiter->y, cameraX);
 			block.push_back(tempk);
 		}
+		#pragma endregion
+	}
+
+	void CMapEditer::StoreMapInformaion()
+	{
+		for (unsigned int i = 0; i < blockMap.size(); i++)
+		{
+			blockMap[i].CreateInformation();
+		}
+		blockMap.clear();
 	}
 
 	void CMapEditer::OnMove()
@@ -1685,6 +1711,22 @@ namespace game_framework
 		selectObj->SetXY(mouse.x - dpoint_mouseToTopleft.x, mouse.y - dpoint_mouseToTopleft.y, cameraX);
 	}
 
+	void CMapEditer::DeleteBlock()
+	{
+		if (selectObj != NULL)
+		{
+			for (vector<ImageInfo>::iterator mbiter = block.begin(); mbiter != block.end(); mbiter++)
+			{
+				if (selectObj == &(*mbiter))
+				{
+					mbiter = block.erase(mbiter);
+					selectObj = NULL;
+					return;
+				}
+			}
+		}
+	}
+
 	string CMapEditer::GetNowMap()
 	{
 		return "now map: " + std::to_string(*printNowMap);
@@ -1719,12 +1761,21 @@ namespace game_framework
 		reloadData.close();
 	}
 
+	void CMapEditer::SetSelectMapZero()
+	{
+		selectNowMap = -1;
+		OnSave();
+	}
+
 	void CMapEditer::SetSelectMapMode(string _mode)
 	{
 		if (_mode == "up" || _mode == "down" || _mode == "left" || _mode == "right")
 			printNowMap = &selectNowMap;
 		else
+		{
+			selectNowMap = 0;
 			printNowMap = &nowMap;
+		}
 
 		selectMapMode = _mode;
 	}
