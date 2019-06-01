@@ -97,6 +97,7 @@ namespace game_framework {
 	#pragma region - CRole -
 	class CBlackHole;
 	class CBlock;
+	class CDoor;
 	class CRole : public CEraser
 	{
 		friend class CScallion;
@@ -151,6 +152,8 @@ namespace game_framework {
 		bool IsCollisionBlockOnJumping(CBlock*); //跳起來撞到方塊
 		#pragma endregion
 
+		bool IsCollisionDoor(CDoor*);
+
 		bool IsCollisionLevel4(CScallion*);
 
 		bool IsCollisionNPC(CNPC*);
@@ -183,6 +186,7 @@ namespace game_framework {
 		CRect collisionRect;
 		CRect collisionDownRect;
 		CRect collisionTopRect;
+		CRect collisionDoorRect;
 
 		void ResetCollisionRect();
 	private:

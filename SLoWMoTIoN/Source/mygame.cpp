@@ -836,6 +836,20 @@ namespace game_framework {
 			role.SetMovingJump(false);
 			role.SetCanJumping(true);
 		}
+
+		if (nChar == ' ') //open door
+		{
+			#pragma region - role - collision with door -
+			vector<CDoor> *door = mapManager.GetDoorVector();
+			for (vector<CDoor>::iterator bkiter = door->begin(); bkiter != door->end(); bkiter++)
+			{
+				if (role.IsCollisionDoor(&(*bkiter))) //collision with door
+				{
+					ChangeMap(bkiter->GetSwitchMapIndex());
+				}
+			}
+			#pragma endregion
+		}
 	}
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -935,6 +949,18 @@ namespace game_framework {
 		}
 		bossManager.TargetBoss(mapManager.GetNowMap());
 		npcManager.ChangeMap(nowMap, nextMap);
+	}
+
+	void CGameStateRun::ChangeMap(int nextMap)
+	{
+		int nowMap = mapManager.GetNowMap();
+		if (nextMap != -1 && nextMap < mapManager.GetBlockMapSize()) //nextMap in blockMap
+		{
+			role.SetXY(0, SIZE_Y - role.Height() - 1);
+			mapManager.ChangeMap(nextMap, "right");
+			bossManager.TargetBoss(mapManager.GetNowMap());
+			npcManager.ChangeMap(nowMap, nextMap);
+		}
 	}
 
 	void CGameStateRun::SwitchState(int state)
@@ -1352,6 +1378,7 @@ namespace game_framework {
 		mapEditer.OnMove();
 
 	}
+
 	void CGameStateMapEditer::OnShow()
 	{
 		mapEditer.OnShow();
@@ -1360,7 +1387,14 @@ namespace game_framework {
 		if (mapEditer.isPrintNowMap)
 		{
 			char *address = ConvertCharPointToString(mapEditer.GetNowMap());
-			PaintText(address, 240, 0, "微軟正黑體", 20, RGB(0, 0, 0), RGB(255, 255, 255));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+			PaintText(address, 320, 0, "微軟正黑體", 20, RGB(0, 0, 0), RGB(255, 255, 255));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+			delete address;
+		}
+
+		if (mapEditer.IsInSelectMapMode())
+		{
+			char *address = ConvertCharPointToString(mapEditer.GetSelectMapMode());
+			PaintText(address, 90, 0, "微軟正黑體", 20, RGB(0, 0, 0), RGB(255, 255, 255));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 			delete address;
 		}
 	}	

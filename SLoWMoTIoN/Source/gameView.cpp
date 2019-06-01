@@ -67,6 +67,8 @@ BEGIN_MESSAGE_MAP(CGameView, CView)
 	ON_COMMAND(ID_EDITER_NEWBG, NewBackGround)
 	ON_COMMAND(ID_EDITER_NEWBLOCK, NewBlock)
 	ON_COMMAND(ID_EDITER_EDITMAP, EditMap)
+	ON_COMMAND(ID_EDITER_NEWUPDOOR, NewUpDoor)
+	ON_COMMAND(ID_EDITER_NEWDOWNDOOR, NewDownDoor)
 	//
 	ON_COMMAND(ID_BUTTON_PAUSE, OnButtonPause)
 	ON_WM_KEYDOWN()
@@ -331,6 +333,52 @@ void CGameView::EditMap()
 		// TODO: Add your command handler code here
 	}
 
+}
+void CGameView::NewUpDoor()
+{
+	CFileDialog openFileDlg(true);
+	INT_PTR result = openFileDlg.DoModal(); //open FileDialog
+
+	if (result == IDOK)
+	{
+		CString OriginalFilePath = openFileDlg.GetPathName(); //原檔案路徑 + 檔名
+		CString GoalFilePath = "RES\\Map\\" + openFileDlg.GetFileName(); //目的地路徑 + 檔名
+
+																		 //原檔案路徑, 目的地路徑, true = 若有同檔名，不覆蓋檔案，同時return false
+		BOOL m = CopyFile(OriginalFilePath, GoalFilePath, true);
+		//DeleteFile("RES\\Map\\FileName.txt");
+		string txtContext = "upDoor " + GoalFilePath;
+		fstream dataFile("RES\\Map\\FileName.txt", ios::out);
+		dataFile << txtContext.c_str();
+		dataFile.close();
+	}
+	else if (result == IDCANCEL)
+	{
+		// TODO: Add your command handler code here
+	}
+}
+void CGameView::NewDownDoor()
+{
+	CFileDialog openFileDlg(true);
+	INT_PTR result = openFileDlg.DoModal(); //open FileDialog
+
+	if (result == IDOK)
+	{
+		CString OriginalFilePath = openFileDlg.GetPathName(); //原檔案路徑 + 檔名
+		CString GoalFilePath = "RES\\Map\\" + openFileDlg.GetFileName(); //目的地路徑 + 檔名
+
+																		 //原檔案路徑, 目的地路徑, true = 若有同檔名，不覆蓋檔案，同時return false
+		BOOL m = CopyFile(OriginalFilePath, GoalFilePath, true);
+		//DeleteFile("RES\\Map\\FileName.txt");
+		string txtContext = "downDoor " + GoalFilePath;
+		fstream dataFile("RES\\Map\\FileName.txt", ios::out);
+		dataFile << txtContext.c_str();
+		dataFile.close();
+	}
+	else if (result == IDCANCEL)
+	{
+		// TODO: Add your command handler code here
+	}
 }
 #pragma endregion
 

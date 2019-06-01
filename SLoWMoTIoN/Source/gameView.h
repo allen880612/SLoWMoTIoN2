@@ -78,6 +78,8 @@ protected:
 	void NewBackGround();
 	void NewBlock();
 	void EditMap();
+	void NewUpDoor();
+	void NewDownDoor();
 	//
 	afx_msg void OnButtonPause();
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);

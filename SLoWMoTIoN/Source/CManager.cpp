@@ -59,9 +59,21 @@ namespace game_framework
 		{
 			for (vector<CBlock>::iterator bkiter = blockMap[i].block.begin(); bkiter != blockMap[i].block.end(); bkiter++)
 			{
-				bkiter->blockBmp.SetValid(false | (i == nowMap));
+				bkiter->bmp.SetValid(false | (i == nowMap));
 				bkiter->SetXY(bkiter->x, bkiter->y);
-				CLayerManager::Instance()->AddObject(&(bkiter->blockBmp), 7);
+				CLayerManager::Instance()->AddObject(&(bkiter->bmp), 7);
+			}
+		}
+		#pragma endregion
+
+		#pragma region - 設置Door -
+		for (int i = 0; i < max_map_number; i++)
+		{
+			for (vector<CDoor>::iterator bkiter = blockMap[i].door.begin(); bkiter != blockMap[i].door.end(); bkiter++)
+			{
+				bkiter->bmp.SetValid(false | (i == nowMap));
+				bkiter->SetXY(bkiter->x, bkiter->y);
+				CLayerManager::Instance()->AddObject(&(bkiter->bmp), 7);
 			}
 		}
 		#pragma endregion
@@ -178,6 +190,11 @@ namespace game_framework
 		return &blockMap[nowMap].block;
 	}
 
+	vector<CDoor>* CMapManager::GetDoorVector()
+	{
+		return &blockMap[nowMap].door;
+	}
+
 	CMovingBitmap* CMapManager::GetBitmap()
 	{
 		return &background;
@@ -220,12 +237,25 @@ namespace game_framework
 		//關掉原本的
 		for (vector<CBlock>::iterator bkiter = blockMap[nowMap].block.begin(); bkiter != blockMap[nowMap].block.end(); bkiter++)
 		{
-			bkiter->blockBmp.SetValid(false);
+			bkiter->bmp.SetValid(false);
 		}
 		//打開後來的
 		for (vector<CBlock>::iterator bkiter = blockMap[changeMap].block.begin(); bkiter != blockMap[changeMap].block.end(); bkiter++)
 		{
-			bkiter->blockBmp.SetValid(true);
+			bkiter->bmp.SetValid(true);
+		}
+		#pragma endregion
+
+		#pragma region - 設置Door -
+		//關掉原本的
+		for (vector<CDoor>::iterator bkiter = blockMap[nowMap].door.begin(); bkiter != blockMap[nowMap].door.end(); bkiter++)
+		{
+			bkiter->bmp.SetValid(false);
+		}
+		//打開後來的
+		for (vector<CDoor>::iterator bkiter = blockMap[changeMap].door.begin(); bkiter != blockMap[changeMap].door.end(); bkiter++)
+		{
+			bkiter->bmp.SetValid(true);
 		}
 		#pragma endregion
 
@@ -287,13 +317,20 @@ namespace game_framework
 		SetXY(x, 0);
 		#pragma endregion
 
-
 		#pragma region - 螢幕上的 block 也要移動 -
 		for (vector<CBlock>::iterator bkiter = blockMap[nowMap].block.begin(); bkiter != blockMap[nowMap].block.end(); bkiter++)
 		{
 			bkiter->SetXY(bkiter->x, bkiter->y, dx);
 		}
 		#pragma endregion
+
+		#pragma region - 螢幕上的 door 也要移動 -
+		for (vector<CDoor>::iterator bkiter = blockMap[nowMap].door.begin(); bkiter != blockMap[nowMap].door.end(); bkiter++)
+		{
+			bkiter->SetXY(bkiter->x, bkiter->y, dx);
+		}
+		#pragma endregion
+
 	}
 
 	void CMapManager::SetXY(int _x, int _y)
@@ -1055,7 +1092,7 @@ namespace game_framework
 	void CNPCManager::Initialize(int nowMap)
 	{
 		map_max_Number = getFolerFileNumber("RES\\Map\\Information\\");
-		for (int i = 0; i < map_max_Number; i++)
+		for (int i = 0; i < 99; i++)
 		{
 			for (vector<CNPC*>::iterator npciter = npc[i].begin(); npciter != npc[i].end(); npciter++)
 			{
@@ -1388,7 +1425,7 @@ namespace game_framework
 
 	CMapEditer::~CMapEditer()
 	{
-		block.clear();
+		mapObj.clear();
 		if (!blockMap.empty())
 		{
 			StoreMapInformaion();
@@ -1418,11 +1455,14 @@ namespace game_framework
 		SetArrowCanShow();
 		#pragma endregion
 
-
-		block.clear(); //ImageInfo - block
-		bkmap.Initialize();
-		
 		LoadReloadMapInformation();
+		NewMapInit();
+	}
+
+	void CMapEditer::NewMapInit()
+	{
+		mapObj.clear(); //ImageInfo - block
+		bkmap.Initialize();
 
 		printNowMap = &nowMap;
 		isPrintNowMap = false;
@@ -1441,19 +1481,27 @@ namespace game_framework
 		//類型(背景 / block), 圖片路徑
 		if (path[0] == "background")
 		{
+			NewMapInit();
 			haveBG = true;
 			ImageInfo tempcv;
 			tempcv = ImageInfo(path[1], "background");
 			background = tempcv;
+			background.SetXY(0, 0, 0);
 		}
 		else if (path[0] == "block")
 		{
-			block.push_back(ImageInfo(path[1], "block"));
+			mapObj.push_back(ImageInfo(path[1], "block"));
 		}
 		else if (path[0] == "load")
 		{
+			NewMapInit();
 			LoadBlockMap(path[1]);
 			saveTxtName = path[1];
+			background.SetXY(0, 0, 0);
+		}
+		else if (path[0] == "upDoor" || path[0] == "downDoor")
+		{
+			mapObj.push_back(ImageInfo(path[1], path[0]));
 		}
 	}
 
@@ -1522,6 +1570,7 @@ namespace game_framework
 					saveTxtName = saveDlg.GetFileName();
 					isSaved = true;
 					nowMapNumber++;
+					bkmap.CreateInformation(saveTxtName);
 				}
 				if (result == IDCANCEL)
 				{
@@ -1535,11 +1584,11 @@ namespace game_framework
 			//bkmap.CreateInformation(saveTxtName);
 			
 			#pragma region - bkmap write to blockmap -
-			if (nowMap < (int)blockMap.size()) //要新增一張地圖
+			if (nowMap < (int)blockMap.size()) //修改一張地圖
 			{
 				blockMap[nowMap] = bkmap; 
 			}
-			else //修改一張地圖
+			else //要新增一張地圖
 			{
 				blockMap.push_back(bkmap);
 			}
@@ -1550,11 +1599,27 @@ namespace game_framework
 	void CMapEditer::CreateBlockToBkmap()
 	{
 		bkmap.block.clear();
+		bkmap.door.clear();
 		bkmap.loadPath = background.path;
-		for (vector<ImageInfo>::iterator mbiter = block.begin(); mbiter != block.end(); mbiter++)
+
+		#pragma region - Load Map Simple Object -
+		for (vector<ImageInfo>::iterator mbiter = mapObj.begin(); mbiter != mapObj.end(); mbiter++)
 		{
-			bkmap.block.push_back(CBlock(mbiter->path, mbiter->x, mbiter->y));
+			if (mbiter->id == "block")
+			{
+				bkmap.block.push_back(CBlock(mbiter->path, mbiter->x, mbiter->y));
+			}
+			else if (mbiter->id == "upDoor")
+			{
+				bkmap.door.push_back(CDoor(mbiter->path, mbiter->x, mbiter->y, mbiter->id, bkmap.upMap));
+			}
+			else if (mbiter->id == "downDoor")
+			{
+				bkmap.door.push_back(CDoor(mbiter->path, mbiter->x, mbiter->y, mbiter->id, bkmap.downMap));
+			}
 		}
+		#pragma endregion
+
 	}
 
 	void CMapEditer::LoadBlockMap(string mapName)
@@ -1573,9 +1638,19 @@ namespace game_framework
 		{
 			ImageInfo tempk = ImageInfo(mbiter->path, "block");
 			tempk.SetXY(mbiter->x, mbiter->y, cameraX);
-			block.push_back(tempk);
+			mapObj.push_back(tempk);
 		}
 		#pragma endregion
+
+		#pragma region - Load Door -
+		for (vector<CDoor>::iterator mbiter = bkmap.door.begin(); mbiter != bkmap.door.end(); mbiter++)
+		{
+			ImageInfo tempk = ImageInfo(mbiter->path, mbiter->GetType());
+			tempk.SetXY(mbiter->x, mbiter->y, cameraX);
+			mapObj.push_back(tempk);
+		}
+		#pragma endregion
+
 	}
 
 	void CMapEditer::StoreMapInformaion()
@@ -1616,58 +1691,58 @@ namespace game_framework
 		{
 			background.bmp.SetTopLeft(background.x - cameraX, background.y);
 		}
-		for (vector<ImageInfo>::iterator mbiter = block.begin(); mbiter != block.end(); mbiter++)
+		for (vector<ImageInfo>::iterator mbiter = mapObj.begin(); mbiter != mapObj.end(); mbiter++)
 		{
 			mbiter->bmp.SetTopLeft(mbiter->x - cameraX, mbiter->y);
 		}
 	}
 
 	#pragma region - 沒路用ING -
-	//沒路用ING
-	string CMapEditer::WriteSaveInfo(string type, string path, CPoint point)
-	{
-		string returnStr = type + " " + path + " " + std::to_string(point.x) + " " + std::to_string(point.y) + "\n";
-		return returnStr;
-	}
+	////沒路用ING
+	//string CMapEditer::WriteSaveInfo(string type, string path, CPoint point)
+	//{
+	//	string returnStr = type + " " + path + " " + std::to_string(point.x) + " " + std::to_string(point.y) + "\n";
+	//	return returnStr;
+	//}
 
-	void CMapEditer::LoadMapInfo(string fileName)
-	{
-		fstream mapData;
-		string path = "RES\\Map\\Information\\" + fileName;
-		mapData.open(path, ios::in);
-		if (!mapData.is_open()) //打不開 回去
-		{
-			mapData.close();
-			return;
-		}
+	//void CMapEditer::LoadMapInfo(string fileName)
+	//{
+	//	fstream mapData;
+	//	string path = "RES\\Map\\Information\\" + fileName;
+	//	mapData.open(path, ios::in);
+	//	if (!mapData.is_open()) //打不開 回去
+	//	{
+	//		mapData.close();
+	//		return;
+	//	}
 
-		string lineData;
-		while (mapData >> lineData)
-		{
-			if (lineData == "background")
-			{
-				haveBG = true;
-				mapData >> lineData;
-				string path = lineData;
-				background = ImageInfo(path, "background"); //LoadPath
-				string _x, _y;
-				mapData >> _x >> _y;
-				background.SetXY(ConvertStringToInt(_x), ConvertStringToInt(_y), 0);
-			}
-			else if (lineData == "block")
-			{
-				ImageInfo tempk;
-				mapData >> lineData;
-				string path = lineData;
-				tempk = ImageInfo(path, "block"); //LoadPath
-				string _x, _y;
-				mapData >> _x >> _y;
-				tempk.SetXY(ConvertStringToInt(_x), ConvertStringToInt(_y), 0);
-				block.push_back(tempk);
-			}
-		}
-		mapData.close();
-	}
+	//	string lineData;
+	//	while (mapData >> lineData)
+	//	{
+	//		if (lineData == "background")
+	//		{
+	//			haveBG = true;
+	//			mapData >> lineData;
+	//			string path = lineData;
+	//			background = ImageInfo(path, "background"); //LoadPath
+	//			string _x, _y;
+	//			mapData >> _x >> _y;
+	//			background.SetXY(ConvertStringToInt(_x), ConvertStringToInt(_y), 0);
+	//		}
+	//		else if (lineData == "block")
+	//		{
+	//			ImageInfo tempk;
+	//			mapData >> lineData;
+	//			string path = lineData;
+	//			tempk = ImageInfo(path, "block"); //LoadPath
+	//			string _x, _y;
+	//			mapData >> _x >> _y;
+	//			tempk.SetXY(ConvertStringToInt(_x), ConvertStringToInt(_y), 0);
+	//			block.push_back(tempk);
+	//		}
+	//	}
+	//	mapData.close();
+	//}
 	#pragma endregion
 
 	void CMapEditer::OnShow()
@@ -1679,7 +1754,7 @@ namespace game_framework
 				background.bmp.ShowBitmap();
 			}
 
-			for (vector<ImageInfo>::iterator mbiter = block.begin(); mbiter != block.end(); mbiter++)
+			for (vector<ImageInfo>::iterator mbiter = mapObj.begin(); mbiter != mapObj.end(); mbiter++)
 			{
 				mbiter->bmp.ShowBitmap();
 			}
@@ -1703,7 +1778,7 @@ namespace game_framework
 
 	void CMapEditer::SelectBlock(CPoint mouse)
 	{
-		for (vector<ImageInfo>::reverse_iterator mbiter = block.rbegin(); mbiter != block.rend(); mbiter++)
+		for (vector<ImageInfo>::reverse_iterator mbiter = mapObj.rbegin(); mbiter != mapObj.rend(); mbiter++)
 		{
 			if (IsPointInRect(mouse, mbiter->bmp.GetRect()))
 			{
@@ -1728,11 +1803,11 @@ namespace game_framework
 	{
 		if (selectObj != NULL)
 		{
-			for (vector<ImageInfo>::iterator mbiter = block.begin(); mbiter != block.end(); mbiter++)
+			for (vector<ImageInfo>::iterator mbiter = mapObj.begin(); mbiter != mapObj.end(); mbiter++)
 			{
 				if (selectObj == &(*mbiter))
 				{
-					mbiter = block.erase(mbiter);
+					mbiter = mapObj.erase(mbiter);
 					selectObj = NULL;
 					return;
 				}

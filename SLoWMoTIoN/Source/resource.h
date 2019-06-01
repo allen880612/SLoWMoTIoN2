@@ -63,6 +63,8 @@
 #define ID_EDITER_NEWBG                 32779
 #define ID_EDITER_EDIT                  32780
 #define ID_EDITER_EDITMAP               32781
+#define ID_EDITER_NEWUPDOOR             32782
+#define ID_EDITER_NEWDOWNDOOR           32783
 #define ID_RED                          57670
 
 // Next default values for new objects
@@ -70,8 +72,8 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        171
-#define _APS_NEXT_COMMAND_VALUE         32782
+#define _APS_NEXT_RESOURCE_VALUE        172
+#define _APS_NEXT_COMMAND_VALUE         32784
 #define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           102
 #endif

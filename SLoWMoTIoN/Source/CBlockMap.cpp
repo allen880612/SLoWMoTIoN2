@@ -70,9 +70,17 @@ namespace game_framework
 		for (vector<CBlock>::iterator blockiter = block.begin(); blockiter != block.end(); blockiter++)
 		{
 			address = ConvertCharPointToString(blockiter->path);
-			blockiter->blockBmp.LoadBitmap(address);
+			blockiter->bmp.LoadBitmap(address);
 			delete address;
 		}
+
+		for (vector<CDoor>::iterator dooriter = door.begin(); dooriter != door.end(); dooriter++)
+		{
+			address = ConvertCharPointToString(dooriter->path);
+			dooriter->bmp.LoadBitmap(address);
+			delete address;
+		}
+
 		isLoad = true;
 	}
 
@@ -117,6 +125,10 @@ namespace game_framework
 			else if(tempString[0] == "block")
 			{
 				block.push_back(CBlock(tempString[1], ConvertStringToInt(tempString[2]), ConvertStringToInt(tempString[3])));
+			}
+			else if (tempString[0] == "upDoor" || tempString[0] == "downDoor")
+			{
+				door.push_back(CDoor(tempString[1], ConvertStringToInt(tempString[2]), ConvertStringToInt(tempString[3]), tempString[0], ConvertStringToInt(tempString[4])));
 			}
 			else if (tempString[0] == "up")
 			{
@@ -169,6 +181,7 @@ namespace game_framework
 		nowMap = 0;
 		leftMap = rightMap = upMap = downMap = -1;
 		block.clear();
+		door.clear();
 		passerbyMaxSize = 0;
 		loadPath = "";
 	}
@@ -179,10 +192,18 @@ namespace game_framework
 		data.open(fileName, ios::out);
 		vector<string> r;
 		r.push_back("background " + loadPath + " 0 0\n");
+		#pragma region - write block -
 		for (unsigned int i = 0; i < block.size(); i++)
 		{
 			r.push_back("block " + block[i].path + " " + std::to_string(block[i].x) + " " + std::to_string(block[i].y) + "\n");
 		}
+		#pragma endregion
+		#pragma region - write door -
+		for (unsigned int i = 0; i < door.size(); i++)
+		{
+			r.push_back(door[i].GetType() + " " + door[i].path + " " + std::to_string(door[i].x) + " " + std::to_string(door[i].y) + " " + std::to_string(door[i].GetSwitchMapIndex()) + "\n");
+		}
+		#pragma endregion
 		r.push_back("up " + std::to_string(upMap) + "\n");
 		r.push_back("down " + std::to_string(downMap) + "\n");
 		r.push_back("left " + std::to_string(leftMap) + "\n");

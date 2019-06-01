@@ -50,7 +50,9 @@ namespace game_framework
 		int GetNpcLayer(int);
 		bool GetNpcValid(int);
 
+		int GetBlockMapSize() { return (int)blockMap.size(); };
 		vector<CBlock> *GetBlockVector();
+		vector<CDoor> *GetDoorVector();
 
 		void SetMovingLeft(bool);
 		void SetMovingRight(bool);
@@ -345,6 +347,7 @@ namespace game_framework
 
 		void SetSelectMapZero(); //上/下/左/右的連結地圖 -> 歸零
 		void SetSelectMapMode(string _mode);
+		string GetSelectMapMode() { return "Set" + selectMapMode + "Map"; };
 
 		void ClickArrow(CPoint);
 
@@ -380,7 +383,7 @@ namespace game_framework
 		#pragma endregion
 
 		ImageInfo background;
-		vector<ImageInfo> block;
+		vector<ImageInfo> mapObj; //地圖上一些物件
 
 		ImageInfo *selectObj;
 		bool haveBG = false;
@@ -463,6 +466,8 @@ namespace game_framework
 
 		Arrow arrow[4];
 		void SetArrowCanShow();
+
+		void NewMapInit();
 	};
 	#pragma endregion
 

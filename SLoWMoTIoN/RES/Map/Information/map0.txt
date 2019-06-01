@@ -4,8 +4,10 @@ block RES\Map\bm.bmp 477 37
 block RES\Map\bm.bmp 453 405
 block RES\Map\bm.bmp 629 335
 block RES\Map\bm.bmp 795 258
-up -1
-down -1
+upDoor RES\Map\door.bmp 458 340 7
+downDoor RES\Map\bm2.bmp 267 435 0
+up 7
+down 0
 left 1
 right 2
 passerbyNumber 5

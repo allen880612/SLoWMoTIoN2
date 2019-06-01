@@ -499,21 +499,28 @@ namespace game_framework {
 	{
 		ResetCollisionRect();
 
-		return IsRectCollision(collisionRect, block->blockBmp.GetRect());
+		return IsRectCollision(collisionRect, block->bmp.GetRect());
 	}
 
 	bool CRole::IsRoleOnBlock(CBlock *block)
 	{
 		ResetCollisionRect();
 
-		return IsRectCollision(collisionDownRect, block->blockBmp.GetRect());
+		return IsRectCollision(collisionDownRect, block->bmp.GetRect());
 	}
 
 	bool CRole::IsCollisionBlockOnJumping(CBlock *block)
 	{
 		ResetCollisionRect();
 
-		return IsRectCollision(collisionTopRect, block->blockBmp.GetRect());
+		return IsRectCollision(collisionTopRect, block->bmp.GetRect());
+	}
+
+	bool CRole::IsCollisionDoor(CDoor *door)
+	{
+		ResetCollisionRect();
+
+		return IsRectCollision(collisionDoorRect, door->bmp.GetRect());
 	}
 
 	bool CRole::IsCollisionLevel4(CScallion *level4)
@@ -658,6 +665,14 @@ namespace game_framework {
 		{
 			collisionTopRect.top += dy * 3;
 		}
+		#pragma endregion
+
+		#pragma region - collsion Rect - Door -
+		collisionDoorRect = decisionPoint.GetRect();
+		collisionDoorRect.top -= 20;
+		collisionDoorRect.bottom += 20;
+		collisionDoorRect.left -= 20;
+		collisionDoorRect.right += 20;
 		#pragma endregion
 	}
 	#pragma endregion
