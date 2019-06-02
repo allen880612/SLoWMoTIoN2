@@ -69,16 +69,12 @@ namespace game_framework
 
 		for (vector<CBlock>::iterator blockiter = block.begin(); blockiter != block.end(); blockiter++)
 		{
-			address = ConvertCharPointToString(blockiter->path);
-			blockiter->bmp.LoadBitmap(address);
-			delete address;
+			blockiter->LoadImg();
 		}
 
 		for (vector<CDoor>::iterator dooriter = door.begin(); dooriter != door.end(); dooriter++)
 		{
-			address = ConvertCharPointToString(dooriter->path);
-			dooriter->bmp.LoadBitmap(address);
-			delete address;
+			dooriter->LoadImg();
 		}
 
 		isLoad = true;

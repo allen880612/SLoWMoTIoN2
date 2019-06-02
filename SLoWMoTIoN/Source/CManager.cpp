@@ -1,4 +1,4 @@
- #include "stdafx.h"
+#include "stdafx.h"
 #include "Resource.h"
 #include "Refactor.h"
 #include <mmsystem.h>
@@ -1555,7 +1555,7 @@ namespace game_framework
 		else
 		{
 			bkmap.nowMap = nowMap;
-			CreateBlockToBkmap();
+			CreateObjToBkmap();
 			if (!isSaved) //沒有儲存過地圖
 			{
 				CString saveDir = ".txt";
@@ -1596,7 +1596,7 @@ namespace game_framework
 		}
 	}
 
-	void CMapEditer::CreateBlockToBkmap()
+	void CMapEditer::CreateObjToBkmap()
 	{
 		bkmap.block.clear();
 		bkmap.door.clear();

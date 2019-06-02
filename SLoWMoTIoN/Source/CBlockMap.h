@@ -19,9 +19,13 @@ namespace game_framework
 			x = _x; y = _y;
 			bmp.SetTopLeft(x - camera, y);
 		};
+		void LoadImg() {
+			char *address = ConvertCharPointToString(path);
+			bmp.LoadBitmap(address);
+			delete address;
+		};
 		CMovingBitmap bmp;
 		string path;
-		string name;
 		int x, y; //實際位置上的x y
 	};
 	#pragma endregion

@@ -356,29 +356,18 @@ namespace game_framework
 
 	private:
 		#pragma region - image info -
-		class ImageInfo
+		class ImageInfo : public CSimpleMapObj
 		{
 		public:
-			void SetXY(int _x, int _y, int camera){
-				x = _x; y = _y; 
-				bmp.SetTopLeft(x - camera, y);
-			};
-			ImageInfo() { x = y = 0; };
-			ImageInfo(string _path, string _id)
+			ImageInfo() : CSimpleMapObj(){ };
+			ImageInfo(string _path, string _id) : CSimpleMapObj(_path, 0, 0)
 			{
 				id = _id;
-				path = _path;
-				char *address = ConvertCharPointToString(path);
-				bmp.LoadBitmap(address);
-				delete address;
-				x = y = 0;
-				bmp.SetTopLeft(0, 0);
+				LoadImg();
+				SetXY(x, y);
 			};
 			~ImageInfo() {};
-			CMovingBitmap bmp;
-			string path;
 			string id;
-			int x = 0, y = 0;
 		};
 		#pragma endregion
 
@@ -400,7 +389,7 @@ namespace game_framework
 
 		bool isSaved; //曾經有儲存過地圖
 
-		void CreateBlockToBkmap();
+		void CreateObjToBkmap();
 		void LoadBlockMap(string);
 		string WriteSaveInfo(string, string, CPoint);
 
