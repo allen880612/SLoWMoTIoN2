@@ -1544,6 +1544,7 @@ namespace game_framework
 			vector<string> lineInfo = SplitString(lineData);
 			endName.push_back(lineInfo[0]);
 		}
+		haveEnd.close();
 		#pragma endregion
 	}
 
@@ -1608,10 +1609,6 @@ namespace game_framework
 				//columnBitmaps.push_back(CButton(BitmapPath(loadString, RGB(214, 214, 214)), CPoint(x, y), false, true));
 			}
 
-			for (int i = 0; i < 4; i++)
-			{
-				printf("asd");
-			}
 			endingVector.push_back(columnBitmaps);
 			
 			columnBitmaps.clear();

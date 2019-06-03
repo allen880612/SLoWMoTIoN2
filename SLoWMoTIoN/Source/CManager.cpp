@@ -1210,6 +1210,30 @@ namespace game_framework
 
 	CEndManager::~CEndManager()
 	{
+		//防止map更改HaveEnd的順序 > 先讀取 在寫入
+		#pragma region - load -
+		fstream haveEnd_open;
+		string tempName, nonstr;
+		vector<string> endName;
+		haveEnd_open.open("RES\\End\\HaveEnd.txt", ios::in);
+		while (haveEnd_open >> tempName >> nonstr)
+		{
+			endName.push_back(tempName);
+		}
+		haveEnd_open.close();
+		#pragma endregion
+
+		#pragma region - write -
+		fstream haveEnd_write;
+		haveEnd_write.open("RES\\End\\HaveEnd.txt", ios::out);
+		for (unsigned int i = 0; i < endName.size(); i++)
+		{
+			string writeLine = endName[i] + " " + (endmap[endName[i]].IsGetEnd() ? "true" : "false");
+			haveEnd_write << writeLine << "\n";
+		}
+		haveEnd_write.close();
+		#pragma endregion
+
 	}
 
 	void CEndManager::Initialize()
@@ -1254,6 +1278,7 @@ namespace game_framework
 			#pragma endregion
 
 		}
+		haveEnd.close();
 		#pragma endregion
 
 	}
