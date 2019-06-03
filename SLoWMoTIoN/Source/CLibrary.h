@@ -6,8 +6,10 @@ namespace myLibrary
 	//char* ConvertCharPointToString(BitmapPath)
 	char* ConvertCharPointToString(string);
 	COLORREF ConvertStringToColor(string);
+	bool ConvertStringToBoolen(string);
 	void getFolderFile(string, vector<string>*); 
 	int getFolerFileNumber(string);
+	vector<string> SplitString(string);
 	void DeleteCharPoint(vector<char*>&);
 	int GetPostive(int);
 	int GetRandom(int, int); //得到Random數字，min <= k <= max
@@ -24,11 +26,16 @@ namespace myLibrary
 			ziliaojia = _fold; name = _name; number = _number;
 			color = _color;
 		};
+		BitmapPath(vector<string> _path, COLORREF _color) {
+			path = _path;
+			color = _color;
+		};
 		~BitmapPath() {};
 		string ziliaojia;
 		string name;
 		int number;
 		COLORREF color;
+		vector<string> path;
 	};
 }
 using namespace myLibrary;
@@ -72,7 +79,7 @@ namespace game_framework
 		CMovingBitmap*  AddBitmap(int, COLORREF = CLR_INVALID);		// 增加一張圖形至動畫(圖的編號及透明色)
 		CMovingBitmap*  AddBitmap(char *, COLORREF = CLR_INVALID);	// 增加一張圖形至動畫(圖的編號及透明色)
 		
-		void  LoadBitmap(vector<char*>, COLORREF = CLR_INVALID);	//以字串陣列載入圖片
+		void  LoadBitmap(vector<string>, COLORREF = CLR_INVALID);	//以字串陣列載入圖片
 		void  LoadBitmap(string, string, int, COLORREF = CLR_INVALID);
 		void  LoadBitmap(BitmapPath);
 		
@@ -197,6 +204,8 @@ namespace game_framework
 			bool	GetState();
 			int		Width();
 			int		Height();
+			void    SetName(string _name) { name = _name; };
+			string  GetName() { return name; };
 
 			void	LoadBitmap();
 			void	LoadBitmap(BitmapPath);
@@ -207,6 +216,7 @@ namespace game_framework
 			void	Initialize(CPoint, bool);
 			void	SetValid(bool);
 			bool	GetValid();
+			
 
 			void CollisonMouse(CPoint);
 			void ClickButton();
@@ -439,8 +449,8 @@ namespace game_framework
 
 		private:
 			CMovingBitmap cover;
-			vector< vector <CAnimate> > endingVector;
-
+			vector< vector <CButton> > endingVector;
+			vector<string> endName;
 			int colNum, rowNum;
 			int img_x, img_y;
 			int img_height, img_width;

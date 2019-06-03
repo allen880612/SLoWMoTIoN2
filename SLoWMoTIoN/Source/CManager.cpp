@@ -1235,6 +1235,27 @@ namespace game_framework
 		endmap[END_NAME_WINXINGTING] = CEnd(END_NAME_WINXINGTING);
 		endmap[END_NAME_LOSEXINGTING] = CEnd(END_NAME_LOSEXINGTING);
 		endmap[END_NAME_SALTEDFISH] = CEnd(END_NAME_SALTEDFISH);
+
+		#pragma region - open HaveEnd.txt to Load The End is Get -
+		fstream haveEnd;
+		haveEnd.open("RES\\End\\HaveEnd.txt", ios::in);
+		string lineData;
+		map<string, CEnd>::iterator iter;
+		while (getline(haveEnd, lineData))
+		{
+			//lineInfo[0] = name, [1] = have end (true or false)
+			vector<string> lineInfo = SplitString(lineData);
+			#pragma region - find lineInfo[0] is the key of map -
+			iter = endmap.find(lineInfo[0]);
+			if (iter != endmap.end()) //map have this key
+			{
+				iter->second.SetGetEnd(ConvertStringToBoolen(lineInfo[1]));
+			}
+			#pragma endregion
+
+		}
+		#pragma endregion
+
 	}
 
 	void CEndManager::OnCycle()
@@ -1244,7 +1265,19 @@ namespace game_framework
 
 	bool CEndManager::IsPassEnd(string endName)
 	{
+		if (!endmap.count(endName))
+			return false;
 		return endmap[endName].IsGetEnd();
+	}
+
+	vector<string> CEndManager::GetAllEndName()
+	{
+		vector<string> endName;
+		for (map<string, CEnd>::iterator iter = endmap.begin(); iter != endmap.end(); iter++)
+		{
+			endName.push_back(iter->first);
+		}
+		return endName;
 	}
 
 	void CEndManager::Start(string endName)
@@ -1364,12 +1397,18 @@ namespace game_framework
 
 	void CButtonManager::AddButton(CButton* _button)
 	{
-		buttons[_button->name] = _button;
+		if(_button->name != "")
+			buttons[_button->name] = _button;
 	}
 
 	void CButtonManager::CreateButton(BitmapPath _loadpath, CPoint point, bool _state, bool _needCollision)
 	{
 		AddButton(new CButton(_loadpath, point, _state, _needCollision));
+	}
+
+	void CButtonManager::CreateButton(CButton *button)
+	{
+		AddButton(button);
 	}
 
 	void CButtonManager::ClickButton(string _btnName)

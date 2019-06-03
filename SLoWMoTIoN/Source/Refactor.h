@@ -26,7 +26,7 @@
 #define AUDIO_NUM 9
 
 #pragma region - Layer 
-#define INTERFACE_LAYER 9
+#define INTERFACE_LAYER 7
 #define BULLET_LAYER 6
 #define BOSS_LAYER 5
 #define NPC_LAYER 4
@@ -106,5 +106,5 @@
 
 
 #define GAME_TIME 999		//­­¨î®É¶¡
-#define DEBUG_MODE true
+#define DEBUG_MODE false
 

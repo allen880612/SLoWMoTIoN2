@@ -25,7 +25,7 @@ namespace game_framework {
 
 	void CBouncingBall::LoadBitmap()
 	{
-		vector<char*> filename = { ".\\bitmaps\\ball1.bmp",".\\bitmaps\\ball2.bmp",".\\bitmaps\\ball3.bmp",".\\bitmaps\\ball4.bmp" };
+		vector<string> filename = { ".\\bitmaps\\ball1.bmp",".\\bitmaps\\ball2.bmp",".\\bitmaps\\ball3.bmp",".\\bitmaps\\ball4.bmp" };
 
 		animation.LoadBitmap(filename, RGB(0, 0, 0));
 	}

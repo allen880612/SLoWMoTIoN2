@@ -251,6 +251,8 @@ namespace game_framework
 		void OnCycle();
 		bool IsPassEnd(string);
 		static CEndManager* Instance() { return &endManager; };
+
+		vector<string> GetAllEndName();
 	private:
 		map< string, CEnd > endmap;
 		CEnd *nowEnd;
@@ -289,7 +291,8 @@ namespace game_framework
 		
 			void AddButton(CButton*);
 			void CreateButton(BitmapPath, CPoint, bool, bool);	//loadpath, init location, init state
-			
+			void CreateButton(CButton*);
+
 			void ClickButton(string);
 
 			bool IsCollisionMouse(string);

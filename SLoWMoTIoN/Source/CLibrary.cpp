@@ -72,6 +72,11 @@ namespace myLibrary
 		return RGB(255, 255, 255); //white
 	}
 
+	bool ConvertStringToBoolen(string str)
+	{
+		return str == "true";
+	}
+
 	void getFolderFile(string folderPath, vector<string> *file) //得到資料夾下的所有檔名
 	{
 		DIR *fp; // create folder point
@@ -102,6 +107,28 @@ namespace myLibrary
 		}
 		closedir(fp);
 		return k - 2;
+	}
+
+	vector<string> SplitString(string str)
+	{
+			stringstream ss;
+			#pragma region - init stringstream -
+			ss.str("");
+			ss.clear();
+			#pragma endregion
+			ss << str;
+			vector<string> lineInfo;
+			#pragma region - split string -
+			while (ss)
+			{
+				string templine;
+				ss >> templine;
+				if (templine != "")
+				{
+					lineInfo.push_back(templine);
+				}
+			}
+			return lineInfo;
 	}
 
 	void DeleteCharPoint(vector<char*> &addresses)
@@ -283,12 +310,14 @@ namespace game_framework
 		bmp[bmp_index].SetTopLeft(x, y);
 	}
 
-	void CAnimate::LoadBitmap(vector<char*> bmps, COLORREF colorkey)
+	void CAnimate::LoadBitmap(vector<string> bmps, COLORREF colorkey)
 	{
-		for (vector<char*>::iterator bitmap = bmps.begin(); bitmap != bmps.end(); bitmap++)
+		for (unsigned int i = 0; i < bmps.size(); i++)
 		{
 			//bitmaps.push_back(AddBitmap(*(bitmap), colorkey));
-			AddBitmap(*(bitmap), colorkey);
+			char *address = ConvertCharPointToString(bmps[i]);
+			AddBitmap(address, colorkey);
+			delete address;
 		}
 	}
 
@@ -577,39 +606,14 @@ namespace game_framework
 		dialogTxt.open(path); //open txt
 		
 		int index = 0;
-		string dialogData; //文本資料的一行 (index = 偶數 > 儲存avatar, index = 奇數 > 儲存對話文字)
-		/*while (dialogTxt >> dialogData)
-		{
-			if (!(index & 1)) //even
-			{
-				avatar.push_back(dialogData);
-			}
-			else //odd
-			{
-				txt.push_back(dialogData);
-			}
-			index++;
-		}*/
-		stringstream ss;
+		string dialogData; //文本資料的一行 
+
 		while (getline(dialogTxt, dialogData)) //get line
 		{
-			#pragma region - init stringstream -
-			ss.str("");
-			ss.clear();
+			#pragma region get Split stirng
+			vector<string> lineInfo = SplitString(dialogData);
 			#pragma endregion
-			ss << dialogData;
-			vector<string> lineInfo;
-			#pragma region - split string -
-			while (ss)
-			{
-				string templine;
-				ss >> templine;
-				if (templine != "")
-				{
-					lineInfo.push_back(templine);
-				}
-			}
-			#pragma endregion
+
 			#pragma region - save txt information -
 			COLORREF txtColor = ConvertStringToColor(lineInfo.size() >= 3 ? lineInfo[2] : "txtColor"); //get print txt color
 			avatar.push_back(lineInfo[0]);
@@ -705,6 +709,7 @@ namespace game_framework
 	CButton::CButton(const CButton & button)
 	{
 		*this = button;
+		name = button.name;
 	}
 
 	CButton::CButton(BitmapPath _loadpath, CPoint initPos, bool initState, bool _needCollision)
@@ -759,12 +764,20 @@ namespace game_framework
 	void CButton::LoadBitmap()
 	{
 		if (animation.IsNull())
-			animation.LoadBitmap(loadpath.ziliaojia, loadpath.name, loadpath.number, loadpath.color);
+		{
+			if(loadpath.path.empty())
+				animation.LoadBitmap(loadpath.ziliaojia, loadpath.name, loadpath.number, loadpath.color);
+			else
+				animation.LoadBitmap(loadpath.path, loadpath.color);
+		}
 	}
 
 	void CButton::LoadBitmap(BitmapPath _loadpath)
 	{
-		animation.LoadBitmap(_loadpath.ziliaojia, _loadpath.name, _loadpath.number, loadpath.color);
+		if (loadpath.path.empty())
+			animation.LoadBitmap(_loadpath.ziliaojia, _loadpath.name, _loadpath.number, _loadpath.color);
+		else
+			animation.LoadBitmap(_loadpath.path, _loadpath.color);
 	}
 
 	void CButton::OnMove()
@@ -809,7 +822,7 @@ namespace game_framework
 		SetXY(pos.x, pos.y);
 
 		animation.SetTopLeft(x, y);
-		CLayerManager::Instance()->AddObject(&animation, INTERFACE_LAYER);
+		//CLayerManager::Instance()->AddObject(&animation, INTERFACE_LAYER); //先註解掉，目前這句看起來沒差
 	}
 
 	void CButton::SetValid(bool _flag)
@@ -1276,15 +1289,6 @@ namespace game_framework
 	}
 	void CEnd::LoadEnd()
 	{
-		//if (endName == END_NAME_WINXINGTING)
-		//{
-		//	LoadBmpTxt(endName, 3, 3);
-		//}
-		//else if (endName == END_NAME_LOSEXINGTING)
-		//{
-		//	//LoadBmpTxt(endName, 3, 3);
-		//	LoadBmpTxt(endName);
-		//}
 		LoadBmpTxt(endName);
 	}
 
@@ -1445,7 +1449,8 @@ namespace game_framework
 
 		closeButton->Initialize(CPoint(CLSBTN_INIT_X, CLSBTN_INIT_Y), false);
 		background.SetTopLeft(x, y);
-
+		background.SetValid(false);
+		closeButton->SetValid(false);
 	}
 
 	void CWindows::Clear()
@@ -1497,8 +1502,8 @@ namespace game_framework
 	{
 		if (!IsOpen())
 		{
-			background.SetValid(false);
-			closeButton->SetValid(false);
+			//background.SetValid(false);
+			//closeButton->SetValid(false);
 			return;
 		}
 
@@ -1530,7 +1535,16 @@ namespace game_framework
 	{
 		rowNum = 2;
 		colNum = 4;
-		
+		#pragma region - Create endName -
+		fstream haveEnd;
+		haveEnd.open("RES\\End\\HaveEnd.txt", ios::in);
+		string lineData;
+		while (getline(haveEnd, lineData))
+		{
+			vector<string> lineInfo = SplitString(lineData);
+			endName.push_back(lineInfo[0]);
+		}
+		#pragma endregion
 	}
 
 	CScrollWindows::~CScrollWindows()
@@ -1540,11 +1554,12 @@ namespace game_framework
 
 	void CScrollWindows::OnScrolling(short _s)
 	{
+		
 		int move = (int)_s;
 		move /= 12;
 
-		const int NOW_BOTTOM = (endingVector[rowNum - 1][colNum - 1]).GetRect().bottom;
-		const int LAST_TOP = (endingVector[rowNum - 1][colNum - 1]).Top();
+		const int NOW_BOTTOM = (endingVector[rowNum - 1][colNum - 1]).GetAnimate()->GetRect().bottom;
+		const int LAST_TOP = (endingVector[rowNum - 1][colNum - 1]).GetAnimate()->Top();
 
 		if (LAST_TOP - move < cover.GetRect().bottom || NOW_BOTTOM - move > limit_buttom)
 		{
@@ -1555,9 +1570,9 @@ namespace game_framework
 		{
 			for (int c = 0; c < colNum; c++)
 			{
-				int orgin_x = endingVector[r][c].Left();
-				int orgin_y = endingVector[r][c].Top();
-				endingVector[r][c].SetTopLeft(orgin_x, orgin_y - move);
+				int orgin_x = endingVector[r][c].GetAnimate()->Left();
+				int orgin_y = endingVector[r][c].GetAnimate()->Top();
+				endingVector[r][c].SetXY(orgin_x, orgin_y - move);
 			}
 		}
 		//SetCloseButton(CPoint(closeButton->GetX(), closeButton->GetY() - move));
@@ -1568,10 +1583,9 @@ namespace game_framework
 		CWindows::LoadResource();
 		cover.LoadBitmap("RES\\Windows", "EndingWindows_Cover", RGB(214, 214, 214));
 
-
 		for (int r = 0; r < rowNum; r++)
 		{
-			vector<CAnimate> columnBitmaps(colNum);
+			vector<CButton> columnBitmaps(colNum);
 			for (int c = 0; c < colNum; c++)
 			{
 				int endID = r + c;
@@ -1579,11 +1593,28 @@ namespace game_framework
 				if (c != 0)
 					endID++;
 
-				columnBitmaps[c].LoadBitmap("RES\\End\\EndImg", "end_" + to_string(endID), 1, RGB(214, 214, 214));
+				#pragma region - Create loadString - 
+				vector<string> loadString;
+				loadString.push_back("RES\\End\\EndImg\\end_lock.bmp");
+				loadString.push_back("RES\\End\\EndImg\\end_" + to_string(endID) + "_0.bmp");
+				#pragma endregion
+
+				//columnBitmaps[c].LoadBitmap("RES\\End\\EndImg", "end_" + to_string(endID), 1, RGB(214, 214, 214));
+				columnBitmaps[c] = CButton(BitmapPath(loadString, RGB(214, 214, 214)), CPoint(x, y), false, true);
+				
+				columnBitmaps[c].SetName(endID < (int)endName.size() ? endName[endID] : "lock");
+
+				columnBitmaps[c].SetValid(false);
+				//columnBitmaps.push_back(CButton(BitmapPath(loadString, RGB(214, 214, 214)), CPoint(x, y), false, true));
 			}
 
+			for (int i = 0; i < 4; i++)
+			{
+				printf("asd");
+			}
 			endingVector.push_back(columnBitmaps);
-			//columnBitmaps.clear();
+			
+			columnBitmaps.clear();
 		}
 
 		img_height = (endingVector[0][0]).Height();
@@ -1614,9 +1645,16 @@ namespace game_framework
 		{
 			for (int c = 0; c < colNum; c++)
 			{
-				endingVector[r][c].SetTopLeft(img_x + r*(img_width + PADDING_X), img_y + c*(img_height + PADDING_Y));
+				endingVector[r][c].SetXY(img_x + r*(img_width + PADDING_X), img_y + c*(img_height + PADDING_Y));
+				#pragma region - set get end -
+				bool flag = CEndManager::Instance()->IsPassEnd(endingVector[r][c].GetName());
+				endingVector[r][c].SetState(CEndManager::Instance()->IsPassEnd(endingVector[r][c].GetName()));
+				#pragma endregion
+
 			}
 		}
+
+		
 	}
 
 	//void CScrollWindows::Clear()
@@ -1634,7 +1672,7 @@ namespace game_framework
 	{
 		CWindows::OnCycle();
 		if (!IsOpen())
-		{	
+		{
 			return;
 		}
 
@@ -1652,6 +1690,7 @@ namespace game_framework
 
 	void CScrollWindows::OnShow()
 	{
+
 		if (!IsOpen())
 		{
 			return;
@@ -1663,7 +1702,7 @@ namespace game_framework
 		{
 			for (int c = 0; c < colNum; c++)
 			{
-				if (endingVector[r][c].GetRect().bottom <= background.GetRect().bottom && endingVector[r][c].Top() >= y)
+				if (endingVector[r][c].GetAnimate()->GetRect().bottom <= background.GetRect().bottom && endingVector[r][c].GetAnimate()->Top() >= y)
 					endingVector[r][c].OnShow();
 			}
 		}

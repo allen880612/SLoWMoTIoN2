@@ -99,7 +99,7 @@ namespace game_framework {
 			#pragma endregion
 			buttonManager.Load();
 			windowsEnding.LoadResource();
-
+			//windowsEnding.PushButtonToButtonManager(&buttonManager);
 			//frame.LoadBitmap(".\\RES\\UI\\blood_frame.bmp", RGB(214, 214, 214));
 			//blood.LoadBitmap(".\\RES\\UI\\blood.bmp", RGB(214, 214, 214));
 		}
@@ -184,7 +184,7 @@ namespace game_framework {
 		{
 			GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 		}
-	
+
 	}
 
 	void CGameStateInit::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作

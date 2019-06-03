@@ -97,21 +97,9 @@ namespace game_framework
 		fstream mapData;
 		mapData.open(mapFilePath);
 		string lineData;
-		stringstream ss;
 		while (getline(mapData, lineData))
 		{
-			ss.str(""); //init
-			ss.clear(); //init
-			ss << lineData;
-			vector<string> tempString;
-			#pragma region - split string -
-			while (ss)
-			{
-				string line;
-				ss >> line;
-				if(line != "")
-					tempString.push_back(line);
-			}
+			vector<string> tempString = SplitString(lineData);
 			#pragma endregion
 			#pragma region - load map information -
 			if (tempString[0] == "background")
