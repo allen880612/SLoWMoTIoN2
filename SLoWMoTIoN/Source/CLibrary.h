@@ -447,6 +447,8 @@ namespace game_framework
 			void OnShow();
 			void OnScrolling(short _s);
 
+			string GetCollisionButtonName(CPoint);
+
 		private:
 			CMovingBitmap cover;
 			vector< vector <CButton> > endingVector;

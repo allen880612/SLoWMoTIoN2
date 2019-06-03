@@ -156,15 +156,18 @@ namespace game_framework {
 
 	void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 	{
-
-		
 		if (windowsEnding.IsCollisionClose(point))
 		{
 			windowsEnding.Close();
 		}
 		else if (windowsEnding.IsOpen())	 
 		{
-			//stop the other button
+			string endName = windowsEnding.GetCollisionButtonName(point);
+			if (endName != "NoButtonClick") //有點到結局
+			{
+				CEndManager::Instance()->Start(endName);
+				GotoGameState(GAME_STATE_OVER);
+			}
 		}
 		else if (buttonManager.IsCollisionMouse("music"))
 		{

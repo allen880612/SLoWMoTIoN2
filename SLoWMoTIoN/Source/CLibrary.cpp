@@ -1579,6 +1579,21 @@ namespace game_framework
 		//SetCloseButton(CPoint(closeButton->GetX(), closeButton->GetY() - move));
 	}
 
+	string CScrollWindows::GetCollisionButtonName(CPoint mPoint)
+	{
+		for (unsigned r = 0; r < endingVector.size(); r++)
+		{
+			for (unsigned c = 0; c < endingVector[r].size(); c++)
+			{
+				if (endingVector[r][c].GetState() && IsPointInRect(mPoint, endingVector[r][c].GetAnimate()->GetRect())) //¤w¸ÑÂê + ¦³¸I¼²
+				{
+					return endingVector[r][c].GetName();
+				}
+			}
+		}
+		return "NoButtonClick";
+	}
+
 	void CScrollWindows::LoadResource()
 	{
 		CWindows::LoadResource();
