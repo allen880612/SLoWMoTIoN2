@@ -1109,7 +1109,8 @@ namespace game_framework
 
 		npc[3].push_back(new CNPC1(CPoint(680, 360), BitmapPath("RES\\NPC\\faqai", "faqai", 20, RGB(255, 255, 255)), "faqai", DIALOG_DATA_FAQAI));
 
-
+		npc[8].push_back(new CNPC3(CPoint(680, 360), BitmapPath("RES\\NPC\\remilia_music", "remilia", 4, RGB(254, 254, 254)), "remilia", "Septette", "Music_Septette"));
+		npc[8].push_back(new CNPC3(CPoint(900, 360), BitmapPath("RES\\NPC\\flandre_music", "flandre", 4, RGB(214, 214, 214)), "flandre", "UN_OwenWasHer", "Music_UN"));
 	}
 	#pragma endregion
 

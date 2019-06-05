@@ -10,7 +10,7 @@ block RES\Map\bm.bmp 797 325
 block RES\Map\bm.bmp 1275 146
 block RES\Map\bm.bmp 860 130
 block RES\Map\bm.bmp 297 362
-up 0
+up -1
 down -1
 left 4
 right 0

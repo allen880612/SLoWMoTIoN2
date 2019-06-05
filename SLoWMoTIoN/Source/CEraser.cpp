@@ -905,7 +905,7 @@ namespace game_framework {
 	{
 		openMusic = _music;
 		openTxt = _txt;
-		animation.ResetDelayTime(0.05);
+		animation.ResetDelayTime(0.1);
 		isLoadHeadPhoneIcon = false;
 	}
 

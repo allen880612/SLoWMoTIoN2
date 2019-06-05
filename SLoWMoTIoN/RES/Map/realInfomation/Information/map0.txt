@@ -4,7 +4,8 @@ block RES\Map\bm.bmp 477 37
 block RES\Map\bm.bmp 453 405
 block RES\Map\bm.bmp 629 335
 block RES\Map\bm.bmp 795 258
-up -1
+upDoor RES\Map\door.bmp 457 340 7
+up 7
 down -1
 left 1
 right 2

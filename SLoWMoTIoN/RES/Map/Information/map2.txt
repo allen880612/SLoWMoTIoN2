@@ -22,7 +22,7 @@ block RES\Map\bm.bmp 1650 294
 block RES\Map\bm.bmp 1657 369
 block RES\Map\bm.bmp 1124 62
 block RES\Map\bm.bmp 674 383
-block RES\Map\bm.bmp 253 84
+block RES\Map\bm.bmp 456 4
 block RES\Map\bm.bmp 1436 293
 block RES\Map\bm.bmp 1690 -2
 block RES\Map\bm.bmp 1660 -1
@@ -31,7 +31,7 @@ block RES\Map\bm.bmp 830 0
 block RES\Map\bm.bmp 1081 28
 block RES\Map\bm.bmp 1582 293
 block RES\Map\bm.bmp 1240 0
-up 0
+up -1
 down -1
 left 0
 right 3

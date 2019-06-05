@@ -872,6 +872,11 @@ namespace game_framework {
 		//	role.SetMovingDown(false);
 		//}
 
+		if (nChar == 27)
+		{
+			GotoGameState(GAME_STATE_INIT);
+		}
+
 		if (nChar == KEY_A)
 			role.SetMovingLeft(false);
 		if (nChar == KEY_D)
