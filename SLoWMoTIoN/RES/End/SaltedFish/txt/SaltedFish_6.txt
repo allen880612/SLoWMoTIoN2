@@ -1,3 +1,4 @@
+true
 role ....
 role 我不做了
 role 我要去睡覺

@@ -1,3 +1,4 @@
+true
 role 昨天好不容易把Android作業做完，今天來做OOP好了
 role (打開Visual_Studio_2015)
 role 上工囉

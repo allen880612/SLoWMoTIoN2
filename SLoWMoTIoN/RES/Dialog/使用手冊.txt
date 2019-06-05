@@ -3,7 +3,7 @@
 (name) (string) (color)
 其中 name 為"說話的人" string為"說的話"
 注意，中間以空白分隔，並且name, string二者不能含有空白
-注意，name的名字務必確認有出現在 Refactor.h - dialog - avatar name 裡面，若沒有須自行加入
+注意，name的名字務必確認有在Image - avatar裡面
 (自行加入還需要自行加入avatar的圖片)
 
 2019/5/26 新增
@@ -22,7 +22,8 @@ Step5: 在 - load image - 中，針對在Step4 新增的dialogAvatar進行LoadBitmap
 dialogManager - use .txt to load dialog
     How to use
     Step1: add a .txt file in "Txt" folder  (plz look the file "使用手冊.txt" in Txt folder)
-    Step2: Go to CDialogManager.cpp - LoadDialog, add dialogmap[(string)], the string must be defined in Refactor.h - dialog - mode
-    Step3: Set the Trigger when you want to trigger (use CDialogManager::Instance()->Start(mode), mode is a string(be defined at Refactor.h) that you add at Step2)
+    //Step2: Go to CDialogManager.cpp - LoadDialog, add dialogmap[(string)], the string must be defined in Refactor.h - dialog - mode
+    Step2: Note! the txt first statement is "the Dialog can retrigger" (對話可不可以重複觸發), txt context after second statement
+    Step3: Set the Trigger when you want to trigger (use CDialogManager::Instance()->Start(mode), mode is a string that you add the txt name at Step2)
 
 

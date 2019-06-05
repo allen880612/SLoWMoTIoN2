@@ -9,6 +9,7 @@ namespace myLibrary
 	bool ConvertStringToBoolen(string);
 	void getFolderFile(string, vector<string>*); 
 	int getFolerFileNumber(string);
+	string getFileName(string); //得到file的檔名(不含副檔名)
 	vector<string> SplitString(string);
 	void DeleteCharPoint(vector<char*>&);
 	int GetPostive(int);
@@ -134,7 +135,7 @@ namespace game_framework
 	{
 	public:
 		CDialog();
-		CDialog(string, string, bool);
+		CDialog(string, string);
 		~CDialog();
 		bool GetTriggered();
 		void SetTriggered();

@@ -618,7 +618,7 @@ namespace game_framework
 			string ext = avatarName[i].substr(strLength - 4, strLength);
 			if (ext == ".bmp")
 			{
-				string avatar = avatarName[i].substr(0, strLength - 4);
+				string avatar = getFileName(avatarName[i]);
 				dialogAvatar[avatar] = CMovingBitmap();
 				char *address = ConvertCharPointToString((avatarFolderPath + avatarName[i]));
 				dialogAvatar[avatar].LoadBitmap(address, RGB(214, 214, 214));
@@ -629,7 +629,7 @@ namespace game_framework
 
 		#pragma region - load image -
 
-		char *address;
+		
 		#pragma region - load dialog background -
 		dialog_background.LoadBitmap("RES\\Dialog", "ground", RGB(255, 255, 255));
 		#pragma endregion
@@ -650,28 +650,28 @@ namespace game_framework
 	void CDialogManager::LoadDialog()
 	{
 		//dialogmap.clear();
-		dialogmap[DIALOG_DATA_VSXingting1] = CDialog("RES\\Dialog\\Txt\\roleVsXingting1.txt", DIALOG_DATA_VSXingting1, false);
-		dialogmap[DIALOG_DATA_VSXingting2] = CDialog("RES\\Dialog\\Txt\\roleVsXingting2.txt", DIALOG_DATA_VSXingting2, false);
-		dialogmap[DIALOG_DATA_VSXingting3] = CDialog("RES\\Dialog\\Txt\\roleVsXingting3.txt", DIALOG_DATA_VSXingting3, false);
-		dialogmap[Tips] = CDialog("RES\\Dialog\\Txt\\InitTip.txt", Tips, false);
-		dialogmap[FROG] = CDialog("RES\\Dialog\\Txt\\test.txt", FROG, true);
-		dialogmap[MyVoiceIsDead] = CDialog("RES\\Dialog\\Txt\\MyVoiceIsDead.txt", MyVoiceIsDead, true);
-		dialogmap[DIALOG_DATA_MEETSTB] = CDialog("RES\\Dialog\\Txt\\MeetStudentB.txt", DIALOG_DATA_MEETSTB, true);
-		dialogmap[DIALOG_DATA_STGHAVEBREAKFAST] = CDialog("RES\\Dialog\\Txt\\StudentGHaveBreakfast.txt", DIALOG_DATA_STGHAVEBREAKFAST, true);
-		dialogmap[DIALOG_DATA_STGSUBMIT] = CDialog("RES\\Dialog\\Txt\\StudentKSubmitHW.txt", DIALOG_DATA_STGSUBMIT, true);
-		dialogmap[DIALOG_DATA_FAQAI] = CDialog("RES\\Dialog\\Txt\\Faqai.txt", DIALOG_DATA_FAQAI, true);
+
+		vector<string> dialogTxt;
+		string dialogFolderPath = "RES\\Dialog\\Txt\\";
+		getFolderFile(dialogFolderPath, &dialogTxt);
+
+		for (unsigned int i = 0; i < dialogTxt.size(); i++)
+		{
+			string dialogFileName = getFileName(dialogTxt[i]);
+			dialogmap[dialogFileName] = CDialog(dialogFolderPath + dialogTxt[i], dialogFileName);
+		}
 
 		IsDialogLoad = true;
 	}
 
 
-	void CDialogManager::LoadDialog(string dialogName, string loadPath, bool canReTrigger)
+	void CDialogManager::LoadDialog(string dialogName, string loadPath)
 	{
 
-		dialogmap[dialogName] = CDialog(loadPath, dialogName, canReTrigger);
-		bool flag = dialogmap[dialogName].GetTriggered();
+		dialogmap[dialogName] = CDialog(loadPath, dialogName);
+		/*bool flag = dialogmap[dialogName].GetTriggered();
 
-		flag = !flag;
+		flag = !flag;*/
 	}
 
 	void CDialogManager::ShowText_Next()

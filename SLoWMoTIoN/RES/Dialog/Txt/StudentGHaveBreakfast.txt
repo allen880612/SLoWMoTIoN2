@@ -1,3 +1,4 @@
+true
 studentG (早自習吃早餐)
 xingting 同學～早餐收起來～現在是早自習～
 studentG (不理他，繼續吃)

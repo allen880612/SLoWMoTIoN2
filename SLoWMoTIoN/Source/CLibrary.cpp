@@ -109,6 +109,11 @@ namespace myLibrary
 		return k - 2;
 	}
 
+	string getFileName(string file)
+	{
+		return file.substr(0, file.length() - 4);
+	}
+
 	vector<string> SplitString(string str)
 	{
 			stringstream ss;
@@ -545,15 +550,23 @@ namespace game_framework
 	{
 	}
 
-	CDialog::CDialog(string txtPath, string _txt, bool _CanReTrigger)
+	CDialog::CDialog(string txtPath, string _txt)
 	{
 		path = txtPath;
 		mode = _txt;
 		IsTriggered = false;
 		LoadTxt(); // load txt
-
-		CanReTrigger = _CanReTrigger;
 	}
+
+	//CDialog::CDialog(string txtPath, string _txt, bool _CanReTrigger)
+	//{
+	//	path = txtPath;
+	//	mode = _txt;
+	//	IsTriggered = false;
+	//	LoadTxt(); // load txt
+
+	//	CanReTrigger = _CanReTrigger;
+	//}
 
 	CDialog::~CDialog()
 	{
@@ -608,9 +621,12 @@ namespace game_framework
 		int index = 0;
 		string dialogData; //文本資料的一行 
 
+		getline(dialogTxt, dialogData); //先讀取一行 "初始設定"
+		CanReTrigger = ConvertStringToBoolen(dialogData); //設定對話可否重複觸發
+
 		while (getline(dialogTxt, dialogData)) //get line
 		{
-			#pragma region get Split stirng
+			#pragma region - get Split stirng -
 			vector<string> lineInfo = SplitString(dialogData);
 			#pragma endregion
 
@@ -1308,9 +1324,7 @@ namespace game_framework
 
 		for (unsigned int i = 0; i < txt.size(); i++)
 		{
-			stringstream ss;
-			ss << i;
-			CDialogManager::Instance()->LoadDialog(txt[i], loadtxtFolderPath + txt[i], true);
+			CDialogManager::Instance()->LoadDialog(txt[i], loadtxtFolderPath + txt[i]);
 		}
 	}
 
@@ -1336,7 +1350,7 @@ namespace game_framework
 			stringstream ss;
 			ss << i;
 			string _txtpath = loadtxtPath + ss.str() + ".txt";
-			CDialogManager::Instance()->LoadDialog(endName + "_" + ss.str(), _txtpath, true);
+			CDialogManager::Instance()->LoadDialog(endName + "_" + ss.str(), _txtpath);
 			txt.push_back(endName + "_" + ss.str());
 		}
 

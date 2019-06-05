@@ -1,4 +1,5 @@
-studendB (遲到進教室) 
+true
+studendB (遲到進教室)
 xingting 來，哈一口氣給我聞聞看
 studendB ???
 xingting 我說，哈_一_口_氣_給_我_聞_聞_看

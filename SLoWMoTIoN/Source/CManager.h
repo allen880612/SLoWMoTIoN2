@@ -138,7 +138,7 @@ namespace game_framework
 		void Stop();
 		void ShowText();
 		bool GetDialogState();
-		void LoadDialog(string, string, bool);
+		void LoadDialog(string, string);
 
 		void OpenMusicPlayer(string flag) { musicFromNPC = flag; };
 	private:
