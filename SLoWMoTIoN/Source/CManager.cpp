@@ -607,66 +607,39 @@ namespace game_framework
 
 	void CDialogManager::Load_Image()
 	{
-		#pragma region - define avatar map -
-		dialogAvatar[DIALOG_AVATAR_NAME_ROLE] = CMovingBitmap();
-		dialogAvatar[DIALOG_AVATAR_NAME_XINGTING] = CMovingBitmap();
-		dialogAvatar[DIALOG_AVATAR_NAME_LOCK] = CMovingBitmap();
-		dialogAvatar[DIALOG_AVATAR_NAME_QUESTION] = CMovingBitmap();
-		dialogAvatar[DIALOG_AVATAR_NAME_STUDENTB] = CMovingBitmap();
-		dialogAvatar[DIALOG_AVATAR_NAME_STUDENTG] = CMovingBitmap();
-		dialogAvatar[DIALOG_AVATAR_NAME_FAQAISEED] = CMovingBitmap();
+		#pragma region - Load avatar -
+		vector<string> avatarName;
+		string avatarFolderPath = "RES\\Dialog\\Avatar\\";
+		getFolderFile(avatarFolderPath, &avatarName);
+		
+		for (unsigned i = 0; i < avatarName.size(); i++)
+		{
+			int strLength = avatarName[i].length();
+			string ext = avatarName[i].substr(strLength - 4, strLength);
+			if (ext == ".bmp")
+			{
+				string avatar = avatarName[i].substr(0, strLength - 4);
+				dialogAvatar[avatar] = CMovingBitmap();
+				char *address = ConvertCharPointToString((avatarFolderPath + avatarName[i]));
+				dialogAvatar[avatar].LoadBitmap(address, RGB(214, 214, 214));
+				delete address;
+			}
+		}
 		#pragma endregion
 
 		#pragma region - load image -
 
 		char *address;
 		#pragma region - load dialog background -
-		address = ConvertCharPointToString("RES\\Dialog", "ground");
-		dialog_background.LoadBitmap(address, RGB(255, 255, 255));
-		delete address;
+		dialog_background.LoadBitmap("RES\\Dialog", "ground", RGB(255, 255, 255));
 		#pragma endregion
-
-		#pragma region - load xingting - avatar -
-		address = ConvertCharPointToString("RES\\Dialog\\Avatar", "xingting");
-		dialogAvatar[DIALOG_AVATAR_NAME_XINGTING].LoadBitmap(address, RGB(214, 214, 214));
-		delete address;
-		#pragma endregion
-
-		#pragma region - load role avatar -
-		address = ConvertCharPointToString("RES\\Dialog\\Avatar", "mikuAvatar");
-		dialogAvatar[DIALOG_AVATAR_NAME_ROLE].LoadBitmap(address, RGB(214,214,214));
-		delete address;
-		#pragma endregion
-
 		#pragma region - load null -
-		address = ConvertCharPointToString("RES\\Dialog", "null");
-		avatar_null.LoadBitmap(address);
-		delete address;
+		avatar_null.LoadBitmap("RES\\Dialog\\Avatar", "null");
 		#pragma endregion
 
 		#pragma region - load next animation -
 		textNext.LoadBitmap("RES\\Dialog\\next", "next", 4, DIALOG_BACKGROUND_COLOR);
 		textNext.SetTopLeft(500, 450);
-		#pragma endregion
-
-		#pragma region - load lock -
-		dialogAvatar[DIALOG_AVATAR_NAME_LOCK].LoadBitmap("RES\\Dialog\\Avatar\\lock_0.bmp", RGB(214,214,214));
-		#pragma endregion
-
-		#pragma region - load question -
-		dialogAvatar[DIALOG_AVATAR_NAME_QUESTION].LoadBitmap("RES\\Dialog\\Avatar\\question_0.bmp", RGB(214, 241, 214));
-		#pragma endregion
-
-		#pragma	region - load student b -
-		dialogAvatar[DIALOG_AVATAR_NAME_STUDENTB].LoadBitmap("RES\\Dialog\\Avatar\\studentB.bmp", RGB(214, 241, 214));
-		#pragma endregion
-
-		#pragma region - load student g -
-		dialogAvatar[DIALOG_AVATAR_NAME_STUDENTG].LoadBitmap("RES\\Dialog\\Avatar\\studentG.bmp", RGB(214, 241, 214));
-		#pragma endregion
-
-		#pragma region - load faqai seed -
-		dialogAvatar[DIALOG_AVATAR_NAME_FAQAISEED].LoadBitmap("RES\\Dialog\\Avatar\\faqaiSeed.bmp", RGB(225, 218, 213));
 		#pragma endregion
 
 		#pragma endregion
@@ -677,9 +650,9 @@ namespace game_framework
 	void CDialogManager::LoadDialog()
 	{
 		//dialogmap.clear();
-		dialogmap[DIALOG_DATA_VSXingting1] = CDialog("RES\\Dialog\\Txt\\VSXingting1.txt", DIALOG_DATA_VSXingting1, false);
-		dialogmap[DIALOG_DATA_VSXingting2] = CDialog("RES\\Dialog\\Txt\\VSXingting2.txt", DIALOG_DATA_VSXingting2, false);
-		dialogmap[DIALOG_DATA_VSXingting3] = CDialog("RES\\Dialog\\Txt\\VSXingting3.txt", DIALOG_DATA_VSXingting3, false);
+		dialogmap[DIALOG_DATA_VSXingting1] = CDialog("RES\\Dialog\\Txt\\roleVsXingting1.txt", DIALOG_DATA_VSXingting1, false);
+		dialogmap[DIALOG_DATA_VSXingting2] = CDialog("RES\\Dialog\\Txt\\roleVsXingting2.txt", DIALOG_DATA_VSXingting2, false);
+		dialogmap[DIALOG_DATA_VSXingting3] = CDialog("RES\\Dialog\\Txt\\roleVsXingting3.txt", DIALOG_DATA_VSXingting3, false);
 		dialogmap[Tips] = CDialog("RES\\Dialog\\Txt\\InitTip.txt", Tips, false);
 		dialogmap[FROG] = CDialog("RES\\Dialog\\Txt\\test.txt", FROG, true);
 		dialogmap[MyVoiceIsDead] = CDialog("RES\\Dialog\\Txt\\MyVoiceIsDead.txt", MyVoiceIsDead, true);
