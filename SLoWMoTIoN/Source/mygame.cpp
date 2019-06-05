@@ -776,26 +776,6 @@ namespace game_framework {
 			if(canRoleJump)
 				role.SetMovingUp(true);
 		}
-		if (nChar == KEY_S)
-		{
-			role.SetMovingDown(false);
-		}
-		
-		if (nChar == KEY_Q)
-		{
-			CDialogManager::Instance()->Start(DIALOG_DATA_VSXingting1);
-		}
-
-		if (nChar == 67)
-		{
-			CAudio::Instance()->Pause();
-			//CAudio::Instance()->Play("MyVoiceIsDead");
-		}
-
-		if (nChar == KEY_B)
-		{
-			CAudio::Instance()->Resume();
-		}
 
 		if (nChar == 'U')
 		{
@@ -816,11 +796,6 @@ namespace game_framework {
 				CDialogManager::Instance()->Stop();
 			}
 		}
-		if (nChar == 86)
-		{
-			CAudio::Instance()->Play("MyVoiceIsDead");
-			//CAudio::Instance()->Play("SLoWMoTIoN_Gameover");
-		}
 
 		if (nChar == KEY_Z) //dialog with npc
 		{
@@ -832,12 +807,6 @@ namespace game_framework {
 					(*npciter)->RoleCollision();
 				}
 			}
-		}
-
-		if (nChar == 'N')
-		{
-			role.SetMovingJump(false);
-			role.SetCanJumping(true);
 		}
 
 		if (nChar == ' ') //open door
@@ -853,6 +822,40 @@ namespace game_framework {
 			}
 			#pragma endregion
 		}
+
+		#pragma region - ¨S¸ô¥ÎING -
+		//if (nChar == KEY_S)
+		//{
+		//	role.SetMovingDown(false);
+		//}
+
+		//if (nChar == KEY_Q)
+		//{
+		//	CDialogManager::Instance()->Start(DIALOG_DATA_VSXingting1);
+		//}
+
+		//if (nChar == 67)
+		//{
+		//	CAudio::Instance()->Pause();
+		//	//CAudio::Instance()->Play("MyVoiceIsDead");
+		//}
+
+		//if (nChar == KEY_B)
+		//{
+		//	CAudio::Instance()->Resume();
+		//}
+		//if (nChar == 86)
+		//{
+		//	CAudio::Instance()->Play("MyVoiceIsDead");
+		//	//CAudio::Instance()->Play("SLoWMoTIoN_Gameover");
+		//}
+
+		//if (nChar == 'N')
+		//{
+		//	role.SetMovingJump(false);
+		//	role.SetCanJumping(true);
+		//}
+		#pragma endregion
 	}
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -875,10 +878,10 @@ namespace game_framework {
 			role.SetMovingRight(false);
 		if (nChar == KEY_W)
 			role.SetMovingUp(false);
-		if (nChar == KEY_S)
+		/*if (nChar == KEY_S)
 		{
 			role.SetMovingDown(false);
-		}
+		}*/
 
 	}
 
