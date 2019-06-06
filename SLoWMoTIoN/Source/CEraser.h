@@ -239,6 +239,7 @@ namespace game_framework {
 	public:
 		CNPC1();
 		CNPC1(CPoint, BitmapPath, string, string); //座標 路徑 id 對話文本
+		CNPC1(CPoint, BitmapPath, string, string, double); //座標 路徑 id 對話文本 一個動畫的影格的時間
 		~CNPC1();
 		void RoleCollision();
 	private:

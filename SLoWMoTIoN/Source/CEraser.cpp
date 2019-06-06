@@ -878,6 +878,12 @@ namespace game_framework {
 		animation.ResetDelayTime(0.05);
 	}
 
+	CNPC1::CNPC1(CPoint _point, BitmapPath _loadPath, string _id, string _txt, double resetTime) : CNPC(_point, _loadPath, _id)
+	{
+		txt = _txt;
+		animation.ResetDelayTime(resetTime);
+	}
+
 	CNPC1::~CNPC1()
 	{
 		
