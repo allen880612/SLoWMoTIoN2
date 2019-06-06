@@ -194,8 +194,12 @@ namespace game_framework {
 		//CInteger hp_left;
 		CInteger scoreInteger;
 		CMovingBitmap blood;
-		CMovingBitmap blood_frame;
+		CMovingBitmap EQ;
+		CMovingBitmap avatar;
 
+		CMovingBitmap blood_frame;
+		CMovingBitmap EQ_frame;
+		CMovingBitmap avatar_frame;
 		#pragma region - init information -
 		int inithp = 20;
 		bool isLoaded;

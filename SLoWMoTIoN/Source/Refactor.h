@@ -6,7 +6,7 @@
 #define MOVE_DISTANCE 8
 
 #define MAX_MAP_NUMBER 6
-#define NOW_MAP 0
+#define NOW_MAP 3
 
 #define KEY_SPACE 32
 #define KEY_LEFT 37		// keyboard¥ª½bÀY
@@ -26,7 +26,7 @@
 #define AUDIO_NUM 9
 
 #pragma region - Layer 
-#define INTERFACE_LAYER 7
+#define INTERFACE_LAYER 8
 #define BULLET_LAYER 6
 #define BOSS_LAYER 5
 #define NPC_LAYER 4
