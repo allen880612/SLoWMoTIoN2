@@ -1111,6 +1111,7 @@ namespace game_framework
 
 		npc[8].push_back(new CNPC3(CPoint(680, 360), BitmapPath("RES\\NPC\\remilia_music", "remilia", 4, RGB(254, 254, 254)), "remilia", "Septette", "Music_Septette"));
 		npc[8].push_back(new CNPC3(CPoint(900, 360), BitmapPath("RES\\NPC\\flandre_music", "flandre", 4, RGB(214, 214, 214)), "flandre", "UN_OwenWasHer", "Music_UN"));
+		npc[8].push_back(new CNPC3(CPoint(340, 340), BitmapPath("RES\\NPC\\sakuya_music", "sakuya", 6, RGB(214, 214, 214)), "sakuya", "FloweringNight", "Music_FloweringNight"));
 	}
 	#pragma endregion
 
