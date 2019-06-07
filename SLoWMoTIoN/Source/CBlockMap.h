@@ -21,7 +21,7 @@ namespace game_framework
 		};
 		void LoadImg() {
 			char *address = ConvertCharPointToString(path);
-			bmp.LoadBitmap(address);
+			bmp.LoadBitmap(address, RGB(214, 214, 214));
 			delete address;
 		};
 		CMovingBitmap bmp;

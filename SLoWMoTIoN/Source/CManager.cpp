@@ -1540,7 +1540,7 @@ namespace game_framework
 		//類型(背景 / block), 圖片路徑
 		if (path[0] == "background")
 		{
-			NewMapInit();
+			//NewMapInit();
 			haveBG = true;
 			ImageInfo tempcv;
 			tempcv = ImageInfo(path[1], "background");
