@@ -84,10 +84,10 @@ namespace game_framework {
 		virtual void SetValid(bool);
 
 	protected:
-	#pragma region - init information -
+		#pragma region - init information -
 		CPoint initPoint;
 		BitmapPath initLoadPath;
-	#pragma endregion
+		#pragma endregion
 
 		int currentX, currentY;
 		string id;
@@ -233,6 +233,10 @@ namespace game_framework {
 		CTimer stopTimer;
 		CTimer recreateTimer;
 		int move_distance = 2;
+
+		CAnimate leftAnimate;
+		CAnimate rightAnimate;
+		string faceto;
 	};
 
 	#pragma region - CPasserby1 - LUKA -
@@ -263,9 +267,7 @@ namespace game_framework {
 		CMushroom(int, int);
 		void OnMove();
 		~CMushroom();
-	private:
-		CAnimate leftAnimate;
-		CAnimate rightAnimate;
+	
 	};
 	#pragma endregion
 

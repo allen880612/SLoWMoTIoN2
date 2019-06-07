@@ -147,10 +147,6 @@ namespace game_framework {
 		void SwitchState(int);
 		void SwitchTimer(CTimer *);
 		#pragma endregion
-
-		CAnimate nowAnimation;
-		CAnimate TestA1;
-		CAnimate TestA2;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

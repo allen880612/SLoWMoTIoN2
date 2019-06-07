@@ -854,7 +854,7 @@ namespace game_framework {
 	{
 		SetScore(20);
 		LoadBitmap("RES\\Role\\NPC\\mushroom\\L", "mushroom", 5, RGB(214, 214, 214));
-		leftAnimate.LoadBitmap("RES\\Role\\NPC\\mushroom\\L", "mushroom", 5, RGB(214, 214, 214));
+		leftAnimate = animation;
 		rightAnimate.LoadBitmap("RES\\Role\\NPC\\mushroom\\R", "mushroom", 5, RGB(214, 214, 214));
 
 		leftAnimate.ResetDelayTime(0.1);
@@ -863,20 +863,24 @@ namespace game_framework {
 		leftAnimate.CopyAnimateInformation(&animation);
 		rightAnimate.CopyAnimateInformation(&animation);
 		animation = leftAnimate;
+		faceto = "left";
 	}
 	CMushroom::~CMushroom()
 	{
 	}
 	void CMushroom::OnMove()
 	{
-		if (GetMovingLeft())
+		if (GetMovingLeft() && faceto != "left")
 		{
+			leftAnimate.CopyAnimateInformation(&animation);
 			animation = leftAnimate;
-
+			faceto = "left";
 		}
-		if (GetMovingRight())
+		else if (GetMovingRight() && faceto != "right")
 		{
+			rightAnimate.CopyAnimateInformation(&animation);
 			animation = rightAnimate;
+			faceto = "right";
 		}
 		CPasserby::OnMove();
 	}

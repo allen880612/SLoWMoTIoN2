@@ -438,7 +438,14 @@ namespace game_framework
 
 	void CAnimate::SetIndex(int _index)
 	{
-		bmp_index = _index;
+		if (_index < (int)bmp.size())
+		{
+			bmp_index = _index;
+		}
+		else
+		{
+			bmp_index = 0;
+		}
 	}
 
 	int CAnimate::GetIndex()
@@ -450,7 +457,7 @@ namespace game_framework
 	{
 		SetValid(copyAnimate->GetValid());
 		SetTopLeft(copyAnimate->Top(), copyAnimate->Left());
-		ResetDelayTime(copyAnimate->delayTimer.GetTime());
+		SetIndex(copyAnimate->GetIndex());
 	}
 
 	void CAnimate::ResetDelayTime(double _time)
