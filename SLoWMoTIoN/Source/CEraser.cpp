@@ -732,7 +732,7 @@ namespace game_framework {
 		moveTimer = CTimer(0.5);
 		stopTimer = CTimer(1.5);
 		SetValid(false);
-		recreateTimer = CTimer((double)GetRandom(1, 4) / 2.0);
+		recreateTimer = CTimer((double)GetRandom(1, 2) / 2.0);
 		onFloor = false;
 
 		blockVector = NULL;
@@ -741,7 +741,15 @@ namespace game_framework {
 	void CPasserby::SetXY(int _x, int _y)
 	{
 		initX = _x;
-		y = _y;
+		if (_y + height >= SIZE_Y - 2)
+		{
+			y = SIZE_Y - height - 2;
+		}
+		else
+		{
+			y = _y;
+		}
+		
 
 		int dx = CCamera::Instance()->GetX();
 		x = initX - dx;
@@ -801,6 +809,8 @@ namespace game_framework {
 
 	void CPasserby::OnMove()
 	{
+		if (!recreateTimer.IsTimeOut())
+			return;
 		const int STEP_SIZE = move_distance;
 		bool nowOnFloor = false;
 		if (blockVector != NULL)
@@ -1012,6 +1022,8 @@ namespace game_framework {
 			rightAnimate.ResetDelayTime(initResetTime);
 			leftAnimate.CopyAnimateInformation(&animation);
 			rightAnimate.CopyAnimateInformation(&animation);
+
+			animation = leftAnimate;
 			faceTo = "left";
 		}
 		#pragma endregion
