@@ -220,20 +220,51 @@ namespace game_framework {
 		friend class CScallion;
 	public:
 		CPasserby();
-		CPasserby(int, int, string, string, int, int);
+		CPasserby(int, int, BitmapPath loadPath);
 		void SetXY(int, int);
 		void SetScore(int);
 		void SetMoving();
-		void OnMove();
+		virtual void OnMove();
 		//void Initialize();
-		~CPasserby();
-	private:
+		virtual ~CPasserby();
+	protected:
 		int initX;
 		CTimer moveTimer;
 		CTimer stopTimer;
 		CTimer recreateTimer;
 		int move_distance = 2;
 	};
+
+	#pragma region - CPasserby1 - LUKA -
+	class CLuka : public CPasserby
+	{
+	public:
+		CLuka();
+		CLuka(int, int);
+		~CLuka();
+	};
+	#pragma endregion
+
+	#pragma region - CPasserby2 - RIN -
+	class CRin : public CPasserby
+	{
+	public:
+		CRin();
+		CRin(int, int);
+		~CRin();
+	};
+	#pragma endregion
+
+	#pragma region - CPasserby3 - mushroom -
+	class CMushroom : public CPasserby
+	{
+	public:
+		CMushroom();
+		CMushroom(int, int);
+		~CMushroom();
+	};
+	#pragma endregion
+
 	#pragma endregion
 
 	#pragma region - CNPC - No.1 -

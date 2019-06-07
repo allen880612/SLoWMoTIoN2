@@ -710,16 +710,16 @@ namespace game_framework {
 		//LoadBitmap("Role", "LUKA", 2);
 	}
 
-	CPasserby::CPasserby(int _x, int _y, string ziliaojia, string name, int number, int _score) : CEraser()
+	CPasserby::CPasserby(int _x, int _y, BitmapPath loadPath) : CEraser()
 	{
 		initX = _x;
 		x = initX;
 		y = _y;
 		layer.SetLayer(4);
-		LoadBitmap(ziliaojia, name, number, RGB(255, 255, 255));
+		LoadBitmap(loadPath.ziliaojia, loadPath.name, loadPath.number, RGB(214, 214, 214));
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 
-		score = _score;
+		score = 0;
 		moveTimer = CTimer(0.5);
 		stopTimer = CTimer(1.5);
 		SetValid(false);
@@ -818,6 +818,47 @@ namespace game_framework {
 	{
 		
 	}
+
+	#pragma region - CPasserby1 - Luka -
+	CLuka::CLuka() : CPasserby()
+	{
+	}
+	CLuka::CLuka(int _x, int _y) : CPasserby(_x, _y, BitmapPath("RES\\Role\\NPC\\LUKA", "LUKA", 2))
+	{
+		SetScore(10);
+	}
+	CLuka::~CLuka()
+	{
+	}
+	#pragma endregion
+
+	#pragma region - CPasserby2 - Rin -
+	CRin::CRin() : CPasserby()
+	{
+	}
+	CRin::CRin(int _x, int _y) : CPasserby(_x, _y, BitmapPath("RES\\Role\\NPC\\RIN", "RIN", 2))
+	{
+		SetScore(15);
+	}
+	CRin::~CRin()
+	{
+	}
+	#pragma endregion
+
+	#pragma region - CPasserby3 - mushroom -
+	CMushroom::CMushroom() : CPasserby()
+	{
+	}
+	CMushroom::CMushroom(int _x, int _y) : CPasserby(_x, _y, BitmapPath("RES\\Role\\NPC\\mushroom", "mushroom", 5))
+	{
+		SetScore(20);
+		animation.ResetDelayTime(0.1);
+	}
+	CMushroom::~CMushroom()
+	{
+	}
+	#pragma endregion
+
 	#pragma endregion
 
 	#pragma region - CNPC -

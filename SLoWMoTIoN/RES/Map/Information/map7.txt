@@ -2,6 +2,6 @@ background RES\Map\IDB_MAP0.bmp 0 0
 up -1
 down 0
 left 8
-right -1
+right 9
 passerbyNumber 0
 passerbyID 0 1

@@ -520,12 +520,29 @@ namespace game_framework
 		passerby.swap(del);
 		passerby.clear();
 	}
+	CPasserby * CPasserbyManager::GetPasserbyType(int randomID)
+	{
+		if (randomID == 0)
+		{
+			return new CLuka(0, 0); //先創建一個default passerby
+		}
+		else if (randomID == 1)
+		{
+			return new CRin(0, 0); //先創建一個default passerby
+		}
+		else if (randomID == 2)
+		{
+			return new CMushroom(0, 0); //先創建一個default passerby
+		}
+		return new CRin(0, 0);
+	}
 	CPasserby* CPasserbyManager::AddPasserby(vector<int> id, int mapWidth)
 	{
 		#pragma region Create a Passerby
 		int randomID = GetRandom(0, id.size() - 1); //random 決定 passerby種類 (1號or2號)
-		CPasserby *newPasserby = new CPasserby(0, 0, ziliaojia, name[id[randomID]], 2, (id[randomID] + 1) * 10); //先創建一個default passerby
-		//newPasserby->LoadBitmap(ziliaojia, name[id[randomID]], 2, RGB(255, 255, 255)); //load passerby的圖片
+		//CPasserby *newPasserby = new CPasserby(0, 0, ziliaojia + name[id[randomID]], name[id[randomID]], getFolerFileNumber(ziliaojia + name[id[randomID]]), (id[randomID] + 1) * 10); //先創建一個default passerby
+		CPasserby *newPasserby;
+		newPasserby = GetPasserbyType(id[randomID]);
 		int randomX = GetRandom(0, mapWidth - newPasserby->Width()); //random 決定passerby的出現位置
 		newPasserby->SetXY(randomX, 480 - newPasserby->Height()); //set passerby x, y
 		return newPasserby;

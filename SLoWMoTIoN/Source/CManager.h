@@ -15,6 +15,7 @@ namespace game_framework
 		CPasserbyManager();
 		~CPasserbyManager();
 		void Clear();
+		CPasserby* GetPasserbyType(int);
 		CPasserby* AddPasserby(vector<int> , int );
 		void CreatePasserby(int, vector<int>, int);
 		void DeletePasserby(vector<CPasserby*>::iterator);
@@ -24,8 +25,8 @@ namespace game_framework
 		void MoveWithMap(string);
 	private:
 		vector<CPasserby*> passerby;
-		string ziliaojia = "RES\\Role\\NPC";
-		string name[10] = { "LUKA", "RIN" };
+		string ziliaojia = "RES\\Role\\NPC\\";
+		string name[10] = { "LUKA", "RIN", "mushroom"};
 	};
 	#pragma endregion
 	
