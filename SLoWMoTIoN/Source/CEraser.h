@@ -8,11 +8,12 @@ namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 	
 	#pragma region - CEraser -
+	class CBlock;
 	class CEraser
 	{
 	public:
 		CEraser();
-		~CEraser();
+		virtual ~CEraser();
 		int  GetX1();					// 擦子左上角 x 座標
 		int  GetY1();					// 擦子左上角 y 座標
 		int  GetX3();                   // 中新點 X 座標
@@ -48,6 +49,12 @@ namespace game_framework {
 		bool GetValid();
 		void SetValid(bool);
 
+		#pragma region - collision -
+		virtual void ResetCollisionRect();
+		bool IsCollisionBlock(CBlock*); //一般左右 跟block碰撞
+		bool IsRoleOnBlock(CBlock*); //站在方塊上
+		#pragma endregion
+
 	protected:
 		CAnimate animation;			// 擦子的動畫
 		//CAction  action;
@@ -62,6 +69,9 @@ namespace game_framework {
 		bool isMovingUp;			// 是否正在往上移動
 		bool canMoving;				// 是否可以移動
 		
+		CRect collisionRect;
+		CRect collisionDownRect;
+
 
 	private:
 		int move_distance = MOVE_DISTANCE;
@@ -103,7 +113,6 @@ namespace game_framework {
 
 	#pragma region - CRole -
 	class CBlackHole;
-	class CBlock;
 	class CDoor;
 	class CRole : public CEraser
 	{
@@ -133,7 +142,7 @@ namespace game_framework {
 		void SetMouseXY(int, int);
 		void AddScore(int);
 		void SubHp();
-		int  GetHp() { return hp; }; //我懶ㄌ
+		int  GetHp() { return hp; }; 
 
 		void Initialize();
 
@@ -154,8 +163,7 @@ namespace game_framework {
 		bool IsCollisionBoss(CBoss*);
 
 		#pragma region -- Collision - Block --
-		bool IsCollisionBlock(CBlock*); //一般左右 跟block碰撞
-		bool IsRoleOnBlock(CBlock*); //站在方塊上
+		//還有兩個在CEraser
 		bool IsCollisionBlockOnJumping(CBlock*); //跳起來撞到方塊
 		#pragma endregion
 
@@ -190,8 +198,6 @@ namespace game_framework {
 
 		CMovingBitmap decisionPoint;
 
-		CRect collisionRect;
-		CRect collisionDownRect;
 		CRect collisionTopRect;
 		CRect collisionDoorRect;
 
@@ -228,11 +234,13 @@ namespace game_framework {
 	public:
 		CPasserby();
 		CPasserby(int, int);
+		void SetBlock(vector<CBlock> *bkvector) {
+			blockVector = bkvector;
+		}
 		void SetXY(int, int);
 		void SetScore(int);
 		void SetMoving();
 		virtual void OnMove();
-		//void Initialize();
 		virtual ~CPasserby();
 	protected:
 		int initX;
@@ -244,6 +252,11 @@ namespace game_framework {
 		CAnimate leftAnimate;
 		CAnimate rightAnimate;
 		string faceto;
+		bool onFloor;
+		bool moveleft, moveright;
+		vector<CBlock> *blockVector;
+
+		void ResetCollisionRect();
 	};
 
 	#pragma region - CPasserby1 - LUKA -
@@ -297,7 +310,6 @@ namespace game_framework {
 	#pragma region - CNPC - No.2 -
 
 	#pragma endregion
-
 
 	#pragma region - CNPC - No.3 -
 	//CNPC3 > 音樂播放NPC

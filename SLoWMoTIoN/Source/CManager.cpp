@@ -39,7 +39,9 @@ namespace game_framework
 
 	void CMapManager::AddPasserby()
 	{
-		passerbyManager.passerby.push_back(passerbyManager.AddPasserby(blockMap[nowMap].passerbyID, background.Width()));
+		CPasserby *newPasserby = passerbyManager.AddPasserby(blockMap[nowMap].passerbyID, background.Width());
+		newPasserby->SetBlock(GetBlockVector());
+		passerbyManager.passerby.push_back(newPasserby);
 	}
 
 	void CMapManager::Initialize()
@@ -78,7 +80,7 @@ namespace game_framework
 		}
 		#pragma endregion
 
-		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
+		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width(), GetBlockVector());
 	}
 
 	void CMapManager::ReloadBlockMap()
@@ -276,7 +278,7 @@ namespace game_framework
 		background.SetTopLeft(x, 0);
 
 		passerbyManager.Clear();
-		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width());
+		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width(), GetBlockVector());
 
 		x = CCamera::Instance()->GetX();
 		
@@ -544,16 +546,17 @@ namespace game_framework
 		CPasserby *newPasserby;
 		newPasserby = GetPasserbyType(id[randomID]);
 		int randomX = GetRandom(0, mapWidth - newPasserby->Width()); //random 決定passerby的出現位置
-		newPasserby->SetXY(randomX, 480 - newPasserby->Height()); //set passerby x, y
+		newPasserby->SetXY(randomX, -newPasserby->Height()); //set passerby x, y
 		return newPasserby;
 		#pragma endregion
 	}
-	void CPasserbyManager::CreatePasserby(int createNumber, vector<int> id, int mapWidth)
+	void CPasserbyManager::CreatePasserby(int createNumber, vector<int> id, int mapWidth, vector<CBlock> *bkvector)
 	{
 		for (int i = 0; i < createNumber; i++)
 		{
 			CPasserby* newPasserby = AddPasserby(id, mapWidth);
-			newPasserby->SetValid(true);
+			newPasserby->SetBlock(bkvector);
+			newPasserby->SetValid(false);
 			passerby.push_back(newPasserby);
 		}
 	}

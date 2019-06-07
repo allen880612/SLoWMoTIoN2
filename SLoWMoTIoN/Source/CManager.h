@@ -17,7 +17,7 @@ namespace game_framework
 		void Clear();
 		CPasserby* GetPasserbyType(int);
 		CPasserby* AddPasserby(vector<int> , int );
-		void CreatePasserby(int, vector<int>, int);
+		void CreatePasserby(int, vector<int>, int, vector<CBlock>*);
 		void DeletePasserby(vector<CPasserby*>::iterator);
 		vector<CPasserby*> GetPasserby();
 		CLayer layer; //為了layerManager做的髒髒東東

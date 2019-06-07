@@ -217,6 +217,16 @@ namespace game_framework {
 		animation.SetTopLeft(x, y);
 		return &animation;
 	}
+
+	void CEraser::ResetCollisionRect()
+	{
+		if (!animation.IsNull())
+		{
+			collisionRect = animation.GetRect();
+			collisionDownRect = animation.GetRect();
+		}
+	}
+
 	#pragma endregion
 
 	#pragma region - CRole -
@@ -500,14 +510,14 @@ namespace game_framework {
 		return IsRectCollision(collisionRect, boss->GetAnimate()->GetRect());
 	}
 
-	bool CRole::IsCollisionBlock(CBlock *block) //get iterator in mygame.cpp
+	bool CEraser::IsCollisionBlock(CBlock *block) //get iterator in mygame.cpp
 	{
 		ResetCollisionRect();
 
 		return IsRectCollision(collisionRect, block->bmp.GetRect());
 	}
 
-	bool CRole::IsRoleOnBlock(CBlock *block)
+	bool CEraser::IsRoleOnBlock(CBlock *block)
 	{
 		ResetCollisionRect();
 
@@ -721,8 +731,11 @@ namespace game_framework {
 		score = 0;
 		moveTimer = CTimer(0.5);
 		stopTimer = CTimer(1.5);
-		SetValid(true);
+		SetValid(false);
 		recreateTimer = CTimer((double)GetRandom(1, 4) / 2.0);
+		onFloor = false;
+
+		blockVector = NULL;
 	}
 
 	void CPasserby::SetXY(int _x, int _y)
@@ -747,7 +760,7 @@ namespace game_framework {
 			recreateTimer.CountDown();
 			if (recreateTimer.IsTimeOut())
 			{
-				SetValid(true);
+				//SetValid(true);
 				//CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 			}
 			else
@@ -766,16 +779,17 @@ namespace game_framework {
 			stopTimer.CountDown();
 			if (stopTimer.IsTimeOut())
 			{
+				moveleft = moveright = false;
 				int randomNumber = GetRandom(1, 10);
 				if (randomNumber % 2 == 0)
 				{
-					SetMovingLeft(true);
-					SetMovingRight(false);
+					moveleft = true;
+					moveright = false;
 				}
 				else
 				{
-					SetMovingRight(true);
-					SetMovingLeft(false);
+					moveleft = false;
+					moveright = true;
 				}
 				double resetStopTime = GetRandom(1, 10) / 10;
 				SetCanMoving(true);
@@ -788,6 +802,50 @@ namespace game_framework {
 	void CPasserby::OnMove()
 	{
 		const int STEP_SIZE = move_distance;
+		bool nowOnFloor = false;
+		if (blockVector != NULL)
+		{
+			for (vector<CBlock>::iterator bkiter = blockVector->begin(); bkiter != blockVector->end(); bkiter++)
+			{
+				if (IsPointInRect(GetY2(), bkiter->bmp.GetRect()))
+				{
+					y += (GetY2() - bkiter->y) + 2;
+				}
+
+				if (IsCollisionBlock(&(*bkiter)))
+				{
+					moveright = false;
+					moveleft = false;
+					SetCanMoving(false);
+				}
+
+				if ((IsRoleOnBlock(&(*bkiter))))
+				{
+					nowOnFloor = true;
+				}
+			}
+		}
+
+		SetMovingLeft(moveleft);
+		SetMovingRight(moveright);
+
+		if (GetY2() >= SIZE_Y - 2)
+		{
+			nowOnFloor = true;
+		}
+
+		if (nowOnFloor)
+		{
+			SetValid(true);
+			SetMovingDown(false);
+			onFloor = true;
+		}
+		else
+		{
+			SetMovingLeft(false);
+			SetMovingRight(false);
+			SetMovingDown(true);
+		}
 
 		if (isMovingUp)
 		{
@@ -801,7 +859,10 @@ namespace game_framework {
 		if (isMovingDown)
 		{
 			if (canMoving)
-				y += STEP_SIZE;
+			{
+				int dy = STEP_SIZE * 3;
+				y += dy;
+			}
 		}
 		if (isMovingLeft)
 		{
@@ -816,6 +877,37 @@ namespace game_framework {
 	CPasserby::~CPasserby()
 	{
 		
+	}
+
+	void CPasserby::ResetCollisionRect()
+	{
+		//reset passerby's collision rect
+		#pragma region - collision Rect - Right and Left -
+		collisionRect = animation.GetRect();
+		int dx = 4;
+		collisionRect.bottom -= 2;
+		if (isMovingRight)
+		{
+			//Test地方調整往右/往左的判斷寬度 (原本人物寬度 + dx，改成從中心點算起的寬度 + dx)
+			collisionRect.left = GetX3(); //Test
+			collisionRect.right += dx;
+		}
+		else if (isMovingLeft)
+		{
+			collisionRect.left -= dx;
+			collisionRect.right = GetX3(); //Test
+		}
+		#pragma endregion
+
+		#pragma region - collision Rect - Down -
+		collisionDownRect = animation.GetRect();
+		//調整 下方判斷方塊的高度，以及縮減左/右的寬度
+		collisionDownRect.top = GetY2() - 5; //調整判斷的高度
+		/*collisionDownRect.right -= dx;
+		collisionDownRect.left += dx;*/
+		int dy = 4;
+		collisionDownRect.bottom += dy;
+		#pragma endregion
 	}
 
 	#pragma region - CPasserby1 - Luka -
