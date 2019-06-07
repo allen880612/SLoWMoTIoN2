@@ -73,11 +73,13 @@ namespace game_framework {
 	{
 	public:
 		CNPC();
-		CNPC(CPoint, BitmapPath, string);
+		CNPC(CPoint, BitmapPath, string, double);
 		virtual ~CNPC();
 		
 		void SetCurrentXY(int, int);
 		void SetXY();
+		void LookRole(CPoint);
+		virtual void OnCycle(CPoint);
 		virtual void OnMove();
 		virtual void Initialize();
 		virtual void RoleCollision() {}; //碰撞到後要做的事情
@@ -87,10 +89,15 @@ namespace game_framework {
 		#pragma region - init information -
 		CPoint initPoint;
 		BitmapPath initLoadPath;
+		double initResetTime;
 		#pragma endregion
+
+		CAnimate leftAnimate;
+		CAnimate rightAnimate;
 
 		int currentX, currentY;
 		string id;
+		string faceTo;
 	};
 	#pragma endregion
 
@@ -279,8 +286,7 @@ namespace game_framework {
 	{
 	public:
 		CNPC1();
-		CNPC1(CPoint, BitmapPath, string, string); //座標 路徑 id 對話文本
-		CNPC1(CPoint, BitmapPath, string, string, double); //座標 路徑 id 對話文本 一個動畫的影格的時間
+		CNPC1(CPoint, BitmapPath, string, string, double resetTime = 0.05); //座標 路徑 id 對話文本 一個動畫的影格的時間
 		~CNPC1();
 		void RoleCollision();
 	private:

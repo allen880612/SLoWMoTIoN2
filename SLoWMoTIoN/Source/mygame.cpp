@@ -714,7 +714,7 @@ namespace game_framework {
 		#pragma endregion
 		
 		#pragma region - NPC Moving -
-		npcManager.OnMove(mapManager.GetNowMap());
+		npcManager.OnCycle(mapManager.GetNowMap(), CPoint(screenPosX, role.GetY1()));
 		#pragma endregion
 
 

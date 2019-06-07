@@ -893,11 +893,12 @@ namespace game_framework {
 	{
 	}
 
-	CNPC::CNPC(CPoint _point, BitmapPath _loadPath, string _id)
+	CNPC::CNPC(CPoint _point, BitmapPath _loadPath, string _id, double resetTime)
 	{
 		initPoint = _point;
 		initLoadPath = _loadPath;
 		id = _id;
+		initResetTime = resetTime;
 	}
 
 	void CNPC::Initialize()
@@ -905,7 +906,21 @@ namespace game_framework {
 		#pragma region - load animation (only once) -
 		if (animation.IsNull())
 		{
-			LoadBitmap(initLoadPath);
+			BitmapPath leftPath = initLoadPath;
+			leftPath.ziliaojia += "\\L\\";
+
+			BitmapPath rightPath = initLoadPath;
+			rightPath.ziliaojia += "\\R\\";
+
+			LoadBitmap(leftPath);
+			leftAnimate = animation;
+			rightAnimate.LoadBitmap(rightPath);
+
+			leftAnimate.ResetDelayTime(initResetTime);
+			rightAnimate.ResetDelayTime(initResetTime);
+			leftAnimate.CopyAnimateInformation(&animation);
+			rightAnimate.CopyAnimateInformation(&animation);
+			faceTo = "left";
 		}
 		#pragma endregion
 
@@ -938,6 +953,28 @@ namespace game_framework {
 		animation.SetTopLeft(x, y);
 	}
 
+	void CNPC::LookRole(CPoint rolePoint)
+	{
+		if (currentX < rolePoint.x && faceTo != "right") //look right
+		{
+			rightAnimate.CopyAnimateInformation(&animation);
+			animation = rightAnimate;
+			faceTo = "right";
+		}
+		else if (currentX >= rolePoint.x && faceTo != "left")
+		{
+			leftAnimate.CopyAnimateInformation(&animation);
+			animation = leftAnimate;
+			faceTo = "left";
+		}
+	}
+
+	void CNPC::OnCycle(CPoint rolePoint)
+	{
+		LookRole(rolePoint);
+		OnMove();
+	}
+
 	void CNPC::OnMove()
 	{
 		int dx = CCamera::Instance()->GetX();
@@ -957,16 +994,9 @@ namespace game_framework {
 
 	}
 
-	CNPC1::CNPC1(CPoint _point, BitmapPath _loadPath, string _id, string _txt) : CNPC(_point, _loadPath, _id)
+	CNPC1::CNPC1(CPoint _point, BitmapPath _loadPath, string _id, string _txt, double resetTime) : CNPC(_point, _loadPath, _id, resetTime)
 	{
 		txt = _txt;
-		animation.ResetDelayTime(0.05);
-	}
-
-	CNPC1::CNPC1(CPoint _point, BitmapPath _loadPath, string _id, string _txt, double resetTime) : CNPC(_point, _loadPath, _id)
-	{
-		txt = _txt;
-		animation.ResetDelayTime(resetTime);
 	}
 
 	CNPC1::~CNPC1()
@@ -992,11 +1022,11 @@ namespace game_framework {
 	{
 	}
 
-	CNPC3::CNPC3(CPoint _point, BitmapPath _loadPath, string _id, string _music, string _txt) : CNPC(_point, _loadPath, _id)
+	CNPC3::CNPC3(CPoint _point, BitmapPath _loadPath, string _id, string _music, string _txt) : CNPC(_point, _loadPath, _id, 0.1)
 	{
 		openMusic = _music;
 		openTxt = _txt;
-		animation.ResetDelayTime(0.1);
+		//animation.ResetDelayTime(0.1);
 		isLoadHeadPhoneIcon = false;
 	}
 

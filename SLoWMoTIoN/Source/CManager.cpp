@@ -1106,18 +1106,18 @@ namespace game_framework
 		}
 	}
 
-	void CNPCManager::OnMove(int thisMap)
+	void CNPCManager::OnCycle(int thisMap, CPoint rolePoint)
 	{
 		for (vector<CNPC*>::iterator npciter = npc[thisMap].begin(); npciter != npc[thisMap].end(); npciter++)
 		{
-			(*npciter)->OnMove();
+			(*npciter)->OnCycle(rolePoint);
 		}
 	}
 
 	void CNPCManager::LoadNPC()
 	{
 		npc[4].push_back(new CNPC1(CPoint(50, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255, 255, 255)), "frog", FROG));
-		npc[4].push_back(new CNPC3(CPoint(450, 388), BitmapPath("RES\\NPC\\test", "test2", 1, RGB(255, 255, 255)), "deadlock", "MyVoiceIsDead", MyVoiceIsDead));
+		npc[4].push_back(new CNPC3(CPoint(450, 388), BitmapPath("RES\\NPC\\test2", "test2", 1, RGB(255, 255, 255)), "deadlock", "MyVoiceIsDead", MyVoiceIsDead));
 
 
 		npc[3].push_back(new CNPC1(CPoint(50, 350), BitmapPath("RES\\NPC\\studentB", "studentB", 1, RGB(255, 255, 255)), DIALOG_AVATAR_NAME_STUDENTB, DIALOG_DATA_MEETSTB));
