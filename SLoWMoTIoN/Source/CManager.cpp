@@ -1549,7 +1549,9 @@ namespace game_framework
 		}
 		else if (path[0] == "block")
 		{
-			mapObj.push_back(ImageInfo(path[1], "block"));
+			ImageInfo tempObj = ImageInfo(path[1], "block");
+			tempObj.SetXY(cameraX, tempObj.y);
+			mapObj.push_back(tempObj);
 		}
 		else if (path[0] == "load")
 		{
@@ -1560,7 +1562,9 @@ namespace game_framework
 		}
 		else if (path[0] == "upDoor" || path[0] == "downDoor")
 		{
-			mapObj.push_back(ImageInfo(path[1], path[0]));
+			ImageInfo tempObj = ImageInfo(path[1], path[0]);
+			tempObj.SetXY(cameraX, tempObj.y);
+			mapObj.push_back(tempObj);
 		}
 	}
 
