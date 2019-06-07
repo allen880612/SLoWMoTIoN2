@@ -26,6 +26,7 @@ namespace game_framework
 		void SetIsAlive(bool);
 		bool GetAlive() { return IsAlive; };
 		string GetID() { return id; };
+		int GetHp() { return hp; };
 		void OnMove();
 		void MoveWithMap(string);
 		
@@ -46,11 +47,11 @@ namespace game_framework
 		CAnimate* GetAnimate();
 		string GetBossId() { return id; };
 	protected:
-	#pragma region Init boss Information
+		#pragma region Init boss Information
 		int initx, inity, initHp;
 		BitmapPath loadPath;
 		COLORREF transparentColor;
-	#pragma endregion
+		#pragma endregion
 
 		CAnimate animation;
 

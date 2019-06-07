@@ -213,7 +213,7 @@ namespace game_framework
 		void Initialize(int = NOW_MAP);
 		void ChangeMap(int, int);
 		void SetNPCValid(int, bool);
-		void OnMove(int);
+		void OnCycle(int, CPoint);
 		vector<CNPC*>* GetNpc(int nowMap) { return &npc[nowMap]; };
 	private:
 		vector<CNPC*> npc[99];

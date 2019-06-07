@@ -710,19 +710,18 @@ namespace game_framework {
 		//LoadBitmap("Role", "LUKA", 2);
 	}
 
-	CPasserby::CPasserby(int _x, int _y, BitmapPath loadPath) : CEraser()
+	CPasserby::CPasserby(int _x, int _y) : CEraser()
 	{
 		initX = _x;
 		x = initX;
 		y = _y;
 		layer.SetLayer(4);
-		LoadBitmap(loadPath.ziliaojia, loadPath.name, loadPath.number, RGB(214, 214, 214));
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 
 		score = 0;
 		moveTimer = CTimer(0.5);
 		stopTimer = CTimer(1.5);
-		SetValid(false);
+		SetValid(true);
 		recreateTimer = CTimer((double)GetRandom(1, 4) / 2.0);
 	}
 
@@ -823,9 +822,10 @@ namespace game_framework {
 	CLuka::CLuka() : CPasserby()
 	{
 	}
-	CLuka::CLuka(int _x, int _y) : CPasserby(_x, _y, BitmapPath("RES\\Role\\NPC\\LUKA", "LUKA", 2))
+	CLuka::CLuka(int _x, int _y) : CPasserby(_x, _y)
 	{
 		SetScore(10);
+		LoadBitmap("RES\\Role\\NPC\\LUKA", "LUKA", 2, RGB(214, 214, 214));
 	}
 	CLuka::~CLuka()
 	{
@@ -836,9 +836,10 @@ namespace game_framework {
 	CRin::CRin() : CPasserby()
 	{
 	}
-	CRin::CRin(int _x, int _y) : CPasserby(_x, _y, BitmapPath("RES\\Role\\NPC\\RIN", "RIN", 2))
+	CRin::CRin(int _x, int _y) : CPasserby(_x, _y)
 	{
 		SetScore(15);
+		LoadBitmap("RES\\Role\\NPC\\RIN", "RIN", 2, RGB(214, 214, 214));
 	}
 	CRin::~CRin()
 	{
@@ -849,13 +850,39 @@ namespace game_framework {
 	CMushroom::CMushroom() : CPasserby()
 	{
 	}
-	CMushroom::CMushroom(int _x, int _y) : CPasserby(_x, _y, BitmapPath("RES\\Role\\NPC\\mushroom", "mushroom", 5))
+	CMushroom::CMushroom(int _x, int _y) : CPasserby(_x, _y)
 	{
 		SetScore(20);
-		animation.ResetDelayTime(0.1);
+		LoadBitmap("RES\\Role\\NPC\\mushroom\\L", "mushroom", 5, RGB(214, 214, 214));
+		leftAnimate = animation;
+		rightAnimate.LoadBitmap("RES\\Role\\NPC\\mushroom\\R", "mushroom", 5, RGB(214, 214, 214));
+
+		leftAnimate.ResetDelayTime(0.1);
+		rightAnimate.ResetDelayTime(0.1);
+
+		leftAnimate.CopyAnimateInformation(&animation);
+		rightAnimate.CopyAnimateInformation(&animation);
+		animation = leftAnimate;
+		faceto = "left";
 	}
 	CMushroom::~CMushroom()
 	{
+	}
+	void CMushroom::OnMove()
+	{
+		if (GetMovingLeft() && faceto != "left")
+		{
+			leftAnimate.CopyAnimateInformation(&animation);
+			animation = leftAnimate;
+			faceto = "left";
+		}
+		else if (GetMovingRight() && faceto != "right")
+		{
+			rightAnimate.CopyAnimateInformation(&animation);
+			animation = rightAnimate;
+			faceto = "right";
+		}
+		CPasserby::OnMove();
 	}
 	#pragma endregion
 
@@ -866,11 +893,12 @@ namespace game_framework {
 	{
 	}
 
-	CNPC::CNPC(CPoint _point, BitmapPath _loadPath, string _id)
+	CNPC::CNPC(CPoint _point, BitmapPath _loadPath, string _id, double resetTime)
 	{
 		initPoint = _point;
 		initLoadPath = _loadPath;
 		id = _id;
+		initResetTime = resetTime;
 	}
 
 	void CNPC::Initialize()
@@ -878,7 +906,21 @@ namespace game_framework {
 		#pragma region - load animation (only once) -
 		if (animation.IsNull())
 		{
-			LoadBitmap(initLoadPath);
+			BitmapPath leftPath = initLoadPath;
+			leftPath.ziliaojia += "\\L\\";
+
+			BitmapPath rightPath = initLoadPath;
+			rightPath.ziliaojia += "\\R\\";
+
+			LoadBitmap(leftPath);
+			leftAnimate = animation;
+			rightAnimate.LoadBitmap(rightPath);
+
+			leftAnimate.ResetDelayTime(initResetTime);
+			rightAnimate.ResetDelayTime(initResetTime);
+			leftAnimate.CopyAnimateInformation(&animation);
+			rightAnimate.CopyAnimateInformation(&animation);
+			faceTo = "left";
 		}
 		#pragma endregion
 
@@ -911,6 +953,28 @@ namespace game_framework {
 		animation.SetTopLeft(x, y);
 	}
 
+	void CNPC::LookRole(CPoint rolePoint)
+	{
+		if (currentX < rolePoint.x && faceTo != "right") //look right
+		{
+			rightAnimate.CopyAnimateInformation(&animation);
+			animation = rightAnimate;
+			faceTo = "right";
+		}
+		else if (currentX >= rolePoint.x && faceTo != "left")
+		{
+			leftAnimate.CopyAnimateInformation(&animation);
+			animation = leftAnimate;
+			faceTo = "left";
+		}
+	}
+
+	void CNPC::OnCycle(CPoint rolePoint)
+	{
+		LookRole(rolePoint);
+		OnMove();
+	}
+
 	void CNPC::OnMove()
 	{
 		int dx = CCamera::Instance()->GetX();
@@ -930,16 +994,9 @@ namespace game_framework {
 
 	}
 
-	CNPC1::CNPC1(CPoint _point, BitmapPath _loadPath, string _id, string _txt) : CNPC(_point, _loadPath, _id)
+	CNPC1::CNPC1(CPoint _point, BitmapPath _loadPath, string _id, string _txt, double resetTime) : CNPC(_point, _loadPath, _id, resetTime)
 	{
 		txt = _txt;
-		animation.ResetDelayTime(0.05);
-	}
-
-	CNPC1::CNPC1(CPoint _point, BitmapPath _loadPath, string _id, string _txt, double resetTime) : CNPC(_point, _loadPath, _id)
-	{
-		txt = _txt;
-		animation.ResetDelayTime(resetTime);
 	}
 
 	CNPC1::~CNPC1()
@@ -965,11 +1022,11 @@ namespace game_framework {
 	{
 	}
 
-	CNPC3::CNPC3(CPoint _point, BitmapPath _loadPath, string _id, string _music, string _txt) : CNPC(_point, _loadPath, _id)
+	CNPC3::CNPC3(CPoint _point, BitmapPath _loadPath, string _id, string _music, string _txt) : CNPC(_point, _loadPath, _id, 0.1)
 	{
 		openMusic = _music;
 		openTxt = _txt;
-		animation.ResetDelayTime(0.1);
+		//animation.ResetDelayTime(0.1);
 		isLoadHeadPhoneIcon = false;
 	}
 

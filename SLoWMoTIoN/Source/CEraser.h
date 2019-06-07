@@ -73,24 +73,31 @@ namespace game_framework {
 	{
 	public:
 		CNPC();
-		CNPC(CPoint, BitmapPath, string);
+		CNPC(CPoint, BitmapPath, string, double);
 		virtual ~CNPC();
 		
 		void SetCurrentXY(int, int);
 		void SetXY();
+		void LookRole(CPoint);
+		virtual void OnCycle(CPoint);
 		virtual void OnMove();
 		virtual void Initialize();
 		virtual void RoleCollision() {}; //碰撞到後要做的事情
 		virtual void SetValid(bool);
 
 	protected:
-	#pragma region - init information -
+		#pragma region - init information -
 		CPoint initPoint;
 		BitmapPath initLoadPath;
-	#pragma endregion
+		double initResetTime;
+		#pragma endregion
+
+		CAnimate leftAnimate;
+		CAnimate rightAnimate;
 
 		int currentX, currentY;
 		string id;
+		string faceTo;
 	};
 	#pragma endregion
 
@@ -220,7 +227,7 @@ namespace game_framework {
 		friend class CScallion;
 	public:
 		CPasserby();
-		CPasserby(int, int, BitmapPath loadPath);
+		CPasserby(int, int);
 		void SetXY(int, int);
 		void SetScore(int);
 		void SetMoving();
@@ -233,6 +240,10 @@ namespace game_framework {
 		CTimer stopTimer;
 		CTimer recreateTimer;
 		int move_distance = 2;
+
+		CAnimate leftAnimate;
+		CAnimate rightAnimate;
+		string faceto;
 	};
 
 	#pragma region - CPasserby1 - LUKA -
@@ -261,7 +272,9 @@ namespace game_framework {
 	public:
 		CMushroom();
 		CMushroom(int, int);
+		void OnMove();
 		~CMushroom();
+	
 	};
 	#pragma endregion
 
@@ -273,8 +286,7 @@ namespace game_framework {
 	{
 	public:
 		CNPC1();
-		CNPC1(CPoint, BitmapPath, string, string); //座標 路徑 id 對話文本
-		CNPC1(CPoint, BitmapPath, string, string, double); //座標 路徑 id 對話文本 一個動畫的影格的時間
+		CNPC1(CPoint, BitmapPath, string, string, double resetTime = 0.05); //座標 路徑 id 對話文本 一個動畫的影格的時間
 		~CNPC1();
 		void RoleCollision();
 	private:
