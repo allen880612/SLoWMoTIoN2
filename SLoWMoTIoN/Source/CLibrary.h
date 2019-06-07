@@ -99,7 +99,9 @@ namespace game_framework
 		bool  GetValid();
 		void  SetIndex(int);
 		int   GetIndex();
-		
+
+		void  CopyAnimateInformation(CAnimate *);
+
 		void  ResetDelayTime(double);
 		CRect GetRect();
 	private:

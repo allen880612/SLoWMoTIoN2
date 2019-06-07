@@ -220,7 +220,7 @@ namespace game_framework {
 		friend class CScallion;
 	public:
 		CPasserby();
-		CPasserby(int, int, BitmapPath loadPath);
+		CPasserby(int, int);
 		void SetXY(int, int);
 		void SetScore(int);
 		void SetMoving();
@@ -261,7 +261,11 @@ namespace game_framework {
 	public:
 		CMushroom();
 		CMushroom(int, int);
+		void OnMove();
 		~CMushroom();
+	private:
+		CAnimate leftAnimate;
+		CAnimate rightAnimate;
 	};
 	#pragma endregion
 

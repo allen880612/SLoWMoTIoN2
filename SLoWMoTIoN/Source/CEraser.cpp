@@ -710,19 +710,18 @@ namespace game_framework {
 		//LoadBitmap("Role", "LUKA", 2);
 	}
 
-	CPasserby::CPasserby(int _x, int _y, BitmapPath loadPath) : CEraser()
+	CPasserby::CPasserby(int _x, int _y) : CEraser()
 	{
 		initX = _x;
 		x = initX;
 		y = _y;
 		layer.SetLayer(4);
-		LoadBitmap(loadPath.ziliaojia, loadPath.name, loadPath.number, RGB(214, 214, 214));
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 
 		score = 0;
 		moveTimer = CTimer(0.5);
 		stopTimer = CTimer(1.5);
-		SetValid(false);
+		SetValid(true);
 		recreateTimer = CTimer((double)GetRandom(1, 4) / 2.0);
 	}
 
@@ -823,9 +822,10 @@ namespace game_framework {
 	CLuka::CLuka() : CPasserby()
 	{
 	}
-	CLuka::CLuka(int _x, int _y) : CPasserby(_x, _y, BitmapPath("RES\\Role\\NPC\\LUKA", "LUKA", 2))
+	CLuka::CLuka(int _x, int _y) : CPasserby(_x, _y)
 	{
 		SetScore(10);
+		LoadBitmap("RES\\Role\\NPC\\LUKA", "LUKA", 2, RGB(214, 214, 214));
 	}
 	CLuka::~CLuka()
 	{
@@ -836,9 +836,10 @@ namespace game_framework {
 	CRin::CRin() : CPasserby()
 	{
 	}
-	CRin::CRin(int _x, int _y) : CPasserby(_x, _y, BitmapPath("RES\\Role\\NPC\\RIN", "RIN", 2))
+	CRin::CRin(int _x, int _y) : CPasserby(_x, _y)
 	{
 		SetScore(15);
+		LoadBitmap("RES\\Role\\NPC\\RIN", "RIN", 2, RGB(214, 214, 214));
 	}
 	CRin::~CRin()
 	{
@@ -849,13 +850,35 @@ namespace game_framework {
 	CMushroom::CMushroom() : CPasserby()
 	{
 	}
-	CMushroom::CMushroom(int _x, int _y) : CPasserby(_x, _y, BitmapPath("RES\\Role\\NPC\\mushroom", "mushroom", 5))
+	CMushroom::CMushroom(int _x, int _y) : CPasserby(_x, _y)
 	{
 		SetScore(20);
-		animation.ResetDelayTime(0.1);
+		LoadBitmap("RES\\Role\\NPC\\mushroom\\L", "mushroom", 5, RGB(214, 214, 214));
+		leftAnimate.LoadBitmap("RES\\Role\\NPC\\mushroom\\L", "mushroom", 5, RGB(214, 214, 214));
+		rightAnimate.LoadBitmap("RES\\Role\\NPC\\mushroom\\R", "mushroom", 5, RGB(214, 214, 214));
+
+		leftAnimate.ResetDelayTime(0.1);
+		rightAnimate.ResetDelayTime(0.1);
+
+		leftAnimate.CopyAnimateInformation(&animation);
+		rightAnimate.CopyAnimateInformation(&animation);
+		animation = leftAnimate;
 	}
 	CMushroom::~CMushroom()
 	{
+	}
+	void CMushroom::OnMove()
+	{
+		if (GetMovingLeft())
+		{
+			animation = leftAnimate;
+
+		}
+		if (GetMovingRight())
+		{
+			animation = rightAnimate;
+		}
+		CPasserby::OnMove();
 	}
 	#pragma endregion
 

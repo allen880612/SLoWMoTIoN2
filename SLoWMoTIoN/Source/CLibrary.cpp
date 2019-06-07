@@ -446,6 +446,13 @@ namespace game_framework
 		return bmp_index;
 	}
 
+	void CAnimate::CopyAnimateInformation(CAnimate *copyAnimate)
+	{
+		SetValid(copyAnimate->GetValid());
+		SetTopLeft(copyAnimate->Top(), copyAnimate->Left());
+		ResetDelayTime(copyAnimate->delayTimer.GetTime());
+	}
+
 	void CAnimate::ResetDelayTime(double _time)
 	{
 		delayTimer.ResetTime(_time);
