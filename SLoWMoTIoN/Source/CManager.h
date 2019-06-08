@@ -464,4 +464,32 @@ namespace game_framework
 	};
 	#pragma endregion
 
+	#pragma region - UIManager -
+	class UIManager
+	{
+	public:
+		UIManager();
+		//~UIManager();
+
+		void Load();
+		void Initialize();
+		void Clear();
+
+		void OnCycle(CRole*, CBossManager*);
+
+	private:
+		int left_time;	// Game left time
+		int point;		// Usless kill passerby point
+		int hp, eq;		// Role info
+
+		CInteger uiTime, uiPoint;
+		CMovingBitmap HP_frame, EQ_frame, avatar_frame;
+		CMovingBitmap HP, EQ, avatar;
+	
+
+		map< string, CMovingBitmap*> map_avatar;;
+
+	};
+	#pragma endregion
+
 }

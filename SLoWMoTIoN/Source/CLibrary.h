@@ -463,4 +463,86 @@ namespace game_framework
 	};
 	#pragma endregion	
 
+	#pragma region - CStatusBoard -
+	class CStatusBoard
+	{
+
+	public:
+		CStatusBoard();
+		CStatusBoard(CPoint, int, int);	// 初始點, 血量, EQ
+		//~CStatusBoard();
+
+		void Load();
+		void Initialize(CPoint, int, int);	// 初始點, 血量, EQ
+		void Clear();
+
+		void UpdateBar(int, int);
+		
+
+		void SetXY(CPoint);
+		void SetDeltaBar(int, int);
+		int GetHP() { return hp; };
+		int GetEQ() { return eq; };
+		
+	
+		void OnCycle(int, int); // HP, EQ, time
+		void OnShow();
+
+	protected:
+
+		CMovingBitmap HP_frame, EQ_frame;
+		CMovingBitmap HP_bar, EQ_bar;
+		CMovingBitmap avatar, avatar_frame;
+		//bool useSecondBar = false;
+	private:
+		int dHP, dEQ; // 一次扣的寬度
+		int hp, eq;
+
+	};
+	
+
+#pragma endregion
+
+#pragma region - CStatusBoard -
+	class CBossBoard
+	{
+
+	public:
+		CBossBoard();
+		CBossBoard(CPoint, int);	// 初始點, 血量 然而沒 Copy Constructor 就用不到
+		
+		void Load();
+		void Initialize(CPoint, int);	// 初始點, 血量, EQ
+		void Clear();
+
+		void UpdateBar(int);
+
+		void SetXY(CPoint);
+		void SetDeltaBar(int);
+		void SetShow(bool);
+		void SetHP(int _hp);
+
+		int GetHP() { return hp; };
+		bool IsShow() { return isShow; };
+
+		void OnCycle(CBossManager*);
+		void OnShow();
+
+	protected:
+
+		CMovingBitmap HP_frame;
+		CMovingBitmap HP_bar;
+		CMovingBitmap avatar, avatar_frame;
+		//bool useSecondBar = false;
+	private:
+		int dHP; // 一次扣的寬度
+		int hp;
+		bool isShow;
+
+	};
+
+
+#pragma endregion
+
+
 }

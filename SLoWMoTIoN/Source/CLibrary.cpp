@@ -1755,4 +1755,157 @@ namespace game_framework
 
 
 	#pragma endregion
+
+	#pragma region - CStatusBoard -
+	CStatusBoard::CStatusBoard()
+	{
+
+	}
+
+	void CStatusBoard::Load()
+	{
+		HP_bar.LoadBitmap("RES\\UI\\status\\blood.bmp", RGB(214, 214, 214));
+		HP_frame.LoadBitmap("RES\\UI\\status\\bar_frame.bmp", RGB(214, 214, 214));
+		EQ_bar.LoadBitmap("RES\\UI\\status\\blood.bmp", RGB(214, 214, 214));
+		EQ_frame.LoadBitmap("RES\\UI\\status\\bar_frame.bmp", RGB(214, 214, 214));
+
+		avatar.LoadBitmap("RES\\UI\\status\\avatar.bmp", RGB(214, 214, 214));
+		avatar_frame.LoadBitmap("RES\\UI\\status\\avatar_frame.bmp", RGB(214, 214, 214));
+	}
+
+	void CStatusBoard::Initialize(CPoint _p, int _HP, int _EQ)
+	{
+		SetXY(_p);
+		SetDeltaBar(_HP, _EQ);
+		hp = _HP;
+		eq = _EQ;
+
+		CLayerManager::Instance()->AddObject(&HP_bar, INTERFACE_LAYER - 1);
+		CLayerManager::Instance()->AddObject(&HP_frame, INTERFACE_LAYER);
+		CLayerManager::Instance()->AddObject(&EQ_bar, INTERFACE_LAYER - 1);
+		CLayerManager::Instance()->AddObject(&EQ_frame, INTERFACE_LAYER);
+		CLayerManager::Instance()->AddObject(&avatar_frame, INTERFACE_LAYER);
+		CLayerManager::Instance()->AddObject(&avatar, INTERFACE_LAYER);
+	}
+
+	void CStatusBoard::UpdateBar(int _HP, int _EQ)
+	{
+		int subHP = hp - _HP;
+		int subEQ = eq - _EQ;
+		hp = _HP;
+		eq = _EQ;
+
+		HP_bar.SetTopLeft(HP_bar.Left() - dHP * subHP, HP_bar.Top());
+		EQ_bar.SetTopLeft(EQ_bar.Left() - dEQ * subEQ, EQ_bar.Top());
+	}
+
+	void CStatusBoard::SetXY(CPoint _p)
+	{
+		avatar.SetTopLeft(_p.x, _p.y);
+		avatar_frame.SetTopLeft(_p.x, _p.y);
+
+		const int HP_X = _p.x + avatar_frame.Width();
+		const int HP_Y = _p.y;
+
+		const int PADDING_Y = 15;
+
+		HP_frame.SetTopLeft(HP_X, HP_Y + PADDING_Y);
+		HP_bar.SetTopLeft(HP_X, HP_Y + PADDING_Y);
+
+		const int EQ_X = _p.x + avatar_frame.Width();
+		const int EQ_Y = HP_bar.GetRect().bottom;
+
+		EQ_frame.SetTopLeft(HP_X, EQ_Y);
+		EQ_bar.SetTopLeft(HP_X, EQ_Y);
+	}
+
+	void CStatusBoard::SetDeltaBar(int _blood, int _EQ)
+	{
+		dHP = HP_bar.Width() / _blood;
+		dEQ = EQ_bar.Width() / _EQ;
+	}
+
+	void CStatusBoard::OnCycle(int _HP, int _EQ)
+	{
+		UpdateBar(_HP, _EQ);
+	}
+	#pragma endregion
+
+#pragma region - CStatusBoard -
+	CBossBoard::CBossBoard()
+	{
+
+	}
+
+	void CBossBoard::Load()
+	{
+		HP_bar.LoadBitmap("RES\\UI\\status\\blood.bmp", RGB(214, 214, 214));
+		HP_frame.LoadBitmap("RES\\UI\\status\\bar_frame.bmp", RGB(214, 214, 214));
+
+		avatar.LoadBitmap("RES\\UI\\status\\avatar.bmp", RGB(214, 214, 214));
+		avatar_frame.LoadBitmap("RES\\UI\\status\\avatar_frame.bmp", RGB(214, 214, 214));
+	}
+
+	void CBossBoard::Initialize(CPoint _p, int _HP)
+	{
+		isShow = false;
+		
+		SetXY(_p);
+		//SetDeltaBar(_HP);
+
+		CLayerManager::Instance()->AddObject(&HP_bar, INTERFACE_LAYER - 1);
+		CLayerManager::Instance()->AddObject(&HP_frame, INTERFACE_LAYER);
+		CLayerManager::Instance()->AddObject(&avatar_frame, INTERFACE_LAYER);
+		CLayerManager::Instance()->AddObject(&avatar, INTERFACE_LAYER);
+	}
+
+	void CBossBoard::UpdateBar(int _HP)
+	{
+		int subHP = hp - _HP;
+		hp = _HP;
+		
+		HP_bar.SetTopLeft(HP_bar.Left() - dHP * subHP, HP_bar.Top());
+	}
+
+	void CBossBoard::SetXY(CPoint _p)
+	{
+		const int AVATAR_X = SIZE_X - avatar_frame.Width();
+		const int AVATAR_Y = _p.y;
+
+		avatar.SetTopLeft(AVATAR_X, AVATAR_Y);
+		avatar_frame.SetTopLeft(AVATAR_X, AVATAR_Y);
+
+		const int HP_X = AVATAR_X - HP_frame.Width();
+		const int HP_Y = avatar_frame.GetRect().bottom - HP_frame.Height();
+
+		const int PADDING_Y = 15;
+
+		HP_frame.SetTopLeft(HP_X, HP_Y);
+		HP_bar.SetTopLeft(HP_X, HP_Y);
+	}
+
+	void CBossBoard::SetDeltaBar(int _HP)
+	{
+		dHP = HP_bar.Width() / _HP;
+	}
+
+	void CBossBoard::SetShow(bool _isValid)
+	{
+		isShow = _isValid;
+		HP_bar.SetValid(_isValid);
+		HP_frame.SetValid(_isValid);
+		avatar.SetValid(_isValid);
+		avatar_frame.SetValid(_isValid);
+	}
+
+	void CBossBoard::SetHP(int _hp)
+	{
+		UpdateBar(hp);
+	}
+
+	void CBossBoard::OnCycle(CBossManager* bManager)
+	{
+
+	}
+#pragma endregion
 }

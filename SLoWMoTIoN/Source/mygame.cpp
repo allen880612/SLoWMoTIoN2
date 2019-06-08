@@ -104,7 +104,6 @@ namespace game_framework {
 			//blood.LoadBitmap(".\\RES\\UI\\blood.bmp", RGB(214, 214, 214));
 		}
 
-
 		buttonManager.Initialize();		
 		windowsEnding.Initialize(CPoint(60, 60));
 
@@ -211,9 +210,11 @@ namespace game_framework {
 	{	
 		if (zDelta > 0) //往使用者方向滾 -> 往下捲動 (圖片 y -= dy)
 		{
+			
 		}
 		else			//遠離 使用者方向滾 -> 往上捲動 (圖片 y += dy)
 		{
+			
 		}
 
 		windowsEnding.OnScrolling(zDelta);
@@ -306,6 +307,9 @@ namespace game_framework {
 		CAudio::Instance()->Stop("SLoWMoTIoN_Menu");
 		CAudio::Instance()->Play("SLoWMoTIoN_Game");
 		isWinXingting = false;
+
+		roleStatus.Initialize(CPoint(0, 0), role.GetHp(), 100);
+		bossStatus.Initialize(CPoint(0, 50), role.GetHp());
 		
 	}
 
@@ -339,6 +343,9 @@ namespace game_framework {
 		role.LoadAction("run", BitmapPath("RES\\Role\\miku\\run", "run", 7, RGB(150, 200, 250)));
 		role.LoadAction("jump", BitmapPath("RES\\Role\\miku\\jump", "jump", 7, RGB(150, 200, 250)));*/
 		#pragma endregion
+
+		roleStatus.Load();
+		bossStatus.Load();
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -717,25 +724,8 @@ namespace game_framework {
 		npcManager.OnCycle(mapManager.GetNowMap(), CPoint(screenPosX, role.GetY1()));
 		#pragma endregion
 
-
-		//
-		// 判斷擦子是否碰到球
-		//
-		//for (i = 0; i < NUMBALLS; i++)
-		//	if (ball[i].IsAlive() && ball[i].HitEraser(&role)) {
-		//		ball[i].SetIsAlive(false);
-		//		CAudio::Instance()->Play(AUDIO_DING);
-		//		time_left.Add(0);
-		//		//
-		//		// 若剩餘碰撞次數為0，則跳到Game Over狀態
-		//		//
-		//		if (time_left.GetInteger() <= 0) {
-		//			CAudio::Instance()->Stop(AUDIO_LAKE);	// 停止 WAVE
-		//			CAudio::Instance()->Stop(AUDIO_NTUT);	// 停止 MIDI
-		//			GotoGameState(GAME_STATE_OVER);
-		//		}
-		//	}
-
+		roleStatus.OnCycle(role.GetHp(), 100);
+		bossStatus.OnCycle();
 	}
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
