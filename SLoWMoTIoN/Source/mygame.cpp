@@ -370,14 +370,31 @@ namespace game_framework {
 
 		#pragma endregion
 		
+		#pragma region - run boss endprocess -
+		if (bossManager.targetBoss != NULL && bossManager.targetBoss->InEndProcess())
+		{
+			bossManager.targetBoss->EndProcess();
+			return;
+		}
+		#pragma endregion
+
 		bool roleCanMoving = true;
 
 		#pragma region - role - dead -
 		if (role.IsDead())
 		{
-			CEndManager::Instance()->Start(END_NAME_LOSEXINGTING);
-			role.SetXY(0, 0);
-			SwitchState(GAME_STATE_OVER);
+			if (bossManager.targetBoss->GetBossId() == "Xingting")
+			{
+				CEndManager::Instance()->Start(END_NAME_LOSEXINGTING);
+				role.SetXY(0, 0);
+				SwitchState(GAME_STATE_OVER);
+			}
+			if (bossManager.targetBoss->GetBossId() == BOSS_FACAISEED)
+			{
+				CEndManager::Instance()->Start(END_NAME_LOSEXINGTING);
+				role.SetXY(640, 0);
+				SwitchState(GAME_STATE_OVER);
+			}
 		}
 		#pragma endregion
 
@@ -392,6 +409,15 @@ namespace game_framework {
 			{
 				isWinFacaiSeed = true;
 			}
+			bossManager.BossDead();
+			SwitchTimer(&timer);
+		}
+		#pragma endregion
+
+		#pragma region - end battle -
+		//boss 沒死 但達成其他終結battle條件
+		if (bossManager.targetBoss != NULL && bossManager.targetBoss->IsEnd()) //有Boss 且 Boss終結
+		{
 			bossManager.BossDead();
 			SwitchTimer(&timer);
 		}

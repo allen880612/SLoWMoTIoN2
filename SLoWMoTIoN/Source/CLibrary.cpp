@@ -1892,7 +1892,7 @@ namespace game_framework
 		int subHP = hp - _HP;
 		hp = _HP;
 		
-		HP_bar.SetTopLeft(HP_bar.Left() + dHP * subHP, HP_bar.Top());
+		HP_bar.SetTopLeft(HP_bar.Left() + (int)(dHP * subHP), HP_bar.Top());
 	}
 
 	void CBossBoard::SetXY(CPoint _p)
@@ -1914,7 +1914,7 @@ namespace game_framework
 
 	void CBossBoard::SetDeltaBar(int _HP)
 	{
-		dHP = HP_bar.Width() / _HP;
+		dHP = (double)(HP_bar.Width() / _HP);
 	}
 
 	void CBossBoard::SetShow(bool _isValid)

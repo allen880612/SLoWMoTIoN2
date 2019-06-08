@@ -603,6 +603,7 @@ namespace game_framework {
 		isCatched = false;
 		isDead = false;
 		isZZ = false;
+
 		SetValid(true);
 		#pragma endregion
 

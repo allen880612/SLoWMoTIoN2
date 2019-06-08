@@ -42,6 +42,9 @@ namespace game_framework
 		virtual void Attack(CRole*) {};
 
 		virtual void Clear() {};
+		virtual bool InEndProcess() { return false; };
+		virtual void EndProcess() {};
+		bool IsEnd() { return isEnd; };
 
 		virtual vector<CScallion*>* GetBullet() { return nullptr; };
 		bool IsDead() { return !IsAlive; };
@@ -72,6 +75,7 @@ namespace game_framework
 		string id;
 		CTimer AliveTime;
 		const double PI = 4 * atan(1.0);
+		bool isEnd;
 	};
 	#pragma endregion
 
@@ -136,11 +140,13 @@ namespace game_framework
 		void Attack(CRole*);
 		void OnMove();
 		void Clear();
+		bool InEndProcess() { return fly; };
+		void EndProcess();
 	private:
 		void Attack1(CRole*);
 		void Attack2();
 		void Attack3(); //Ray attack
-
+		void ClearBullet();
 		void Collision(CRole*);
 		CPoint GetCreateCoinPoint(); //射出金幣的起始點
 
@@ -148,7 +154,8 @@ namespace game_framework
 		CTimer shootCoinTimer;
 		CTimer attackRoleTimer; //role 硬值時間
 		CTimer subRoleHp_NoEQ;
-
+		bool fly;
+		int flyY = 1;
 		vector<CScallion*>	coinVector;
 		int coinAngle[4] = { 45, 75, 105, 135 };
 		#pragma region - ray -

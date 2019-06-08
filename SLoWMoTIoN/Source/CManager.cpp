@@ -1011,7 +1011,7 @@ namespace game_framework
 	{
 		#pragma region -- Create Boss --
 		bossInformation[BOSS_XINGTING] = new CXingting(450, 250, 8787, "Xingting", BitmapPath("RES\\Boss\\xingting", "xingting", 2, RGB(214, 214, 214)));
-		bossInformation[BOSS_FACAISEED] = new CFacaiSeed(100, 270, 87, BOSS_FACAISEED, BitmapPath("RES\\Boss\\FacaiSeed", "faqai", 19, RGB(255, 255, 255)));
+		bossInformation[BOSS_FACAISEED] = new CFacaiSeed(100, 270, 35, BOSS_FACAISEED, BitmapPath("RES\\Boss\\FacaiSeed", "faqai", 19, RGB(255, 255, 255)));
 		#pragma endregion
 		targetBoss = NULL;
 		isBattle = false;

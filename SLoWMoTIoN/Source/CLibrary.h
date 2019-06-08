@@ -545,7 +545,7 @@ namespace game_framework
 		//bool useSecondBar = false;
 	private:
 		CPoint initPos;
-		int dHP; // 一次扣的寬度
+		double dHP; // 一次扣的寬度
 		int hp;
 		bool isShow;
 

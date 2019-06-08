@@ -74,7 +74,7 @@ namespace game_framework
 
 		animation.SetValid(false);
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
-
+		isEnd = false;
 		AliveTime = CTimer(99.0);
 	}
 
@@ -173,7 +173,7 @@ namespace game_framework
 	void CBoss::OnMove()
 	{
 		int dx = CCamera::Instance()->GetX();
-		SetXY(currentX - dx, y);
+		SetXY(currentX - dx, currentY);
 		animation.OnMove();
 	}
 
@@ -242,6 +242,7 @@ namespace game_framework
 			{
 				CDialogManager::Instance()->Start(DIALOG_DATA_VSXingting3);
 				IsAlive = false;
+				isEnd = true;
 			}
 		}
 
@@ -513,6 +514,8 @@ namespace game_framework
 		ray = NULL;
 		rayStartTime.ResetTime(2.5); //預設一秒後發射
 		rayStayTime.ResetTime(2.0); //預設持續兩秒
+		fly = false;
+		flyY = 1;
 		#pragma endregion
 		Clear();
 
@@ -525,11 +528,13 @@ namespace game_framework
 
 	void CFacaiSeed::OnCycle(CRole *role)
 	{
+		#pragma region - boss deaa - 
 		if (hp <= 0) //boss dead
 		{
 			CDialogManager::Instance()->Start("roleWinFacaiSeed");
 			SetIsAlive(false);
 		}
+		#pragma endregion
 
 		#pragma region - Boss Alive -
 		if (!IsDead())
@@ -537,9 +542,18 @@ namespace game_framework
 			attackRoleTimer.CountDown();
 			if(ray == NULL) //射線中不轉換
 				SetFaceTo(CPoint(role->GetX3(), role->GetY3()));
-			OnMove();
 			Attack(role);
+			OnMove();
 			Collision(role);
+		}
+		#pragma endregion
+
+		#pragma region - role dead -
+		if (role->IsDead() || AliveTime.IsTimeOut())
+		{
+			CDialogManager::Instance()->Start("roleLoseFacaiSeed");
+			ClearBullet();
+			fly = true;
 		}
 		#pragma endregion
 	}
@@ -573,7 +587,6 @@ namespace game_framework
 			{
 				SetCurrentXY(currentX - dx, currentY);
 			}
-			movingTime.ResetTime();
 		}
 		#pragma endregion
 		
@@ -582,24 +595,27 @@ namespace game_framework
 
 	void CFacaiSeed::Clear()
 	{
-		#pragma region - clear coin -
-		for (vector<CScallion*>::iterator coiniter = coinVector.begin(); coiniter != coinVector.end(); coiniter++)
-		{
-			delete *coiniter;
-			*coiniter = NULL;
-		}
-		coinVector.clear();
-		#pragma endregion
-
-		#pragma region - clear ray -
-		if (ray != NULL)
-		{
-			delete ray;
-			ray = NULL;
-		}
-		#pragma endregion
+		ClearBullet();
 
 		animation.SetValid(false);
+	}
+
+	void CFacaiSeed::EndProcess()
+	{
+		#pragma region - role dead and this fly -
+		if (fly)
+		{
+			SetCurrentXY(currentX, currentY - flyY);
+			flyY++;
+			CBoss::OnMove();
+			if (GetRightBottomPoint().y <= -10)
+			{
+				fly = false;
+				isEnd = true;
+				Clear();
+			}
+		}
+		#pragma endregion
 	}
 
 	void CFacaiSeed::Attack1(CRole *role)
@@ -666,6 +682,26 @@ namespace game_framework
 			}
 		}
 	}
+	void CFacaiSeed::ClearBullet()
+	{
+		#pragma region - clear coin -
+		for (vector<CScallion*>::iterator coiniter = coinVector.begin(); coiniter != coinVector.end(); coiniter++)
+		{
+			delete *coiniter;
+			*coiniter = NULL;
+		}
+		coinVector.clear();
+		#pragma endregion
+
+		#pragma region - clear ray -
+		if (ray != NULL)
+		{
+			delete ray;
+			ray = NULL;
+		}
+		#pragma endregion
+	}
+
 	void CFacaiSeed::Collision(CRole *role)
 	{
 		#pragma region - coin collision role -
