@@ -99,6 +99,7 @@ namespace game_framework
 		bool  GetValid();
 		void  SetIndex(int);
 		int   GetIndex();
+		int   GetIndexSize() { return bmp.size(); };
 
 		void  CopyAnimateInformation(CAnimate *);
 
