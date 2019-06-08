@@ -921,43 +921,36 @@ namespace game_framework {
 	}
 
 	#pragma region - CPasserby1 - Luka -
-	CLuka::CLuka() : CPasserby()
+	CPasserbyType1::CPasserbyType1() : CPasserby()
 	{
 	}
-	CLuka::CLuka(int _x, int _y) : CPasserby(_x, _y)
+	CPasserbyType1::CPasserbyType1(int _x, int _y, BitmapPath _loadPath, int _score) : CPasserby(_x, _y)
 	{
-		SetScore(10);
-		LoadBitmap("RES\\Role\\NPC\\LUKA", "LUKA", 2, RGB(214, 214, 214));
+		SetScore(_score);
+		//LoadBitmap("RES\\Role\\NPC\\LUKA", "LUKA", 2, RGB(214, 214, 214));
+		LoadBitmap(_loadPath.ziliaojia, _loadPath.name, _loadPath.number, _loadPath.color);
 	}
-	CLuka::~CLuka()
-	{
-	}
-	#pragma endregion
-
-	#pragma region - CPasserby2 - Rin -
-	CRin::CRin() : CPasserby()
-	{
-	}
-	CRin::CRin(int _x, int _y) : CPasserby(_x, _y)
-	{
-		SetScore(15);
-		LoadBitmap("RES\\Role\\NPC\\RIN", "RIN", 2, RGB(214, 214, 214));
-	}
-	CRin::~CRin()
+	CPasserbyType1::~CPasserbyType1()
 	{
 	}
 	#pragma endregion
 
 	#pragma region - CPasserby3 - mushroom -
-	CMushroom::CMushroom() : CPasserby()
+	CPasserbyType2::CPasserbyType2() : CPasserby()
 	{
 	}
-	CMushroom::CMushroom(int _x, int _y) : CPasserby(_x, _y)
+	CPasserbyType2::CPasserbyType2(int _x, int _y, BitmapPath _loadPath, int _score) : CPasserby(_x, _y)
 	{
-		SetScore(20);
-		LoadBitmap("RES\\Role\\NPC\\mushroom\\L", "mushroom", 5, RGB(214, 214, 214));
+		SetScore(_score);
+		BitmapPath leftPath = _loadPath;
+		BitmapPath rightPath = _loadPath;
+
+		leftPath.ziliaojia += "\\L";
+		rightPath.ziliaojia += "\\R";
+
+		LoadBitmap(leftPath.ziliaojia, leftPath.name, leftPath.number, leftPath.color);
 		leftAnimate = animation;
-		rightAnimate.LoadBitmap("RES\\Role\\NPC\\mushroom\\R", "mushroom", 5, RGB(214, 214, 214));
+		rightAnimate.LoadBitmap(rightPath.ziliaojia, rightPath.name, rightPath.number, rightPath.color);
 
 		leftAnimate.ResetDelayTime(0.1);
 		rightAnimate.ResetDelayTime(0.1);
@@ -967,10 +960,10 @@ namespace game_framework {
 		animation = leftAnimate;
 		faceto = "left";
 	}
-	CMushroom::~CMushroom()
+	CPasserbyType2::~CPasserbyType2()
 	{
 	}
-	void CMushroom::OnMove()
+	void CPasserbyType2::OnMove()
 	{
 		if (GetMovingLeft() && faceto != "left")
 		{

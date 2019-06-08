@@ -526,25 +526,24 @@ namespace game_framework
 	{
 		if (randomID == 0)
 		{
-			return new CLuka(0, 0); //先創建一個default passerby
+			return new CPasserbyType1(0, 0, BitmapPath("RES\\Role\\NPC\\LUKA", "LUKA", 2, RGB(214, 214, 214)), 10); //先創建一個default passerby
 		}
 		else if (randomID == 1)
 		{
-			return new CRin(0, 0); //先創建一個default passerby
+			return new CPasserbyType1(0, 0, BitmapPath("RES\\Role\\NPC\\RIN", "RIN", 2, RGB(214, 214, 214)), 15); //先創建一個default passerby
 		}
 		else if (randomID == 2)
 		{
-			return new CMushroom(0, 0); //先創建一個default passerby
+			return new CPasserbyType2(0, 0, BitmapPath("RES\\Role\\NPC\\mushroom", "mushroom", 5, RGB(214, 214, 214)), 20); //先創建一個default passerby
 		}
-		return new CRin(0, 0);
+		return new CPasserbyType1(0, 0, BitmapPath("RES\\Role\\NPC\\LUKA", "LUKA", 2, RGB(214, 214, 214)), 10); //先創建一個default passerby
 	}
 	CPasserby* CPasserbyManager::AddPasserby(vector<int> id, int mapWidth)
 	{
 		#pragma region Create a Passerby
 		int randomID = GetRandom(0, id.size() - 1); //random 決定 passerby種類 (1號or2號)
 		//CPasserby *newPasserby = new CPasserby(0, 0, ziliaojia + name[id[randomID]], name[id[randomID]], getFolerFileNumber(ziliaojia + name[id[randomID]]), (id[randomID] + 1) * 10); //先創建一個default passerby
-		CPasserby *newPasserby;
-		newPasserby = GetPasserbyType(id[randomID]);
+		CPasserby *newPasserby = GetPasserbyType(id[randomID]);
 		int randomX = GetRandom(0, mapWidth - newPasserby->Width()); //random 決定passerby的出現位置
 		newPasserby->SetXY(randomX, -newPasserby->Height()); //set passerby x, y
 		return newPasserby;

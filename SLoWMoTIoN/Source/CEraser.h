@@ -260,33 +260,23 @@ namespace game_framework {
 	};
 
 	#pragma region - CPasserby1 - LUKA -
-	class CLuka : public CPasserby
+	class CPasserbyType1 : public CPasserby
 	{
 	public:
-		CLuka();
-		CLuka(int, int);
-		~CLuka();
-	};
-	#pragma endregion
-
-	#pragma region - CPasserby2 - RIN -
-	class CRin : public CPasserby
-	{
-	public:
-		CRin();
-		CRin(int, int);
-		~CRin();
+		CPasserbyType1();
+		CPasserbyType1(int, int, BitmapPath, int);
+		~CPasserbyType1();
 	};
 	#pragma endregion
 
 	#pragma region - CPasserby3 - mushroom -
-	class CMushroom : public CPasserby
+	class CPasserbyType2 : public CPasserby
 	{
 	public:
-		CMushroom();
-		CMushroom(int, int);
+		CPasserbyType2();
+		CPasserbyType2(int, int, BitmapPath, int);
 		void OnMove();
-		~CMushroom();
+		~CPasserbyType2();
 	
 	};
 	#pragma endregion
