@@ -1070,7 +1070,7 @@ namespace game_framework
 	}
 	void CNPCManager::Clear()
 	{
-		for (int i = 0; i < 99; i++)
+		for (int i = 0; i < MAX_MAP_NUMBER; i++)
 		{
 			for (vector<CNPC*>::iterator npciter = npc[i].begin(); npciter != npc[i].end(); ++npciter)
 			{
@@ -1084,7 +1084,7 @@ namespace game_framework
 	void CNPCManager::Initialize(int nowMap)
 	{
 		map_max_Number = getFolerFileNumber("RES\\Map\\Information\\");
-		for (int i = 0; i < 99; i++)
+		for (int i = 0; i < MAX_MAP_NUMBER; i++)
 		{
 			for (vector<CNPC*>::iterator npciter = npc[i].begin(); npciter != npc[i].end(); npciter++)
 			{
@@ -1134,6 +1134,8 @@ namespace game_framework
 		npc[8].push_back(new CNPC3(CPoint(900, 360), BitmapPath("RES\\NPC\\flandre_music", "flandre", 4, RGB(214, 214, 214)), "flandre", "UN_OwenWasHer", "Music_UN"));
 		npc[8].push_back(new CNPC3(CPoint(340, 340), BitmapPath("RES\\NPC\\sakuya_music", "sakuya", 6, RGB(214, 214, 214)), "sakuya", "FloweringNight", "Music_FloweringNight"));
 		npc[8].push_back(new CNPC3(CPoint(120, 360), BitmapPath("RES\\NPC\\suwako_music", "suwako", 2, RGB(214, 214, 214)), "suwako", "NativeFaith", "Music_NativeFaith"));
+
+		npc[10].push_back(new CNPC1(CPoint(100, 360), BitmapPath("RES\\NPC\\mushroom", "mushroom", 4, RGB(214, 214, 214)), "mushroom", "mushroom"));
 	}
 	#pragma endregion
 
