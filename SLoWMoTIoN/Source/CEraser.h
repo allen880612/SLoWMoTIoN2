@@ -159,6 +159,7 @@ namespace game_framework {
 
 		bool IsMoving();
 		bool IsDead() { return isDead; };
+		bool IsZZ() { return isZZ; };
 		CAction* GetAction() { return &action; };
 
 		#pragma region - Collision -
@@ -177,6 +178,8 @@ namespace game_framework {
 
 		bool IsCollisionBlackHole(CBlackHole*);
 		bool IsCollisionBlackHoleCenter(CBlackHole*);
+
+		bool IsCollisionRay(CRay*);
 		#pragma endregion
 
 		vector<CScallion*>* GetScallion();
@@ -210,7 +213,7 @@ namespace game_framework {
 		//CInteger scoreInteger;
 		#pragma region - init information -
 		int inithp = 20;
-		int initEq = 100;
+		int initEq = 20;
 		bool isLoaded;
 		string now_action;
 		#pragma endregion
@@ -219,7 +222,7 @@ namespace game_framework {
 		
 		bool isCatched;
 		bool isDead;
-
+		bool isZZ;
 	};
 	#pragma endregion
 

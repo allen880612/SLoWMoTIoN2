@@ -1892,7 +1892,7 @@ namespace game_framework
 		int subHP = hp - _HP;
 		hp = _HP;
 		
-		HP_bar.SetTopLeft(HP_bar.Left() - dHP * subHP, HP_bar.Top());
+		HP_bar.SetTopLeft(HP_bar.Left() + dHP * subHP, HP_bar.Top());
 	}
 
 	void CBossBoard::SetXY(CPoint _p)
@@ -1933,32 +1933,32 @@ namespace game_framework
 
 	void CBossBoard::OnCycle(CBossManager* bManager)
 	{
-		if (bManager->targetBoss != NULL)
+		if (bManager->targetBoss != NULL && bManager->IsBattle())
 		{
-			SetHP(bManager->targetBoss->GetHp());
-
 			if (!IsShow())	// 只需換一次
-			{				
+			{
 				string bossID = (bManager->targetBoss)->GetID();
 				
 				if (bossAvatar.count(bossID) && !bossAvatar[bossID].IsNull())
 				{
 					avatar = bossAvatar[bossID];
+					hp = (bManager->targetBoss)->GetHp();
+					SetDeltaBar(hp);
 				}
 				else
 				{
 					avatar = NULLAvatar;
 				}
-					
 
 				SetXY(initPos);
 				SetShow(true);
 			}
+			SetHP(bManager->targetBoss->GetHp());
 		}
 		else
 		{
 			SetShow(false);
 		}
 	}
-#pragma endregion
+	#pragma endregion
 }

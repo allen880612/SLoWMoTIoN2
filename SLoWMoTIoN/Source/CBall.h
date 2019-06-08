@@ -1,6 +1,7 @@
 #pragma once
 #include "CLibrary.h"
 #include "CEraser.h"
+#include "CBoss.h"
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -58,11 +59,15 @@ namespace game_framework {
 		void SetInitVelocity(int, int);
 		bool IsCollision(CPasserby);
 		bool IsCollision(CPasserby*);
+		bool IsCollision(CBoss*);
+		bool IsCollision(CRect);
 		void Clear();
 		void Initialize(CPoint);
+		int  GetAtk() { return atk; };
+		void SetAtk(int k) { atk = k; };
 
 	protected:
-
+		int atk = 1000;
 		int velocity_x;
 		int velocity_y;
 		int gravity;

@@ -270,6 +270,14 @@ namespace game_framework {
 	{
 		return IsRectCollision(animation.GetRect(), passerby->animation.GetRect());
 	}
+	bool CScallion::IsCollision(CBoss *boss)
+	{
+		return IsRectCollision(animation.GetRect(), boss->GetAnimate()->GetRect());
+	}
+	bool CScallion::IsCollision(CRect rect)
+	{
+		return IsRectCollision(animation.GetRect(), rect);
+	}
 	#pragma endregion
 
 	//#pragma region - CBullet -
