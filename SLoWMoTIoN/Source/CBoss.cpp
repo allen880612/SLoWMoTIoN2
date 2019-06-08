@@ -296,7 +296,7 @@ namespace game_framework
 				int angle = (-150 + atkCounter * 15) + i * 30;
 				double mx = sin(angle * (PI / 180.0)) * speed;
 				double my = cos(angle * (PI / 180.0)) * speed;
-				int drs = 3; //亂取的名字 用意在給一個倍數讓books不從中心點出現
+				int drs = 3; //給一個倍數讓books不從中心點出現
 				CPoint center = GetCenterPoint() + CPoint((int)mx * drs, -(int)my * drs);
 				CScallion *newlevel4 = new CScallion(BitmapPath("RES\\Object\\books", "book", 4), center, CPoint(0, 0), 0); //先創建一個蔥的物件
 				newlevel4->SetInitVelocity((int)mx, (int)my);
@@ -316,7 +316,7 @@ namespace game_framework
 			int angle = angle_atk2;
 			double mx = sin(angle * (PI / 180.0)) * speed;
 			double my = cos(angle * (PI / 180.0)) * speed;
-			int drs = 3; //亂取的名字 用意在給一個倍數讓books不從中心點出現
+			int drs = 3; //用意在給一個倍數讓books不從中心點出現
 			CPoint center = GetCenterPoint() + CPoint((int)mx * drs, -(int)my * drs);
 			#pragma endregion
 
@@ -462,8 +462,6 @@ namespace game_framework
 		}
 	}
 	
-	
-
 	#pragma endregion
 
 	#pragma region - CFaicaiSeed -
@@ -493,7 +491,7 @@ namespace game_framework
 		#pragma endregion
 
 		movingTime = CTimer(0.2);
-
+		shootCoinTimer = CTimer(0.16);
 		AliveTime = CTimer(99.0);
 	}
 
@@ -517,6 +515,7 @@ namespace game_framework
 
 	void CFacaiSeed::Attack(CRole *role)
 	{
+		Attack2();
 		Attack3();
 	}
 
@@ -548,6 +547,23 @@ namespace game_framework
 		CBoss::OnMove();
 	}
 
+	void CFacaiSeed::Attack2()
+	{
+		shootCoinTimer.CountDown();
+		if (shootCoinTimer.IsTimeOut())
+		{
+			double speed = 15.0 / 2;
+			int angle = -150;
+			double mx = sin(angle * (PI / 180.0)) * speed;
+			double my = cos(angle * (PI / 180.0)) * speed;
+			CPoint center = GetCreateCoinPoint();
+			CScallion *newcoin = new CScallion(BitmapPath("RES\\Object\\coin", "coin", 4, RGB(255,255,255)), center, CPoint(0, 0)); //先創建一個蔥的物件
+			newcoin->SetInitVelocity((int)mx, (int)my);
+			coinVector.push_back(newcoin); //將蔥放進vector
+			shootCoinTimer.ResetTime();
+		}
+	}
+
 	void CFacaiSeed::Attack3()
 	{
 		rayStartTime.CountDown();
@@ -577,6 +593,19 @@ namespace game_framework
 				rayStartTime.ResetTime();
 			}
 		}
+	}
+	CPoint CFacaiSeed::GetCreateCoinPoint()
+	{
+		CPoint center = GetCenterPoint();
+		if (faceTo == "left")
+		{
+			center += CPoint(20, 0);
+		}
+		else
+		{
+			center -= CPoint(20, 0);
+		}
+		return center;
 	}
 	#pragma endregion
 

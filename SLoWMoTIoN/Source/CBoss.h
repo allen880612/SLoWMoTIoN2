@@ -70,7 +70,7 @@ namespace game_framework
 		bool IsAlive = true;
 		string id;
 		CTimer AliveTime;
-
+		const double PI = 4 * atan(1.0);
 	};
 	#pragma endregion
 
@@ -93,7 +93,7 @@ namespace game_framework
 		vector<CBlackHole*> blackhole;
 		CBlackHole *targetBlackhole;
 		void Level4Collision(CRole*);
-		const double PI = 4 * atan(1.0);
+
 		CTimer shootLevel4_cd;
 		CTimer shoot_atk2_cd;
 		CTimer shoot_atk3_cd;
@@ -135,10 +135,14 @@ namespace game_framework
 		void Attack(CRole*);
 		void OnMove();
 	private:
+		void Attack2();
 		void Attack3(); //Ray attack
+		CPoint GetCreateCoinPoint(); //射出金幣的起始點
 
 		CTimer movingTime;
+		CTimer shootCoinTimer;
 
+		vector<CScallion*>	coinVector;
 		#pragma region - ray -
 		CTimer rayStartTime;
 		CTimer rayStayTime;
