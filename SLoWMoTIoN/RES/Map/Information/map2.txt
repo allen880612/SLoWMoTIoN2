@@ -9,12 +9,9 @@ block RES\Map\2_L.bmp 508 303
 block RES\Map\3_M.bmp 574 302
 block RES\Map\3_M.bmp 633 301
 block RES\Map\3_R.bmp 692 301
-block RES\Map\14.bmp 68 405
-block RES\Map\12.bmp -2 405
-block RES\Map\14.bmp 136 406
-block RES\Map\1_R.bmp 278 407
-block RES\Map\15.bmp 207 407
-block RES\Map\8.bmp 272 425
+block RES\Map\14.bmp 213 412
+block RES\Map\12.bmp 141 411
+block RES\Map\14.bmp 284 412
 up -1
 down -1
 left 0
