@@ -506,7 +506,7 @@ namespace game_framework
 	};
 	
 
-#pragma endregion
+	#pragma endregion
 
 	#pragma region - CBossBoard -
 	class CBossManager;
@@ -551,7 +551,7 @@ namespace game_framework
 	};
 
 
-#pragma endregion
+	#pragma endregion
 
 
 }

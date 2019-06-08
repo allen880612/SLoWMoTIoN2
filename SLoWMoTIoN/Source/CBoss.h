@@ -17,9 +17,15 @@ namespace game_framework
 		CBoss(int, int, int, string, BitmapPath); //x, y, hp, (¸ô®|, ÃC¦â)
 		virtual ~CBoss();
 
+		CPoint GetLeftTopPoint() { return CPoint(currentX, currentY); };
+		CPoint GetCenterPoint() { return CPoint(currentX + width / 2, currentY + height / 2); };
+		CPoint GetRightBottomPoint() { return CPoint(currentX + width, currentY + height); };
+
 		void LoadBitmap();
 
 		void virtual Initialize();
+		void InitializeDirAnimate(string, double = 0.1);
+		void SetFaceTo(CPoint);
 		void SetXY(int, int);
 		void SetCurrentXY(int, int);
 		void SetHp(int);
@@ -27,10 +33,9 @@ namespace game_framework
 		bool GetAlive() { return IsAlive; };
 		string GetID() { return id; };
 		int GetHp() { return hp; };
+		int GetInitHp() { return initHp; };
 		void OnMove();
 		void MoveWithMap(string);
-		
-		CPoint GetCenterPoint() { return CPoint(x + width / 2, y + height / 2); };
 
 		virtual void OnCycle(CRole*) {};
 		virtual void Attack(CRole*) {};
@@ -40,7 +45,7 @@ namespace game_framework
 		virtual vector<CScallion*>* GetBullet() { return nullptr; };
 		bool IsDead() { return !IsAlive; };
 
-		virtual CTimer* GetAliveTimer() { return nullptr; };
+		CTimer* GetAliveTimer() { return &AliveTime; };
 
 		CLayer layer;
 
@@ -54,6 +59,9 @@ namespace game_framework
 		#pragma endregion
 
 		CAnimate animation;
+		CAnimate leftAnimate;
+		CAnimate rightAnimate;
+		string faceTo;
 
 		int hp;
 		int currentX, currentY;
@@ -61,6 +69,7 @@ namespace game_framework
 		int width, height;
 		bool IsAlive = true;
 		string id;
+		CTimer AliveTime;
 
 	};
 	#pragma endregion
@@ -74,12 +83,11 @@ namespace game_framework
 		~CXingting();
 		void Initialize();
 		void OnCycle(CRole*);
-		void OnMove();
 		void Attack(CRole*);
+		void OnMove();
 		void Clear();
 		void ClearBullet();
 		bool IsDead();
-		CTimer* GetAliveTimer() { return &AliveTime; };
 	private:
 		vector<CScallion*>	level4;
 		vector<CBlackHole*> blackhole;
@@ -93,8 +101,6 @@ namespace game_framework
 		CTimer moveToGoal;
 		CTimer mode_Attack2_timer;
 		CTimer mode_Attack4_CreateBlackHole;
-
-		CTimer AliveTime;
 
 		int goal_x, goal_y;
 		int angle_atk2;
@@ -114,4 +120,31 @@ namespace game_framework
 		int atkCounter;
 	};
 	#pragma endregion
+
+	#pragma region - CFaicaiSeed -
+	class CRay;
+	class CFacaiSeed : public CBoss
+	{
+	public:
+		CFacaiSeed();
+		CFacaiSeed(int, int, int, string, BitmapPath);
+		~CFacaiSeed();
+		void Initialize();
+
+		void OnCycle(CRole*);
+		void Attack(CRole*);
+		void OnMove();
+	private:
+		void Attack3(); //Ray attack
+
+		CTimer movingTime;
+
+		#pragma region - ray -
+		CTimer rayStartTime;
+		CTimer rayStayTime;
+		CRay *ray;
+		#pragma endregion
+	};
+	#pragma endregion
+
 }

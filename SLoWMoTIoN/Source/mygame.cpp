@@ -419,7 +419,7 @@ namespace game_framework {
 			{
 				if (role.IsCollisionBoss(bossManager.targetBoss)) //collision with boss
 				{
-					if (bossManager.targetBoss->GetID() != "Xingting")
+					if (bossManager.targetBoss->GetID() != "Xingting" && bossManager.targetBoss->GetID() != "FacaiSeed")
 					{
 						CCamera::Instance()->SetCanMoving(false);
 						//role.SetCanMoving(false);
@@ -710,9 +710,8 @@ namespace game_framework {
 		npcManager.OnCycle(mapManager.GetNowMap(), CPoint(screenPosX, role.GetY1()));
 		#pragma endregion
 
-		//roleStatus.OnCycle(role.GetHp(), role.GetEq());
-		//bossStatus.OnCycle(&bossManager);
 		uiManager.OnCycle(nowUsedTimer->GetTime(1));
+
 	}
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)

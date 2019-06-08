@@ -238,6 +238,7 @@ namespace game_framework
 		CGameStateRun *gameState = nullptr;
 		bool tips = true;
 		bool dialogWithXingting = false;
+		bool dialogWithFacaiSeed = false;
 	};
 	#pragma endregion
 

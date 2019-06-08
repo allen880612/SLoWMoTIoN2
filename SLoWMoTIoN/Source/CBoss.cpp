@@ -41,18 +41,19 @@ namespace game_framework
 
 	void CBoss::LoadBitmap()
 	{
-		//for (int i = 0; i < loadPath.number; i++)
-		//{
-		//	char* address = ConvertCharPointToString(loadPath.ziliaojia, loadPath.name, i);
-		//	animation.AddBitmap(address, transparentColor);
-		//	delete address;
-		//}
+		#pragma region - Load animateion and left, right animation -
+		BitmapPath leftPath = loadPath;
+		BitmapPath rightPath = loadPath;
+		leftPath.ziliaojia += "\\L";
+		rightPath.ziliaojia += "\\R";
 
-		animation.LoadBitmap(loadPath.ziliaojia, loadPath.name, loadPath.number, loadPath.color);
-
-		animation.SetTopLeft(x, y);
+		animation.LoadBitmap(leftPath.ziliaojia, leftPath.name, leftPath.number, leftPath.color);
+		rightAnimate.LoadBitmap(rightPath.ziliaojia, rightPath.name, rightPath.number, rightPath.color);
+		#pragma endregion
+		animation.SetTopLeft(initx, inity);
 		height = animation.Height();
 		width = animation.Width();
+		leftAnimate = animation;
 	}
 
 	void CBoss::Initialize()
@@ -70,6 +71,42 @@ namespace game_framework
 		hp = initHp;
 		layer.SetLayer(BOSS_LAYER);
 		IsAlive = true;
+
+		animation.SetValid(false);
+		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
+
+		AliveTime = CTimer(99.0);
+	}
+
+	void CBoss::InitializeDirAnimate(string dir,double resetTime)
+	{
+		animation.SetTopLeft(initx, inity);
+		leftAnimate.ResetDelayTime(resetTime);
+		rightAnimate.ResetDelayTime(resetTime);
+		leftAnimate.CopyAnimateInformation(&animation);
+		rightAnimate.CopyAnimateInformation(&animation);
+
+		faceTo = dir;
+		if(faceTo == "left")
+			animation = leftAnimate;
+		else if(faceTo == "right")
+			animation = rightAnimate;
+	}
+
+	void CBoss::SetFaceTo(CPoint point)
+	{
+		if (point.x >= GetCenterPoint().x) //right
+		{
+			rightAnimate.CopyAnimateInformation(&animation);
+			animation = rightAnimate;
+			faceTo = "right";
+		}
+		else
+		{
+			leftAnimate.CopyAnimateInformation(&animation);
+			animation = leftAnimate;
+			faceTo = "left";
+		}
 	}
 
 	void CBoss::SetXY(int _x, int _y)
@@ -247,20 +284,6 @@ namespace game_framework
 		}
 		Level4Collision(role);
 	}
-
-	//void CXingting::Attack1()
-	//{
-	//	shootLevel4_cd.CountDown();
-	//	if (shootLevel4_cd.IsTimeOut())
-	//	{
-	//		for (int i = 0; i < 5; i++)
-	//		{
-	//			//CScallion *newlevel4 = new CScallion("Role\\books", "book", 4, 450, 360, 150 + i * 30, 360 - i * 75); //先創建一個蔥的物件
-	//			level4.push_back(new CScallion(BitmapPath("RES\\Object\\books", "book", 4), CPoint(450, 360), CPoint(150 + i * 30, 360 - i * 75), 0)); //將蔥放進vector
-	//			shootLevel4_cd.ResetTime();
-	//		}
-	//	}
-	//}
 
 	void CXingting::Attack1()
 	{
@@ -441,6 +464,120 @@ namespace game_framework
 	
 	
 
+	#pragma endregion
+
+	#pragma region - CFaicaiSeed -
+	CFacaiSeed::CFacaiSeed()
+	{
+	}
+
+	CFacaiSeed::CFacaiSeed(int _x, int _y, int _hp, string _id, BitmapPath _loadPath) : CBoss(_x, _y, _hp, _id, _loadPath)
+	{
+		
+	}
+	
+	CFacaiSeed::~CFacaiSeed()
+	{
+	}
+
+	void CFacaiSeed::Initialize()
+	{
+		layer.SetLayer(8);
+		CBoss::Initialize();
+		InitializeDirAnimate("right", 0.05);
+
+		#pragma region - Init ray -
+		ray = NULL;
+		rayStartTime.ResetTime(1.0); //預設一秒後發射
+		rayStayTime.ResetTime(2.0); //預設持續兩秒
+		#pragma endregion
+
+		movingTime = CTimer(0.2);
+
+		AliveTime = CTimer(99.0);
+	}
+
+	void CFacaiSeed::OnCycle(CRole *role)
+	{
+		if (hp <= 0) //boss dead
+		{
+			SetIsAlive(false);
+		}
+
+		#pragma region - Boss Alive -
+		if (!IsDead())
+		{
+			if(ray == NULL) //射線中不轉換
+				SetFaceTo(CPoint(role->GetX3(), role->GetY3()));
+			OnMove();
+			Attack(role);
+		}
+		#pragma endregion
+	}
+
+	void CFacaiSeed::Attack(CRole *role)
+	{
+		Attack3();
+	}
+
+	void CFacaiSeed::OnMove()
+	{
+		#pragma region - rays animation -
+		if (ray != NULL)
+		{
+			ray->OnMove();
+		}
+		#pragma endregion
+
+		#pragma region - dont have ray - move -
+		else
+		{
+			int dx = 1;
+			if (faceTo == "right")
+			{
+				SetCurrentXY(currentX + dx, currentY);
+			}
+			else if (faceTo == "left")
+			{
+				SetCurrentXY(currentX - dx, currentY);
+			}
+			movingTime.ResetTime();
+		}
+		#pragma endregion
+		
+		CBoss::OnMove();
+	}
+
+	void CFacaiSeed::Attack3()
+	{
+		rayStartTime.CountDown();
+		if (rayStartTime.IsTimeOut())
+		{
+			if (ray == NULL)
+			{
+				if (faceTo == "right")
+				{
+					ray = new CRay(BitmapPath("RES\\Object\\Ray", "ray", 5, RGB(214, 214, 214)), CPoint(GetRightBottomPoint().x, GetLeftTopPoint().y + 40));
+				}
+				else
+				{
+					ray = new CRay(BitmapPath("RES\\Object\\Ray", "ray", 5, RGB(214, 214, 214)), CPoint(GetLeftTopPoint().x - 531, GetLeftTopPoint().y + 40));
+				}
+			}
+
+			rayStayTime.CountDown(); //開始計算持續時間
+			if (rayStayTime.IsTimeOut()) //
+			{
+				if (ray != NULL)
+				{
+					delete ray;
+					ray = NULL;
+				}
+				rayStayTime.ResetTime();
+				rayStartTime.ResetTime();
+			}
+		}
+	}
 	#pragma endregion
 
 }

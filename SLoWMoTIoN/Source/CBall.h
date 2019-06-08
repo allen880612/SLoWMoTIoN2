@@ -93,4 +93,28 @@ namespace game_framework {
 	};
 	#pragma endregion
 
+	#pragma region - CRay -
+	class CRay
+	{
+	public:
+		CRay();
+		CRay(BitmapPath, CPoint, double = 0.1); //動畫路徑, 起始位置, 每個影格間隔時間
+		~CRay();
+
+		void OnMove();
+
+		bool GetValid() { return animation.GetValid(); };
+		void SetValid(bool f) { animation.SetValid(f); };
+		CAnimate* GetAnimate() { return &animation; };
+		void SetXY(int _x, int _y) {
+			x = _x;  y = _y;
+			animation.SetTopLeft(x, y);
+		}
+		bool GetAttackValid() { return AttackValid; };
+	private:
+		CAnimate animation;
+		int x, y;
+		bool AttackValid; //攻擊有效
+	};
+	#pragma endregion
 }

@@ -1,0 +1,11 @@
+background RES\Map\IDB_MAP0.bmp 0 0
+block RES\Map\bm.bmp 421 307
+block RES\Map\bm.bmp 554 141
+block RES\Map\bm.bmp 14 139
+block RES\Map\bm.bmp 127 308
+up -1
+down -1
+left -1
+right 4
+passerbyNumber 0
+passerbyID 0 1
