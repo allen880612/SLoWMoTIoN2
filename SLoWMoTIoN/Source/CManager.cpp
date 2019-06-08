@@ -526,25 +526,24 @@ namespace game_framework
 	{
 		if (randomID == 0)
 		{
-			return new CLuka(0, 0); //先創建一個default passerby
+			return new CPasserbyType1(0, 0, BitmapPath("RES\\Role\\NPC\\LUKA", "LUKA", 2, RGB(214, 214, 214)), 10); //先創建一個default passerby
 		}
 		else if (randomID == 1)
 		{
-			return new CRin(0, 0); //先創建一個default passerby
+			return new CPasserbyType1(0, 0, BitmapPath("RES\\Role\\NPC\\RIN", "RIN", 2, RGB(214, 214, 214)), 15); //先創建一個default passerby
 		}
 		else if (randomID == 2)
 		{
-			return new CMushroom(0, 0); //先創建一個default passerby
+			return new CPasserbyType2(0, 0, BitmapPath("RES\\Role\\NPC\\mushroom", "mushroom", 5, RGB(214, 214, 214)), 20); //先創建一個default passerby
 		}
-		return new CRin(0, 0);
+		return new CPasserbyType1(0, 0, BitmapPath("RES\\Role\\NPC\\LUKA", "LUKA", 2, RGB(214, 214, 214)), 10); //先創建一個default passerby
 	}
 	CPasserby* CPasserbyManager::AddPasserby(vector<int> id, int mapWidth)
 	{
 		#pragma region Create a Passerby
 		int randomID = GetRandom(0, id.size() - 1); //random 決定 passerby種類 (1號or2號)
 		//CPasserby *newPasserby = new CPasserby(0, 0, ziliaojia + name[id[randomID]], name[id[randomID]], getFolerFileNumber(ziliaojia + name[id[randomID]]), (id[randomID] + 1) * 10); //先創建一個default passerby
-		CPasserby *newPasserby;
-		newPasserby = GetPasserbyType(id[randomID]);
+		CPasserby *newPasserby = GetPasserbyType(id[randomID]);
 		int randomX = GetRandom(0, mapWidth - newPasserby->Width()); //random 決定passerby的出現位置
 		newPasserby->SetXY(randomX, -newPasserby->Height()); //set passerby x, y
 		return newPasserby;
@@ -1071,7 +1070,7 @@ namespace game_framework
 	}
 	void CNPCManager::Clear()
 	{
-		for (int i = 0; i < 99; i++)
+		for (int i = 0; i < MAX_MAP_NUMBER; i++)
 		{
 			for (vector<CNPC*>::iterator npciter = npc[i].begin(); npciter != npc[i].end(); ++npciter)
 			{
@@ -1085,7 +1084,7 @@ namespace game_framework
 	void CNPCManager::Initialize(int nowMap)
 	{
 		map_max_Number = getFolerFileNumber("RES\\Map\\Information\\");
-		for (int i = 0; i < 99; i++)
+		for (int i = 0; i < MAX_MAP_NUMBER; i++)
 		{
 			for (vector<CNPC*>::iterator npciter = npc[i].begin(); npciter != npc[i].end(); npciter++)
 			{
@@ -1135,6 +1134,8 @@ namespace game_framework
 		npc[8].push_back(new CNPC3(CPoint(900, 360), BitmapPath("RES\\NPC\\flandre_music", "flandre", 4, RGB(214, 214, 214)), "flandre", "UN_OwenWasHer", "Music_UN"));
 		npc[8].push_back(new CNPC3(CPoint(340, 340), BitmapPath("RES\\NPC\\sakuya_music", "sakuya", 6, RGB(214, 214, 214)), "sakuya", "FloweringNight", "Music_FloweringNight"));
 		npc[8].push_back(new CNPC3(CPoint(120, 360), BitmapPath("RES\\NPC\\suwako_music", "suwako", 2, RGB(214, 214, 214)), "suwako", "NativeFaith", "Music_NativeFaith"));
+
+		npc[10].push_back(new CNPC1(CPoint(100, 360), BitmapPath("RES\\NPC\\mushroom", "mushroom", 4, RGB(214, 214, 214)), "mushroom", "mushroom"));
 	}
 	#pragma endregion
 

@@ -1,0 +1,6 @@
+true
+role 這個奇妙的生物好像有點眼熟
+mushroom 菇菇
+role 哇這個魔菇會講話，你知道這裡是哪裡嗎
+mushroom 日本一級棒的好～菇～道
+role 所以這裡是...工廠？

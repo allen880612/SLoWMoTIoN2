@@ -5,7 +5,7 @@
 #define MAX_LAYER_NUMBER 10
 #define MOVE_DISTANCE 8
 
-#define MAX_MAP_NUMBER 6
+#define MAX_MAP_NUMBER 99
 #define NOW_MAP 0
 
 #define KEY_SPACE 32
