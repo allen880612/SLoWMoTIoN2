@@ -6,7 +6,7 @@
 #define MOVE_DISTANCE 8
 
 #define MAX_MAP_NUMBER 99
-#define NOW_MAP 0
+#define NOW_MAP 4
 
 #define KEY_SPACE 32
 #define KEY_LEFT 37		// keyboard¥ª½bÀY
@@ -83,11 +83,13 @@
 #pragma region - boss -
 #define BOSS_DEPRATMENT "boss"
 #define BOSS_MAP_XINGTING 5
+#define BOSS_MAP_FACAISEED 11
 #pragma endregion
 
 
 #pragma region - boss name -
 #define BOSS_XINGTING "xingting"
+#define BOSS_FACAISEED "FacaiSeed"
 #pragma endregion
 
 #pragma region - block -

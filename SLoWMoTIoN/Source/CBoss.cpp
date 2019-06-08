@@ -70,6 +70,9 @@ namespace game_framework
 		hp = initHp;
 		layer.SetLayer(BOSS_LAYER);
 		IsAlive = true;
+
+		animation.SetValid(false);
+		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 	}
 
 	void CBoss::SetXY(int _x, int _y)
@@ -247,20 +250,6 @@ namespace game_framework
 		}
 		Level4Collision(role);
 	}
-
-	//void CXingting::Attack1()
-	//{
-	//	shootLevel4_cd.CountDown();
-	//	if (shootLevel4_cd.IsTimeOut())
-	//	{
-	//		for (int i = 0; i < 5; i++)
-	//		{
-	//			//CScallion *newlevel4 = new CScallion("Role\\books", "book", 4, 450, 360, 150 + i * 30, 360 - i * 75); //先創建一個蔥的物件
-	//			level4.push_back(new CScallion(BitmapPath("RES\\Object\\books", "book", 4), CPoint(450, 360), CPoint(150 + i * 30, 360 - i * 75), 0)); //將蔥放進vector
-	//			shootLevel4_cd.ResetTime();
-	//		}
-	//	}
-	//}
 
 	void CXingting::Attack1()
 	{
@@ -441,6 +430,82 @@ namespace game_framework
 	
 	
 
+	#pragma endregion
+
+	#pragma region - CFaicaiSeed -
+	CFacaiSeed::CFacaiSeed()
+	{
+	}
+
+	CFacaiSeed::CFacaiSeed(int _x, int _y, int _hp, string _id, BitmapPath _loadPath) : CBoss(_x, _y, _hp, _id, _loadPath)
+	{
+		
+	}
+	
+	CFacaiSeed::~CFacaiSeed()
+	{
+	}
+
+	void CFacaiSeed::Initialize()
+	{
+		CBoss::Initialize();
+		#pragma region - Init ray -
+		ray.LoadBitmap("RES\\Object\\Ray", "ray", 5, RGB(214, 214, 214));
+		ray.ResetDelayTime(0.1);
+		ray.SetValid(false);
+		CLayerManager::Instance()->AddObject(&ray, 8);
+		ray.SetTopLeft(currentX, currentY);
+		rayStartTime.ResetTime(1.0); //預設一秒後發射
+		rayCanAttack = false;
+		#pragma endregion
+	}
+
+	void CFacaiSeed::OnCycle(CRole *role)
+	{
+		if (hp <= 0) //boss dead
+		{
+			SetIsAlive(false);
+		}
+
+		#pragma region - Boss Alive -
+		if (!IsDead())
+		{
+			OnMove();
+			Attack(role);
+		}
+		#pragma endregion
+	}
+
+	void CFacaiSeed::Attack(CRole *role)
+	{
+		Attack3();
+	}
+
+	void CFacaiSeed::OnMove()
+	{
+		if (ray.GetValid() && ray.GetIndex() < 4) //有射陷 才發射
+		{
+			ray.OnMove();
+			/*if (ray.GetIndex() == 5)
+			{
+				ray.SetIndex(3);
+			}*/
+		}
+		else
+		{
+			rayCanAttack = true;
+		}
+		CBoss::OnMove();
+	}
+
+	void CFacaiSeed::Attack3()
+	{
+		rayStartTime.CountDown();
+		if (rayStartTime.IsTimeOut())
+		{
+			ray.SetValid(true);
+		}
+	}
 	#pragma endregion
 
 }

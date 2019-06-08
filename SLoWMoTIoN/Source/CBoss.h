@@ -27,6 +27,7 @@ namespace game_framework
 		bool GetAlive() { return IsAlive; };
 		string GetID() { return id; };
 		int GetHp() { return hp; };
+		int GetInitHp() { return initHp; };
 		void OnMove();
 		void MoveWithMap(string);
 		
@@ -38,7 +39,7 @@ namespace game_framework
 		virtual void Clear() {};
 
 		virtual vector<CScallion*>* GetBullet() { return nullptr; };
-		bool IsDead() { return !IsAlive; };
+		virtual bool IsDead() { return !IsAlive; };
 
 		virtual CTimer* GetAliveTimer() { return nullptr; };
 
@@ -54,6 +55,8 @@ namespace game_framework
 		#pragma endregion
 
 		CAnimate animation;
+		CAnimate leftAnimate;
+		CAnimate rightAnimate;
 
 		int hp;
 		int currentX, currentY;
@@ -74,8 +77,8 @@ namespace game_framework
 		~CXingting();
 		void Initialize();
 		void OnCycle(CRole*);
-		void OnMove();
 		void Attack(CRole*);
+		void OnMove();
 		void Clear();
 		void ClearBullet();
 		bool IsDead();
@@ -114,4 +117,28 @@ namespace game_framework
 		int atkCounter;
 	};
 	#pragma endregion
+
+	#pragma region - CFaicaiSeed -
+	class CFacaiSeed : public CBoss
+	{
+	public:
+		CFacaiSeed();
+		CFacaiSeed(int, int, int, string, BitmapPath);
+		~CFacaiSeed();
+		void Initialize();
+
+		void OnCycle(CRole*);
+		void Attack(CRole*);
+		void OnMove();
+	private:
+		void Attack3(); //Ray attack
+
+		#pragma region - ray -
+		CTimer rayStartTime;
+		CAnimate ray;
+		bool rayCanAttack;
+		#pragma endregion
+	};
+	#pragma endregion
+
 }

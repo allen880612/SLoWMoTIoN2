@@ -1040,9 +1040,16 @@ namespace game_framework
 		delayAdapter["jump"] = delay_jump;
 
 		nowAction = NULL;
-		nowAction = NULL;
+		nowBitmap = NULL;
 		double waitTime = delay_idle;
 		delayTimer = CTimer(waitTime);
+	}
+
+	CAction::~CAction()
+	{
+		paser.clear();
+		nowAction = NULL;
+		nowBitmap = NULL;
 	}
 
 	void CAction::OnMove(string _nowAction)

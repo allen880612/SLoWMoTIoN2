@@ -272,7 +272,7 @@ namespace game_framework
 	class CAction {
 	public:
 		CAction();
-		
+		~CAction();
 		void	OnMove(string);
 		void	OnShow();
 

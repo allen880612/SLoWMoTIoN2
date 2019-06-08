@@ -989,6 +989,7 @@ namespace game_framework
 	{
 		#pragma region -- Create Boss --
 		bossInformation[BOSS_XINGTING] = new CXingting(450, 250, 8787, "Xingting", BitmapPath("RES\\Boss", "xingting", 2, RGB(214, 214, 214)));
+		bossInformation[BOSS_FACAISEED] = new CFacaiSeed(100, 250, 5000, BOSS_FACAISEED, BitmapPath("RES\\Boss\\FacaiSeed\\L", "faqai", 2, RGB(214, 214, 214)));
 		#pragma endregion
 		targetBoss = NULL;
 		isBattle = false;
@@ -1010,8 +1011,8 @@ namespace game_framework
 		for (map<string, CBoss*>::iterator bossiter = bossInformation.begin(); bossiter != bossInformation.end(); bossiter++)
 		{
 			bossiter->second->Initialize(); //初始化boss 
-			bossiter->second->GetAnimate()->SetValid(false); //將所有圖片先設為false
-			CLayerManager::Instance()->AddObject(bossiter->second->GetAnimate(), bossiter->second->layer.GetLayer());
+			//bossiter->second->GetAnimate()->SetValid(false); //將所有圖片先設為false
+			//CLayerManager::Instance()->AddObject(bossiter->second->GetAnimate(), bossiter->second->layer.GetLayer());
 		}
 		targetBoss = NULL;
 		isBattle = false;
@@ -1035,6 +1036,11 @@ namespace game_framework
 		if (nowMap == BOSS_MAP_XINGTING && bossInformation[BOSS_XINGTING]->GetAlive())
 		{
 			targetBoss = bossInformation[BOSS_XINGTING];
+			targetBoss->GetAnimate()->SetValid(true);
+		}
+		else if (nowMap == BOSS_MAP_FACAISEED && bossInformation[BOSS_FACAISEED]->GetAlive())
+		{
+			targetBoss = bossInformation[BOSS_FACAISEED];
 			targetBoss->GetAnimate()->SetValid(true);
 		}
 		else
@@ -1195,6 +1201,19 @@ namespace game_framework
 				}
 			}
 			#pragma endregion
+
+			#pragma region - dialog - with FacaiSeed -
+			if (!dialogWithFacaiSeed && nowMap == BOSS_MAP_FACAISEED && gameState->role.IsDead() == false && gameState->bossManager.IsBattle() == false)
+			{
+				if (rolePosition <= 540)
+				{
+					CDialogManager::Instance()->Start("roleVsFacaiSeed1");
+					dialogWithFacaiSeed = true;
+					gameState->bossManager.SetBattle(true);
+				}
+			}
+			#pragma endregion
+
 		}
 	}
 	#pragma endregion
