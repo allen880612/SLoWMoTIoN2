@@ -456,7 +456,7 @@ namespace game_framework
 	void CAnimate::CopyAnimateInformation(CAnimate *copyAnimate)
 	{
 		SetValid(copyAnimate->GetValid());
-		SetTopLeft(copyAnimate->Top(), copyAnimate->Left());
+		SetTopLeft(copyAnimate->Left(), copyAnimate->Top());
 		SetIndex(copyAnimate->GetIndex());
 	}
 

@@ -99,7 +99,7 @@ namespace game_framework
 		bool  GetValid();
 		void  SetIndex(int);
 		int   GetIndex();
-
+		int   GetIndexSize() { return bmp.size(); };
 		void  CopyAnimateInformation(CAnimate *);
 
 		void  ResetDelayTime(double);
@@ -501,9 +501,10 @@ namespace game_framework
 	};
 	
 
-#pragma endregion
+	#pragma endregion
 
-#pragma region - CStatusBoard -
+	#pragma region - CStatusBoard -
+	class CBossManager;
 	class CBossBoard
 	{
 
@@ -542,7 +543,7 @@ namespace game_framework
 	};
 
 
-#pragma endregion
+	#pragma endregion
 
 
 }

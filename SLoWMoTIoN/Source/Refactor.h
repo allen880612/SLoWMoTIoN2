@@ -28,8 +28,9 @@
 #pragma region - Layer 
 #define INTERFACE_LAYER 8
 #define BULLET_LAYER 6
-#define BOSS_LAYER 5
+#define BOSS_LAYER 6
 #define NPC_LAYER 4
+#define BLOCK_LAYER 5
 #pragma endregion
 
 

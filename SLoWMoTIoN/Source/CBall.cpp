@@ -395,4 +395,36 @@ namespace game_framework {
 
 	#pragma endregion
 
+	#pragma region - CRay -
+	CRay::CRay()
+	{
+	}
+
+	CRay::CRay(BitmapPath loadPath, CPoint Fpoint, double resetTime)
+	{
+		animation.LoadBitmap(loadPath.ziliaojia, loadPath.name, loadPath.number, loadPath.color);
+		SetValid(false);
+		SetXY(Fpoint.x, Fpoint.y);
+		AttackValid = false;
+		animation.ResetDelayTime(resetTime);
+		CLayerManager::Instance()->AddObject(&animation, 8);
+	}
+
+	CRay::~CRay()
+	{
+	}
+
+	void CRay::OnMove()
+	{
+		animation.SetValid(true);
+		if (animation.GetIndex() < animation.GetIndexSize() - 1)
+		{
+			animation.OnMove();
+		}
+		else
+		{
+			AttackValid = true;
+		}
+	}
+	#pragma endregion
 }

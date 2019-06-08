@@ -63,7 +63,7 @@ namespace game_framework
 			{
 				bkiter->bmp.SetValid(false | (i == nowMap));
 				bkiter->SetXY(bkiter->x, bkiter->y);
-				CLayerManager::Instance()->AddObject(&(bkiter->bmp), 7);
+				CLayerManager::Instance()->AddObject(&(bkiter->bmp), BLOCK_LAYER);
 			}
 		}
 		#pragma endregion
@@ -75,7 +75,7 @@ namespace game_framework
 			{
 				bkiter->bmp.SetValid(false | (i == nowMap));
 				bkiter->SetXY(bkiter->x, bkiter->y);
-				CLayerManager::Instance()->AddObject(&(bkiter->bmp), 7);
+				CLayerManager::Instance()->AddObject(&(bkiter->bmp), BLOCK_LAYER);
 			}
 		}
 		#pragma endregion
@@ -988,8 +988,8 @@ namespace game_framework
 	CBossManager::CBossManager()
 	{
 		#pragma region -- Create Boss --
-		bossInformation[BOSS_XINGTING] = new CXingting(450, 250, 8787, "Xingting", BitmapPath("RES\\Boss", "xingting", 2, RGB(214, 214, 214)));
-		bossInformation[BOSS_FACAISEED] = new CFacaiSeed(100, 250, 5000, BOSS_FACAISEED, BitmapPath("RES\\Boss\\FacaiSeed\\L", "faqai", 2, RGB(214, 214, 214)));
+		bossInformation[BOSS_XINGTING] = new CXingting(450, 250, 8787, "Xingting", BitmapPath("RES\\Boss\\xingting", "xingting", 2, RGB(214, 214, 214)));
+		bossInformation[BOSS_FACAISEED] = new CFacaiSeed(100, 270, 5000, BOSS_FACAISEED, BitmapPath("RES\\Boss\\FacaiSeed", "faqai", 19, RGB(255, 255, 255)));
 		#pragma endregion
 		targetBoss = NULL;
 		isBattle = false;
