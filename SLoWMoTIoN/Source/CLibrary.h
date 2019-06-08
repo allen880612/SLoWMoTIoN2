@@ -538,7 +538,7 @@ namespace game_framework
 
 	protected:
 		map<string, CMovingBitmap> bossAvatar;
-
+		CMovingBitmap NULLAvatar;
 		CMovingBitmap HP_frame;
 		CMovingBitmap HP_bar;
 		CMovingBitmap avatar, avatar_frame;

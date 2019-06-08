@@ -1835,7 +1835,7 @@ namespace game_framework
 
 	#pragma endregion
 
-	#pragma region - CStatusBoard -
+	#pragma region - BossBoard -
 	CBossBoard::CBossBoard()
 	{
 	}
@@ -1847,7 +1847,7 @@ namespace game_framework
 
 		avatar.LoadBitmap("RES\\Boss\\Avatar\\Xingting.bmp");	// 要擋住血條
 		//avatar = CMovingBitmap();	//Default
-
+		NULLAvatar.LoadBitmap("RES\\Boss\\Avatar\\NULL.bmp");
 		avatar_frame.LoadBitmap("RES\\UI\\status\\avatar_frame.bmp", RGB(214, 214, 214));
 
 		#pragma region - Load boss avatar -
@@ -1940,7 +1940,16 @@ namespace game_framework
 			if (!IsShow())	// 只需換一次
 			{				
 				string bossID = (bManager->targetBoss)->GetID();
-				avatar = bossAvatar[bossID];
+				
+				if (bossAvatar.count(bossID) && !bossAvatar[bossID].IsNull())
+				{
+					avatar = bossAvatar[bossID];
+				}
+				else
+				{
+					avatar = NULLAvatar;
+				}
+					
 
 				SetXY(initPos);
 				SetShow(true);

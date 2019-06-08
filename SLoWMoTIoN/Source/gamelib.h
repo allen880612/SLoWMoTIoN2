@@ -219,6 +219,7 @@ public:
 
 	void  SetValid(bool);
 	bool  GetValid();
+	bool  IsNull() {return !isBitmapLoaded;};
 
 	CRect GetRect();
 protected:
