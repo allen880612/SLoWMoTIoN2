@@ -67,7 +67,7 @@ namespace game_framework {
 		void SetAtk(int k) { atk = k; };
 
 	protected:
-		int atk = 1000;
+		int atk = 1;
 		int velocity_x;
 		int velocity_y;
 		int gravity;

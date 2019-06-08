@@ -1928,7 +1928,7 @@ namespace game_framework
 
 	void CBossBoard::SetHP(int _hp)
 	{
-		UpdateBar(hp);
+		UpdateBar(_hp);
 	}
 
 	void CBossBoard::OnCycle(CBossManager* bManager)

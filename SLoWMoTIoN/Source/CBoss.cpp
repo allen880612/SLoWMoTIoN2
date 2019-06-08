@@ -509,17 +509,17 @@ namespace game_framework
 	{
 		CBoss::Initialize();
 		InitializeDirAnimate("right", 0.05);
-		Clear();
 		#pragma region - Init ray -
 		ray = NULL;
-		rayStartTime.ResetTime(1.0); //預設一秒後發射
+		rayStartTime.ResetTime(2.5); //預設一秒後發射
 		rayStayTime.ResetTime(2.0); //預設持續兩秒
 		#pragma endregion
+		Clear();
 
 		movingTime = CTimer(0.2);
-		shootCoinTimer = CTimer(0.2);
-		attackRoleTimer = CTimer(0.6);
-		subRoleHp_NoEQ = CTimer(1.0);
+		shootCoinTimer = CTimer(0.2); //每0.2s發射1波金幣
+		attackRoleTimer = CTimer(0.4); //硬值時間0.4s
+		subRoleHp_NoEQ = CTimer(0.6); //每0.6s掉一次血
 		AliveTime = CTimer(99.0);
 	}
 
@@ -527,6 +527,7 @@ namespace game_framework
 	{
 		if (hp <= 0) //boss dead
 		{
+			CDialogManager::Instance()->Start("roleWinFacaiSeed");
 			SetIsAlive(false);
 		}
 
@@ -591,11 +592,11 @@ namespace game_framework
 		#pragma endregion
 
 		#pragma region - clear ray -
-		/*if (ray != NULL)
+		if (ray != NULL)
 		{
 			delete ray;
 			ray = NULL;
-		}*/
+		}
 		#pragma endregion
 
 		animation.SetValid(false);

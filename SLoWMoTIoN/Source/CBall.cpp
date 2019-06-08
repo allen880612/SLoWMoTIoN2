@@ -415,7 +415,7 @@ namespace game_framework {
 		SetXY(Fpoint.x, Fpoint.y);
 		AttackValid = false;
 		animation.ResetDelayTime(resetTime);
-		CLayerManager::Instance()->AddObject(&animation, 8);
+		CLayerManager::Instance()->AddObject(&animation, 6);
 	}
 
 	CRay::~CRay()

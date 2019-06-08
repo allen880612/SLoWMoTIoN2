@@ -143,6 +143,7 @@ namespace game_framework {
 		UIManager uiManager;
 
 		bool isWinXingting;
+		bool isWinFacaiSeed;
 		#pragma region - zi din yi -
 		void PositionTrigger();
 		void ChangeMap(string);

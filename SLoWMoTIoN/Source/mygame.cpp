@@ -298,7 +298,7 @@ namespace game_framework {
 		CAudio::Instance()->Stop("SLoWMoTIoN_Menu");
 		CAudio::Instance()->Play("SLoWMoTIoN_Game");
 		isWinXingting = false;
-
+		isWinFacaiSeed = false;
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -387,6 +387,10 @@ namespace game_framework {
 			if (bossManager.targetBoss->GetBossId() == "Xingting")
 			{
 				isWinXingting = true;
+			}
+			if (bossManager.targetBoss->GetBossId() == BOSS_FACAISEED)
+			{
+				isWinFacaiSeed = true;
 			}
 			bossManager.BossDead();
 			SwitchTimer(&timer);
