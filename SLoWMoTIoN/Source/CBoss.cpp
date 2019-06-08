@@ -80,6 +80,7 @@ namespace game_framework
 
 	void CBoss::InitializeDirAnimate(string dir,double resetTime)
 	{
+		animation.ResetDelayTime(resetTime);
 		animation.SetTopLeft(initx, inity);
 		leftAnimate.ResetDelayTime(resetTime);
 		rightAnimate.ResetDelayTime(resetTime);
@@ -141,6 +142,32 @@ namespace game_framework
 			x -= MOVE_DISTANCE;
 
 		SetXY(x, y);
+	}
+
+	void CBoss::CollisionScallion(CRole *role)
+	{
+		#pragma region - scallion collision this -
+		vector<CScallion*>* scallion = role->GetScallion();
+		for (vector<CScallion*>::iterator scallionk = scallion->begin(); scallionk != scallion->end();)
+		{
+			if ((*scallionk)->IsAlive() && (*scallionk)->IsCollision(this))
+			{
+				(*scallionk)->SetIsAlive(false);
+				hp -= (*scallionk)->GetAtk();
+			}
+
+			if (!(*scallionk)->IsAlive())
+			{
+				delete *scallionk;
+				*scallionk = NULL;
+				scallionk = scallion->erase(scallionk);
+			}
+			else
+			{
+				scallionk++;
+			}
+		}
+		#pragma endregion
 	}
 
 	void CBoss::OnMove()
@@ -369,7 +396,6 @@ namespace game_framework
 	{
 		ClearBullet();
 		animation.SetValid(false);
-
 	}
 
 	void CXingting::ClearBullet()
@@ -476,14 +502,14 @@ namespace game_framework
 	
 	CFacaiSeed::~CFacaiSeed()
 	{
+		Clear();
 	}
 
 	void CFacaiSeed::Initialize()
 	{
-		layer.SetLayer(8);
 		CBoss::Initialize();
 		InitializeDirAnimate("right", 0.05);
-
+		Clear();
 		#pragma region - Init ray -
 		ray = NULL;
 		rayStartTime.ResetTime(1.0); //預設一秒後發射
@@ -491,7 +517,9 @@ namespace game_framework
 		#pragma endregion
 
 		movingTime = CTimer(0.2);
-		shootCoinTimer = CTimer(0.16);
+		shootCoinTimer = CTimer(0.2);
+		attackRoleTimer = CTimer(0.6);
+		subRoleHp_NoEQ = CTimer(1.0);
 		AliveTime = CTimer(99.0);
 	}
 
@@ -505,17 +533,21 @@ namespace game_framework
 		#pragma region - Boss Alive -
 		if (!IsDead())
 		{
+			attackRoleTimer.CountDown();
 			if(ray == NULL) //射線中不轉換
 				SetFaceTo(CPoint(role->GetX3(), role->GetY3()));
 			OnMove();
 			Attack(role);
+			Collision(role);
 		}
 		#pragma endregion
 	}
 
 	void CFacaiSeed::Attack(CRole *role)
 	{
-		Attack2();
+		Attack1(role);
+		if(ray == NULL)
+			Attack2();
 		Attack3();
 	}
 
@@ -547,20 +579,59 @@ namespace game_framework
 		CBoss::OnMove();
 	}
 
+	void CFacaiSeed::Clear()
+	{
+		#pragma region - clear coin -
+		for (vector<CScallion*>::iterator coiniter = coinVector.begin(); coiniter != coinVector.end(); coiniter++)
+		{
+			delete *coiniter;
+			*coiniter = NULL;
+		}
+		coinVector.clear();
+		#pragma endregion
+
+		#pragma region - clear ray -
+		/*if (ray != NULL)
+		{
+			delete ray;
+			ray = NULL;
+		}*/
+		#pragma endregion
+
+		animation.SetValid(false);
+	}
+
+	void CFacaiSeed::Attack1(CRole *role)
+	{
+		if (role->IsZZ())
+		{
+			subRoleHp_NoEQ.CountDown();
+			if (subRoleHp_NoEQ.IsTimeOut())
+			{
+				role->SubHp();
+				subRoleHp_NoEQ.ResetTime();
+			}
+		}
+	}
+
 	void CFacaiSeed::Attack2()
 	{
 		shootCoinTimer.CountDown();
 		if (shootCoinTimer.IsTimeOut())
 		{
-			double speed = 15.0 / 2;
-			int angle = -150;
-			double mx = sin(angle * (PI / 180.0)) * speed;
-			double my = cos(angle * (PI / 180.0)) * speed;
-			CPoint center = GetCreateCoinPoint();
-			CScallion *newcoin = new CScallion(BitmapPath("RES\\Object\\coin", "coin", 4, RGB(255,255,255)), center, CPoint(0, 0)); //先創建一個蔥的物件
-			newcoin->SetInitVelocity((int)mx, (int)my);
-			coinVector.push_back(newcoin); //將蔥放進vector
-			shootCoinTimer.ResetTime();
+			for (int i = 0; i < 4; i++)
+			{
+				double speed = 27.0;
+				int angle = coinAngle[i];
+				double mx = sin(angle * (PI / 180.0)) * speed;
+				double my = cos(angle * (PI / 180.0)) * speed;
+				double drs = 2.5;
+				CPoint center = GetCreateCoinPoint() + CPoint((int)(my * drs), -(int)(mx * drs));
+				CScallion *newcoin = new CScallion(BitmapPath("RES\\Object\\coin", "coin", 4, RGB(255, 255, 255)), center, CPoint(0, 0), 1); //先創建一個蔥的物件
+				newcoin->SetInitVelocity((int)my, (int)mx);
+				coinVector.push_back(newcoin);
+				shootCoinTimer.ResetTime();
+			}
 		}
 	}
 
@@ -582,7 +653,7 @@ namespace game_framework
 			}
 
 			rayStayTime.CountDown(); //開始計算持續時間
-			if (rayStayTime.IsTimeOut()) //
+			if (rayStayTime.IsTimeOut()) //delete ray
 			{
 				if (ray != NULL)
 				{
@@ -594,16 +665,71 @@ namespace game_framework
 			}
 		}
 	}
+	void CFacaiSeed::Collision(CRole *role)
+	{
+		#pragma region - coin collision role -
+		for (vector<CScallion*>::iterator cointiter = coinVector.begin(); cointiter != coinVector.end();)
+		{
+			(*cointiter)->OnMove();
+			if ((*cointiter)->IsAlive() && role->IsCollisionLevel4(*cointiter))
+			{
+				(*cointiter)->SetIsAlive(false);
+				role->SubHp();
+			}
+
+			if (!(*cointiter)->IsAlive())
+			{
+				delete *cointiter;
+				*cointiter = NULL;
+				cointiter = coinVector.erase(cointiter);
+			}
+			else
+			{
+				cointiter++;
+			}
+		}
+		#pragma endregion
+
+		#pragma region - ray collision role -
+		if (ray != NULL)
+		{
+			if (ray->GetAttackValid() && role->IsCollisionRay(ray))
+			{
+				if (attackRoleTimer.IsTimeOut())
+				{
+					role->SubHp();
+					attackRoleTimer.ResetTime();
+				}
+			}
+		}
+		#pragma endregion
+
+		#pragma region - this collision role -
+		if (IsRectCollision(role->GetAction()->GetRect(), animation.GetRect()))
+		{
+			if (attackRoleTimer.IsTimeOut())
+			{
+				role->SubEq();
+				attackRoleTimer.ResetTime();
+			}
+		}
+		#pragma endregion
+
+		#pragma region - this collsion scallion -
+		CollisionScallion(role);
+		#pragma endregion
+	}
 	CPoint CFacaiSeed::GetCreateCoinPoint()
 	{
 		CPoint center = GetCenterPoint();
+		int dx = 45;
 		if (faceTo == "left")
 		{
-			center += CPoint(20, 0);
+			center += CPoint(dx, 0);
 		}
 		else
 		{
-			center -= CPoint(20, 0);
+			center -= CPoint(dx, 0);
 		}
 		return center;
 	}

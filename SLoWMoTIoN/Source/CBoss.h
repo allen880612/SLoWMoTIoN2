@@ -36,6 +36,7 @@ namespace game_framework
 		int GetInitHp() { return initHp; };
 		void OnMove();
 		void MoveWithMap(string);
+		void CollisionScallion(CRole *);
 
 		virtual void OnCycle(CRole*) {};
 		virtual void Attack(CRole*) {};
@@ -134,15 +135,22 @@ namespace game_framework
 		void OnCycle(CRole*);
 		void Attack(CRole*);
 		void OnMove();
+		void Clear();
 	private:
+		void Attack1(CRole*);
 		void Attack2();
 		void Attack3(); //Ray attack
+
+		void Collision(CRole*);
 		CPoint GetCreateCoinPoint(); //射出金幣的起始點
 
 		CTimer movingTime;
 		CTimer shootCoinTimer;
+		CTimer attackRoleTimer; //role 硬值時間
+		CTimer subRoleHp_NoEQ;
 
 		vector<CScallion*>	coinVector;
+		int coinAngle[4] = { 45, 75, 105, 135 };
 		#pragma region - ray -
 		CTimer rayStartTime;
 		CTimer rayStayTime;

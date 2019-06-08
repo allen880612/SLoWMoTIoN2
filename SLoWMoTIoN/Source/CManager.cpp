@@ -1232,6 +1232,7 @@ namespace game_framework
 					CDialogManager::Instance()->Start("roleVsFacaiSeed1");
 					dialogWithFacaiSeed = true;
 					gameState->bossManager.SetBattle(true);
+					gameState->SwitchTimer(gameState->bossManager.targetBoss->GetAliveTimer());
 				}
 			}
 			#pragma endregion
@@ -2025,7 +2026,7 @@ namespace game_framework
 	}
 	#pragma endregion
 
-	#pragma region UIManager -
+	#pragma region - UIManager -
 	UIManager::UIManager()
 	{
 

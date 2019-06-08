@@ -544,6 +544,10 @@ namespace game_framework {
 	{
 		return IsRectCollision(decisionPoint.GetRect(), blackHole->GetCenterRect());
 	}
+	bool CRole::IsCollisionRay(CRay *ray)
+	{
+		return IsRectCollision(decisionPoint.GetRect(), ray->GetAnimate()->GetRect());
+	}
 	#pragma endregion
 
 	void CRole::AddScore(int _score)
@@ -564,6 +568,11 @@ namespace game_framework {
 	void CRole::SubEq()
 	{
 		eq--;
+
+		if (eq <= 0)
+		{
+			isZZ = true;
+		}
 	}
 
 	void CRole::Initialize()
@@ -593,6 +602,7 @@ namespace game_framework {
 		
 		isCatched = false;
 		isDead = false;
+		isZZ = false;
 		SetValid(true);
 		#pragma endregion
 
