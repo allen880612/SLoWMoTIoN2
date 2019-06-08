@@ -289,28 +289,16 @@ namespace game_framework {
 		bossManager.Initialize();
 		npcManager.Initialize(mapManager.GetNowMap()); //npcManager初始化所有NPC的同時，顯示nowMap上的NPC
 		eventManager.Initialize();
-
+		
 		role.Initialize();
-		time_left.Initialize(CPoint(250, 0), GAME_TIME, 2); 
-		//hp_left.Initialize(CPoint(20, 100), 20, 2);
-		//role.Initialize(AUDIO_THROW, AUDIO_JUMP);
-		//background.SetTopLeft(BACKGROUND_X, 0);				// 設定背景的起始座標
-		//help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
+		uiManager.Initialize(&role, &bossManager);
 
-		//time_left.SetInteger(GAME_TIME, 2);						// 指定剩下的時間
-		//time_left.SetTopLeft(TIME_LEFT_X, TIME_LEFT_Y);			// 指定剩下時間數的座標
-		//CAudio::Instance()->Play(AUDIO_LAKE, true);			// 撥放 WAVE
-		//CAudio::Instance()->Play(AUDIO_DING, false);		// 撥放 WAVE
-		//CAudio::Instance()->Play(AUDIO_NTUT, true);			// 撥放 MIDI
 		timer = CTimer(GAME_TIME); //ㄎㄧㄤ==
 		nowUsedTimer = &timer;
 		CAudio::Instance()->Stop("SLoWMoTIoN_Menu");
 		CAudio::Instance()->Play("SLoWMoTIoN_Game");
 		isWinXingting = false;
 
-		roleStatus.Initialize(CPoint(0, 0), role.GetHp(), 100);
-		bossStatus.Initialize(CPoint(0, 50), role.GetHp());
-		
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -330,7 +318,6 @@ namespace game_framework {
 			ball[i].LoadBitmap();	*/							// 載入第i個球的圖形
 
 		ShowInitProgress(50);										// 載入圖形
-		time_left.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
 		
 		#pragma region - Initialize - MapManager -
 		mapManager.LoadMapBitmap();
@@ -344,8 +331,7 @@ namespace game_framework {
 		role.LoadAction("jump", BitmapPath("RES\\Role\\miku\\jump", "jump", 7, RGB(150, 200, 250)));*/
 		#pragma endregion
 
-		roleStatus.Load();
-		bossStatus.Load();
+		uiManager.Load();
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -376,10 +362,10 @@ namespace game_framework {
 			}
 			SwitchState(GAME_STATE_OVER);
 		}
-		if (nowUsedTimer->GetTime() == (int)nowUsedTimer->GetTime())
+		/*if (nowUsedTimer->GetTime() == (int)nowUsedTimer->GetTime())
 		{
 			time_left.Add(-1);
-		}
+		}*/
 
 
 		#pragma endregion
@@ -724,8 +710,9 @@ namespace game_framework {
 		npcManager.OnCycle(mapManager.GetNowMap(), CPoint(screenPosX, role.GetY1()));
 		#pragma endregion
 
-		roleStatus.OnCycle(role.GetHp(), 100);
-		bossStatus.OnCycle();
+		//roleStatus.OnCycle(role.GetHp(), role.GetEq());
+		//bossStatus.OnCycle(&bossManager);
+		uiManager.OnCycle(nowUsedTimer->GetTime(1));
 	}
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -770,7 +757,7 @@ namespace game_framework {
 		if (nChar == 'U')
 		{
 			nowUsedTimer->ResetTime(5.0);
-			time_left.SetInteger(nowUsedTimer->GetTime(2), 2);
+			/*time_left.SetInteger(nowUsedTimer->GetTime(2));*/
 		}
 		if (nChar == 'T')
 		{
@@ -977,7 +964,7 @@ namespace game_framework {
 	void CGameStateRun::SwitchTimer(CTimer *swtimer)
 	{
 		nowUsedTimer = swtimer;
-		time_left.SetInteger(nowUsedTimer->GetTime(2), 2);
+		/*time_left.SetInteger(nowUsedTimer->GetTime(2), 2);*/
 	}
 
 	void CGameStateRun::OnShow()
@@ -1023,7 +1010,7 @@ namespace game_framework {
 
 		CDialogManager::Instance()->ShowText();
 		role.OnShow();
-		time_left.ShowBitmap();	// 剩餘時間\
+		//time_left.ShowBitmap();	// 剩餘時間\
 		//hp_left.ShowBitmap();	// 剩餘HP	
 	}
 

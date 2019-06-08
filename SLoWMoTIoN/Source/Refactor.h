@@ -6,7 +6,7 @@
 #define MOVE_DISTANCE 8
 
 #define MAX_MAP_NUMBER 99
-#define NOW_MAP 0
+#define NOW_MAP 3
 
 #define KEY_SPACE 32
 #define KEY_LEFT 37		// keyboard¥ª½bÀY

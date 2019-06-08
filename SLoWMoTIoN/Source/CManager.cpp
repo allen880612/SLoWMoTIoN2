@@ -428,6 +428,7 @@ namespace game_framework
 			layerBitmap[i].clear();
 			layerAnimate[i].clear();
 			layerAction[i].clear();
+			layerInteger[i].clear();
 		}
 	}
 
@@ -444,6 +445,11 @@ namespace game_framework
 	void CLayerManager::AddObject(CAction* object, int targetLayer)
 	{
 		layerAction[targetLayer].push_back(object);
+	}
+
+	void CLayerManager::AddObject(CInteger* object, int targetLayer)
+	{
+		layerInteger[targetLayer].push_back(object);
 	}
 
 	void CLayerManager::ShowLayer()
@@ -485,6 +491,22 @@ namespace game_framework
 					if ((*k)->GetValid())	//if valid then show
 					{
 						(*k)->OnShow();
+					}
+					k++;
+				}
+			}
+
+			for (vector<CInteger*>::iterator k = layerInteger[i].begin(); k != layerInteger[i].end();)
+			{
+				if ((*k)->IsNull())
+				{
+					k = layerInteger[i].erase(k);
+				}
+				else
+				{
+					if ((*k)->GetValid())	//if valid then show
+					{
+						(*k)->ShowBitmap();
 					}
 					k++;
 				}
@@ -1984,7 +2006,7 @@ namespace game_framework
 	}
 	#pragma endregion
 
-
+	#pragma region UIManager -
 	UIManager::UIManager()
 	{
 
@@ -1992,16 +2014,36 @@ namespace game_framework
 
 	void UIManager::Load()
 	{
-		HP.LoadBitmap("RES\\UI\\status\\blood.bmp", RGB(214, 214, 214));
-		HP_frame.LoadBitmap("RES\\UI\\status\\bar_frame.bmp", RGB(214, 214, 214));
-		EQ.LoadBitmap("RES\\UI\\status\\blood.bmp", RGB(214, 214, 214));
-		EQ_frame.LoadBitmap("RES\\UI\\status\\bar_frame.bmp", RGB(214, 214, 214));
-
-		//avatar.LoadBitmap("RES\\UI\\status\\avatar.bmp", RGB(214, 214, 214));
-		avatar_frame.LoadBitmap("RES\\UI\\status\\avatar_frame.bmp", RGB(214, 214, 214));
+		roleStatus.Load();
+		bossStatus.Load();
+		uiTime.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
+		uiScore.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
 	}
-	void UIManager::Initialize()
+
+	void UIManager::Initialize(CRole* _role, CBossManager* _bManager)
 	{
+		role = _role;
+		bManager = _bManager;
 
+		roleStatus.Initialize(CPoint(0, 0), role->GetHp(), role->GetEq());
+		bossStatus.Initialize(CPoint(0, 0));
+		uiTime.Initialize(CPoint(250, 0), GAME_TIME, 2);
+		uiScore.Initialize(CPoint(500, 0), 0, 3);
+
+		CLayerManager::Instance()->AddObject(&uiTime, INTERFACE_LAYER);
+		CLayerManager::Instance()->AddObject(&uiScore, INTERFACE_LAYER);
 	}
+
+	void UIManager::OnCycle(int _time)
+	{
+		uiTime.SetInteger(_time);
+		roleStatus.OnCycle(role->GetHp(), role->GetEq());
+		bossStatus.OnCycle(bManager);
+		uiTime.SetInteger(_time);
+		uiScore.SetInteger(role->GetScore());
+	}
+
+	#pragma endregion
+
 }
+

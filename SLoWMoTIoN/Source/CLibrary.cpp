@@ -907,7 +907,6 @@ namespace game_framework
 	#pragma endregion
 
 	#pragma region - CInteger -
-	//CMovingBitmap CInteger::digit[11];
 
 	CInteger::CInteger(int digits)
 		: NUMDIGITS(digits)
@@ -917,8 +916,10 @@ namespace game_framework
 
 	void CInteger::Initialize(CPoint init_pos, int init_num, int init_digitNum)
 	{
-		SetInteger(init_num, init_digitNum);
+		SetInteger(init_num);
 		SetTopLeft(init_pos.x, init_pos.y);
+		NUMDIGITS = init_digitNum;
+		SetValid(true);
 		layer.SetLayer(INTERFACE_LAYER);
 
 	}
@@ -961,10 +962,9 @@ namespace game_framework
 
 	}
 
-	void CInteger::SetInteger(int i, int digitals_num)
+	void CInteger::SetInteger(int i)
 	{
 		n = i;
-		NUMDIGITS = digitals_num;
 	}
 
 	void CInteger::SetTopLeft(int nx, int ny)		// 將動畫的左上角座標移至 (x,y)
@@ -1766,10 +1766,10 @@ namespace game_framework
 	{
 		HP_bar.LoadBitmap("RES\\UI\\status\\blood.bmp", RGB(214, 214, 214));
 		HP_frame.LoadBitmap("RES\\UI\\status\\bar_frame.bmp", RGB(214, 214, 214));
-		EQ_bar.LoadBitmap("RES\\UI\\status\\blood.bmp", RGB(214, 214, 214));
+		EQ_bar.LoadBitmap("RES\\UI\\status\\EQ.bmp", RGB(214, 214, 214));
 		EQ_frame.LoadBitmap("RES\\UI\\status\\bar_frame.bmp", RGB(214, 214, 214));
 
-		avatar.LoadBitmap("RES\\UI\\status\\avatar.bmp", RGB(214, 214, 214));
+		avatar.LoadBitmap("RES\\UI\\status\\avatar.bmp");
 		avatar_frame.LoadBitmap("RES\\UI\\status\\avatar_frame.bmp", RGB(214, 214, 214));
 	}
 
@@ -1781,11 +1781,13 @@ namespace game_framework
 		eq = _EQ;
 
 		CLayerManager::Instance()->AddObject(&HP_bar, INTERFACE_LAYER - 1);
-		CLayerManager::Instance()->AddObject(&HP_frame, INTERFACE_LAYER);
 		CLayerManager::Instance()->AddObject(&EQ_bar, INTERFACE_LAYER - 1);
+		CLayerManager::Instance()->AddObject(&avatar, INTERFACE_LAYER - 1);
+
+		CLayerManager::Instance()->AddObject(&HP_frame, INTERFACE_LAYER);
 		CLayerManager::Instance()->AddObject(&EQ_frame, INTERFACE_LAYER);
 		CLayerManager::Instance()->AddObject(&avatar_frame, INTERFACE_LAYER);
-		CLayerManager::Instance()->AddObject(&avatar, INTERFACE_LAYER);
+		
 	}
 
 	void CStatusBoard::UpdateBar(int _HP, int _EQ)
@@ -1829,12 +1831,13 @@ namespace game_framework
 	{
 		UpdateBar(_HP, _EQ);
 	}
+
+
 	#pragma endregion
 
-#pragma region - CStatusBoard -
+	#pragma region - CStatusBoard -
 	CBossBoard::CBossBoard()
 	{
-
 	}
 
 	void CBossBoard::Load()
@@ -1842,21 +1845,46 @@ namespace game_framework
 		HP_bar.LoadBitmap("RES\\UI\\status\\blood.bmp", RGB(214, 214, 214));
 		HP_frame.LoadBitmap("RES\\UI\\status\\bar_frame.bmp", RGB(214, 214, 214));
 
-		avatar.LoadBitmap("RES\\UI\\status\\avatar.bmp", RGB(214, 214, 214));
+		avatar.LoadBitmap("RES\\Boss\\Avatar\\Xingting.bmp");	// 要擋住血條
+		//avatar = CMovingBitmap();	//Default
+
 		avatar_frame.LoadBitmap("RES\\UI\\status\\avatar_frame.bmp", RGB(214, 214, 214));
+
+		#pragma region - Load boss avatar -
+		vector<string> avatarName;
+		string avatarFolderPath = "RES\\Boss\\Avatar\\";
+		getFolderFile(avatarFolderPath, &avatarName);
+
+		/*bossAvatar["Xingting"] = CMovingBitmap();
+		bossAvatar["Xingting"].LoadBitmap(".\\RES\\Boss\\Avatar\\Xingting.bmp", RGB(214, 214, 214));*/
+
+		for (unsigned i = 0; i < avatarName.size(); i++)
+		{
+			int strLength = avatarName[i].length();
+			string ext = avatarName[i].substr(strLength - 4, strLength);
+			if (ext == ".bmp")
+			{
+				string sAvatar = getFileName(avatarName[i]);
+				bossAvatar[sAvatar] = CMovingBitmap();
+				char *address = ConvertCharPointToString((avatarFolderPath + avatarName[i]));
+				bossAvatar[sAvatar].LoadBitmap(address);
+				delete address;
+			}
+		}
+		#pragma endregion
 	}
 
-	void CBossBoard::Initialize(CPoint _p, int _HP)
+	void CBossBoard::Initialize(CPoint _p)
 	{
-		isShow = false;
-		
 		SetXY(_p);
+		initPos = _p;
 		//SetDeltaBar(_HP);
 
 		CLayerManager::Instance()->AddObject(&HP_bar, INTERFACE_LAYER - 1);
 		CLayerManager::Instance()->AddObject(&HP_frame, INTERFACE_LAYER);
 		CLayerManager::Instance()->AddObject(&avatar_frame, INTERFACE_LAYER);
-		CLayerManager::Instance()->AddObject(&avatar, INTERFACE_LAYER);
+		CLayerManager::Instance()->AddObject(&avatar, INTERFACE_LAYER - 1);
+		SetShow(false);
 	}
 
 	void CBossBoard::UpdateBar(int _HP)
@@ -1905,7 +1933,23 @@ namespace game_framework
 
 	void CBossBoard::OnCycle(CBossManager* bManager)
 	{
+		if (bManager->targetBoss != NULL)
+		{
+			SetHP(bManager->targetBoss->GetHp());
 
+			if (!IsShow())	// 只需換一次
+			{				
+				string bossID = (bManager->targetBoss)->GetID();
+				avatar = bossAvatar[bossID];
+
+				SetXY(initPos);
+				SetShow(true);
+			}
+		}
+		else
+		{
+			SetShow(false);
+		}
 	}
 #pragma endregion
 }

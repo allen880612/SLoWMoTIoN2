@@ -142,7 +142,9 @@ namespace game_framework {
 		void SetMouseXY(int, int);
 		void AddScore(int);
 		void SubHp();
-		int  GetHp() { return hp; }; 
+		int  GetHp() { return hp; };
+		void SubEq();
+		int  GetEq() { return eq; };
 
 		void Initialize();
 
@@ -205,21 +207,15 @@ namespace game_framework {
 	private:
 		CAction  action;
 		//CInteger hp_left;
-		CInteger scoreInteger;
-		/*CMovingBitmap blood;
-		CMovingBitmap EQ;
-		CMovingBitmap avatar;
-
-		CMovingBitmap blood_frame;
-		CMovingBitmap EQ_frame;
-		CMovingBitmap avatar_frame;*/
+		//CInteger scoreInteger;
 		#pragma region - init information -
 		int inithp = 20;
+		int initEq = 100;
 		bool isLoaded;
 		string now_action;
 		#pragma endregion
 
-		int hp;
+		int hp, eq;
 		
 		bool isCatched;
 		bool isDead;

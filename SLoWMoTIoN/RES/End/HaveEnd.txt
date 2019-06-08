@@ -1,3 +1,3 @@
-WinXingting false
+WinXingting true
 LoseXingting true
 SaltedFish true

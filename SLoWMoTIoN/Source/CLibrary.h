@@ -249,12 +249,17 @@ namespace game_framework
 			int  GetInteger();			// 回傳整數值
 			void LoadBitmap();			// 載入0..9及負號之圖形
 			void LoadBitmap(string, string);
-			void SetInteger(int, int = 5);		// 設定整數值
+
+			void SetInteger(int);		// 設定整數值
 			void SetTopLeft(int, int);	// 將動畫的左上角座標移至 (x,y)
 			void ShowBitmap();			// 將動畫貼到螢幕
 			void ShowBitmap(double);	// 將動畫加上倍率縮放貼到螢幕
 			//const int NUMDIGITS;			// 共顯示NUMDIGITS個位數
 			int NUMDIGITS;
+
+			bool IsNull() { return !isBmpLoaded; };
+			void SetValid(bool _flag) { isValid = _flag; };
+			bool GetValid() { return isValid; };
 
 			CMovingBitmap digit[11]; // 儲存0..9及負號之圖形(bitmap)
 			CMovingBitmap number[4];
@@ -264,6 +269,7 @@ namespace game_framework
 			int  x, y;						// 顯示的座標
 			int  n;							// 整數值
 			bool isBmpLoaded;				// 是否已經載入圖形
+			bool isValid;
 			
 	};
 	#pragma endregion
@@ -478,14 +484,13 @@ namespace game_framework
 
 		void UpdateBar(int, int);
 		
-
 		void SetXY(CPoint);
 		void SetDeltaBar(int, int);
+		void SetDeltaBar();
 		int GetHP() { return hp; };
 		int GetEQ() { return eq; };
 		
-	
-		void OnCycle(int, int); // HP, EQ, time
+		void OnCycle(int ,int);
 		void OnShow();
 
 	protected:
@@ -503,16 +508,18 @@ namespace game_framework
 
 #pragma endregion
 
-#pragma region - CStatusBoard -
+	#pragma region - CBossBoard -
+	class CBossManager;
 	class CBossBoard
 	{
+		friend class CBossManager;
 
 	public:
 		CBossBoard();
 		CBossBoard(CPoint, int);	// 初始點, 血量 然而沒 Copy Constructor 就用不到
 		
 		void Load();
-		void Initialize(CPoint, int);	// 初始點, 血量, EQ
+		void Initialize(CPoint);	// 初始點
 		void Clear();
 
 		void UpdateBar(int);
@@ -529,12 +536,14 @@ namespace game_framework
 		void OnShow();
 
 	protected:
+		map<string, CMovingBitmap> bossAvatar;
 
 		CMovingBitmap HP_frame;
 		CMovingBitmap HP_bar;
 		CMovingBitmap avatar, avatar_frame;
 		//bool useSecondBar = false;
 	private:
+		CPoint initPos;
 		int dHP; // 一次扣的寬度
 		int hp;
 		bool isShow;

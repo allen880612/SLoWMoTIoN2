@@ -140,6 +140,7 @@ namespace game_framework {
 		CEventManager eventManager;
 		CStatusBoard roleStatus;
 		CBossBoard bossStatus;
+		UIManager uiManager;
 
 		bool isWinXingting;
 		#pragma region - zi din yi -

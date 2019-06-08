@@ -113,6 +113,7 @@ namespace game_framework
 		void AddObject(CMovingBitmap*, int);
 		void AddObject(CAnimate*, int);
 		void AddObject(CAction*, int);
+		void AddObject(CInteger*, int);
 
 		void ShowLayer();
 		static CLayerManager* Instance();
@@ -121,6 +122,7 @@ namespace game_framework
 		vector <CMovingBitmap*> layerBitmap[MAX_LAYER_NUMBER];
 		vector <CAnimate*> layerAnimate[MAX_LAYER_NUMBER];
 		vector <CAction*> layerAction[MAX_LAYER_NUMBER];
+		vector <CInteger*> layerInteger[MAX_LAYER_NUMBER];
 		static CLayerManager layerManager;
 	};
 	#pragma endregion
@@ -465,6 +467,7 @@ namespace game_framework
 	#pragma endregion
 
 	#pragma region - UIManager -
+	class CRole;
 	class UIManager
 	{
 	public:
@@ -472,22 +475,21 @@ namespace game_framework
 		//~UIManager();
 
 		void Load();
-		void Initialize();
+		void Initialize(CRole*, CBossManager*);
 		void Clear();
 
-		void OnCycle(CRole*, CBossManager*);
+		void OnCycle(int);
 
 	private:
 		int left_time;	// Game left time
 		int point;		// Usless kill passerby point
-		int hp, eq;		// Role info
 
-		CInteger uiTime, uiPoint;
-		CMovingBitmap HP_frame, EQ_frame, avatar_frame;
-		CMovingBitmap HP, EQ, avatar;
-	
+		CInteger uiTime, uiScore;
+		CStatusBoard roleStatus;
+		CBossBoard bossStatus;
 
-		map< string, CMovingBitmap*> map_avatar;;
+		CRole *role;
+		CBossManager *bManager;
 
 	};
 	#pragma endregion
