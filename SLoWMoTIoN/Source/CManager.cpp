@@ -2002,4 +2002,25 @@ namespace game_framework
 		arrow[3].SetCanShow(blockMap[selectNowMap].rightMap >= 0 && blockMap[selectNowMap].rightMap < (int)blockMap.size());
 	}
 	#pragma endregion
+
+
+	UIManager::UIManager()
+	{
+
+	}
+
+	void UIManager::Load()
+	{
+		HP.LoadBitmap("RES\\UI\\status\\blood.bmp", RGB(214, 214, 214));
+		HP_frame.LoadBitmap("RES\\UI\\status\\bar_frame.bmp", RGB(214, 214, 214));
+		EQ.LoadBitmap("RES\\UI\\status\\blood.bmp", RGB(214, 214, 214));
+		EQ_frame.LoadBitmap("RES\\UI\\status\\bar_frame.bmp", RGB(214, 214, 214));
+
+		//avatar.LoadBitmap("RES\\UI\\status\\avatar.bmp", RGB(214, 214, 214));
+		avatar_frame.LoadBitmap("RES\\UI\\status\\avatar_frame.bmp", RGB(214, 214, 214));
+	}
+	void UIManager::Initialize()
+	{
+
+	}
 }

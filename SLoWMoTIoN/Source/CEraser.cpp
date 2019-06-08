@@ -301,13 +301,13 @@ namespace game_framework {
 		scoreInteger.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
 		decisionPoint.LoadBitmap("RES\\Role\\miku\\cursor.bmp", RGB(214, 214, 214));
 
-		blood.LoadBitmap("RES\\UI\\status\\blood.bmp", RGB(214, 214, 214));
+		/*blood.LoadBitmap("RES\\UI\\status\\blood.bmp", RGB(214, 214, 214));
 		blood_frame.LoadBitmap("RES\\UI\\status\\bar_frame.bmp", RGB(214, 214, 214));
 		EQ.LoadBitmap("RES\\UI\\status\\blood.bmp", RGB(214, 214, 214));
 		EQ_frame.LoadBitmap("RES\\UI\\status\\bar_frame.bmp", RGB(214, 214, 214));
 
 		avatar.LoadBitmap("RES\\UI\\status\\avatar.bmp", RGB(214, 214, 214));
-		avatar_frame.LoadBitmap("RES\\UI\\status\\avatar_frame.bmp", RGB(214, 214, 214));
+		avatar_frame.LoadBitmap("RES\\UI\\status\\avatar_frame.bmp", RGB(214, 214, 214));*/
 	}
 
 	void CRole::LoadAction(string _action, BitmapPath _loadpath)
@@ -570,8 +570,8 @@ namespace game_framework {
 	{
 		hp--;
 	
-		int deltaHP = blood.Width() / inithp;
-		blood.SetTopLeft(blood.Left() - deltaHP, blood.Top());
+		/*int deltaHP = blood.Width() / inithp;
+		blood.SetTopLeft(blood.Left() - deltaHP, blood.Top());*/
 
 		//hp_left.Add(-1);
 
@@ -613,7 +613,7 @@ namespace game_framework {
 		}
 		#pragma endregion
 
-		avatar.SetTopLeft(0, 0);
+		/*avatar.SetTopLeft(0, 0);
 		avatar_frame.SetTopLeft(0, 0);
 
 		const int BLOOD_START = avatar_frame.Width();
@@ -621,7 +621,7 @@ namespace game_framework {
 		blood_frame.SetTopLeft(BLOOD_START, PADDING_Y);
 		blood.SetTopLeft(BLOOD_START, PADDING_Y);
 		EQ_frame.SetTopLeft(BLOOD_START, blood_frame.Height() + PADDING_Y);
-		EQ.SetTopLeft(BLOOD_START, blood_frame.Height() + PADDING_Y);
+		EQ.SetTopLeft(BLOOD_START, blood_frame.Height() + PADDING_Y);*/
 
 		//hp_left.Initialize(CPoint(20, 100), inithp, 2);
 		scoreInteger.Initialize(CPoint(500, 0), 0, 3);
@@ -631,12 +631,12 @@ namespace game_framework {
 		CLayerManager::Instance()->AddObject(&decisionPoint, layer.GetLayer() + 1);
 		CLayerManager::Instance()->AddObject(&action, layer.GetLayer());
 
-		CLayerManager::Instance()->AddObject(&blood, INTERFACE_LAYER - 1);
+		/*CLayerManager::Instance()->AddObject(&blood, INTERFACE_LAYER - 1);
 		CLayerManager::Instance()->AddObject(&blood_frame, INTERFACE_LAYER);
 		CLayerManager::Instance()->AddObject(&EQ, INTERFACE_LAYER - 1);
 		CLayerManager::Instance()->AddObject(&EQ_frame, INTERFACE_LAYER);
 		CLayerManager::Instance()->AddObject(&avatar_frame, INTERFACE_LAYER);
-		CLayerManager::Instance()->AddObject(&avatar, INTERFACE_LAYER);
+		CLayerManager::Instance()->AddObject(&avatar, INTERFACE_LAYER);*/
 
 
 	}

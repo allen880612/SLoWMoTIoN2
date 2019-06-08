@@ -206,13 +206,13 @@ namespace game_framework {
 		CAction  action;
 		//CInteger hp_left;
 		CInteger scoreInteger;
-		CMovingBitmap blood;
+		/*CMovingBitmap blood;
 		CMovingBitmap EQ;
 		CMovingBitmap avatar;
 
 		CMovingBitmap blood_frame;
 		CMovingBitmap EQ_frame;
-		CMovingBitmap avatar_frame;
+		CMovingBitmap avatar_frame;*/
 		#pragma region - init information -
 		int inithp = 20;
 		bool isLoaded;
