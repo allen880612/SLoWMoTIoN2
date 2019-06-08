@@ -1045,13 +1045,6 @@ namespace game_framework
 		delayTimer = CTimer(waitTime);
 	}
 
-	CAction::~CAction()
-	{
-		paser.clear();
-		nowAction = NULL;
-		nowBitmap = NULL;
-	}
-
 	void CAction::OnMove(string _nowAction)
 	{
 		delayTimer.CountDown();
