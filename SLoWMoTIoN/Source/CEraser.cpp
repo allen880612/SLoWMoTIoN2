@@ -745,12 +745,7 @@ namespace game_framework {
 		if (GetValid() == false /*&& !recreateTimer.IsTimeOut()*/)
 		{
 			recreateTimer.CountDown();
-			if (recreateTimer.IsTimeOut())
-			{
-				//SetValid(true);
-				//CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
-			}
-			else
+			if (!recreateTimer.IsTimeOut())
 			{
 				return;
 			}
@@ -814,10 +809,7 @@ namespace game_framework {
 				}
 			}
 		}
-
-		SetMovingLeft(moveleft);
-		SetMovingRight(moveright);
-
+		
 		if (GetY2() >= SIZE_Y - 2)
 		{
 			nowOnFloor = true;
@@ -831,10 +823,13 @@ namespace game_framework {
 		}
 		else
 		{
-			SetMovingLeft(false);
-			SetMovingRight(false);
+			moveleft = false;
+			moveright = false;
 			SetMovingDown(true);
 		}
+
+		SetMovingLeft(moveleft);
+		SetMovingRight(moveright);
 
 		if (isMovingUp)
 		{
