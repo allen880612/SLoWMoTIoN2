@@ -74,6 +74,7 @@ namespace game_framework
 		bool IsAlive = true;
 		string id;
 		CTimer AliveTime;
+		CTimer ChangeFaceTimer;
 		const double PI = 4 * atan(1.0);
 		bool isEnd;
 	};

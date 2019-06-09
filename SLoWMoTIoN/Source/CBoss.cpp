@@ -76,6 +76,7 @@ namespace game_framework
 		animation.SetValid(false);
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
 		
+		ChangeFaceTimer = CTimer(1.0);
 		AliveTime = CTimer(99.0);
 	}
 
@@ -541,8 +542,15 @@ namespace game_framework
 		if (!IsDead())
 		{
 			attackRoleTimer.CountDown();
-			if(ray == NULL) //射線中不轉換
-				SetFaceTo(CPoint(role->GetX3(), role->GetY3()));
+			if (ray == NULL) //射線中不轉換
+			{
+				ChangeFaceTimer.CountDown();
+				if (ChangeFaceTimer.IsTimeOut())
+				{
+					SetFaceTo(CPoint(role->GetX3(), role->GetY3()));
+					ChangeFaceTimer.ResetTime();
+				}
+			}
 			Attack(role);
 			OnMove();
 			Collision(role);
@@ -575,7 +583,6 @@ namespace game_framework
 			ray->OnMove();
 		}
 		#pragma endregion
-
 		#pragma region - dont have ray - move -
 		else
 		{
