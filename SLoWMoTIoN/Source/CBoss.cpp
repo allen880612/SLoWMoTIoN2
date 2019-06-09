@@ -71,10 +71,12 @@ namespace game_framework
 		hp = initHp;
 		layer.SetLayer(BOSS_LAYER);
 		IsAlive = true;
+		isEnd = false;
 
 		animation.SetValid(false);
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
-		isEnd = false;
+		
+		ChangeFaceTimer = CTimer(1.0);
 		AliveTime = CTimer(99.0);
 	}
 
@@ -494,11 +496,12 @@ namespace game_framework
 	#pragma region - CFaicaiSeed -
 	CFacaiSeed::CFacaiSeed()
 	{
+		ray = NULL;
 	}
 
 	CFacaiSeed::CFacaiSeed(int _x, int _y, int _hp, string _id, BitmapPath _loadPath) : CBoss(_x, _y, _hp, _id, _loadPath)
 	{
-		
+		ray = NULL;
 	}
 	
 	CFacaiSeed::~CFacaiSeed()
@@ -540,8 +543,15 @@ namespace game_framework
 		if (!IsDead())
 		{
 			attackRoleTimer.CountDown();
-			if(ray == NULL) //射線中不轉換
-				SetFaceTo(CPoint(role->GetX3(), role->GetY3()));
+			if (ray == NULL) //射線中不轉換
+			{
+				ChangeFaceTimer.CountDown();
+				if (ChangeFaceTimer.IsTimeOut())
+				{
+					SetFaceTo(CPoint(role->GetX3(), role->GetY3()));
+					ChangeFaceTimer.ResetTime();
+				}
+			}
 			Attack(role);
 			OnMove();
 			Collision(role);
@@ -574,7 +584,6 @@ namespace game_framework
 			ray->OnMove();
 		}
 		#pragma endregion
-
 		#pragma region - dont have ray - move -
 		else
 		{

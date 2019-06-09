@@ -558,6 +558,10 @@ namespace game_framework
 		{
 			return new CPasserbyType2(0, 0, BitmapPath("RES\\Role\\NPC\\mushroom", "mushroom", 5, RGB(214, 214, 214)), 20); //先創建一個default passerby
 		}
+		else if (randomID == 3)
+		{
+			return new CPasserbyType2(0, 0, BitmapPath("RES\\Role\\NPC\\faqai", "faqai", 5, RGB(255, 255, 255)), 87); //先創建一個default passerby
+		}
 		return new CPasserbyType1(0, 0, BitmapPath("RES\\Role\\NPC\\LUKA", "LUKA", 2, RGB(214, 214, 214)), 10); //先創建一個default passerby
 	}
 	CPasserby* CPasserbyManager::AddPasserby(vector<int> id, int mapWidth)

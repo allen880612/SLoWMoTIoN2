@@ -89,6 +89,7 @@ namespace game_framework {
 		CMovingBitmap frame;
 
 		CScrollWindows windowsEnding;
+		CSwitchWindow windowsHandbook;
 		//CWindows windowsEnding;
 
 		bool IsKeyCtrl;
@@ -150,6 +151,7 @@ namespace game_framework {
 		void ChangeMap(int);
 		void SwitchState(int);
 		void SwitchTimer(CTimer *);
+		void GoToEnd();
 		#pragma endregion
 	};
 

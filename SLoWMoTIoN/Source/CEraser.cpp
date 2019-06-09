@@ -557,7 +557,10 @@ namespace game_framework {
 
 	void CRole::SubHp()
 	{
-		hp--;
+		if (!isRoleNoSubHp)
+		{
+			hp--;
+		}
 
 		if (hp <= 0)
 		{
@@ -603,7 +606,7 @@ namespace game_framework {
 		isCatched = false;
 		isDead = false;
 		isZZ = false;
-
+		isRoleNoSubHp = false;
 		SetValid(true);
 		#pragma endregion
 
@@ -618,6 +621,7 @@ namespace game_framework {
 
 		CLayerManager::Instance()->AddObject(&decisionPoint, layer.GetLayer() + 1);
 		CLayerManager::Instance()->AddObject(&action, layer.GetLayer());
+		
 	}
 
 	vector<CScallion*>* CRole::GetScallion()
@@ -745,12 +749,7 @@ namespace game_framework {
 		if (GetValid() == false /*&& !recreateTimer.IsTimeOut()*/)
 		{
 			recreateTimer.CountDown();
-			if (recreateTimer.IsTimeOut())
-			{
-				//SetValid(true);
-				//CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
-			}
-			else
+			if (!recreateTimer.IsTimeOut())
 			{
 				return;
 			}
@@ -814,10 +813,7 @@ namespace game_framework {
 				}
 			}
 		}
-
-		SetMovingLeft(moveleft);
-		SetMovingRight(moveright);
-
+		
 		if (GetY2() >= SIZE_Y - 2)
 		{
 			nowOnFloor = true;
@@ -831,10 +827,13 @@ namespace game_framework {
 		}
 		else
 		{
-			SetMovingLeft(false);
-			SetMovingRight(false);
+			moveleft = false;
+			moveright = false;
 			SetMovingDown(true);
 		}
+
+		SetMovingLeft(moveleft);
+		SetMovingRight(moveright);
 
 		if (isMovingUp)
 		{
@@ -1005,6 +1004,7 @@ namespace game_framework {
 		layer.SetLayer(NPC_LAYER);
 		animation.SetValid(false);
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
+		isTalked = false;
 	}
 
 	void CNPC::SetValid(bool flag)

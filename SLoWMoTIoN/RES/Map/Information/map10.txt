@@ -1,6 +1,10 @@
 background RES\Map\IDB_MAP_1.bmp 0 0
+block RES\Map\iceBm.bmp 308 346
+block RES\Map\iceBm.bmp 119 255
+block RES\Map\iceBm.bmp 307 146
+downDoor RES\Map\door.bmp 331 87 3
 up -1
-down -1
+down 3
 left 9
 right -1
 passerbyNumber 0

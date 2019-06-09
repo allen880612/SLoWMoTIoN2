@@ -193,7 +193,13 @@ namespace game_framework
 		r.push_back("left " + std::to_string(leftMap) + "\n");
 		r.push_back("right " + std::to_string(rightMap) + "\n");
 		r.push_back("passerbyNumber " + std::to_string(passerbyMaxSize) + "\n");
-		r.push_back("passerbyID 0 1\n");
+		string passID = "";
+		for (unsigned int i = 0; i < passerbyID.size(); i++)
+		{
+			string tempid = " " + std::to_string(passerbyID[i]);
+			passID += tempid;
+		}
+		r.push_back("passerbyID" + passID + "\n");
 		for (unsigned int i = 0; i < r.size(); i++)
 		{
 			data << r[i];

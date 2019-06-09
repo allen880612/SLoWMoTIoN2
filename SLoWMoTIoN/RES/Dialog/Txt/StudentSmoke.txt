@@ -1,8 +1,8 @@
 true
-studendB (遲到進教室)
+studentB (遲到進教室)
 xingting 來，哈一口氣給我聞聞看
-studendB ???
+studentB ???
 xingting 我說，哈_一_口_氣_給_我_聞_聞_看
-studendB ㄏㄚ~
+studentB ㄏㄚ~
 xingting 我要確認你是不是跑去抽菸
-studendB 三小
+studentB 三小
