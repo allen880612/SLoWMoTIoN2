@@ -1,2 +1,3 @@
 false
 faqaiSeed 我要為了中華民國粉身碎骨
+role 左邊好像傳來什麼聲音?
