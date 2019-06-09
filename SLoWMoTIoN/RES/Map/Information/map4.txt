@@ -8,7 +8,7 @@ block RES\Map\1_M.bmp 508 210
 block RES\Map\1_R.bmp 572 210
 up -1
 down -1
-left 12
+left 11
 right 1
 passerbyNumber 0
 passerbyID 0 1

@@ -5,7 +5,7 @@ block RES\Map\box.bmp 48 350
 block RES\Map\box.bmp 251 207
 up -1
 down -1
-left -1
-right 12
+left 12
+right 4
 passerbyNumber 0
 passerbyID 0 1
