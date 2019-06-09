@@ -3,7 +3,7 @@ block RES\Map\paety_badge.bmp 230 325
 block RES\Map\paety_badge.bmp 310 325
 up -1
 down -1
-left 11
-right 4
+left -1
+right 11
 passerbyNumber 2
 passerbyID 3
