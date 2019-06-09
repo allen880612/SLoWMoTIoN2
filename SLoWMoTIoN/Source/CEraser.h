@@ -94,6 +94,8 @@ namespace game_framework {
 		virtual void Initialize();
 		virtual void RoleCollision() {}; //碰撞到後要做的事情
 		virtual void SetValid(bool);
+		void SetTalked(bool f) { isTalked = f; };
+		bool IsTalked() { return isTalked; };
 
 	protected:
 		#pragma region - init information -
@@ -108,6 +110,7 @@ namespace game_framework {
 		int currentX, currentY;
 		string id;
 		string faceTo;
+		bool isTalked;
 	};
 	#pragma endregion
 
@@ -160,6 +163,7 @@ namespace game_framework {
 		bool IsMoving();
 		bool IsDead() { return isDead; };
 		bool IsZZ() { return isZZ; };
+		void SetRoleNoSubHp() { isRoleNoSubHp = !isRoleNoSubHp; };
 		CAction* GetAction() { return &action; };
 
 		#pragma region - Collision -
@@ -223,6 +227,7 @@ namespace game_framework {
 		bool isCatched;
 		bool isDead;
 		bool isZZ;
+		bool isRoleNoSubHp;
 	};
 	#pragma endregion
 

@@ -352,18 +352,7 @@ namespace game_framework {
 		{
 			finalScore = role.GetScore();
 			CAudio::Instance()->Stop("SLoWMoTIoN_Game");
-			if (isWinFacaiSeed)
-			{
-				CEndManager::Instance()->Start(END_NAME_WIN_FACAISEED);
-			}
-			else if (isWinXingting)
-			{
-				CEndManager::Instance()->Start(END_NAME_WINXINGTING);
-			}
-			else
-			{
-				CEndManager::Instance()->Start(END_NAME_SALTEDFISH);
-			}
+			GoToEnd();
 			SwitchState(GAME_STATE_OVER);
 		}
 		/*if (nowUsedTimer->GetTime() == (int)nowUsedTimer->GetTime())
@@ -817,6 +806,7 @@ namespace game_framework {
 				if (role.IsCollisionNPC(*npciter))
 				{
 					(*npciter)->RoleCollision();
+					(*npciter)->SetTalked(true);
 				}
 			}
 		}
@@ -833,6 +823,11 @@ namespace game_framework {
 				}
 			}
 			#pragma endregion
+		}
+
+		if (nChar == 'K')
+		{
+			role.SetRoleNoSubHp();
 		}
 
 		#pragma region - ¨S¸ô¥ÎING -
@@ -1000,6 +995,42 @@ namespace game_framework {
 	{
 		nowUsedTimer = swtimer;
 		/*time_left.SetInteger(nowUsedTimer->GetTime(2), 2);*/
+	}
+
+	void CGameStateRun::GoToEnd()
+	{
+		#pragma region - is the role talking to all npc -
+		bool IsTalkedAllNpc = true;
+		vector<CNPC*>* npc = npcManager.GetNpc(mapManager.GetNowMap());
+		for (vector<CNPC*>::iterator npciter = npc->begin(); npciter != npc->end(); npciter++)
+		{
+			if (!(*npciter)->IsTalked())
+			{
+				IsTalkedAllNpc = false;
+			}
+		}
+		#pragma endregion
+
+		if (isWinFacaiSeed)
+		{
+			CEndManager::Instance()->Start(END_NAME_WIN_FACAISEED);
+		}
+		else if (isWinXingting)
+		{
+			CEndManager::Instance()->Start(END_NAME_WINXINGTING);
+		}
+		else if (IsTalkedAllNpc)
+		{
+			CEndManager::Instance()->Start(END_NAME_SALTEDFISH);
+		}
+		else if (role.GetScore() > 999)
+		{
+			CEndManager::Instance()->Start(END_NAME_SALTEDFISH);
+		}
+		else
+		{
+			CEndManager::Instance()->Start(END_NAME_SALTEDFISH);
+		}
 	}
 
 	void CGameStateRun::OnShow()

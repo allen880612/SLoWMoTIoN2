@@ -150,6 +150,7 @@ namespace game_framework {
 		void ChangeMap(int);
 		void SwitchState(int);
 		void SwitchTimer(CTimer *);
+		void GoToEnd();
 		#pragma endregion
 	};
 
