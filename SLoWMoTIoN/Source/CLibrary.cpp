@@ -1978,4 +1978,124 @@ namespace game_framework
 		}
 	}
 	#pragma endregion
+
+	#pragma region - CSwitchWindow -
+	CSwitchWindow::CSwitchWindow() : CWindows()
+	{
+		bmp.clear();
+		index = 0;
+		arrow_left.SetValid(false);
+		arrow_right.SetValid(false);
+	}
+
+	CSwitchWindow::~CSwitchWindow()
+	{
+	}
+
+	void CSwitchWindow::LoadResource(string folder)
+	{
+		closeButton->LoadBitmap();
+		vector<string> bmpPath;
+		getFolderFile(folder, &bmpPath);
+		for (unsigned int i = 0; i < bmpPath.size(); i++)
+		{
+			#pragma region - add bmp -
+			CMovingBitmap tempBmp;
+			string path = folder + bmpPath[i];
+			char *address = ConvertCharPointToString(folder + bmpPath[i]);
+
+			tempBmp.LoadBitmap(address);
+			delete address;
+			tempBmp.SetTopLeft(0, 0);
+			#pragma endregion
+			bmp.push_back(tempBmp);
+		}
+		background = bmp[0]; //set background\
+
+		#pragma region - set arrow -
+		arrow_left.LoadBitmap("RES\\Handbook\\arrow_left.bmp", RGB(214,214,214));
+		arrow_right.LoadBitmap("RES\\Handbook\\arrow_right.bmp", RGB(214, 214, 214));
+
+		arrow_left.SetTopLeft(10, 320);
+		arrow_right.SetTopLeft(540, 320);
+		arrow_left.SetValid(false);
+		arrow_right.SetValid(false);
+		#pragma endregion
+	}
+	void CSwitchWindow::Open()
+	{
+		CWindows::Open();
+		if (index < (int)bmp.size())
+		{
+			background = bmp[index];
+			arrow_left.SetValid(false);
+			arrow_right.SetValid(true);
+		}
+	}
+	void CSwitchWindow::Close()
+	{
+		CWindows::Close();
+		index = 0;
+		arrow_left.SetValid(false);
+		arrow_right.SetValid(false);
+	}
+
+	void CSwitchWindow::Switchwindow(string dir)
+	{
+		if (dir == "left")
+		{
+			SetIndex(index - 1);
+		}
+		else if (dir == "right")
+		{
+			SetIndex(index + 1);
+		}
+		arrow_left.SetValid(index != 0);
+		arrow_right.SetValid(index < (int)bmp.size() - 1);
+		background = bmp[index];
+	}
+
+	void CSwitchWindow::SetIndex(int _index)
+	{
+		if (_index <= 0)
+		{
+			index = 0;
+		}
+		else if (_index >= (int)bmp.size())
+		{
+			index = (int)bmp.size() - 1;
+		}
+		else
+		{
+			index = _index;
+		}
+	}
+
+	void CSwitchWindow::CollisionArrow(CPoint mPoint)
+	{
+		if (arrow_left.GetValid() && IsPointInRect(mPoint, arrow_left.GetRect()))
+		{
+			Switchwindow("left");
+		}
+		else if (arrow_right.GetValid() && IsPointInRect(mPoint, arrow_right.GetRect()))
+		{
+			Switchwindow("right");
+		}
+	}
+
+	void CSwitchWindow::OnShow()
+	{
+		CWindows::OnShow();
+
+		if (arrow_left.GetValid())
+		{
+			arrow_left.ShowBitmap();
+		}
+		if (arrow_right.GetValid())
+		{
+			arrow_right.ShowBitmap();
+		}
+	}
+	#pragma endregion
+
 }

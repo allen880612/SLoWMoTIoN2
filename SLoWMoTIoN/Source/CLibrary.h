@@ -550,9 +550,28 @@ namespace game_framework
 		bool isShow;
 
 	};
-
-
 	#pragma endregion
 
+	#pragma region - CSwitchWindow -
+	class CSwitchWindow : public CWindows
+	{
+	public:
+		CSwitchWindow();
+		~CSwitchWindow();
+		void LoadResource(string);
+		void Open();
+		void Close();
+		void CollisionArrow(CPoint);
+		void OnShow();
+	private:
+		int index = 0;
+		vector<CMovingBitmap> bmp;
+		CMovingBitmap arrow_left;
+		CMovingBitmap arrow_right;
+
+		void SetIndex(int);
+		void Switchwindow(string);
+	};
+	#pragma endregion
 
 }

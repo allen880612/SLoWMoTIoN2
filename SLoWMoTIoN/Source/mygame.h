@@ -89,6 +89,7 @@ namespace game_framework {
 		CMovingBitmap frame;
 
 		CScrollWindows windowsEnding;
+		CSwitchWindow windowsHandbook;
 		//CWindows windowsEnding;
 
 		bool IsKeyCtrl;

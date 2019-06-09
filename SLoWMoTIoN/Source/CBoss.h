@@ -162,7 +162,7 @@ namespace game_framework
 		#pragma region - ray -
 		CTimer rayStartTime;
 		CTimer rayStayTime;
-		CRay *ray;
+		CRay *ray = NULL;
 		#pragma endregion
 	};
 	#pragma endregion

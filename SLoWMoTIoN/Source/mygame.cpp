@@ -87,7 +87,6 @@ namespace game_framework {
 		CAudio::Instance()->Initialize();
 		CAudio::Instance()->Play("SLoWMoTIoN_Menu", true);
 		
-		//temp
 		if (!isLoaded)
 		{
 			#pragma region Button Create
@@ -99,6 +98,7 @@ namespace game_framework {
 			#pragma endregion
 			buttonManager.Load();
 			windowsEnding.LoadResource();
+			windowsHandbook.LoadResource("RES\\Handbook\\introduction\\");
 			//windowsEnding.PushButtonToButtonManager(&buttonManager);
 			//frame.LoadBitmap(".\\RES\\UI\\blood_frame.bmp", RGB(214, 214, 214));
 			//blood.LoadBitmap(".\\RES\\UI\\blood.bmp", RGB(214, 214, 214));
@@ -106,6 +106,7 @@ namespace game_framework {
 
 		buttonManager.Initialize();		
 		windowsEnding.Initialize(CPoint(60, 60));
+		windowsHandbook.Initialize(CPoint(0, 0));
 
 		isLoaded = true;
 		IsKeyCtrl = false;
@@ -159,6 +160,10 @@ namespace game_framework {
 		{
 			windowsEnding.Close();
 		}
+		else if (windowsHandbook.IsCollisionClose(point))
+		{
+			windowsHandbook.Close();
+		}
 		else if (windowsEnding.IsOpen())	 
 		{
 			string endName = windowsEnding.GetCollisionButtonName(point);
@@ -167,6 +172,10 @@ namespace game_framework {
 				CEndManager::Instance()->Start(endName);
 				GotoGameState(GAME_STATE_OVER);
 			}
+		}
+		else if (windowsHandbook.IsOpen())
+		{
+			windowsHandbook.CollisionArrow(point);
 		}
 		else if (buttonManager.IsCollisionMouse("music"))
 		{
@@ -185,6 +194,10 @@ namespace game_framework {
 		else if (buttonManager.IsCollisionMouse("play"))
 		{
 			GotoGameState(GAME_STATE_RUN);		// ¤Á´«¦ÜGAME_STATE_RUN
+		}
+		else if (buttonManager.IsCollisionMouse("about"))
+		{
+			windowsHandbook.Open();
 		}
 
 	}
@@ -236,6 +249,7 @@ namespace game_framework {
 		logo.SetTopLeft(0, 0);
 		buttonManager.OnCycle();
 		windowsEnding.OnCycle();
+		windowsHandbook.OnCycle();
 	}
 
 	void CGameStateInit::OnShow()
@@ -243,6 +257,7 @@ namespace game_framework {
 		logo.ShowBitmap();
 		CLayerManager::Instance()->ShowLayer();
 		windowsEnding.OnShow();
+		windowsHandbook.OnShow();
 	}
 
 	/////////////////////////////////////////////////////////////////////////////

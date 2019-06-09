@@ -496,11 +496,12 @@ namespace game_framework
 	#pragma region - CFaicaiSeed -
 	CFacaiSeed::CFacaiSeed()
 	{
+		ray = NULL;
 	}
 
 	CFacaiSeed::CFacaiSeed(int _x, int _y, int _hp, string _id, BitmapPath _loadPath) : CBoss(_x, _y, _hp, _id, _loadPath)
 	{
-		
+		ray = NULL;
 	}
 	
 	CFacaiSeed::~CFacaiSeed()
