@@ -1,9 +1,8 @@
 background RES\Map\FerrisWheel.bmp 0 0
-block RES\Map\paety_badge.bmp 150 303
-block RES\Map\paety_badge.bmp 15 189
-block RES\Map\paety_badge.bmp 551 179
-block RES\Map\paety_badge.bmp 377 306
-block RES\Map\paety_badge.bmp 268 93
+block RES\Map\box.bmp 310 206
+block RES\Map\box.bmp 528 356
+block RES\Map\box.bmp 48 350
+block RES\Map\box.bmp 251 207
 up -1
 down -1
 left -1

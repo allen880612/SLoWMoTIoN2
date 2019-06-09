@@ -1,4 +1,14 @@
-background RES\Map\IDB_MAP_5.bmp 0 0
+background RES\Map\desert_1.bmp 0 0
+block RES\Map\a1.bmp 486 419
+block RES\Map\3.bmp 548 419
+block RES\Map\a14.bmp 220 197
+block RES\Map\a15.bmp 284 197
+block RES\Map\a16.bmp 347 196
+block RES\Map\a1.bmp 577 300
+block RES\Map\a4.bmp 576 361
+block RES\Map\a4.bmp 578 423
+block RES\Map\a1.bmp 53 442
+block RES\Map\a.bmp 117 441
 up -1
 down -1
 left 3

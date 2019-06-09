@@ -960,15 +960,18 @@ namespace game_framework {
 		if (dir == "left")
 		{
 			nextMap = mapManager.GetLeftMap();
-			role.SetXY(SIZE_X + (role.GetX2() - role.GetX1()), role.GetY1());
 			mapManager.ChangeMap(mapManager.GetLeftMap(), "left");
+			role.SetXY(SIZE_X - (role.GetX3() - role.GetX1()), role.GetY1() - 1);
+			//role.SetXY(SIZE_X + (role.GetX2() - role.GetX1()), role.GetY1() - 1);
 			//CCamera::Instance()->SetXY(mapManager.GetBitmapWidth() / 2, 0);
 		}
 		else if (dir == "right")
 		{
 			nextMap = mapManager.GetRightMap();
-			role.SetXY(0 - (role.GetX2() - role.GetX1()), role.GetY1());
 			mapManager.ChangeMap(mapManager.GetRightMap(), "right");
+
+			role.SetXY(0 - (role.GetX3() - role.GetX1()), role.GetY1() - 1);
+			//role.SetXY(1,  role.GetY1());
 		}
 		bossManager.TargetBoss(mapManager.GetNowMap());
 		npcManager.ChangeMap(nowMap, nextMap);
@@ -979,10 +982,11 @@ namespace game_framework {
 		int nowMap = mapManager.GetNowMap();
 		if (nextMap != -1 && nextMap < mapManager.GetBlockMapSize()) //nextMap in blockMap
 		{
-			role.SetXY(0, SIZE_Y - role.Height() - 1);
 			mapManager.ChangeMap(nextMap, "right");
 			bossManager.TargetBoss(mapManager.GetNowMap());
 			npcManager.ChangeMap(nowMap, nextMap);
+
+			role.SetXY(0, SIZE_Y - role.Height());
 		}
 	}
 

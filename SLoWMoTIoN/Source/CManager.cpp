@@ -1154,7 +1154,7 @@ namespace game_framework
 		npc[3].push_back(new CNPC1(CPoint(450, 350), BitmapPath("RES\\NPC\\studentG", "studentG", 1, RGB(255, 255, 255)), DIALOG_AVATAR_NAME_STUDENTG, DIALOG_DATA_STGHAVEBREAKFAST));
 		//npc[3].push_back(new CNPC1(CPoint(700, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255, 255, 255)), "zy", DIALOG_DATA_STGSUBMIT));
 
-		npc[3].push_back(new CNPC1(CPoint(680, 360), BitmapPath("RES\\NPC\\faqai", "faqai", 20, RGB(255, 255, 255)), "faqai", DIALOG_DATA_FAQAI));
+		npc[3].push_back(new CNPC1(CPoint(560, 90), BitmapPath("RES\\NPC\\faqai", "faqai", 20, RGB(255, 255, 255)), "faqai", DIALOG_DATA_FAQAI));
 
 		npc[7].push_back(new CNPC1(CPoint(400, 360), BitmapPath("RES\\NPC\\an", "an", 6, RGB(214, 214, 214)), "an", "EasyAndroidHomework"));
 

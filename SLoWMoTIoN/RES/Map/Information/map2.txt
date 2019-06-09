@@ -1,17 +1,13 @@
 background RES\Map\desert.bmp 0 0
-block RES\Map\1_L.bmp 84 246
-block RES\Map\1_M.bmp 149 246
-block RES\Map\1_R.bmp 212 245
-block RES\Map\3_L.bmp 349 127
-block RES\Map\3_R.bmp 415 127
-block RES\Map\4.bmp 841 150
-block RES\Map\2_L.bmp 508 303
-block RES\Map\3_M.bmp 574 302
-block RES\Map\3_M.bmp 633 301
-block RES\Map\3_R.bmp 692 301
-block RES\Map\14.bmp 213 412
-block RES\Map\12.bmp 141 411
-block RES\Map\14.bmp 284 412
+block RES\Map\1_L.bmp 39 229
+block RES\Map\1_M.bmp 106 229
+block RES\Map\1_R.bmp 167 228
+block RES\Map\3_L.bmp 643 232
+block RES\Map\3_R.bmp 771 234
+block RES\Map\4.bmp 384 112
+block RES\Map\2_L.bmp 361 328
+block RES\Map\3_M.bmp 710 233
+block RES\Map\3_R.bmp 428 327
 up -1
 down -1
 left 0
