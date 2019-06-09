@@ -1,0 +1,6 @@
+true
+role 不信你問，發財種子!
+role 我們要怎麼發大財?
+faqaiSeed 我們的目標是發財
+role 我知道，但具體來說我們要做甚麼?
+faqaiSeed 發~大~財

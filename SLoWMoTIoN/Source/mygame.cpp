@@ -352,7 +352,11 @@ namespace game_framework {
 		{
 			finalScore = role.GetScore();
 			CAudio::Instance()->Stop("SLoWMoTIoN_Game");
-			if (isWinXingting)
+			if (isWinFacaiSeed)
+			{
+				CEndManager::Instance()->Start(END_NAME_WIN_FACAISEED);
+			}
+			else if (isWinXingting)
 			{
 				CEndManager::Instance()->Start(END_NAME_WINXINGTING);
 			}
@@ -388,12 +392,14 @@ namespace game_framework {
 				CEndManager::Instance()->Start(END_NAME_LOSEXINGTING);
 				role.SetXY(0, 0);
 				SwitchState(GAME_STATE_OVER);
+				return;
 			}
 			if (bossManager.targetBoss->GetBossId() == BOSS_FACAISEED)
 			{
-				CEndManager::Instance()->Start(END_NAME_LOSEXINGTING);
+				CEndManager::Instance()->Start(END_NAME_LOSE_FACAISEED);
 				role.SetXY(640, 0);
 				SwitchState(GAME_STATE_OVER);
+				return;
 			}
 		}
 		#pragma endregion

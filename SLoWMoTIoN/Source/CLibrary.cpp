@@ -1792,13 +1792,25 @@ namespace game_framework
 
 	void CStatusBoard::UpdateBar(int _HP, int _EQ)
 	{
-		int subHP = hp - _HP;
-		int subEQ = eq - _EQ;
-		hp = _HP;
-		eq = _EQ;
+		if (_HP <= 0)
+		{
+			HP_bar.SetTopLeft(-HP_bar.Width(), HP_bar.Top());
+		}
+		else
+		{
+			int subHP = hp - _HP;
+			hp = _HP;
+			HP_bar.SetTopLeft(HP_bar.Left() - dHP * subHP, HP_bar.Top());
+		}
 
-		HP_bar.SetTopLeft(HP_bar.Left() - dHP * subHP, HP_bar.Top());
-		EQ_bar.SetTopLeft(EQ_bar.Left() - dEQ * subEQ, EQ_bar.Top());
+		if (_EQ <= 0)
+			EQ_bar.SetTopLeft(-EQ_bar.Width(), EQ_bar.Top());
+		{
+			int subEQ = eq - _EQ;
+			eq = _EQ;
+			EQ_bar.SetTopLeft(EQ_bar.Left() - dEQ * subEQ, EQ_bar.Top());
+		}
+		
 	}
 
 	void CStatusBoard::SetXY(CPoint _p)
@@ -1889,6 +1901,11 @@ namespace game_framework
 
 	void CBossBoard::UpdateBar(int _HP)
 	{
+		if (_HP <= 0)	//±j¨î¸É¥¿
+		{
+			HP_bar.SetTopLeft(avatar_frame.Left(), HP_bar.Top());
+		}
+		
 		int subHP = hp - _HP;
 		hp = _HP;
 		

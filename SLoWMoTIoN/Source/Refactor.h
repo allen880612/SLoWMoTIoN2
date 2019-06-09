@@ -101,6 +101,8 @@
 #define END_NAME_WINXINGTING "WinXingting"
 #define END_NAME_LOSEXINGTING "LoseXingting"
 #define END_NAME_SALTEDFISH "SaltedFish"
+#define END_NAME_WIN_FACAISEED "WinFacaiSeed"
+#define END_NAME_LOSE_FACAISEED "LoseFacaiSeed"
 #pragma endregion
 
 #define END_EOF "nonenone"
