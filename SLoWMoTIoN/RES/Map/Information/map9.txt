@@ -1,7 +1,10 @@
 background RES\Map\IDB_MAP_0.bmp 0 0
+block RES\Map\bm2.bmp 232 208
+block RES\Map\bm2.bmp 465 208
+block RES\Map\bm2.bmp 738 206
 up -1
 down -1
 left 7
 right 10
 passerbyNumber 5
-passerbyID 0 1
+passerbyID 2

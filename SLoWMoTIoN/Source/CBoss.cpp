@@ -71,10 +71,11 @@ namespace game_framework
 		hp = initHp;
 		layer.SetLayer(BOSS_LAYER);
 		IsAlive = true;
+		isEnd = false;
 
 		animation.SetValid(false);
 		CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
-		isEnd = false;
+		
 		AliveTime = CTimer(99.0);
 	}
 
