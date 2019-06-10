@@ -405,6 +405,7 @@ namespace game_framework
 	#pragma endregion
 
 	#pragma region - CWindows -
+	
 	class CWindows
 	{
 		friend class CScrollWindows;
@@ -420,6 +421,7 @@ namespace game_framework
 
 			void Open();
 			void Close();
+			void UpdateMouse(CPoint _p) { mousePos = _p; };
 
 			bool IsCollisionClose(CPoint);
 			bool IsOpen();
@@ -433,8 +435,9 @@ namespace game_framework
 
 		protected:
 			int x, y;
-			CButton *closeButton;
+			CButton *closeButton = NULL;
 			CMovingBitmap background;
+			CPoint mousePos;
 		private:
 			bool isOpen;
 			bool isLoaded;
@@ -467,6 +470,34 @@ namespace game_framework
 			int img_x, img_y;
 			int img_height, img_width;
 			int limit_top, limit_buttom;
+	};
+	
+	class CButtonManager;
+	class CPanel : public CWindows
+	{
+
+	public:
+			CPanel();
+			~CPanel() { Clear(); };
+			void CreatButton();
+			void LoadResource();
+			void Initialize(CPoint);
+			void Clear();
+
+			void UpdateMouse(CPoint _p) { mousePos = _p; };
+
+			//void Close();
+			void OnCycle();
+			//void OnShow();
+
+			string GetCollisionButtonName();
+
+
+		private:
+			CButtonManager *btnManager = NULL;
+			//CButton btn_resume, btn_menu, btu_exit;
+			CPoint mousePos;
+			int img_x, img_y;
 	};
 	#pragma endregion	
 

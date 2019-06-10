@@ -1465,6 +1465,8 @@ namespace game_framework
 		//closeButton = new CButton(BitmapPath("RES\\Button", "close", 2, RGB(214, 214, 214)), CPoint(0, 0), false, true);
 		closeButton->LoadBitmap();
 		background.LoadBitmap("RES\\Windows", "EndingWindows", RGB(214, 214, 214));
+
+		
 	}
 
 	void CWindows::Initialize(CPoint _initP)
@@ -1479,11 +1481,19 @@ namespace game_framework
 		background.SetTopLeft(x, y);
 		background.SetValid(false);
 		closeButton->SetValid(false);
+		CLayerManager::Instance()->AddObject(closeButton->GetAnimate(), INTERFACE_LAYER);
+		CLayerManager::Instance()->AddObject(&background, INTERFACE_LAYER);
+
 	}
 
 	void CWindows::Clear()
 	{
-		delete closeButton;
+		if (closeButton != NULL)
+		{
+			delete closeButton;
+			closeButton = NULL;
+		}
+
 	}
 
 	void CWindows::Open()
@@ -1528,6 +1538,8 @@ namespace game_framework
 
 	void CWindows::OnCycle()
 	{
+		background.SetValid(isOpen);
+		closeButton->SetValid(isOpen);
 		if (!IsOpen())
 		{
 			//background.SetValid(false);
@@ -1584,7 +1596,7 @@ namespace game_framework
 	void CScrollWindows::OnScrolling(short _s)
 	{
 		
-		int move = (int)_s;
+		int move = -(int)_s;
 		move /= 12;
 
 		const int NOW_BOTTOM = (endingVector[rowNum - 1][colNum - 1]).GetAnimate()->GetRect().bottom;
@@ -2097,5 +2109,51 @@ namespace game_framework
 		}
 	}
 	#pragma endregion
+
+	CPanel::CPanel()
+	{
+		btnManager = new CButtonManager();
+	}
+
+	void CPanel::CreatButton()
+	{
+		
+		btnManager->CreateButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(350, 190), false, true);
+		btnManager->CreateButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(350, 260), false, true);
+		btnManager->CreateButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(350, 330), false, true);
+	}
+
+	void CPanel::LoadResource()
+	{
+		CWindows::LoadResource();
+		btnManager->Load();
+	}
+
+	void CPanel::Initialize(CPoint _p)
+	{
+		CWindows::Initialize(_p);
+		btnManager->Initialize();
+		btnManager->SetValid(false);
+	}
+
+	void CPanel::Clear()
+	{
+		CWindows::Clear();
+		//btnManager->Clear();
+		delete btnManager;
+		btnManager = NULL;
+	}
+
+	void CPanel::OnCycle()
+	{
+		CWindows::OnCycle();
+		btnManager->SetValid(IsOpen());
+		btnManager->OnCycle();
+	}
+	
+	string CPanel::GetCollisionButtonName()
+	{
+		return btnManager->GetCollisionButtonName();
+	}
 
 }

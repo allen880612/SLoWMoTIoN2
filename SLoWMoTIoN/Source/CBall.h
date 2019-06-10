@@ -85,8 +85,8 @@ namespace game_framework {
 		CRect GetCenterRect() { return centerRect; };
 		void OnMove();
 		void SetRole(CRole* _r) { role = _r; };
-		int GetX3() { return x + animation.Width() / 2; };
-		bool IsDead() { return isDead; };
+		//int GetX3() { return x + animation.Width() / 2; };
+		//bool IsDead() { return isDead; };
 		void Initialize();
 	private:
 		CTimer selfBang; //¶€√ztimer
@@ -94,7 +94,7 @@ namespace game_framework {
 		CRect centerRectSize;
 		CRole *role;
 		int csize = 100;
-		bool isDead;
+		//bool isDead;
 	};
 	#pragma endregion
 

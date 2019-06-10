@@ -1,3 +1,4 @@
+#pragma once
 #include "stdafx.h"
 #include "Resource.h"
 #include "Refactor.h"
@@ -1451,6 +1452,7 @@ namespace game_framework
 
 	void CButtonManager::Initialize()
 	{
+		isValid = false;
 		for (map<string, CButton*>::iterator btniter = buttons.begin(); btniter != buttons.end(); btniter++)
 		{
 			(btniter->second)->Initialize();
@@ -1499,6 +1501,19 @@ namespace game_framework
 		/*return (buttons[_btnName])->GetState();*/
 	}
 
+	string CButtonManager::GetCollisionButtonName()
+	{
+		for (map<string, CButton*>::iterator btniter = buttons.begin(); btniter != buttons.end(); btniter++)
+		{			
+			if (IsPointInRect(mouse, btniter->second->GetAnimate()->GetRect())) // ¦³¸I¼²
+			{
+				return btniter->first;
+			}
+
+		}
+		return "NoButtonClick";
+	}
+
 	void CButtonManager::UpdateState(CPoint _m)
 	{
 		mouse = _m;
@@ -1521,6 +1536,7 @@ namespace game_framework
 		for (map<string, CButton*>::iterator btniter = buttons.begin(); btniter != buttons.end(); btniter++)
 		{
 			(btniter->second)->OnMove();
+			(btniter->second)->SetValid(isValid);
 		}
 	}
 	#pragma endregion

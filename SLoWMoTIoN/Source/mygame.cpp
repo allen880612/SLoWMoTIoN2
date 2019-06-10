@@ -76,7 +76,18 @@ namespace game_framework {
 	CGameStateInit::CGameStateInit(CGame *g)
 		: CGameState(g)
 	{
+		#pragma region Button Create
+		buttonManager.CreateButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true, false);
+		buttonManager.CreateButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true, false);
+		buttonManager.CreateButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(350, 190), false, true);
+		buttonManager.CreateButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(350, 260), false, true);
+		buttonManager.CreateButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(350, 330), false, true);
+		#pragma endregion
+	}
 
+	CGameStateInit::~CGameStateInit()
+	{
+		buttonManager.Clear();
 	}
 
 	void CGameStateInit::OnBeginState()
@@ -89,13 +100,6 @@ namespace game_framework {
 		
 		if (!isLoaded)
 		{
-			#pragma region Button Create
-			buttonManager.CreateButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true, false);
-			buttonManager.CreateButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true, false);
-			buttonManager.CreateButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(350, 190), false, true);
-			buttonManager.CreateButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(350, 260), false, true);
-			buttonManager.CreateButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(350, 330), false, true);
-			#pragma endregion
 			buttonManager.Load();
 			windowsEnding.LoadResource();
 			windowsHandbook.LoadResource("RES\\Handbook\\introduction\\");
@@ -104,7 +108,8 @@ namespace game_framework {
 			//blood.LoadBitmap(".\\RES\\UI\\blood.bmp", RGB(214, 214, 214));
 		}
 
-		buttonManager.Initialize();		
+		buttonManager.Initialize();	
+		buttonManager.SetValid(true);
 		windowsEnding.Initialize(CPoint(60, 60));
 		windowsHandbook.Initialize(CPoint(0, 0));
 
@@ -177,28 +182,56 @@ namespace game_framework {
 		{
 			windowsHandbook.CollisionArrow(point);
 		}
-		else if (buttonManager.IsCollisionMouse("music"))
+		else if (buttonManager.GetCollisionButtonName() != "NoButtonClick")
 		{
-			buttonManager.ClickButton("music");
-			CAudio::Instance()->SetIsPlayMusic(buttonManager.GetState("music"));
+			string btnName = buttonManager.GetCollisionButtonName();
+			if (btnName == "music")
+			{
+				buttonManager.ClickButton("music");
+				CAudio::Instance()->SetIsPlayMusic(buttonManager.GetState("music"));
+			}
+			else if (btnName == "sound")
+			{
+				buttonManager.ClickButton("sound");
+				CAudio::Instance()->SetIsPlaySound(buttonManager.GetState("sound"));
+			}
+			else if (btnName == "ending")	//他媽最好 close button 可以跟 這個同時觸發
+			{
+				windowsEnding.Open();
+			}
+			else if (btnName == "play")
+			{
+				GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+			}
+			else if (btnName == "about")
+			{
+				windowsHandbook.Open();
+			}		
 		}
-		else if (buttonManager.IsCollisionMouse("sound"))
-		{
-			buttonManager.ClickButton("sound");
-			CAudio::Instance()->SetIsPlaySound(buttonManager.GetState("sound"));
-		}
-		else if (buttonManager.IsCollisionMouse("ending"))	//他媽最好 close button 可以跟 這個同時觸發
-		{
-			windowsEnding.Open();
-		}
-		else if (buttonManager.IsCollisionMouse("play"))
-		{
-			GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
-		}
-		else if (buttonManager.IsCollisionMouse("about"))
-		{
-			windowsHandbook.Open();
-		}
+		
+		//else if (buttonManager.IsCollisionMouse("music"))
+		//{
+		//	buttonManager.ClickButton("music");
+		//	CAudio::Instance()->SetIsPlayMusic(buttonManager.GetState("music"));
+		//}
+		//else if (buttonManager.IsCollisionMouse("sound"))
+		//{
+		//	buttonManager.ClickButton("sound");
+		//	CAudio::Instance()->SetIsPlaySound(buttonManager.GetState("sound"));
+		//}
+		//else if (buttonManager.IsCollisionMouse("ending"))	//他媽最好 close button 可以跟 這個同時觸發
+		//{
+		//	windowsEnding.Open();
+		//}
+		//else if (buttonManager.IsCollisionMouse("play"))
+		//{
+		//	GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+		//}
+		//else if (buttonManager.IsCollisionMouse("about"))
+		//{
+		//	windowsHandbook.Open();
+		//}
+		
 
 	}
 
@@ -208,8 +241,6 @@ namespace game_framework {
 
 	void CGameStateInit::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
-		
-
 		if (windowsEnding.IsOpen())
 		{
 			windowsEnding.CollisionClose(point);
@@ -271,6 +302,7 @@ namespace game_framework {
 		#pragma region - Set eventManager -
 		eventManager.SetGameStateRun(this);
 		#pragma endregion
+		panel.CreatButton();
 	}
 
 	CGameStateRun::~CGameStateRun()
@@ -278,6 +310,7 @@ namespace game_framework {
 		delete[] ball;
 		npcManager.Clear();
 		bossManager.Clear();
+		panel.Clear();
 	}
 
 	void CGameStateRun::OnBeginState()
@@ -307,6 +340,7 @@ namespace game_framework {
 		
 		role.Initialize();
 		uiManager.Initialize(&role, &bossManager);
+		panel.Initialize(CPoint(200, 50));
 
 		timer = CTimer(GAME_TIME); //ㄎㄧㄤ==
 		nowUsedTimer = &timer;
@@ -347,12 +381,23 @@ namespace game_framework {
 		#pragma endregion
 
 		uiManager.Load();
+		panel.LoadResource();
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
 	{
 		SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
 		//SetCursor(AfxGetApp()->LoadCursor("..\\RES\\gamecurs.cur"));
+		
+		#pragma region - on panel  -
+		panel.OnCycle();
+		if (panel.IsOpen())
+		{
+			return;
+		}
+		#pragma endregion
+
+
 		#pragma region - pause game state in dialoging -
 		if (CDialogManager::Instance()->GetDialogState())
 		{
@@ -751,7 +796,6 @@ namespace game_framework {
 		#pragma endregion
 
 		uiManager.OnCycle(nowUsedTimer->GetTime(1));
-
 	}
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -894,9 +938,13 @@ namespace game_framework {
 		//	role.SetMovingDown(false);
 		//}
 
-		if (nChar == 27)
+		if (nChar == 27)	//ESC
 		{
-			GotoGameState(GAME_STATE_INIT);
+			if (panel.IsOpen())
+				panel.Close();
+			else
+				panel.Open();
+			//GotoGameState(GAME_STATE_INIT);
 		}
 
 		if (nChar == KEY_A)
@@ -914,6 +962,12 @@ namespace game_framework {
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
+		if (panel.IsOpen() && panel.IsCollisionClose(point))
+		{
+			panel.Close();
+			return;
+		}
+		
 		role.SetIsFire(true & !CDialogManager::Instance()->GetDialogState());
 		if (CDialogManager::Instance()->GetDialogState())
 		{
@@ -934,6 +988,8 @@ namespace game_framework {
 	{
 		// 沒事。如果需要處理滑鼠移動的話，寫code在這裡
 		role.SetMouseXY(point.x, point.y);
+		panel.UpdateMouse(point);
+
 	}
 
 	void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -943,7 +999,22 @@ namespace game_framework {
 
 	void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
+		if (panel.GetCollisionButtonName() != "NoButtonClick")
+		{
+			string btnName = panel.GetCollisionButtonName();
+			if (btnName == "play")
+			{
 
+			}
+			else if (btnName == "ending")	//他媽最好 close button 可以跟 這個同時觸發
+			{
+				
+			}
+			else if (btnName == "about")
+			{
+				GotoGameState(GAME_STATE_INIT);		// 切換至GAME_STATE_RUN
+			}
+		}
 	}
 
 	void CGameStateRun::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
@@ -1075,7 +1146,7 @@ namespace game_framework {
 		//miku.onShow();
 
 		#pragma region - paint object -
-		
+		panel.OnShow();
 		CLayerManager::Instance()->ShowLayer();
 
 		#pragma endregion
@@ -1095,6 +1166,7 @@ namespace game_framework {
 
 		CDialogManager::Instance()->ShowText();
 		role.OnShow();
+		
 		//time_left.ShowBitmap();	// 剩餘時間\
 		//hp_left.ShowBitmap();	// 剩餘HP	
 	}

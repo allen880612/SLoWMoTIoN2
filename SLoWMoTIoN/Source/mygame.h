@@ -68,7 +68,7 @@ namespace game_framework {
 	class CGameStateInit : public CGameState {
 	public:
 		CGameStateInit(CGame *g);
-		~CGameStateInit() {};
+		~CGameStateInit();
 		void OnBeginState();							// 設定每次重玩所需的變數
 		void OnInit();  								// 遊戲的初值及圖形設定
 		void OnKeyDown(UINT, UINT, UINT); 				// 處理鍵盤Down的動作
@@ -142,6 +142,7 @@ namespace game_framework {
 		CStatusBoard roleStatus;
 		CBossBoard bossStatus;
 		UIManager uiManager;
+		CPanel panel;
 
 		bool isWinXingting;
 		bool isWinFacaiSeed;
@@ -179,6 +180,7 @@ namespace game_framework {
 		CTimer timer_exit; //結局結束後要多久時間離開GameOver
 		CMovingBitmap overBitmap;
 		CToumeiImage gameOverImage;
+		CPanel panel;
 	};
 
 	class CGameStateMapEditer : public CGameState

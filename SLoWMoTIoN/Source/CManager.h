@@ -301,7 +301,9 @@ namespace game_framework
 
 			bool IsCollisionMouse(string);
 			bool GetState(string);
+			string GetCollisionButtonName();
 
+			void SetValid(bool _v) { isValid = _v; };
 			void UpdateState(CPoint);
 			void ShowButton();
 			void OnCycle();
@@ -310,6 +312,7 @@ namespace game_framework
 		private:
 			map <string, CButton*> buttons;
 			CPoint mouse;
+			bool isValid = false;
 	};
 	#pragma endregion
 

@@ -435,7 +435,7 @@ namespace game_framework
 				(*bkiter)->SetRole(role);
 			}
 
-			if ((*bkiter)->IsDead())
+			if (!(*bkiter)->IsAlive())
 			{
 				#pragma region - Create Bullet -
 				int bulletNumber = 12;

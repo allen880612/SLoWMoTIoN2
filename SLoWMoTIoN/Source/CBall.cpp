@@ -280,44 +280,6 @@ namespace game_framework {
 	}
 	#pragma endregion
 
-	//#pragma region - CBullet -
-	//CBullet::CBullet()
-	//{
-	//}
-
-	//CBullet::CBullet(BitmapPath _loadpath, int _x, int _y, int _mx, int _my)
-	//{
-	//	currentX = x = _x;
-	//	currentY = y = _y;
-
-	//	layer.SetLayer(BULLET_LAYER);
-
-	//	LoadBitmap(_loadpath.ziliaojia, _loadpath.name, _loadpath.number);
-
-	//	animation.SetTopLeft(x, y);
-	//	animation.ResetDelayTime(0.1);
-	//	CLayerManager::Instance()->AddObject(&animation, layer.GetLayer());
-	//}
-	//
-	//CBullet::~CBullet()
-	//{
-	//}
-
-	//void CBullet::OnMove()
-	//{
-	//	if (x > SIZE_X || x < 0 || y > SIZE_Y)	//¶W¥X¿Ã¹õ
-	//	{
-	//		SetIsAlive(false);
-	//		animation.SetValid(false);
-	//		return;
-	//	}
-
-	//	animation.OnMove();
-
-	//	SetXY(x + dx, y + dy);
-	//}
-	//#pragma endregion
-
 	#pragma region -  -
 	CBlackHole::CBlackHole() : CScallion()
 	{
@@ -339,7 +301,7 @@ namespace game_framework {
 		centerRectSize = CRect(0, 0, csize, csize);
 		role = NULL;
 		selfBang = CTimer(1.8);
-		isDead = false;
+		SetIsAlive(true);
 	}
 
 	void CBlackHole::OnMove()
@@ -347,7 +309,6 @@ namespace game_framework {
 		selfBang.CountDown();
 		if (selfBang.IsTimeOut())
 		{
-			isDead = true;
 			SetIsAlive(false);
 			role = NULL;
 			return;
