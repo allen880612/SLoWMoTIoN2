@@ -180,7 +180,7 @@ namespace game_framework {
 		}
 		else if (windowsHandbook.IsOpen())
 		{
-			windowsHandbook.CollisionArrow(point);
+			windowsHandbook.ClickWindows(point);
 		}
 		else if (buttonManager.GetCollisionButtonName() != "NoButtonClick")
 		{
@@ -279,6 +279,7 @@ namespace game_framework {
 
 		logo.SetTopLeft(0, 0);
 		buttonManager.OnCycle();
+		buttonManager.SetValid(!(windowsEnding.IsOpen() || windowsHandbook.IsOpen()));
 		windowsEnding.OnCycle();
 		windowsHandbook.OnCycle();
 	}
@@ -288,7 +289,7 @@ namespace game_framework {
 		logo.ShowBitmap();
 		CLayerManager::Instance()->ShowLayer();
 		windowsEnding.OnShow();
-		windowsHandbook.OnShow();
+		//windowsHandbook.OnShow();
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -296,9 +297,8 @@ namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 
 	CGameStateRun::CGameStateRun(CGame *g)
-		: CGameState(g), NUMBALLS(28)
+		: CGameState(g)
 	{
-		ball = new CBall[NUMBALLS];
 		#pragma region - Set eventManager -
 		eventManager.SetGameStateRun(this);
 		#pragma endregion
@@ -307,7 +307,6 @@ namespace game_framework {
 
 	CGameStateRun::~CGameStateRun()
 	{
-		delete[] ball;
 		npcManager.Clear();
 		bossManager.Clear();
 		panel.Clear();

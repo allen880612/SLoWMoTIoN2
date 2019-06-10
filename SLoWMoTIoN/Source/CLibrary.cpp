@@ -1996,6 +1996,7 @@ namespace game_framework
 	{
 		bmp.clear();
 		index = 0;
+		step = 0;
 		arrow_left.SetValid(false);
 		arrow_right.SetValid(false);
 	}
@@ -2008,38 +2009,56 @@ namespace game_framework
 	{
 		closeButton->LoadBitmap();
 		vector<string> bmpPath;
-		getFolderFile(folder, &bmpPath);
-		for (unsigned int i = 0; i < bmpPath.size(); i++)
+		int folderNumber = getFolerFileNumber(folder);
+		for (int k = 0; k < folderNumber; k++)
 		{
-			#pragma region - add bmp -
-			CMovingBitmap tempBmp;
-			string path = folder + bmpPath[i];
-			char *address = ConvertCharPointToString(folder + bmpPath[i]);
+			vector<CMovingBitmap> tempVectorBmp;
+			string child_folder = folder + std::to_string(k) + "\\";
 
-			tempBmp.LoadBitmap(address);
-			delete address;
-			tempBmp.SetTopLeft(0, 0);
-			#pragma endregion
-			bmp.push_back(tempBmp);
+			bmpPath.clear();
+			getFolderFile(child_folder, &bmpPath);
+			for (unsigned int i = 0; i < bmpPath.size(); i++)
+			{
+				#pragma region - add bmp -
+				CMovingBitmap tempBmp;
+				string path = child_folder + bmpPath[i];
+
+				char *address = ConvertCharPointToString(child_folder + bmpPath[i]);
+
+				tempBmp.LoadBitmap(address);
+				delete address;
+				tempBmp.SetValid(false);
+				tempBmp.SetTopLeft(0, 0);
+				#pragma endregion
+				tempVectorBmp.push_back(tempBmp);
+			}
+			bmp.push_back(tempVectorBmp);
 		}
-		background = bmp[0]; //set background\
-
+		background = bmp[0][0];
 		#pragma region - set arrow -
 		arrow_left.LoadBitmap("RES\\Handbook\\arrow_left.bmp", RGB(214,214,214));
 		arrow_right.LoadBitmap("RES\\Handbook\\arrow_right.bmp", RGB(214, 214, 214));
 
+		
+		#pragma endregion
+	}
+	void CSwitchWindow::Initialize(CPoint _point)
+	{
+		CWindows::Initialize(_point);
 		arrow_left.SetTopLeft(10, 320);
 		arrow_right.SetTopLeft(540, 320);
 		arrow_left.SetValid(false);
 		arrow_right.SetValid(false);
-		#pragma endregion
+
+		CLayerManager::Instance()->AddObject(&arrow_left, INTERFACE_LAYER + 1);
+		CLayerManager::Instance()->AddObject(&arrow_right, INTERFACE_LAYER + 1);
 	}
 	void CSwitchWindow::Open()
 	{
 		CWindows::Open();
 		if (index < (int)bmp.size())
 		{
-			background = bmp[index];
+			background = bmp[index][step];
 			arrow_left.SetValid(false);
 			arrow_right.SetValid(true);
 		}
@@ -2047,24 +2066,28 @@ namespace game_framework
 	void CSwitchWindow::Close()
 	{
 		CWindows::Close();
+		bmp[index][step].SetValid(false);
 		index = 0;
+		step = 0;
 		arrow_left.SetValid(false);
 		arrow_right.SetValid(false);
 	}
 
 	void CSwitchWindow::Switchwindow(string dir)
 	{
+		bmp[index][step].SetValid(false);
 		if (dir == "left")
 		{
 			SetIndex(index - 1);
+			step = 0;
 		}
 		else if (dir == "right")
 		{
 			SetIndex(index + 1);
+			step = 0;
 		}
-		arrow_left.SetValid(index != 0);
-		arrow_right.SetValid(index < (int)bmp.size() - 1);
-		background = bmp[index];
+		bmp[index][step].SetValid(true);
+		background = bmp[index][step];
 	}
 
 	void CSwitchWindow::SetIndex(int _index)
@@ -2082,32 +2105,41 @@ namespace game_framework
 			index = _index;
 		}
 	}
-
-	void CSwitchWindow::CollisionArrow(CPoint mPoint)
+	
+	bool CSwitchWindow::CollisionArrow(CPoint mPoint)
 	{
 		if (arrow_left.GetValid() && IsPointInRect(mPoint, arrow_left.GetRect()))
 		{
 			Switchwindow("left");
+			return true;
 		}
 		else if (arrow_right.GetValid() && IsPointInRect(mPoint, arrow_right.GetRect()))
 		{
 			Switchwindow("right");
+			return true;
 		}
+		return false;
 	}
 
-	void CSwitchWindow::OnShow()
+	void CSwitchWindow::ClickWindows(CPoint point)
 	{
-		CWindows::OnShow();
-
-		if (arrow_left.GetValid())
+		if (!CollisionArrow(point))
 		{
-			arrow_left.ShowBitmap();
-		}
-		if (arrow_right.GetValid())
-		{
-			arrow_right.ShowBitmap();
+			if (step < (int)bmp[index].size() - 1)
+			{
+				step++;
+			}
+			Switchwindow("this");
 		}
 	}
+
+	void CSwitchWindow::OnCycle()
+	{
+		CWindows::OnCycle();
+		arrow_left.SetValid(IsOpen() && index != 0);
+		arrow_right.SetValid(IsOpen() && index < (int)bmp.size() - 1);
+	}
+
 	#pragma endregion
 
 	CPanel::CPanel()
@@ -2139,9 +2171,12 @@ namespace game_framework
 	void CPanel::Clear()
 	{
 		CWindows::Clear();
-		//btnManager->Clear();
-		delete btnManager;
-		btnManager = NULL;
+		if (btnManager != NULL)
+		{
+			btnManager->Clear();
+			delete btnManager;
+			btnManager = NULL;
+		}
 	}
 
 	void CPanel::OnCycle()

@@ -472,6 +472,32 @@ namespace game_framework
 			int limit_top, limit_buttom;
 	};
 	
+	#pragma region - CSwitchWindow -
+	class CSwitchWindow : public CWindows
+	{
+	public:
+		CSwitchWindow();
+		~CSwitchWindow();
+		void LoadResource(string);
+		void Initialize(CPoint);
+		void Open();
+		void Close();
+		bool CollisionArrow(CPoint);
+		void ClickWindows(CPoint);
+		void OnCycle();
+		void OnShow();
+	private:
+		int index = 0;
+		int step = 0;
+		vector< vector<CMovingBitmap> > bmp;
+		CMovingBitmap arrow_left;
+		CMovingBitmap arrow_right;
+
+		void SetIndex(int);
+		void Switchwindow(string);
+	};
+	#pragma endregion
+
 	class CButtonManager;
 	class CPanel : public CWindows
 	{
@@ -582,27 +608,4 @@ namespace game_framework
 
 	};
 	#pragma endregion
-
-	#pragma region - CSwitchWindow -
-	class CSwitchWindow : public CWindows
-	{
-	public:
-		CSwitchWindow();
-		~CSwitchWindow();
-		void LoadResource(string);
-		void Open();
-		void Close();
-		void CollisionArrow(CPoint);
-		void OnShow();
-	private:
-		int index = 0;
-		vector<CMovingBitmap> bmp;
-		CMovingBitmap arrow_left;
-		CMovingBitmap arrow_right;
-
-		void SetIndex(int);
-		void Switchwindow(string);
-	};
-	#pragma endregion
-
 }
