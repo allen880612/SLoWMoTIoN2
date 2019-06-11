@@ -236,9 +236,10 @@ namespace game_framework
 
 	void CAnimate::OnMove()
 	{
-		GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
+		//GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
+		if (bmp.size() == 0)
+			return;
 
-		
 		if (delayTimer.IsTimeOut())
 		{
 			delayTimer.ResetTime();
@@ -262,7 +263,10 @@ namespace game_framework
 
 	void CAnimate::OnMove(int dir)
 	{
-		GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
+		//GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
+		if (bmp.size() == 0)
+			return;
+
 		int upperLimit = (bmp_amount - 1) / 4;
 		if (dir != 0)	//Move
 		{
@@ -377,42 +381,70 @@ namespace game_framework
 		x = nx, y = ny;
 		//bitmaps[bmp_index]->SetTopLeft(x, y);
 		bmp[bmp_index].SetTopLeft(x, y);
-
 	}
 
 	void CAnimate::OnShow()
 	{
-		GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded before they are shown.");
+		//GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded before they are shown.");
 		//bitmaps[bmp_index]->ShowBitmap();
-		bmp[bmp_index].ShowBitmap();
+		if (bmp_index < (int)bmp.size())
+		{
+			bmp[bmp_index].ShowBitmap();
+		}
 	}
 
 	int CAnimate::Top()
 	{
-		GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
-		return y;
+		//GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
+		if (bmp.size() != 0)
+		{
+			return y;
+		}
+		else
+		{
+			return 0;
+		}
 	}
 
 	int CAnimate::Left()
 	{
-		GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
-		return x;
+		//GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
+		if (bmp.size() != 0)
+		{
+			return x;
+		}
+		else
+		{
+			return 0;
+		}
 	}
 
 	int CAnimate::Height()
 	{
-		GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
+		//GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
 		//return bitmaps[bmp_index]->Height();
-		return bmp[bmp_index].Height();
-
+		if (bmp.size() != 0)
+		{
+			return bmp[bmp_index].Height();
+		}
+		else
+		{
+			return 0;
+		}
 	}
 
 	int CAnimate::Width()
 	{
-		GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
+		//GAME_ASSERT(bmp.size() != 0, "CAnimation: Bitmaps must be loaded first.");
 		//return bitmaps[bmp_index]->Width();
-		return bmp[bmp_index].Width();
-
+		if (bmp.size() != 0)
+		{
+			return bmp[bmp_index].Width();
+		}
+		else
+		{
+			return 0;
+		}
 	}
 
 	bool CAnimate::IsNull()
