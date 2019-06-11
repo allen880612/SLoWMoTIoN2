@@ -9,15 +9,11 @@
 #include "CEraser.h"
 #include "CManager.h"
 
-
 using namespace myLibrary;
 
 namespace game_framework {
 
 	#pragma region - ball -
-	/////////////////////////////////////////////////////////////////////////////
-	// CBall: Ball class
-	/////////////////////////////////////////////////////////////////////////////
 
 	CBall::CBall()
 	{
@@ -105,12 +101,6 @@ namespace game_framework {
 		velocity_y = initV_y;
 	}
 
-	//CScallion::~CScallion()
-	//{
-	//	//animation.ReleaseAnimate();
-	//	//delete this;
-	//}
-
 	void CScallion::Clear()
 	{
 		this->~CScallion();
@@ -157,12 +147,9 @@ namespace game_framework {
 		}
 		#pragma endregion
 
-
 		animation.OnMove();
 
 		SetXY(x + velocity_x, y);
-		//SetCurrentXY(currentX + velocity_x, currentY);
-
 	}
 
 	void CScallion::OnShow()
