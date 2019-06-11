@@ -1077,7 +1077,7 @@ namespace game_framework
 			targetBoss->Initialize();
 			targetBoss->GetAnimate()->SetValid(true);
 		}
-		else if (nowMap == BOSS_MAP_FACAISEED && (!bossInformation[BOSS_FACAISEED]->IsEnd()))
+		else if (nowMap == BOSS_MAP_FACAISEED && (bossInformation[BOSS_FACAISEED]->GetAlive() && !bossInformation[BOSS_FACAISEED]->IsEnd()))
 		{
 			targetBoss = bossInformation[BOSS_FACAISEED];
 			targetBoss->Initialize();
