@@ -165,5 +165,4 @@ namespace game_framework
 		#pragma endregion
 	};
 	#pragma endregion
-
 }

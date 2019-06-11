@@ -1059,6 +1059,7 @@ namespace game_framework {
 		CDialogManager::Instance()->OpenMusicPlayer(openMusic);
 		CDialogManager::Instance()->Start(openTxt);
 	}
+
 	void CNPC3::Initialize()
 	{
 		CNPC::Initialize();

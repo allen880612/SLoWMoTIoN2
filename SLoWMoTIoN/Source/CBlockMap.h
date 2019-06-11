@@ -61,6 +61,7 @@ namespace game_framework
 	};
 	#pragma endregion
 
+	#pragma region - CBlockMap -
 	class CBlockMap
 	{
 	public:
@@ -93,6 +94,5 @@ namespace game_framework
 		void LoadMap(string); //讀取string的txt
 		void WriteMap(string); //寫下string的txt
 	};
-	
-	
+	#pragma endregion
 }

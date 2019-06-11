@@ -70,6 +70,7 @@ using namespace myLibrary;
 namespace game_framework {
 
 	int finalScore = 0;
+
 	#pragma region - CGame Init -
 	CGameStateInit::CGameStateInit(CGame *g)
 		: CGameState(g)
@@ -1256,5 +1257,4 @@ namespace game_framework {
 	}	
 
 	#pragma endregion
-
 }//End

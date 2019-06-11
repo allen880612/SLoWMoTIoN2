@@ -50,10 +50,10 @@ namespace game_framework {
 	public:
 		CGameStateInit(CGame *g);
 		~CGameStateInit();
-		void OnBeginState();							// 設定每次重玩所需的變數
-		void OnInit();  								// 遊戲的初值及圖形設定
-		void OnKeyDown(UINT, UINT, UINT); 				// 處理鍵盤Down的動作
-		void OnKeyUp(UINT, UINT, UINT); 				// 處理鍵盤Up的動作
+		void OnBeginState(); // 設定每次重玩所需的變數
+		void OnInit(); // 遊戲的初值及圖形設定
+		void OnKeyDown(UINT, UINT, UINT); // 處理鍵盤Down的動作
+		void OnKeyUp(UINT, UINT, UINT); // 處理鍵盤Up的動作
 		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
 		void OnLButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
 		void OnRButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
@@ -61,11 +61,11 @@ namespace game_framework {
 		void OnMouseWheel(UINT nFlags, short zDelta, CPoint point);
 	protected:
 		void OnMove();
-		void OnShow();									// 顯示這個狀態的遊戲畫面
+		void OnShow(); // 顯示這個狀態的遊戲畫面
 	private:
 		CButtonManager buttonManager;
 		CPoint		  mouse;
-		CMovingBitmap background;								// background
+		CMovingBitmap background; // background
 
 		CRole miku;
 		
@@ -73,18 +73,13 @@ namespace game_framework {
 		CSwitchWindow windowsHandbook;
 	};
 
-	/////////////////////////////////////////////////////////////////////////////
-	// 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
-	// 每個Member function的Implementation都要弄懂
-	/////////////////////////////////////////////////////////////////////////////
-
 	class CGameStateRun : public CGameState {
 		friend class CEventManager;
 	public:
 		CGameStateRun(CGame *g);
 		~CGameStateRun();
-		void OnBeginState();							// 設定每次重玩所需的變數
-		void OnInit();  								// 遊戲的初值及圖形設定
+		void OnBeginState(); // 設定每次重玩所需的變數
+		void OnInit(); // 遊戲的初值及圖形設定
 		void OnKeyDown(UINT, UINT, UINT);
 		void OnKeyUp(UINT, UINT, UINT);
 		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
@@ -95,8 +90,8 @@ namespace game_framework {
 		void OnMouseWheel(UINT nFlags, short zDelta, CPoint point);
 
 	protected:
-		void OnMove();									// 移動遊戲元素
-		void OnShow();									// 顯示這個狀態的遊戲畫面
+		void OnMove(); // 移動遊戲元素
+		void OnShow(); // 顯示這個狀態的遊戲畫面
 	private:
 		CRole role;
 		CInteger		time_left;	// 剩下的撞擊數
@@ -117,7 +112,7 @@ namespace game_framework {
 
 		bool isWinXingting;
 		bool isWinFacaiSeed;
-		#pragma region - zi din yi -
+		#pragma region - 自定義函數 -
 		void PositionTrigger();
 		void ChangeMap(string);
 		void ChangeMap(int);
@@ -127,21 +122,16 @@ namespace game_framework {
 		#pragma endregion
 	};
 
-	/////////////////////////////////////////////////////////////////////////////
-	// 這個class為遊戲的結束狀態(Game Over)
-	// 每個Member function的Implementation都要弄懂
-	/////////////////////////////////////////////////////////////////////////////
-
 	class CGameStateOver : public CGameState {
 	public:
 		CGameStateOver(CGame *g);
-		void OnBeginState();							// 設定每次重玩所需的變數
+		void OnBeginState(); // 設定每次重玩所需的變數
 		void OnInit();
 		void OnKeyDown(UINT, UINT, UINT);
 		void OnLButtonDown(UINT nFlags, CPoint point);
 	protected:
-		void OnMove();									// 移動遊戲元素
-		void OnShow();									// 顯示這個狀態的遊戲畫面
+		void OnMove(); // 移動遊戲元素
+		void OnShow(); // 顯示這個狀態的遊戲畫面
 	private:
 		int counter;	// 倒數之計數器
 		int alpha; 
@@ -177,5 +167,4 @@ namespace game_framework {
 			CMapEditer mapEditer;
 			CPoint mousePoint;
 	};
-
 }

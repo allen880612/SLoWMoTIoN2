@@ -10,11 +10,11 @@ namespace game_framework {
 	{
 	public:
 		CBall();
-		bool IsAlive();											// 是否活著
+		bool IsAlive(); // 是否活著
 
 		void SetCurrentXY(double, double);
-		void SetXY(int nx, int ny);								// 設定圓心的座標
-		void SetIsAlive(bool alive);							// 設定是否活著
+		void SetXY(int nx, int ny); // 設定圓心的座標
+		void SetIsAlive(bool alive); // 設定是否活著
 		CPoint GetCenterPoint() { return CPoint(x + animation.Width() / 2, y + animation.Height() / 2); };
 
 		void LoadBitmap(string, string, int);

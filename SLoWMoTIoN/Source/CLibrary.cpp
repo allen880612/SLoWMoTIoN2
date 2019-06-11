@@ -705,7 +705,6 @@ namespace game_framework
 	{
 		canMoving = flag;
 	}
-
 	#pragma endregion
 
 	#pragma region - Button -
@@ -1200,6 +1199,7 @@ namespace game_framework
 			return bmpPath[index];
 		}
 	}
+
 	string CEnd::GetTxt(int index)
 	{
 		if (index < 0 || index >= (int)txt.size())
@@ -1211,6 +1211,7 @@ namespace game_framework
 			return txt[index];
 		}
 	}
+	
 	void CEnd::LoadEnd()
 	{
 		LoadBmpTxt(endName);
@@ -1594,7 +1595,6 @@ namespace game_framework
 		cover_bottom.ShowBitmap();
 		closeButton->OnShow();
 	}
-
 	#pragma endregion
 
 	#pragma region - CSwitchWindow -
@@ -1646,6 +1646,7 @@ namespace game_framework
 		arrow_right.LoadBitmap("RES\\Handbook\\arrow_right.bmp", RGB(214, 214, 214));
 		#pragma endregion
 	}
+	
 	void CSwitchWindow::Initialize(CPoint _point)
 	{
 		CWindow::Initialize(_point);
@@ -1657,6 +1658,7 @@ namespace game_framework
 		CLayerManager::Instance()->AddObject(&arrow_left, INTERFACE_LAYER + 1);
 		CLayerManager::Instance()->AddObject(&arrow_right, INTERFACE_LAYER + 1);
 	}
+	
 	void CSwitchWindow::Open()
 	{
 		CWindow::Open();
@@ -1667,6 +1669,7 @@ namespace game_framework
 			arrow_right.SetValid(true);
 		}
 	}
+
 	void CSwitchWindow::Close()
 	{
 		CWindow::Close();
@@ -1751,7 +1754,6 @@ namespace game_framework
 		arrow_left.SetValid(IsOpen() && index != 0);
 		arrow_right.SetValid(IsOpen() && index < (int)bmp.size() - 1);
 	}
-
 	#pragma endregion
 
 	#pragma region - CPanel -

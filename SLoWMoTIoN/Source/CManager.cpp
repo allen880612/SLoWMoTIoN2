@@ -1026,6 +1026,7 @@ namespace game_framework
 	{
 		Clear();
 	}
+
 	void CNPCManager::Clear()
 	{
 		for (int i = 0; i < MAX_MAP_NUMBER; i++)

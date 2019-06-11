@@ -389,7 +389,7 @@ namespace game_framework
 
 		int *printNowMap = NULL;
 		int nowMap;
-		int nowMapNumber; //reload前的地圖數 (求大佬賜個名，我可能沒有取名的天份)
+		int nowMapNumber; //reload前的地圖數
 		vector<bool> reloadMap;
 
 		vector<CBlockMap> blockMap; //所有地圖
@@ -477,5 +477,4 @@ namespace game_framework
 		CBossManager *bManager;
 	};
 	#pragma endregion
-
 }

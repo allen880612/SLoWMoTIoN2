@@ -116,19 +116,23 @@ namespace game_framework
 		y = _y;
 		animation.SetTopLeft(x, y);
 	}
+
 	void CBoss::SetCurrentXY(int _x, int _y)
 	{
 		currentX = _x;
 		currentY = _y;
 	}
+
 	void CBoss::SetHp(int _hp)
 	{
 		hp = _hp;
 	}
+
 	void CBoss::SetIsAlive(bool flag)
 	{
 		IsAlive = flag;
 	}
+
 	void CBoss::MoveWithMap(string dir)
 	{
 		if (dir == "left")
@@ -679,6 +683,7 @@ namespace game_framework
 			}
 		}
 	}
+
 	void CFacaiSeed::ClearBullet()
 	{
 		#pragma region - clear coin -
@@ -753,6 +758,7 @@ namespace game_framework
 		CollisionScallion(role);
 		#pragma endregion
 	}
+
 	CPoint CFacaiSeed::GetCreateCoinPoint()
 	{
 		CPoint center = GetCenterPoint();
@@ -768,5 +774,4 @@ namespace game_framework
 		return center;
 	}
 	#pragma endregion
-
 }

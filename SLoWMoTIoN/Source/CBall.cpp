@@ -175,8 +175,6 @@ namespace game_framework {
 		velocity_y = dy;
 	}
 
-
-
 	bool CScallion::IsCollision(CMonster passerby)
 	{
 		return false;
@@ -197,7 +195,7 @@ namespace game_framework {
 	}
 	#pragma endregion
 
-	#pragma region -  -
+	#pragma region - CBlackHole -
 	CBlackHole::CBlackHole() : CScallion()
 	{
 	}
@@ -277,8 +275,6 @@ namespace game_framework {
 			role->SetXY(role->GetX1() - ddrsx, role->GetY1());
 		}
 	}
-
-
 	#pragma endregion
 
 	#pragma region - CRay -

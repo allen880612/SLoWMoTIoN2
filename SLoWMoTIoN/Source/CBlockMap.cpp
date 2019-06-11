@@ -13,6 +13,7 @@
 using namespace std;
 namespace game_framework
 {
+	#pragma region - CBlockMap -
 	CBlockMap::CBlockMap()
 	{
 		nowMap = 0;
@@ -180,4 +181,5 @@ namespace game_framework
 		}
 		data.close();
 	}
+	#pragma endregion
 }

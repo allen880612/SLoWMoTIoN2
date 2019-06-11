@@ -14,6 +14,7 @@ namespace myLibrary
 	int GetPostive(int);
 	int GetRandom(int, int); //±o®ÏRandomº∆¶r°Amin <= k <= max
 	int ConvertStringToInt(string);
+
 	class BitmapPath
 	{
 	public:
@@ -363,6 +364,8 @@ namespace game_framework
 	#pragma endregion
 
 	#pragma region - CWindows -
+
+	#pragma region - CWindow -
 	class CWindow
 	{
 	friend class CScrollWindow;
@@ -398,7 +401,9 @@ namespace game_framework
 		bool isOpen;
 		bool isLoaded;
 	};
+	#pragma endregion
 
+	#pragma region - CScrollWindow -
 	class CScrollWindow : public CWindow
 	{
 	public:
@@ -424,6 +429,7 @@ namespace game_framework
 		int img_height, img_width;
 		int limit_top, limit_buttom;
 	};
+	#pragma endregion
 	
 	#pragma region - CSwitchWindow -
 	class CSwitchWindow : public CWindow
