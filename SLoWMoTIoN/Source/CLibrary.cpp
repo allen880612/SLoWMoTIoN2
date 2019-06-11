@@ -1467,10 +1467,10 @@ namespace game_framework
 	}
 	#pragma endregion
 
-	#pragma region - CWindows -
+	#pragma region - Windows -
 	
-	#pragma region windows
-	CWindows::CWindows()
+	#pragma region - CWindow -
+	CWindow::CWindow()
 	{
 		x = y = 0;
 		isLoaded = false;
@@ -1478,7 +1478,7 @@ namespace game_framework
 		closeButton = new CButton(BitmapPath("RES\\Button", "close", 2, RGB(214, 214, 214)), CPoint(0, 0), false, true);
 	}
 
-	CWindows::CWindows(CPoint _p)
+	CWindow::CWindow(CPoint _p)
 	{
 		SetXY(_p);
 		isLoaded = false;
@@ -1487,19 +1487,19 @@ namespace game_framework
 
 	}
 
-	CWindows::~CWindows()
+	CWindow::~CWindow()
 	{
 		Clear();
 	}
 
-	void CWindows::LoadResource()
+	void CWindow::LoadResource()
 	{
 		//closeButton = new CButton(BitmapPath("RES\\Button", "close", 2, RGB(214, 214, 214)), CPoint(0, 0), false, true);
 		closeButton->LoadBitmap();
 		background.LoadBitmap("RES\\Windows", "EndWindow_2", RGB(214, 214, 214));
 	}
 
-	void CWindows::Initialize(CPoint _initP)
+	void CWindow::Initialize(CPoint _initP)
 	{
 
 		SetXY(_initP);
@@ -1511,12 +1511,14 @@ namespace game_framework
 		background.SetTopLeft(x, y);
 		background.SetValid(false);
 		closeButton->SetValid(false);
-		CLayerManager::Instance()->AddObject(closeButton->GetAnimate(), INTERFACE_LAYER);
 		CLayerManager::Instance()->AddObject(&background, INTERFACE_LAYER);
+		CLayerManager::Instance()->AddObject(closeButton->GetAnimate(), INTERFACE_LAYER);
+
 		isOpen = false;
+
 	}
 
-	void CWindows::Clear()
+	void CWindow::Clear()
 	{
 		if (closeButton != NULL)
 		{
@@ -1526,47 +1528,47 @@ namespace game_framework
 
 	}
 
-	void CWindows::Open()
+	void CWindow::Open()
 	{
 		if (!isOpen)
 			isOpen = true;
 	}
 
-	void CWindows::Close()
+	void CWindow::Close()
 	{
 		if (isOpen)
 			isOpen = false;
 	}
 
-	bool CWindows::IsCollisionClose(CPoint _m)
+	bool CWindow::IsCollisionClose(CPoint _m)
 	{
-		return closeButton->IsCollisionMouse(_m);
+		return closeButton->IsCollisionMouse(_m) && isOpen;
 		//return closeButton.IsCollisionMouse(_m) & isOpen;
 	}
 
-	bool CWindows::IsOpen()
+	bool CWindow::IsOpen()
 	{
 		return isOpen;
 	}
 
-	void CWindows::SetCloseButton(CPoint _p)
+	void CWindow::SetCloseButton(CPoint _p)
 	{
 		closeButton->SetXY(_p.x, _p.y);
 		//closeButton.SetXY(_p.x, _p.y);
 	}
 
-	void CWindows::SetXY(CPoint _p)
+	void CWindow::SetXY(CPoint _p)
 	{
 		x = _p.x;
 		y = _p.y;
 	}
 
-	void CWindows::CollisionClose(CPoint _p)
+	void CWindow::CollisionClose(CPoint _p)
 	{
 		closeButton->CollisonMouse(_p);
 	}
 
-	void CWindows::OnCycle()
+	void CWindow::OnCycle()
 	{
 		background.SetValid(isOpen);
 		closeButton->SetValid(isOpen);
@@ -1586,7 +1588,7 @@ namespace game_framework
 		////closeButton.SetValid(false);
 	}
 
-	void CWindows::OnShow()
+	void CWindow::OnShow()
 	{
 		if (!IsOpen())
 		{
@@ -1599,9 +1601,9 @@ namespace game_framework
 	}
 	#pragma endregion
 
-	#pragma region scroll windows
+	#pragma region - Scroll windows -
 
-	CScrollWindows::CScrollWindows():CWindows()
+	CScrollWindow::CScrollWindow():CWindow()
 	{
 		rowNum = 2;
 		colNum = 4;
@@ -1618,12 +1620,12 @@ namespace game_framework
 		#pragma endregion
 	}
 
-	CScrollWindows::~CScrollWindows()
+	CScrollWindow::~CScrollWindow()
 	{
 
 	}
 
-	void CScrollWindows::OnScrolling(short _s)
+	void CScrollWindow::OnScrolling(short _s)
 	{
 		
 		int move = -(int)_s;
@@ -1649,7 +1651,7 @@ namespace game_framework
 		//SetCloseButton(CPoint(closeButton->GetX(), closeButton->GetY() - move));
 	}
 
-	string CScrollWindows::GetCollisionButtonName(CPoint mPoint)
+	string CScrollWindow::GetCollisionButtonName(CPoint mPoint)
 	{
 		for (unsigned r = 0; r < endingVector.size(); r++)
 		{
@@ -1664,9 +1666,9 @@ namespace game_framework
 		return "NoButtonClick";
 	}
 
-	void CScrollWindows::LoadResource()
+	void CScrollWindow::LoadResource()
 	{
-		CWindows::LoadResource();
+		CWindow::LoadResource();
 		cover.LoadBitmap("RES\\Windows", "cover_top", RGB(214, 214, 214));
 		cover_bottom.LoadBitmap("RES\\Windows", "cover_bottom", RGB(214, 214, 214));
 
@@ -1705,11 +1707,11 @@ namespace game_framework
 
 	}
 
-	void CScrollWindows::Initialize(CPoint _p)
+	void CScrollWindow::Initialize(CPoint _p)
 	{
 		//const int HEIGHT = endingVector[0][0].Height();
 		//const int WIDTH = endingVector[0][0].Width();
-		CWindows::Initialize(_p);
+		CWindow::Initialize(_p);
 		cover.SetTopLeft(_p.x, _p.y);
 		cover_bottom.SetTopLeft(_p.x, SIZE_Y - cover_bottom.Height());
 
@@ -1746,15 +1748,15 @@ namespace game_framework
 	//	CWindows::Clear();
 	//}
 
-	void CScrollWindows::Close()
+	void CScrollWindow::Close()
 	{
 		isOpen = false;
 		Initialize(CPoint(x, y));
 	}
 
-	void CScrollWindows::OnCycle()
+	void CScrollWindow::OnCycle()
 	{
-		CWindows::OnCycle();
+		CWindow::OnCycle();
 		if (!IsOpen())
 		{
 			return;
@@ -1772,13 +1774,14 @@ namespace game_framework
 
 	}
 
-	void CScrollWindows::OnShow()
+	void CScrollWindow::OnShow()
 	{
 
 		if (!IsOpen())
 		{
 			return;
 		}
+
 
 		background.ShowBitmap();
 
@@ -1798,234 +1801,8 @@ namespace game_framework
 
 	#pragma endregion
 
-
-	#pragma endregion
-
-	#pragma region - CStatusBoard -
-	CStatusBoard::CStatusBoard()
-	{
-
-	}
-
-	void CStatusBoard::Load()
-	{
-		HP_bar.LoadBitmap("RES\\UI\\status\\blood.bmp", RGB(214, 214, 214));
-		HP_frame.LoadBitmap("RES\\UI\\status\\bar_frame.bmp", RGB(214, 214, 214));
-		EQ_bar.LoadBitmap("RES\\UI\\status\\EQ.bmp", RGB(214, 214, 214));
-		EQ_frame.LoadBitmap("RES\\UI\\status\\bar_frame.bmp", RGB(214, 214, 214));
-
-		avatar.LoadBitmap("RES\\UI\\status\\avatar.bmp");
-		avatar_frame.LoadBitmap("RES\\UI\\status\\avatar_frame.bmp", RGB(214, 214, 214));
-	}
-
-	void CStatusBoard::Initialize(CPoint _p, int _HP, int _EQ)
-	{
-		SetXY(_p);
-		SetDeltaBar(_HP, _EQ);
-		hp = _HP;
-		eq = _EQ;
-
-		CLayerManager::Instance()->AddObject(&HP_bar, INTERFACE_LAYER - 1);
-		CLayerManager::Instance()->AddObject(&EQ_bar, INTERFACE_LAYER - 1);
-		CLayerManager::Instance()->AddObject(&avatar, INTERFACE_LAYER - 1);
-
-		CLayerManager::Instance()->AddObject(&HP_frame, INTERFACE_LAYER);
-		CLayerManager::Instance()->AddObject(&EQ_frame, INTERFACE_LAYER);
-		CLayerManager::Instance()->AddObject(&avatar_frame, INTERFACE_LAYER);
-		
-	}
-
-	void CStatusBoard::UpdateBar(int _HP, int _EQ)
-	{
-		if (_HP <= 0)
-		{
-			HP_bar.SetTopLeft(-HP_bar.Width(), HP_bar.Top());
-		}
-		else
-		{
-			int subHP = hp - _HP;
-			hp = _HP;
-			HP_bar.SetTopLeft(HP_bar.Left() - dHP * subHP, HP_bar.Top());
-		}
-
-		if (_EQ <= 0)
-			EQ_bar.SetTopLeft(-EQ_bar.Width(), EQ_bar.Top());
-		{
-			int subEQ = eq - _EQ;
-			eq = _EQ;
-			EQ_bar.SetTopLeft(EQ_bar.Left() - dEQ * subEQ, EQ_bar.Top());
-		}
-		
-	}
-
-	void CStatusBoard::SetXY(CPoint _p)
-	{
-		avatar.SetTopLeft(_p.x, _p.y);
-		avatar_frame.SetTopLeft(_p.x, _p.y);
-
-		const int HP_X = _p.x + avatar_frame.Width();
-		const int HP_Y = _p.y;
-
-		const int PADDING_Y = 15;
-
-		HP_frame.SetTopLeft(HP_X, HP_Y + PADDING_Y);
-		HP_bar.SetTopLeft(HP_X, HP_Y + PADDING_Y);
-
-		const int EQ_X = _p.x + avatar_frame.Width();
-		const int EQ_Y = HP_bar.GetRect().bottom;
-
-		EQ_frame.SetTopLeft(HP_X, EQ_Y);
-		EQ_bar.SetTopLeft(HP_X, EQ_Y);
-	}
-
-	void CStatusBoard::SetDeltaBar(int _blood, int _EQ)
-	{
-		dHP = HP_bar.Width() / _blood;
-		dEQ = EQ_bar.Width() / _EQ;
-	}
-
-	void CStatusBoard::OnCycle(int _HP, int _EQ)
-	{
-		UpdateBar(_HP, _EQ);
-	}
-
-
-	#pragma endregion
-
-	#pragma region - BossBoard -
-	CBossBoard::CBossBoard()
-	{
-	}
-
-	void CBossBoard::Load()
-	{
-		HP_bar.LoadBitmap("RES\\UI\\status\\blood.bmp", RGB(214, 214, 214));
-		HP_frame.LoadBitmap("RES\\UI\\status\\bar_frame.bmp", RGB(214, 214, 214));
-
-		avatar.LoadBitmap("RES\\Boss\\Avatar\\Xingting.bmp");	// 要擋住血條
-		//avatar = CMovingBitmap();	//Default
-		NULLAvatar.LoadBitmap("RES\\Boss\\Avatar\\NULL.bmp");
-		avatar_frame.LoadBitmap("RES\\UI\\status\\avatar_frame.bmp", RGB(214, 214, 214));
-
-		#pragma region - Load boss avatar -
-		vector<string> avatarName;
-		string avatarFolderPath = "RES\\Boss\\Avatar\\";
-		getFolderFile(avatarFolderPath, &avatarName);
-
-		/*bossAvatar["Xingting"] = CMovingBitmap();
-		bossAvatar["Xingting"].LoadBitmap(".\\RES\\Boss\\Avatar\\Xingting.bmp", RGB(214, 214, 214));*/
-
-		for (unsigned i = 0; i < avatarName.size(); i++)
-		{
-			int strLength = avatarName[i].length();
-			string ext = avatarName[i].substr(strLength - 4, strLength);
-			if (ext == ".bmp")
-			{
-				string sAvatar = getFileName(avatarName[i]);
-				bossAvatar[sAvatar] = CMovingBitmap();
-				char *address = ConvertCharPointToString((avatarFolderPath + avatarName[i]));
-				bossAvatar[sAvatar].LoadBitmap(address);
-				delete address;
-			}
-		}
-		#pragma endregion
-	}
-
-	void CBossBoard::Initialize(CPoint _p)
-	{
-		SetXY(_p);
-		initPos = _p;
-		//SetDeltaBar(_HP);
-
-		CLayerManager::Instance()->AddObject(&HP_bar, INTERFACE_LAYER - 1);
-		CLayerManager::Instance()->AddObject(&HP_frame, INTERFACE_LAYER);
-		CLayerManager::Instance()->AddObject(&avatar_frame, INTERFACE_LAYER);
-		CLayerManager::Instance()->AddObject(&avatar, INTERFACE_LAYER - 1);
-		SetShow(false);
-	}
-
-	void CBossBoard::UpdateBar(int _HP)
-	{
-		if (_HP <= 0)	//強制補正
-		{
-			HP_bar.SetTopLeft(avatar_frame.Left(), HP_bar.Top());
-		}
-		
-		int subHP = hp - _HP;
-		hp = _HP;
-		
-		HP_bar.SetTopLeft(HP_bar.Left() + (int)(dHP * subHP), HP_bar.Top());
-	}
-
-	void CBossBoard::SetXY(CPoint _p)
-	{
-		const int AVATAR_X = SIZE_X - avatar_frame.Width();
-		const int AVATAR_Y = _p.y;
-
-		avatar.SetTopLeft(AVATAR_X, AVATAR_Y);
-		avatar_frame.SetTopLeft(AVATAR_X, AVATAR_Y);
-
-		const int HP_X = AVATAR_X - HP_frame.Width();
-		const int HP_Y = avatar_frame.GetRect().bottom - HP_frame.Height();
-
-		const int PADDING_Y = 15;
-
-		HP_frame.SetTopLeft(HP_X, HP_Y);
-		HP_bar.SetTopLeft(HP_X, HP_Y);
-	}
-
-	void CBossBoard::SetDeltaBar(int _HP)
-	{
-		dHP = (double)(HP_bar.Width() / _HP);
-	}
-
-	void CBossBoard::SetShow(bool _isValid)
-	{
-		isShow = _isValid;
-		HP_bar.SetValid(_isValid);
-		HP_frame.SetValid(_isValid);
-		avatar.SetValid(_isValid);
-		avatar_frame.SetValid(_isValid);
-	}
-
-	void CBossBoard::SetHP(int _hp)
-	{
-		UpdateBar(_hp);
-	}
-
-	void CBossBoard::OnCycle(CBossManager* bManager)
-	{
-		if (bManager->targetBoss != NULL && bManager->IsBattle())
-		{
-			if (!IsShow())	// 只需換一次
-			{
-				string bossID = (bManager->targetBoss)->GetID();
-				
-				if (bossAvatar.count(bossID) && !bossAvatar[bossID].IsNull())
-				{
-					avatar = bossAvatar[bossID];
-					hp = (bManager->targetBoss)->GetHp();
-					SetDeltaBar(hp);
-				}
-				else
-				{
-					avatar = NULLAvatar;
-				}
-
-				SetXY(initPos);
-				SetShow(true);
-			}
-			SetHP(bManager->targetBoss->GetHp());
-		}
-		else
-		{
-			SetShow(false);
-		}
-	}
-	#pragma endregion
-
 	#pragma region - CSwitchWindow -
-	CSwitchWindow::CSwitchWindow() : CWindows()
+	CSwitchWindow::CSwitchWindow() : CWindow()
 	{
 		bmp.clear();
 		index = 0;
@@ -2077,7 +1854,7 @@ namespace game_framework
 	}
 	void CSwitchWindow::Initialize(CPoint _point)
 	{
-		CWindows::Initialize(_point);
+		CWindow::Initialize(_point);
 		arrow_left.SetTopLeft(10, 320);
 		arrow_right.SetTopLeft(540, 320);
 		arrow_left.SetValid(false);
@@ -2088,7 +1865,7 @@ namespace game_framework
 	}
 	void CSwitchWindow::Open()
 	{
-		CWindows::Open();
+		CWindow::Open();
 		if (index < (int)bmp.size())
 		{
 			background = bmp[index][step];
@@ -2098,7 +1875,7 @@ namespace game_framework
 	}
 	void CSwitchWindow::Close()
 	{
-		CWindows::Close();
+		CWindow::Close();
 		bmp[index][step].SetValid(false);
 		index = 0;
 		step = 0;
@@ -2168,13 +1945,18 @@ namespace game_framework
 
 	void CSwitchWindow::OnCycle()
 	{
-		CWindows::OnCycle();
+		CWindow::OnCycle();
+		if (!IsOpen())
+		{
+			return;
+		}
 		arrow_left.SetValid(IsOpen() && index != 0);
 		arrow_right.SetValid(IsOpen() && index < (int)bmp.size() - 1);
 	}
 
 	#pragma endregion
 
+	#pragma region - CPanel -
 	CPanel::CPanel()
 	{
 		btnManager = new CButtonManager();
@@ -2182,19 +1964,19 @@ namespace game_framework
 
 	void CPanel::CreatButton()
 	{
-		
+
 		const int BTN_X = 240;
 		const int F_BTN_Y = 120;
-		
+
 		btnManager->CreateButton(BitmapPath("RES\\Button", "resume", 2, RGB(214, 214, 214)), CPoint(BTN_X, F_BTN_Y), false, true);
 		btnManager->CreateButton(BitmapPath("RES\\Button", "restart", 2, RGB(214, 214, 214)), CPoint(BTN_X, F_BTN_Y + 60), false, true);
 		btnManager->CreateButton(BitmapPath("RES\\Button", "menu", 2, RGB(214, 214, 214)), CPoint(BTN_X, F_BTN_Y + 120), false, true);
-		btnManager->CreateButton(BitmapPath("RES\\Button", "exit", 2, RGB(214, 214, 214)), CPoint(BTN_X, F_BTN_Y  + 180), false, true);
+		btnManager->CreateButton(BitmapPath("RES\\Button", "exit", 2, RGB(214, 214, 214)), CPoint(BTN_X, F_BTN_Y + 180), false, true);
 	}
 
 	void CPanel::LoadResource()
 	{
-		CWindows::LoadResource();
+		CWindow::LoadResource();
 		btnManager->Load();
 		CMovingBitmap panelBK;
 		panelBK.LoadBitmap("RES\\UI\\panel", "panel", RGB(214, 214, 214));
@@ -2203,7 +1985,7 @@ namespace game_framework
 
 	void CPanel::Initialize(CPoint _p)
 	{
-		CWindows::Initialize(_p);
+		CWindow::Initialize(_p);
 		btnManager->Initialize();
 		btnManager->SetValid(false);
 
@@ -2214,7 +1996,7 @@ namespace game_framework
 
 	void CPanel::Clear()
 	{
-		CWindows::Clear();
+		CWindow::Clear();
 		if (btnManager != NULL)
 		{
 			btnManager->Clear();
@@ -2225,17 +2007,254 @@ namespace game_framework
 
 	void CPanel::OnCycle()
 	{
-		CWindows::OnCycle();
+		CWindow::OnCycle();
 		btnManager->SetValid(IsOpen());
 		btnManager->UpdateState(mousePos);
 		CollisionClose(mousePos);
 
 		btnManager->OnCycle();
 	}
-	
+
 	string CPanel::GetCollisionButtonName()
 	{
 		return btnManager->GetCollisionButtonName();
 	}
+#pragma endregion
+
+	#pragma endregion
+
+	#pragma region - Status Board -
+
+	#pragma region - CStatusBoard -
+		CStatusBoard::CStatusBoard()
+		{
+
+		}
+
+		void CStatusBoard::Load()
+		{
+			HP_bar.LoadBitmap("RES\\UI\\status\\blood.bmp", RGB(214, 214, 214));
+			HP_frame.LoadBitmap("RES\\UI\\status\\bar_frame.bmp", RGB(214, 214, 214));
+			EQ_bar.LoadBitmap("RES\\UI\\status\\EQ.bmp", RGB(214, 214, 214));
+			EQ_frame.LoadBitmap("RES\\UI\\status\\bar_frame.bmp", RGB(214, 214, 214));
+
+			avatar.LoadBitmap("RES\\UI\\status\\avatar.bmp");
+			avatar_frame.LoadBitmap("RES\\UI\\status\\avatar_frame.bmp", RGB(214, 214, 214));
+		}
+
+		void CStatusBoard::Initialize(CPoint _p, int _HP, int _EQ)
+		{
+			SetXY(_p);
+			SetDeltaBar(_HP, _EQ);
+			hp = _HP;
+			eq = _EQ;
+
+			CLayerManager::Instance()->AddObject(&HP_bar, INTERFACE_LAYER - 1);
+			CLayerManager::Instance()->AddObject(&EQ_bar, INTERFACE_LAYER - 1);
+			CLayerManager::Instance()->AddObject(&avatar, INTERFACE_LAYER - 1);
+
+			CLayerManager::Instance()->AddObject(&HP_frame, INTERFACE_LAYER);
+			CLayerManager::Instance()->AddObject(&EQ_frame, INTERFACE_LAYER);
+			CLayerManager::Instance()->AddObject(&avatar_frame, INTERFACE_LAYER);
+
+		}
+
+		void CStatusBoard::UpdateBar(int _HP, int _EQ)
+		{
+			if (_HP <= 0)
+			{
+				HP_bar.SetTopLeft(-HP_bar.Width(), HP_bar.Top());
+			}
+			else
+			{
+				int subHP = hp - _HP;
+				hp = _HP;
+				HP_bar.SetTopLeft(HP_bar.Left() - dHP * subHP, HP_bar.Top());
+			}
+
+			if (_EQ <= 0)
+				EQ_bar.SetTopLeft(-EQ_bar.Width(), EQ_bar.Top());
+			{
+				int subEQ = eq - _EQ;
+				eq = _EQ;
+				EQ_bar.SetTopLeft(EQ_bar.Left() - dEQ * subEQ, EQ_bar.Top());
+			}
+
+		}
+
+		void CStatusBoard::SetXY(CPoint _p)
+		{
+			avatar.SetTopLeft(_p.x, _p.y);
+			avatar_frame.SetTopLeft(_p.x, _p.y);
+
+			const int HP_X = _p.x + avatar_frame.Width();
+			const int HP_Y = _p.y;
+
+			const int PADDING_Y = 15;
+
+			HP_frame.SetTopLeft(HP_X, HP_Y + PADDING_Y);
+			HP_bar.SetTopLeft(HP_X, HP_Y + PADDING_Y);
+
+			const int EQ_X = _p.x + avatar_frame.Width();
+			const int EQ_Y = HP_bar.GetRect().bottom;
+
+			EQ_frame.SetTopLeft(HP_X, EQ_Y);
+			EQ_bar.SetTopLeft(HP_X, EQ_Y);
+		}
+
+		void CStatusBoard::SetDeltaBar(int _blood, int _EQ)
+		{
+			dHP = HP_bar.Width() / _blood;
+			dEQ = EQ_bar.Width() / _EQ;
+		}
+
+		void CStatusBoard::OnCycle(int _HP, int _EQ)
+		{
+			UpdateBar(_HP, _EQ);
+		}
+
+
+	#pragma endregion
+
+	#pragma region - BossBoard -
+		CBossBoard::CBossBoard()
+		{
+		}
+
+		void CBossBoard::Load()
+		{
+			HP_bar.LoadBitmap("RES\\UI\\status\\blood.bmp", RGB(214, 214, 214));
+			HP_frame.LoadBitmap("RES\\UI\\status\\bar_frame.bmp", RGB(214, 214, 214));
+
+			avatar.LoadBitmap("RES\\Boss\\Avatar\\Xingting.bmp");	// 要擋住血條
+																	//avatar = CMovingBitmap();	//Default
+			NULLAvatar.LoadBitmap("RES\\Boss\\Avatar\\NULL.bmp");
+			avatar_frame.LoadBitmap("RES\\UI\\status\\avatar_frame.bmp", RGB(214, 214, 214));
+
+	#pragma region - Load boss avatar -
+			vector<string> avatarName;
+			string avatarFolderPath = "RES\\Boss\\Avatar\\";
+			getFolderFile(avatarFolderPath, &avatarName);
+
+			/*bossAvatar["Xingting"] = CMovingBitmap();
+			bossAvatar["Xingting"].LoadBitmap(".\\RES\\Boss\\Avatar\\Xingting.bmp", RGB(214, 214, 214));*/
+
+			for (unsigned i = 0; i < avatarName.size(); i++)
+			{
+				int strLength = avatarName[i].length();
+				string ext = avatarName[i].substr(strLength - 4, strLength);
+				if (ext == ".bmp")
+				{
+					string sAvatar = getFileName(avatarName[i]);
+					bossAvatar[sAvatar] = CMovingBitmap();
+					char *address = ConvertCharPointToString((avatarFolderPath + avatarName[i]));
+					bossAvatar[sAvatar].LoadBitmap(address);
+					delete address;
+				}
+			}
+	#pragma endregion
+		}
+
+		void CBossBoard::Initialize(CPoint _p)
+		{
+			SetXY(_p);
+			initPos = _p;
+			//SetDeltaBar(_HP);
+
+			CLayerManager::Instance()->AddObject(&HP_bar, INTERFACE_LAYER - 1);
+			CLayerManager::Instance()->AddObject(&HP_frame, INTERFACE_LAYER);
+			CLayerManager::Instance()->AddObject(&avatar_frame, INTERFACE_LAYER);
+			CLayerManager::Instance()->AddObject(&avatar, INTERFACE_LAYER - 1);
+			SetShow(false);
+		}
+
+		void CBossBoard::UpdateBar(int _HP)
+		{
+			if (_HP <= 0)	//強制補正
+			{
+				HP_bar.SetTopLeft(avatar_frame.Left(), HP_bar.Top());
+			}
+
+			int subHP = hp - _HP;
+			hp = _HP;
+
+			HP_bar.SetTopLeft(HP_bar.Left() + (int)(dHP * subHP), HP_bar.Top());
+		}
+
+		void CBossBoard::SetXY(CPoint _p)
+		{
+			const int AVATAR_X = SIZE_X - avatar_frame.Width();
+			const int AVATAR_Y = _p.y;
+
+			avatar.SetTopLeft(AVATAR_X, AVATAR_Y);
+			avatar_frame.SetTopLeft(AVATAR_X, AVATAR_Y);
+
+			const int HP_X = AVATAR_X - HP_frame.Width();
+			const int HP_Y = avatar_frame.GetRect().bottom - HP_frame.Height();
+
+			const int PADDING_Y = 15;
+
+			HP_frame.SetTopLeft(HP_X, HP_Y);
+			HP_bar.SetTopLeft(HP_X, HP_Y);
+		}
+
+		void CBossBoard::SetDeltaBar(int _HP)
+		{
+			dHP = (double)(HP_bar.Width() / _HP);
+		}
+
+		void CBossBoard::SetShow(bool _isValid)
+		{
+			isShow = _isValid;
+			HP_bar.SetValid(_isValid);
+			HP_frame.SetValid(_isValid);
+			avatar.SetValid(_isValid);
+			avatar_frame.SetValid(_isValid);
+		}
+
+		void CBossBoard::SetHP(int _hp)
+		{
+			UpdateBar(_hp);
+		}
+
+		void CBossBoard::OnCycle(CBossManager* bManager)
+		{
+			if (bManager->targetBoss != NULL && bManager->IsBattle())
+			{
+				if (!IsShow())	// 只需換一次
+				{
+					string bossID = (bManager->targetBoss)->GetID();
+
+					if (bossAvatar.count(bossID) && !bossAvatar[bossID].IsNull())
+					{
+						avatar = bossAvatar[bossID];
+						hp = (bManager->targetBoss)->GetHp();
+						SetDeltaBar(hp);
+					}
+					else
+					{
+						avatar = NULLAvatar;
+					}
+
+					SetXY(initPos);
+					SetShow(true);
+				}
+				SetHP(bManager->targetBoss->GetHp());
+			}
+			else
+			{
+				SetShow(false);
+			}
+		}
+	#pragma endregion
+	#pragma endregion
+
+
+	
+
+	
+
+
+	
 
 }

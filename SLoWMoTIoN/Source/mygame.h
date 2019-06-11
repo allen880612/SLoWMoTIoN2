@@ -87,7 +87,7 @@ namespace game_framework {
 
 		CRole miku;
 		
-		CScrollWindows windowsEnding;
+		CScrollWindow windowsEnding;
 		CSwitchWindow windowsHandbook;
 		//CWindows windowsEnding;
 

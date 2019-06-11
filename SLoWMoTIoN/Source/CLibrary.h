@@ -406,14 +406,14 @@ namespace game_framework
 
 	#pragma region - CWindows -
 	
-	class CWindows
+	class CWindow
 	{
-		friend class CScrollWindows;
+		friend class CScrollWindow;
 		
 		public:
-			CWindows();
-			CWindows(CPoint);
-			~CWindows();
+			CWindow();
+			CWindow(CPoint);
+			~CWindow();
 			
 			void LoadResource();
 			void Initialize(CPoint);
@@ -444,12 +444,12 @@ namespace game_framework
 			
 	};
 
-	class CScrollWindows : public CWindows
+	class CScrollWindow : public CWindow
 	{
 			
 		public:
-			CScrollWindows();
-			~CScrollWindows();
+			CScrollWindow();
+			~CScrollWindow();
 
 			void LoadResource();
 			void Initialize(CPoint);
@@ -473,7 +473,7 @@ namespace game_framework
 	};
 	
 	#pragma region - CSwitchWindow -
-	class CSwitchWindow : public CWindows
+	class CSwitchWindow : public CWindow
 	{
 	public:
 		CSwitchWindow();
@@ -485,7 +485,7 @@ namespace game_framework
 		bool CollisionArrow(CPoint);
 		void ClickWindows(CPoint);
 		void OnCycle();
-		void OnShow();
+		//void OnShow();
 	private:
 		int index = 0;
 		int step = 0;
@@ -499,7 +499,7 @@ namespace game_framework
 	#pragma endregion
 
 	class CButtonManager;
-	class CPanel : public CWindows
+	class CPanel : public CWindow
 	{
 
 	public:

@@ -250,6 +250,11 @@ namespace game_framework {
 			windowsEnding.CollisionClose(point);
 			return;
 		}
+		else if (windowsHandbook.IsOpen())
+		{
+			windowsHandbook.CollisionClose(point);
+			return;
+		}
 
 		buttonManager.UpdateState(point);
 	}
@@ -986,13 +991,19 @@ namespace game_framework {
 			else if (btnName == "restart")	//他媽最好 close button 可以跟 這個同時觸發
 			{
 				panel.Close();
-				CDialogManager::Instance()->Stop();
+				if (CDialogManager::Instance()->GetDialogState())
+				{
+					CDialogManager::Instance()->Stop();
+				}
 				GotoGameState(GAME_STATE_RUN);
 			}
 			else if (btnName == "menu")
 			{
 				panel.Close();
-				CDialogManager::Instance()->Stop();
+				if (CDialogManager::Instance()->GetDialogState())
+				{
+					CDialogManager::Instance()->Stop();
+				}
 				GotoGameState(GAME_STATE_INIT);		// 切換至GAME_STATE_RUN
 			}
 			else if (btnName == "exit")
@@ -1470,7 +1481,7 @@ namespace game_framework {
 	void CGameStateMapEditer::OnShow()
 	{
 		mapEditer.OnShow();
-		PaintText("EditerTest", 100, 360, "微軟正黑體", 20, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+		PaintText("MapEditer", 0, 445, "微軟正黑體", 20, RGB(0, 0, 0), RGB(255, 255, 255));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 
 		if (mapEditer.isPrintNowMap)
 		{
