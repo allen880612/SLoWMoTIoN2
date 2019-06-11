@@ -2059,7 +2059,7 @@ namespace game_framework
 		roleStatus.Load();
 		bossStatus.Load();
 		uiTime.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
-		uiScore.LoadBitmap(".\\RES\\Number\\cookiezi", "default");
+		uiScore.LoadBitmap(".\\RES\\Number\\cookiezi2", "default");
 	}
 
 	void UIManager::Initialize(CRole* _role, CBossManager* _bManager)
@@ -2070,7 +2070,7 @@ namespace game_framework
 		roleStatus.Initialize(CPoint(0, 0), role->GetHp(), role->GetEq());
 		bossStatus.Initialize(CPoint(0, 0));
 		uiTime.Initialize(CPoint(250, 0), GAME_TIME, 2);
-		uiScore.Initialize(CPoint(500, 0), 0, 3);
+		uiScore.Initialize(CPoint(150, 60), 0, 3);
 
 		CLayerManager::Instance()->AddObject(&uiTime, INTERFACE_LAYER);
 		CLayerManager::Instance()->AddObject(&uiScore, INTERFACE_LAYER);
