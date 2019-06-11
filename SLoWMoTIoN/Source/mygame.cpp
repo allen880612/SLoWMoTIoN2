@@ -83,6 +83,12 @@ namespace game_framework {
 		buttonManager.CreateButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(230, 270), false, true);
 		buttonManager.CreateButton(BitmapPath("RES\\Button", "tutorial", 2, RGB(214, 214, 214)), CPoint(230, 340), false, true);
 		#pragma endregion
+
+		#pragma region - reset -
+		DeleteFile("RES\\Map\\FileName.txt");
+		DeleteFile("RES\\Map\\ReloadMapInformation.txt");
+		#pragma endregion
+
 	}
 
 	CGameStateInit::~CGameStateInit()
