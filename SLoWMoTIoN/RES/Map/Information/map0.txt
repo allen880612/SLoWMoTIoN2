@@ -11,7 +11,7 @@ block RES\Map\4.bmp 565 316
 upDoor RES\Map\door.bmp 575 34 7
 up 7
 down -1
-left 0
+left 1
 right 2
 passerbyNumber 5
 passerbyID 0 1

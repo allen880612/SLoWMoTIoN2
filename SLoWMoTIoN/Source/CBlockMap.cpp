@@ -31,32 +31,6 @@ namespace game_framework
 		LoadInformation(nowMap);
 	}
 
-	CBlockMap::CBlockMap(int _nowMap, int _upMap, int _downMap, int _leftMap, int _rightMap, int _loadMap)
-	{
-		nowMap = _nowMap;
-		upMap = _upMap;
-		downMap = _downMap;
-		leftMap = _leftMap;
-		rightMap = _rightMap;
-		loadMap = _loadMap;
-		passerbyMaxSize = 5;
-	}
-
-	CBlockMap::CBlockMap(int _nowMap, int _upMap, int _downMap, int _leftMap, int _rightMap, int _passerbyMaxSize, string _ziliaojia, string _name, int _number)
-	{
-		nowMap = _nowMap;
-		upMap = _upMap;
-		downMap = _downMap;
-		leftMap = _leftMap;
-		rightMap = _rightMap;
-		passerbyMaxSize = _passerbyMaxSize;
-		ziliaojia = _ziliaojia;
-		name = _name;
-		number = _number;
-
-		CreateInformation();
-	}
-
 	CBlockMap::~CBlockMap()
 	{
 	}

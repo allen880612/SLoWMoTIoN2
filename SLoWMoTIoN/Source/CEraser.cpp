@@ -14,9 +14,6 @@
 
 using namespace myLibrary;
 namespace game_framework {
-	/////////////////////////////////////////////////////////////////////////////
-	// CEraser: Eraser class
-	/////////////////////////////////////////////////////////////////////////////
 
 	#pragma region - CEraser -
 	CEraser::CEraser()
@@ -26,7 +23,6 @@ namespace game_framework {
 
 	CEraser::~CEraser()
 	{
-		//animation.ReleaseAnimate();
 	}
 
 	void CEraser::Initialize()
@@ -97,17 +93,6 @@ namespace game_framework {
 		return isMovingRight;
 	}
 
-	void CEraser::LoadBitmap()
-	{
-		vector<char*> role = { ".\\Role\\IDB_ROLE_0.bmp", ".\\Role\\IDB_ROLE_1.bmp", ".\\Role\\IDB_ROLE_2.bmp",
-			".\\Role\\IDB_ROLE_3.bmp", ".\\Role\\MIKU_4.bmp", ".\\Role\\MIKU_5.bmp",
-			".\\Role\\MIKU_6.bmp", ".\\Role\\IDB_ROLE_7.bmp", ".\\Role\\IDB_ROLE_8.bmp",
-			".\\Role\\IDB_ROLE_9.bmp", ".\\Role\\MIKU_10.bmp", ".\\Role\\MIKU_11.bmp",
-			".\\Role\\MIKU_12.bmp" };
-
-		//animation.LoadBitmap(role, RGB(255, 255, 255));
-	}
-
 	void CEraser::LoadBitmap(string ziliaojia, string name, int number, COLORREF color)
 	{
 		animation.LoadBitmap(ziliaojia, name, number, color);
@@ -120,11 +105,6 @@ namespace game_framework {
 	{
 		animation.LoadBitmap(loadpath.ziliaojia, loadpath.name, loadpath.number, loadpath.color);
 	}
-
-	/*void CEraser::LoadAction(string _action, BitmapPath loadpath)
-	{
-		action.LoadAction(_action, loadpath);
-	}*/
 
 	void CEraser::OnMove()
 	{
@@ -159,8 +139,7 @@ namespace game_framework {
 
 	void CEraser::OnShow()
 	{
-		//animation.SetTopLeft(x, y);
-		//animation.OnShow();
+		
 	}
 
 	void CEraser::SetMovingDown(bool flag)
@@ -233,7 +212,6 @@ namespace game_framework {
 	CRole::CRole() : CEraser()
 	{
 		isLoaded = false;
-		//Initialize();		
 	}
 	CRole::~CRole()
 	{
@@ -323,7 +301,6 @@ namespace game_framework {
 			{
 				CAudio::Instance()->Play("jump");
 				isJumping = true;
-				//y -= STEP_SIZE;
 			}
 		}
 		if (isMovingRight)
@@ -367,7 +344,6 @@ namespace game_framework {
 				{
 					velocity -= gravity;
 					y -= velocity;
-					
 				}
 			}
 		}
@@ -378,12 +354,9 @@ namespace game_framework {
 
 		shoot_cd.CountDown();	//設置射擊的 CD時間
 
-		//animation.SetTopLeft(x, y);
-		//animation.OnMove(dir);
 		if (isJumping)
 		{
 			decisionPoint.SetTopLeft(GetX3() - 5, GetY3() + 16);
-			//decisionPoint.SetTopLeft(GetX3() - 5, GetY3() + 5);
 		}
 		else
 		{
@@ -404,23 +377,11 @@ namespace game_framework {
 		{
 			action.OnMove("idle");
 		}
-		
-		#pragma region -- Reset collision rect --
-		/*collisionRect.left = action.GetRect().left - move_distance;
-		collisionRect.right = action.GetRect().right + move_distance;
-		collisionRect.top = action.GetRect().top - move_distance;
-		collisionRect.bottom = action.GetRect().bottom + move_distance;*/
-		#pragma endregion
 
 		for (unsigned int i = 0; i < scallion.size(); i++)
 		{
 			scallion[i]->OnMove();
 		}
-	}
-
-	void CRole::OnShow()
-	{
-
 	}
 
 	bool CRole::GetMovingJump()
@@ -465,8 +426,6 @@ namespace game_framework {
 		{
 			CAudio::Instance()->Play("throw");
 			CScallion *newCScallion = new CScallion(BitmapPath("RES\\Object\\Scallions", "scallion", 2), CPoint(GetX3(), GetY1()), CPoint(mouseX, mouseY)); //先創建一個蔥的物件
-
-			//CScallion *newCScallion = new CScallion("Role\\books", "book", 4, GetX3(), GetY1(), mx, my); //先創建一個蔥的物件
 			scallion.push_back(newCScallion); //將蔥放進vector
 			shoot_cd.ResetTime(0.33);
 		}
@@ -542,7 +501,6 @@ namespace game_framework {
 
 	bool CRole::IsCollisionBlackHole(CBlackHole *blackHole)
 	{
-		//return IsRectCollision(animation.GetRect(), blackHole->GetAnimate()->GetRect());
 		return IsRectCollision(decisionPoint.GetRect(), blackHole->GetCenterRect());
 	}
 
@@ -597,17 +555,16 @@ namespace game_framework {
 		eq = initEq;
 		score = 0;
 
-		const int INIT_VELOCITY = 23;				//設定初速度
-		const int GRAVITY = 1;						//設定重力
+		const int INIT_VELOCITY = 23; //設定初速度
+		const int GRAVITY = 1; //設定重力
 		init_velocity = velocity = INIT_VELOCITY;
 		gravity = GRAVITY;
 
 		mouse_x, mouse_y = 0;
 		x = 0;
 		y = -Height();
-		
 
-		shoot_cd = CTimer(0);						//初始化射擊冷卻時間
+		shoot_cd = CTimer(0); //初始化射擊冷卻時間
 		
 		isCatched = false;
 		isDead = false;
@@ -705,8 +662,6 @@ namespace game_framework {
 		stopTimer = CTimer(1.5);
 		SetValid(false);
 		recreateTimer = CTimer((double)GetRandom(1, 4) / 2.0);
-		//animation.ResetWaitTime((double)GetRandom(2, 4) / 5.0);
-		//LoadBitmap("Role", "LUKA", 2);
 	}
 
 	CPasserby::CPasserby(int _x, int _y) : CEraser()
@@ -738,7 +693,6 @@ namespace game_framework {
 		{
 			y = _y;
 		}
-		
 
 		int dx = CCamera::Instance()->GetX();
 		x = initX - dx;
@@ -752,7 +706,7 @@ namespace game_framework {
 
 	void CPasserby::SetMoving()
 	{
-		if (GetValid() == false /*&& !recreateTimer.IsTimeOut()*/)
+		if (GetValid() == false)
 		{
 			recreateTimer.CountDown();
 			if (!recreateTimer.IsTimeOut())
@@ -841,10 +795,6 @@ namespace game_framework {
 		SetMovingLeft(moveleft);
 		SetMovingRight(moveright);
 
-		if (isMovingUp)
-		{
-			
-		}
 		if (isMovingRight)
 		{
 			if (canMoving)
@@ -870,7 +820,6 @@ namespace game_framework {
 
 	CPasserby::~CPasserby()
 	{
-		
 	}
 
 	void CPasserby::ResetCollisionRect()
@@ -897,8 +846,6 @@ namespace game_framework {
 		collisionDownRect = animation.GetRect();
 		//調整 下方判斷方塊的高度，以及縮減左/右的寬度
 		collisionDownRect.top = GetY2() - 5; //調整判斷的高度
-		/*collisionDownRect.right -= dx;
-		collisionDownRect.left += dx;*/
 		int dy = 4;
 		collisionDownRect.bottom += dy;
 		#pragma endregion
@@ -911,7 +858,6 @@ namespace game_framework {
 	CPasserbyType1::CPasserbyType1(int _x, int _y, BitmapPath _loadPath, int _score) : CPasserby(_x, _y)
 	{
 		SetScore(_score);
-		//LoadBitmap("RES\\Role\\NPC\\LUKA", "LUKA", 2, RGB(214, 214, 214));
 		LoadBitmap(_loadPath.ziliaojia, _loadPath.name, _loadPath.number, _loadPath.color);
 	}
 	CPasserbyType1::~CPasserbyType1()
@@ -1066,14 +1012,12 @@ namespace game_framework {
 
 	CNPC::~CNPC()
 	{
-
 	}
 	#pragma endregion
 
 	#pragma region - CNPC1 - No.1 -
 	CNPC1::CNPC1()
 	{
-
 	}
 
 	CNPC1::CNPC1(CPoint _point, BitmapPath _loadPath, string _id, string _txt, double resetTime) : CNPC(_point, _loadPath, _id, resetTime)
@@ -1083,19 +1027,11 @@ namespace game_framework {
 
 	CNPC1::~CNPC1()
 	{
-		
 	}
 
 	void CNPC1::RoleCollision()
 	{
-		if (false) // ko no if wa 例外敘述
-		{
-
-		}
-		else
-		{
-			CDialogManager::Instance()->Start(txt);
-		}
+		CDialogManager::Instance()->Start(txt);
 	}
 	#pragma endregion
 
@@ -1108,13 +1044,11 @@ namespace game_framework {
 	{
 		openMusic = _music;
 		openTxt = _txt;
-		//animation.ResetDelayTime(0.1);
 		isLoadHeadPhoneIcon = false;
 	}
 
 	CNPC3::~CNPC3()
 	{
-
 	}
 
 	void CNPC3::RoleCollision()
@@ -1143,6 +1077,7 @@ namespace game_framework {
 		animation.SetValid(flag);
 		headphoneIcon.SetValid(flag);
 	}
+
 	void CNPC3::OnMove()
 	{
 		CNPC::OnMove();

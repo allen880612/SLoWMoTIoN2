@@ -266,7 +266,6 @@
     <ClCompile Include="Source\CBall.cpp" />
     <ClCompile Include="Source\CBlockMap.cpp" />
     <ClCompile Include="Source\CBoss.cpp" />
-    <ClCompile Include="Source\CBouncingBall.cpp" />
     <ClCompile Include="Source\CEraser.cpp" />
     <ClCompile Include="Source\CLibrary.cpp" />
     <ClCompile Include="Source\CManager.cpp" />
@@ -316,7 +315,6 @@
     <ClInclude Include="Source\CBall.h" />
     <ClInclude Include="Source\CBlockMap.h" />
     <ClInclude Include="Source\CBoss.h" />
-    <ClInclude Include="Source\CBouncingBall.h" />
     <ClInclude Include="Source\CEraser.h" />
     <ClInclude Include="Source\CLibrary.h" />
     <ClInclude Include="Source\CManager.h" />

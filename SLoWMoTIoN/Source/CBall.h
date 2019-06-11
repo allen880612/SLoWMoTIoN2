@@ -4,10 +4,6 @@
 #include "CBoss.h"
 
 namespace game_framework {
-	/////////////////////////////////////////////////////////////////////////////
-	// 這個class提供繞圈圈的球
-	// 看懂就可以改寫成自己的程式了
-	/////////////////////////////////////////////////////////////////////////////
 
 	#pragma region - ball -
 	class CBall
@@ -27,11 +23,9 @@ namespace game_framework {
 		CLayer layer;
 	protected:
 		CAnimate animation;
-		double currentX, currentY;     // /*當前的座標*/ //
-		int x, y;					// 圓心的座標
-		bool is_alive;				// 是否活著
-	private:
-		//bool HitRectangle(int tx1, int ty1, int tx2, int ty2);	// 是否碰到參數範圍的矩形
+		double currentX, currentY;  //當前的座標
+		int x, y; // 圓心的座標
+		bool is_alive;	// 是否活著
 	};
 #pragma endregion
 
@@ -41,8 +35,7 @@ namespace game_framework {
 	public:
 		CScallion();
 		CScallion(BitmapPath, CPoint, CPoint, int = 2);	//給兩CPoint + int 為參數時，第一個為目前座標，第二個為滑鼠座標，最後為重力參數
-		CScallion(BitmapPath, CPoint, int, int);			//若不給重力參數，第一個CPoint不變，但後面變為「x初速, y初速」
-		//~CScallion();
+		CScallion(BitmapPath, CPoint, int, int); //若不給重力參數，第一個CPoint不變，但後面變為「x初速, y初速」
 
 		void OnMove();
 		void OnShow();
@@ -62,7 +55,7 @@ namespace game_framework {
 		int velocity_x;
 		int velocity_y;
 		int gravity;
-		int direction;			//丟出時面對的方向
+		int direction; //丟出時面對的方向
 	};
 	#pragma endregion
 
@@ -71,13 +64,11 @@ namespace game_framework {
 	{
 	public:
 		CBlackHole();
-		CBlackHole(BitmapPath, CPoint, CPoint, int = 4);	//給兩CPoint + int 為參數時，第一個為目前座標，第二個為滑鼠座標，最後為重力參數
-		CBlackHole(BitmapPath, CPoint, int, int);			//若不給重力參數，第一個CPoint不變，但後面變為「x初速, y初速」
+		CBlackHole(BitmapPath, CPoint, CPoint, int = 4); //給兩CPoint + int 為參數時，第一個為目前座標，第二個為滑鼠座標，最後為重力參數
+		CBlackHole(BitmapPath, CPoint, int, int); //若不給重力參數，第一個CPoint不變，但後面變為「x初速, y初速」
 		CRect GetCenterRect() { return centerRect; };
 		void OnMove();
 		void SetRole(CRole* _r) { role = _r; };
-		//int GetX3() { return x + animation.Width() / 2; };
-		//bool IsDead() { return isDead; };
 		void Initialize();
 	private:
 		CTimer selfBang; //自爆timer
@@ -85,7 +76,6 @@ namespace game_framework {
 		CRect centerRectSize;
 		CRole *role;
 		int csize = 100;
-		//bool isDead;
 	};
 	#pragma endregion
 
