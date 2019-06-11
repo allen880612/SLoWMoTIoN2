@@ -20,9 +20,7 @@ namespace game_framework
 	{
 		max_map_number = getFolerFileNumber("RES\\Map\\Information\\");
 		InitializeCBlockMap();
-		//Initialize();
 	}
-
 
 	CMapManager::~CMapManager()
 	{
@@ -127,7 +125,6 @@ namespace game_framework
 			#pragma region -- 新增&重新載入完成 - 載入新的圖片 --
 			LoadMapBitmap();
 			#pragma endregion
-
 		}
 		#pragma endregion
 		reloadData.close();
@@ -138,7 +135,6 @@ namespace game_framework
 			DeleteFile("RES\\Map\\ReloadMapInformation.txt");
 		}
 		#pragma endregion
-
 	}
 
 	#pragma region - GetMap -
@@ -268,12 +264,10 @@ namespace game_framework
 		CCamera::Instance()->Reset();
 		if (nextMap == "left") //下一張地圖(要換的地圖)，在原本地圖的左邊 (移動到左邊的地圖)
 		{
-			//x = init_x = -(GetBitmapWidth() - SIZE_X);
 			CCamera::Instance()->SetXY((GetBitmapWidth() - SIZE_X), 0);
 		}
 		else if (nextMap == "right")  //下一張地圖(要換的地圖)，在原本地圖的右邊 (移動到右邊的地圖)
 		{
-			//x = init_x =  0;
 			CCamera::Instance()->SetXY(0, 0);
 		}
 		background.SetTopLeft(x, 0);
@@ -282,7 +276,6 @@ namespace game_framework
 		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width(), GetBlockVector());
 
 		x = CCamera::Instance()->GetX();
-		
 	}
 
 	void CMapManager::SetMovingLeft(bool _flag)
@@ -297,23 +290,6 @@ namespace game_framework
 
 	void CMapManager::OnMove()
 	{
-		
-		//if (isMovingLeft)
-		//{
-		//	x += directionX;
-		//	//for(unsigned int npcIndex = 0; npcIndex < blockMap[nowMap].npc.size(); npcIndex++)
-		//		//blockMap[nowMap].npc[npcIndex].SetXY(blockMap[nowMap].npc[npcIndex].GetX1() + directionX, blockMap[nowMap].npc[npcIndex].GetY1());
-		//	for (unsigned int npcIndex = 0; npcIndex < passerbyManager.passerby.size(); npcIndex++)
-		//		passerbyManager.passerby[npcIndex]->SetXY(passerbyManager.passerby[npcIndex]->GetX1() + directionX, passerbyManager.passerby[npcIndex]->GetY1());
-		//}
-		//if (isMovingRight)
-		//{
-		//	x -= directionX;
-		//	for (unsigned int npcIndex = 0; npcIndex < passerbyManager.passerby.size(); npcIndex++)
-		//		passerbyManager.passerby[npcIndex]->SetXY(passerbyManager.passerby[npcIndex]->GetX1() - directionX, passerbyManager.passerby[npcIndex]->GetY1());
-		//}
-		//SetXY(x - CCamera::Instance()->GetX(), 0);
-
 		#pragma region - 螢幕上的 background 要移動 -
 		int dx = CCamera::Instance()->GetX();
 		x = -dx;
@@ -333,7 +309,6 @@ namespace game_framework
 			bkiter->SetXY(bkiter->x, bkiter->y, dx);
 		}
 		#pragma endregion
-
 	}
 
 	void CMapManager::SetXY(int _x, int _y)
@@ -361,36 +336,6 @@ namespace game_framework
 	{
 		for (int mapIndex = 0; mapIndex < max_map_number; mapIndex++) //初始化blockMap的上下左右地圖資訊，增加可讀性使用switch敘述
 		{
-			//switch (mapIndex)
-			//{				//順序：目前 上 下 左 右 地圖上有幾個passerby存在， -1表示不存在
-			//case 0:
-			//	blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 1, 2, 5, "RES\\Map", "IDB_MAP", mapIndex);
-			//	break;
-
-			//case 1:
-			//	blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 4, 0, 2, "RES\\Map", "IDB_MAP", mapIndex);
-			//	break;
-
-			//case 2:
-			//	blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 0, 3, 3, "RES\\Map", "IDB_MAP", mapIndex);
-			//	break;
-
-			//case 3:
-			//	blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 2, 5, 0, "RES\\Map", "IDB_MAP", mapIndex);
-			//	break;
-
-			//case 4:
-			//	blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, -1, 1, 0, "RES\\Map", "IDB_MAP", mapIndex);
-			//	break;
-
-			//case 5:
-			//	blockMap[mapIndex] = CBlockMap(mapIndex, -1, -1, 3, -1, 0, "RES\\Map", "IDB_MAP", mapIndex);
-			//	break;
-
-			//default:
-			//	blockMap[mapIndex] = CBlockMap(-1, -1, -1, -1, -1, 0, "RES\\Map", "IDB_MAP", 0);
-			//	break;
-			//}
 			blockMap.push_back(CBlockMap(mapIndex));
 		}
 	}
@@ -398,11 +343,7 @@ namespace game_framework
 	void CMapManager::LoadMapBitmap() //如字面意思，LoadMapBitmap，在GameStateRun:OnInit運行，一次性load blockMap的所有圖片
 	{
 		for (int mapIndex = 0; mapIndex < max_map_number; mapIndex++)
-		{	
-			//char *address = ConvertCharPointToString(blockMap[mapIndex].ziliaojia, blockMap[mapIndex].name, blockMap[mapIndex].number);
-			/*char *address = ConvertCharPointToString(blockMap[mapIndex].loadPath);
-			blockMap[mapIndex].backgroundBitmap.LoadBitmap(address);
-			delete address;*/
+		{
 			if (!blockMap[mapIndex].isLoad)
 			{
 				blockMap[mapIndex].LoadImg();
@@ -419,10 +360,11 @@ namespace game_framework
 	{
 		Clear();
 	}
+
 	CLayerManager::~CLayerManager()
 	{
-
 	}
+
 	void CLayerManager::Clear()
 	{
 		for (int i = 0; i < MAX_LAYER_NUMBER; i++)
@@ -520,10 +462,12 @@ namespace game_framework
 			}
 		}
 	}
+
 	CLayerManager * CLayerManager::Instance()
 	{
 		return &layerManager;
 	}
+
 	void CLayerManager::Initialize()
 	{
 		Clear();
@@ -536,10 +480,12 @@ namespace game_framework
 		layer.SetLayer(4);
 		passerby.clear();
 	}
+
 	CPasserbyManager::~CPasserbyManager()
 	{
 		Clear();
 	}
+
 	void CPasserbyManager::Clear()
 	{
 		for (vector<CPasserby*>::iterator it = passerby.begin(); it != passerby.end(); it++)
@@ -551,6 +497,7 @@ namespace game_framework
 		passerby.swap(del);
 		passerby.clear();
 	}
+
 	CPasserby * CPasserbyManager::GetPasserbyType(int randomID)
 	{
 		if (randomID == 0)
@@ -571,17 +518,18 @@ namespace game_framework
 		}
 		return new CPasserbyType1(0, 0, BitmapPath("RES\\Role\\NPC\\LUKA", "LUKA", 2, RGB(214, 214, 214)), 10); //先創建一個default passerby
 	}
+
 	CPasserby* CPasserbyManager::AddPasserby(vector<int> id, int mapWidth)
 	{
 		#pragma region Create a Passerby
 		int randomID = GetRandom(0, id.size() - 1); //random 決定 passerby種類 (1號or2號)
-		//CPasserby *newPasserby = new CPasserby(0, 0, ziliaojia + name[id[randomID]], name[id[randomID]], getFolerFileNumber(ziliaojia + name[id[randomID]]), (id[randomID] + 1) * 10); //先創建一個default passerby
 		CPasserby *newPasserby = GetPasserbyType(id[randomID]);
 		int randomX = GetRandom(0, mapWidth - newPasserby->Width()); //random 決定passerby的出現位置
 		newPasserby->SetXY(randomX, -newPasserby->Height()); //set passerby x, y
 		return newPasserby;
 		#pragma endregion
 	}
+
 	void CPasserbyManager::CreatePasserby(int createNumber, vector<int> id, int mapWidth, vector<CBlock> *bkvector)
 	{
 		for (int i = 0; i < createNumber; i++)
@@ -592,12 +540,14 @@ namespace game_framework
 			passerby.push_back(newPasserby);
 		}
 	}
+
 	void CPasserbyManager::DeletePasserby(vector<CPasserby*>::iterator passerbyj)
 	{
 		delete *passerbyj;
 		*passerbyj = NULL;
 		passerbyj = passerby.erase(passerbyj);
 	}
+
 	vector<CPasserby*> CPasserbyManager::GetPasserby()
 	{
 		return passerby;
@@ -633,7 +583,6 @@ namespace game_framework
 			AddShowTextTimer.CountDown();
 			if (AddShowTextTimer.IsTimeOut()) //add show text
 			{
-				//doit
 				if (showtext[nowShowTextSize] < 0) //非ASCII體系中的字
 				{
 					nowShowTextSize += 2;
@@ -654,7 +603,6 @@ namespace game_framework
 			IsPrintTips = true;
 		}
 		#pragma endregion
-
 	}
 
 	void CDialogManager::Load_Image()
@@ -681,7 +629,6 @@ namespace game_framework
 
 		#pragma region - load image -
 
-		
 		#pragma region - load dialog background -
 		dialog_background.LoadBitmap("RES\\Dialog", "ground", RGB(255, 255, 255));
 		#pragma endregion
@@ -701,8 +648,6 @@ namespace game_framework
 
 	void CDialogManager::LoadDialog()
 	{
-		//dialogmap.clear();
-
 		vector<string> dialogTxt;
 		string dialogFolderPath = "RES\\Dialog\\Txt\\";
 		getFolderFile(dialogFolderPath, &dialogTxt);
@@ -719,18 +664,13 @@ namespace game_framework
 
 	void CDialogManager::LoadDialog(string dialogName, string loadPath)
 	{
-
 		dialogmap[dialogName] = CDialog(loadPath, dialogName);
-		/*bool flag = dialogmap[dialogName].GetTriggered();
-
-		flag = !flag;*/
 	}
 
 	void CDialogManager::ShowText_Next()
 	{
 		if (IsPrintTips)
 		{
-			//PaintText("Next", 550, 450, "微軟正黑體", 14, RGB(0, 0, 0), DIALOG_BACKGROUND_COLOR);
 			textNext.SetValid(true);
 			textNext.OnMove();
 		}
@@ -745,6 +685,13 @@ namespace game_framework
 		if (nowTxtName == DIALOG_DATA_FAQAI)
 		{
 			if (step == 3 || step == 5)
+			{
+				CAudio::Instance()->Play("faqai");
+			}
+		}
+		else if (nowTxtName == "roleWinFacaiSeed")
+		{
+			if (step == 1)
 			{
 				CAudio::Instance()->Play("faqai");
 			}
@@ -807,7 +754,6 @@ namespace game_framework
 
 	void CDialogManager::Start(string mode)
 	{
-
 		if (DebugMode)
 			return;
 
@@ -862,7 +808,6 @@ namespace game_framework
 				CAudio::Instance()->Play("SLoWMoTIoN_Game");
 				musicFromNPC = "";
 			}
-
 		}
 	}
 
@@ -948,9 +893,6 @@ namespace game_framework
 			split_showtext.push_back(tteemmppkkk);
 			#pragma endregion
 
-			//下面那傢伙測試用的
-			//PaintText(split_showtext[0], 0 + 20, 100, "微軟正黑體", DIALOG_TEXT_SIZE, RGB(0, 0, 0), RGB(0, 255, 0));
-
 			#pragma region - Set Print Text Color -
 			COLORREF txtColor = DIALOG_TEXT_COLOR;
 			if (nowDialog != NULL)
@@ -958,6 +900,7 @@ namespace game_framework
 				txtColor = nowDialog->GetDialogColor(step);
 			}
 			#pragma endregion
+
 			#pragma region - draw text -
 			for (unsigned int i = 0; i < split_showtext.size(); i++)
 			{
@@ -969,7 +912,6 @@ namespace game_framework
 			#pragma region - draw finish tips text -
 			ShowText_Next();
 			#pragma endregion
-
 		}
 	}
 
@@ -992,33 +934,6 @@ namespace game_framework
 			showtext = "";
 			Stop();
 		}
-		//if (nowDialog->GetMode() == RoleVSBoss) //先保留==
-		//{
-			//if (step == 0)
-			//{
-			//	avatar = avatar_xingting;
-			//	//showtext = "我是吳杏婷, I'm a Fucking Teacher，AHHH~~~~FSDFD##@!!!";
-			//	//showtext = "我是吳杏婷我是吳杏婷我是吳杏婷我是吳杏婷";
-			//	//showtext = "WWWWWWWWWWWWWWWWWWWWWWWWWWWWW";
-			//}
-			//else if (step == 1)
-			//{
-			//	avatar = avatar_role;
-			//	showtext = "Bhhh~~~";
-			//}
-			//else if (step == 2)
-			//{
-			//	avatar = avatar_xingting;
-			//	showtext = "Chhh~~~";
-			//}
-			//else
-			//{
-			//	step = 0;
-			//	showtext = "";
-			//	Stop();
-			//}
-		//}
-
 	}
 	#pragma endregion
 
@@ -1045,12 +960,9 @@ namespace game_framework
 	void CBossManager::Initialize() //CGameRun::OnBeginState時 initialize
 	{
 		//(second(value)為指標，所以second後面用-> )
-		//真有你的C plus plus
 		for (map<string, CBoss*>::iterator bossiter = bossInformation.begin(); bossiter != bossInformation.end(); bossiter++)
 		{
 			bossiter->second->Initialize(); //初始化boss 
-			//bossiter->second->GetAnimate()->SetValid(false); //將所有圖片先設為false
-			//CLayerManager::Instance()->AddObject(bossiter->second->GetAnimate(), bossiter->second->layer.GetLayer());
 		}
 		targetBoss = NULL;
 		isBattle = false;
@@ -1170,7 +1082,6 @@ namespace game_framework
 
 		npc[3].push_back(new CNPC1(CPoint(50, 350), BitmapPath("RES\\NPC\\studentB", "studentB", 1, RGB(255, 255, 255)), DIALOG_AVATAR_NAME_STUDENTB, DIALOG_DATA_MEETSTB));
 		npc[3].push_back(new CNPC1(CPoint(450, 350), BitmapPath("RES\\NPC\\studentG", "studentG", 1, RGB(255, 255, 255)), DIALOG_AVATAR_NAME_STUDENTG, DIALOG_DATA_STGHAVEBREAKFAST));
-		//npc[3].push_back(new CNPC1(CPoint(700, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255, 255, 255)), "zy", DIALOG_DATA_STGSUBMIT));
 
 		npc[3].push_back(new CNPC1(CPoint(560, 90), BitmapPath("RES\\NPC\\faqai", "faqai", 20, RGB(255, 255, 255)), "faqai", DIALOG_DATA_FAQAI));
 
@@ -1291,7 +1202,6 @@ namespace game_framework
 		}
 		haveEnd_write.close();
 		#pragma endregion
-
 	}
 
 	void CEndManager::Initialize()
@@ -1336,11 +1246,9 @@ namespace game_framework
 				iter->second.SetGetEnd(ConvertStringToBoolen(lineInfo[1]));
 			}
 			#pragma endregion
-
 		}
 		haveEnd.close();
 		#pragma endregion
-
 	}
 
 	void CEndManager::OnCycle()
@@ -1380,7 +1288,6 @@ namespace game_framework
 	{
 		if (nowEnd->GetBmpPath(step) != END_EOF) //取得的路徑位置還還不是空路徑
 		{
-
 			if (isFadeIn)
 			{
 				endBmp.FadeIn();
@@ -1426,7 +1333,6 @@ namespace game_framework
 					}
 				}
 			}
-			
 			endBmp.DrawImage();
 		}
 		else
@@ -1510,7 +1416,6 @@ namespace game_framework
 	bool CButtonManager::GetState(string _btnName)
 	{
 		return (buttons[_btnName])->state;
-		/*return (buttons[_btnName])->GetState();*/
 	}
 
 	string CButtonManager::GetCollisionButtonName()
@@ -1521,7 +1426,6 @@ namespace game_framework
 			{
 				return btniter->first;
 			}
-
 		}
 		return "NoButtonClick";
 	}
@@ -1620,7 +1524,6 @@ namespace game_framework
 		//類型(背景 / block), 圖片路徑
 		if (path[0] == "background")
 		{
-			//NewMapInit();
 			haveBG = true;
 			ImageInfo tempcv;
 			tempcv = ImageInfo(path[1], "background");
@@ -1724,7 +1627,6 @@ namespace game_framework
 			{
 				reloadMap[nowMap] = true;
 			}
-			//bkmap.CreateInformation(saveTxtName);
 			
 			#pragma region - bkmap write to blockmap -
 			if (nowMap < (int)blockMap.size()) //修改一張地圖
@@ -1767,11 +1669,8 @@ namespace game_framework
 
 	void CMapEditer::LoadBlockMap(string mapName)
 	{
-		//char *fff = ConvertCharPointToString(fileName);
 		sscanf(mapName.c_str(), "map%d.txt", &nowMap);
-		//delete fff;
 		bkmap = blockMap[nowMap];
-		//bkmap.LoadInformation(mapName);
 		isSaved = true;
 		background = ImageInfo(bkmap.loadPath, "background"); //load background
 		haveBG = true;
@@ -1839,54 +1738,6 @@ namespace game_framework
 			mbiter->bmp.SetTopLeft(mbiter->x - cameraX, mbiter->y);
 		}
 	}
-
-	#pragma region - 沒路用ING -
-	////沒路用ING
-	//string CMapEditer::WriteSaveInfo(string type, string path, CPoint point)
-	//{
-	//	string returnStr = type + " " + path + " " + std::to_string(point.x) + " " + std::to_string(point.y) + "\n";
-	//	return returnStr;
-	//}
-
-	//void CMapEditer::LoadMapInfo(string fileName)
-	//{
-	//	fstream mapData;
-	//	string path = "RES\\Map\\Information\\" + fileName;
-	//	mapData.open(path, ios::in);
-	//	if (!mapData.is_open()) //打不開 回去
-	//	{
-	//		mapData.close();
-	//		return;
-	//	}
-
-	//	string lineData;
-	//	while (mapData >> lineData)
-	//	{
-	//		if (lineData == "background")
-	//		{
-	//			haveBG = true;
-	//			mapData >> lineData;
-	//			string path = lineData;
-	//			background = ImageInfo(path, "background"); //LoadPath
-	//			string _x, _y;
-	//			mapData >> _x >> _y;
-	//			background.SetXY(ConvertStringToInt(_x), ConvertStringToInt(_y), 0);
-	//		}
-	//		else if (lineData == "block")
-	//		{
-	//			ImageInfo tempk;
-	//			mapData >> lineData;
-	//			string path = lineData;
-	//			tempk = ImageInfo(path, "block"); //LoadPath
-	//			string _x, _y;
-	//			mapData >> _x >> _y;
-	//			tempk.SetXY(ConvertStringToInt(_x), ConvertStringToInt(_y), 0);
-	//			block.push_back(tempk);
-	//		}
-	//	}
-	//	mapData.close();
-	//}
-	#pragma endregion
 
 	void CMapEditer::OnShow()
 	{
@@ -2063,7 +1914,6 @@ namespace game_framework
 	#pragma region - UIManager -
 	UIManager::UIManager()
 	{
-
 	}
 
 	void UIManager::Load()
@@ -2096,8 +1946,5 @@ namespace game_framework
 		uiTime.SetInteger(_time);
 		uiScore.SetInteger(role->GetScore());
 	}
-
 	#pragma endregion
-
 }
-

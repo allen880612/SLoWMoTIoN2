@@ -4,7 +4,7 @@
 #include "CEraser.h"
 #include "CBoss.h"
 #include "CLibrary.h"
-//CManager: 地圖管理者 and 圖層管理者 and Timer，供mygame使用
+
 namespace game_framework
 {
 	#pragma region - passerbyManager -
@@ -20,13 +20,10 @@ namespace game_framework
 		void CreatePasserby(int, vector<int>, int, vector<CBlock>*);
 		void DeletePasserby(vector<CPasserby*>::iterator);
 		vector<CPasserby*> GetPasserby();
-		CLayer layer; //為了layerManager做的髒髒東東
-		
-		void MoveWithMap(string);
+		CLayer layer;
+
 	private:
 		vector<CPasserby*> passerby;
-		string ziliaojia = "RES\\Role\\NPC\\";
-		string name[10] = { "LUKA", "RIN", "mushroom"};
 	};
 	#pragma endregion
 	
@@ -90,7 +87,7 @@ namespace game_framework
 
 		void InitializeCBlockMap();
 
-		int max_map_number = MAX_MAP_NUMBER;
+		int max_map_number;
 	};
 	#pragma endregion
 
@@ -151,19 +148,15 @@ namespace game_framework
 		map<string, CMovingBitmap> dialogAvatar;
 
 		CMovingBitmap dialog_background;
-
-		//CMovingBitmap avatar_role;
-		//CMovingBitmap avatar_xingting;
 		CMovingBitmap avatar_null; //隨便load一張圖，給予他valid = false屬性，對話結束的時候將avatar指向這傢伙，使LayerManager不顯示avatar
+		CMovingBitmap avatar;
+		CAnimate textNext;
 
 		CLayer backgroundLayer;
 		CLayer avatarLayer;
 
-		CMovingBitmap avatar;
 		static CDialogManager dialogManager;
 
-		CAnimate textNext;
-		
 		int step;
 		string showtext;
 		int nowShowTextSize;
@@ -173,7 +166,6 @@ namespace game_framework
 		bool IsPrintTips = false; //用於一個對話完畢，要到下一個對話的提示文字 (右下角的next)
 
 		string musicFromNPC = "";
-		//string mode = "";
 		CDialog *nowDialog;
 		string nowTxtName; //目前使用的文本名稱
 		CTimer AddShowTextTimer;
@@ -260,11 +252,9 @@ namespace game_framework
 	private:
 		map< string, CEnd > endmap;
 		CEnd *nowEnd;
-
 		CToumeiImage endBmp;
 
 		CTimer time_remaining;
-		//CTimer time_switchNext_noDialog;
 
 		int step = 0;
 		int alpha = 0;
@@ -307,7 +297,6 @@ namespace game_framework
 			void UpdateState(CPoint);
 			void ShowButton();
 			void OnCycle();
-			//void ShowButton();
 
 		private:
 			map <string, CButton*> buttons;
@@ -324,9 +313,7 @@ namespace game_framework
 		~CMapEditer();
 		void Initialize();
 		void AddImage(vector<string>);
-		void SetImageXY(CPoint point) {
-
-		};
+		void SetImageXY(CPoint point) { };
 		void SetMapMoveDir(string);
 		void OnSave();
 		void OnMove();
@@ -339,7 +326,6 @@ namespace game_framework
 		bool GetMouseState() { return isMouseDown; };   //取得滑鼠狀態(是否按住)
 		void SetMouseState(bool f) { isMouseDown = f; }; //設置滑鼠狀態
 
-		void LoadMapInfo(string);
 		void SetDPoint_MouseToTopLeft(CPoint mouse) {if (selectObj != NULL) dpoint_mouseToTopleft = CPoint(mouse.x - selectObj->bmp.Left() - cameraX, mouse.y - selectObj->bmp.Top());};
 		void SetDPoint_MouseToTopLeft() { dpoint_mouseToTopleft = CPoint(0, 0); };
 
@@ -383,13 +369,12 @@ namespace game_framework
 
 		ImageInfo background;
 		vector<ImageInfo> mapObj; //地圖上一些物件
-
 		ImageInfo *selectObj;
+
 		bool haveBG = false;
 		bool isMouseDown;
 		
 		string saveTxtName;
-
 		CPoint dpoint_mouseToTopleft; //儲存滑鼠座標與block座標的 x, y座標差
 
 		CBlockMap bkmap;
@@ -401,7 +386,6 @@ namespace game_framework
 
 		void CreateObjToBkmap();
 		void LoadBlockMap(string);
-		string WriteSaveInfo(string, string, CPoint);
 
 		int *printNowMap = NULL;
 		int nowMap;
@@ -476,12 +460,9 @@ namespace game_framework
 	{
 	public:
 		UIManager();
-		//~UIManager();
 
 		void Load();
 		void Initialize(CRole*, CBossManager*);
-		void Clear();
-
 		void OnCycle(int);
 
 	private:
@@ -494,7 +475,6 @@ namespace game_framework
 
 		CRole *role;
 		CBossManager *bManager;
-
 	};
 	#pragma endregion
 
