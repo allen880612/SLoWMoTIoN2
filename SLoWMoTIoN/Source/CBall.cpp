@@ -14,11 +14,68 @@ using namespace myLibrary;
 
 namespace game_framework {
 
+	#pragma region - ball -
+	/////////////////////////////////////////////////////////////////////////////
+	// CBall: Ball class
+	/////////////////////////////////////////////////////////////////////////////
+
+	CBall::CBall()
+	{
+		is_alive = true;
+	}
+
+	bool CBall::IsAlive()
+	{
+		return is_alive;
+	}
+
+	void CBall::SetIsAlive(bool alive)
+	{
+		is_alive = alive;
+	}
+
+	void CBall::SetXY(int nx, int ny)
+	{
+		x = nx; y = ny;
+		if (!animation.IsNull())
+			animation.SetTopLeft(x, y);
+	}
+
+	void CBall::SetCurrentXY(double cx, double cy)
+	{
+		currentX = cx;
+		currentY = cy;
+
+		int dx = CCamera::Instance()->GetX();
+		int nx = (int)(currentX) - dx;
+		int ny = (int)(currentY);
+		SetXY(nx, ny);
+	}
+
+	void CBall::LoadBitmap(string ziliaojia, string name, int number)
+	{
+		animation.LoadBitmap(ziliaojia, name, number);
+	}
+
+	void CBall::LoadBitmap(BitmapPath loadpath)
+	{
+		animation.LoadBitmap(loadpath.ziliaojia, loadpath.name, loadpath.number, loadpath.color);
+	}
+
+	CAnimate * CBall::GetAnimate()
+	{
+		return &animation;
+	}
+
+	#pragma endregion
+
 	#pragma region - CScallion -
 	CScallion::CScallion()
 	{
 		const int INIT_X = 0, INIT_Y = 0;
 		const int GRAVITY = 4;
+		currentX = INIT_X;
+		currentY = INIT_Y;
 		x = INIT_X;
 		y = INIT_Y;
 		gravity = GRAVITY;
@@ -64,8 +121,8 @@ namespace game_framework {
 		const int INIT_X = initPos.x;
 		const int INIT_Y = initPos.y;
 
-		x = INIT_X;
-		y = INIT_Y;
+		currentX = x = INIT_X;
+		currentY = y = INIT_Y;
 		
 		is_alive = true;
 		animation.SetTopLeft(x, y);
@@ -104,6 +161,8 @@ namespace game_framework {
 		animation.OnMove();
 
 		SetXY(x + velocity_x, y);
+		//SetCurrentXY(currentX + velocity_x, currentY);
+
 	}
 
 	void CScallion::OnShow()
@@ -129,37 +188,6 @@ namespace game_framework {
 		velocity_y = dy;
 	}
 
-	bool CScallion::IsAlive()
-	{
-		return is_alive;
-	}
-	void CScallion::SetIsAlive(bool alive)
-	{
-		is_alive = alive;
-	}
-
-	void CScallion::SetXY(int nx, int ny)
-	{
-		x = nx; y = ny;
-		if (!animation.IsNull())
-			animation.SetTopLeft(x, y);
-	}
-
-	void CScallion::LoadBitmap(string ziliaojia, string name, int number)
-	{
-		animation.LoadBitmap(ziliaojia, name, number);
-	}
-
-	void CScallion::LoadBitmap(BitmapPath loadpath)
-	{
-		animation.LoadBitmap(loadpath.ziliaojia, loadpath.name, loadpath.number, loadpath.color);
-	}
-
-
-	CAnimate * CScallion::GetAnimate()
-	{
-		return &animation;
-	}
 
 
 	bool CScallion::IsCollision(CPasserby passerby)
@@ -205,18 +233,6 @@ namespace game_framework {
 		selfBang = CTimer(1.8);
 		SetIsAlive(true);
 	}
-
-	void CBlackHole::SetCurrentXY(double cx, double cy)
-	{
-		currentX = cx;
-		currentY = cy;
-
-		int dx = CCamera::Instance()->GetX();
-		int nx = (int)(currentX)-dx;
-		int ny = (int)(currentY);
-		SetXY(nx, ny);
-	}
-
 
 	void CBlackHole::OnMove()
 	{

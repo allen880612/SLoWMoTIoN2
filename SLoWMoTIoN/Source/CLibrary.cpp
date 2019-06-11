@@ -1465,8 +1465,6 @@ namespace game_framework
 		//closeButton = new CButton(BitmapPath("RES\\Button", "close", 2, RGB(214, 214, 214)), CPoint(0, 0), false, true);
 		closeButton->LoadBitmap();
 		background.LoadBitmap("RES\\Windows", "EndWindow_2", RGB(214, 214, 214));
-
-		
 	}
 
 	void CWindow::Initialize(CPoint _initP)
@@ -1483,6 +1481,8 @@ namespace game_framework
 		closeButton->SetValid(false);
 		CLayerManager::Instance()->AddObject(&background, INTERFACE_LAYER);
 		CLayerManager::Instance()->AddObject(closeButton->GetAnimate(), INTERFACE_LAYER);
+
+		isOpen = false;
 
 	}
 
@@ -1981,9 +1981,6 @@ namespace game_framework
 		CollisionClose(mousePos);
 
 		btnManager->OnCycle();
-
-
-
 	}
 
 	string CPanel::GetCollisionButtonName()

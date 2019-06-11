@@ -9,8 +9,34 @@ namespace game_framework {
 	// 看懂就可以改寫成自己的程式了
 	/////////////////////////////////////////////////////////////////////////////
 
+	#pragma region - ball -
+	class CBall
+	{
+	public:
+		CBall();
+		bool IsAlive();											// 是否活著
+
+		void SetCurrentXY(double, double);
+		void SetXY(int nx, int ny);								// 設定圓心的座標
+		void SetIsAlive(bool alive);							// 設定是否活著
+		CPoint GetCenterPoint() { return CPoint(x + animation.Width() / 2, y + animation.Height() / 2); };
+
+		void LoadBitmap(string, string, int);
+		void LoadBitmap(BitmapPath);
+		CAnimate* GetAnimate();
+		CLayer layer;
+	protected:
+		CAnimate animation;
+		double currentX, currentY;     // /*當前的座標*/ //
+		int x, y;					// 圓心的座標
+		bool is_alive;				// 是否活著
+	private:
+		//bool HitRectangle(int tx1, int ty1, int tx2, int ty2);	// 是否碰到參數範圍的矩形
+	};
+#pragma endregion
+
 	#pragma region - CScallion -
-	class CScallion
+	class CScallion : public CBall
 	{
 	public:
 		CScallion();
@@ -31,21 +57,7 @@ namespace game_framework {
 		int  GetAtk() { return atk; };
 		void SetAtk(int k) { atk = k; };
 
-		CPoint GetCenterPoint() { return CPoint(x + animation.Width() / 2, y + animation.Height() / 2); };
-		bool IsAlive();
-		void SetIsAlive(bool alive);
-		void SetXY(int nx, int ny);
-
-		void LoadBitmap(string, string, int);
-		void LoadBitmap(BitmapPath);
-		CAnimate* GetAnimate();
-		CLayer layer;
 	protected:
-		CAnimate animation;
-		int x, y;					// 圓心的座標
-		int dx, dy;					// 球距離圓心的位移量
-		bool is_alive;				// 是否活著
-
 		int atk = 1;
 		int velocity_x;
 		int velocity_y;
@@ -64,12 +76,10 @@ namespace game_framework {
 		CRect GetCenterRect() { return centerRect; };
 		void OnMove();
 		void SetRole(CRole* _r) { role = _r; };
-		void SetCurrentXY(double, double);
 		//int GetX3() { return x + animation.Width() / 2; };
 		//bool IsDead() { return isDead; };
 		void Initialize();
 	private:
-		double currentX, currentY;
 		CTimer selfBang; //自爆timer
 		CRect centerRect;
 		CRect centerRectSize;
