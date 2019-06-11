@@ -154,6 +154,9 @@ namespace game_framework
 		{
 			if ((*scallionk)->IsAlive() && (*scallionk)->IsCollision(this))
 			{
+				if (GetID() != "Xingting")
+					CAudio::Instance()->Play("hit");
+
 				(*scallionk)->SetIsAlive(false);
 				hp -= (*scallionk)->GetAtk();
 			}

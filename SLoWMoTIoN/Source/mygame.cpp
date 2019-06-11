@@ -184,6 +184,7 @@ namespace game_framework {
 			string endName = windowsEnding.GetCollisionButtonName(point);
 			if (endName != "NoButtonClick") //有點到結局
 			{
+				CAudio::Instance()->Stop("SLoWMoTIoN_Menu");
 				CEndManager::Instance()->Start(endName);
 				GotoGameState(GAME_STATE_OVER);
 			}
