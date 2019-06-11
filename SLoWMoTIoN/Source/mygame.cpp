@@ -321,19 +321,6 @@ namespace game_framework {
 	void CGameStateRun::OnBeginState()
 	{
 		finalScore = 0;
-		//const int BALL_GAP = 90;
-		//const int BALL_XY_OFFSET = 45;
-		//const int BALL_PER_ROW = 7;
-		//const int BACKGROUND_X = 60;
-		//const int ANIMATION_SPEED = 15;
-
-		//for (int i = 0; i < NUMBALLS; i++) {				// 設定球的起始座標
-		//	int x_pos = i % BALL_PER_ROW;
-		//	int y_pos = i / BALL_PER_ROW;
-		//	ball[i].SetXY(x_pos * BALL_GAP + BALL_XY_OFFSET, y_pos * BALL_GAP + BALL_XY_OFFSET);
-		//	ball[i].SetDelay(x_pos);
-		//	ball[i].SetIsAlive(true);
-		//}
 
 		CLayerManager::Instance()->Initialize();
 		CDialogManager::Instance()->Initialize();
@@ -347,7 +334,7 @@ namespace game_framework {
 		uiManager.Initialize(&role, &bossManager);
 		panel.Initialize(CPoint(200, 50));
 
-		timer = CTimer(GAME_TIME); //ㄎㄧㄤ==
+		timer = CTimer(GAME_TIME);
 		nowUsedTimer = &timer;
 		CAudio::Instance()->Stop("SLoWMoTIoN_Menu");
 		CAudio::Instance()->Play("SLoWMoTIoN_Game");
@@ -366,10 +353,6 @@ namespace game_framework {
 								//
 								// 開始載入資料
 								//
-		//miku.LoadBitmap();
-		/*int i;
-		for (i = 0; i < NUMBALLS; i++)
-			ball[i].LoadBitmap();	*/							// 載入第i個球的圖形
 
 		ShowInitProgress(50);										// 載入圖形
 		
@@ -394,7 +377,7 @@ namespace game_framework {
 		SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
 		//SetCursor(AfxGetApp()->LoadCursor("..\\RES\\gamecurs.cur"));
 		
-		#pragma region - on panel  -
+		#pragma region - on panel -
 		panel.OnCycle();
 		if (panel.IsOpen())
 		{
@@ -979,10 +962,6 @@ namespace game_framework {
 		{
 			CDialogManager::Instance()->Next();
 		}
-		else
-		{
-			
-		}
 	}
 
 	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -1168,7 +1147,7 @@ namespace game_framework {
 		CLayerManager::Instance()->ShowLayer();
 		#pragma endregion
 
-		CDialogManager::Instance()->ShowText();
+		//CDialogManager::Instance()->ShowText();
 	}
 
 	/////////////////////////////////////////////////////////////////////////////

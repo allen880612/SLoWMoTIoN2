@@ -412,6 +412,7 @@ namespace game_framework
 	}
 	#pragma endregion
 
+	class CDialogManager;
 	#pragma region - layerManager -
 	CLayerManager CLayerManager::layerManager;
 	CLayerManager::CLayerManager()
@@ -511,6 +512,11 @@ namespace game_framework
 					}
 					k++;
 				}
+			}
+
+			if (CDialogManager::Instance()->GetDialogState() && i == 8)
+			{
+				CDialogManager::Instance()->ShowText();
 			}
 		}
 	}
@@ -786,6 +792,7 @@ namespace game_framework
 		CLayerManager::Instance()->AddObject(&avatar, avatarLayer.GetLayer());
 		CLayerManager::Instance()->AddObject(&textNext, avatarLayer.GetLayer());
 
+		nowDialog = NULL;
 		step = 0;
 		nowShowTextSize = 0;
 		IsPrintTips = false;
@@ -837,21 +844,25 @@ namespace game_framework
 
 	void CDialogManager::Stop()
 	{
-		avatar = avatar_null;
-		dialog_background.SetValid(false);
-		textNext.SetValid(false);
-		IsDialoging = false;
-		IsPrintTips = false;
-		nowDialog->SetTriggered();
-		nowDialog = NULL;
-		nowShowTextSize = 0;
-		step = 0;
-		nowTxtName = "";
-		if (musicFromNPC != "")
+		if (nowDialog != NULL)
 		{
-			CAudio::Instance()->Stop(musicFromNPC);
-			CAudio::Instance()->Play("SLoWMoTIoN_Game");
-			musicFromNPC = "";
+			avatar = avatar_null;
+			dialog_background.SetValid(false);
+			textNext.SetValid(false);
+			IsDialoging = false;
+			IsPrintTips = false;
+			nowDialog->SetTriggered();
+			nowDialog = NULL;
+			nowShowTextSize = 0;
+			step = 0;
+			nowTxtName = "";
+			if (musicFromNPC != "")
+			{
+				CAudio::Instance()->Stop(musicFromNPC);
+				CAudio::Instance()->Play("SLoWMoTIoN_Game");
+				musicFromNPC = "";
+			}
+
 		}
 	}
 

@@ -2,11 +2,11 @@
 //定義常數
 ////////////////////////////
 #pragma once
-#define MAX_LAYER_NUMBER 10
+#define MAX_LAYER_NUMBER 11
 #define MOVE_DISTANCE 8
 
 #define MAX_MAP_NUMBER 99
-#define NOW_MAP 4
+#define NOW_MAP 3
 
 #define KEY_SPACE 32
 #define KEY_LEFT 37		// keyboard左箭頭
@@ -26,7 +26,7 @@
 #define AUDIO_NUM 9
 
 #pragma region - Layer 
-#define INTERFACE_LAYER 8
+#define INTERFACE_LAYER 9
 #define BULLET_LAYER 6
 #define BOSS_LAYER 6
 #define NPC_LAYER 4
