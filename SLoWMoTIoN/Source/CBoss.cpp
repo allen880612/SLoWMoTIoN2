@@ -31,12 +31,10 @@ namespace game_framework
 		initHp = _hp;
 		loadPath = _loadPath;
 		id = _id;
-		//Initialize();
 	}
 
 	CBoss::~CBoss()
 	{
-		
 	}
 
 	void CBoss::LoadBitmap()
@@ -122,10 +120,6 @@ namespace game_framework
 	{
 		currentX = _x;
 		currentY = _y;
-
-		/*int dx = CCamera::Instance()->GetX();
-		SetXY(currentX - dx, y);
-		animation.OnMove();*/
 	}
 	void CBoss::SetHp(int _hp)
 	{
@@ -137,7 +131,6 @@ namespace game_framework
 	}
 	void CBoss::MoveWithMap(string dir)
 	{
-
 		if (dir == "left")
 			x += MOVE_DISTANCE;
 		if (dir == "right")
@@ -191,12 +184,10 @@ namespace game_framework
 	#pragma region - CXingting -
 	CXingting::CXingting()
 	{
-		//CBoss();
 	}
 
 	CXingting::CXingting(int _x, int _y, int _hp, string _id, BitmapPath _loadPath) : CBoss(_x, _y, _hp, _id,  _loadPath)
 	{
-		
 	}
 
 	CXingting::~CXingting()
@@ -207,7 +198,6 @@ namespace game_framework
 	void CXingting::Initialize()
 	{
 		CBoss::Initialize();
-
 		ClearBullet();
 
 		targetBlackhole = NULL;
@@ -277,8 +267,6 @@ namespace game_framework
 				mode_Attack2 = true;
 				mode_Attack3 = true;
 
-				//mode_Attack1 = false;
-				//mode_Attack4 = true;
 				atkCounter = 0;
 				CDialogManager::Instance()->Start(DIALOG_DATA_VSXingting2);
 			}
@@ -291,7 +279,6 @@ namespace game_framework
 
 	void CXingting::Attack(CRole *role)
 	{
-
 		if (mode_Attack1)
 		{
 			Attack1();
@@ -373,7 +360,7 @@ namespace game_framework
 				double angle = i * (360/18);
 				double mx = sin(angle * (PI / 180.0)) * speed;
 				double my = cos(angle * (PI / 180.0)) * speed;
-				int drs = 3; //亂取的名字 用意在給一個倍數讓books不從中心點出現
+				int drs = 3; //用意在給一個倍數讓books不從中心點出現
 				CPoint center = GetCenterPoint() + CPoint((int)my * drs, -(int)mx * drs);
 				#pragma endregion
 				CScallion *newlevel4 = new CScallion(BitmapPath("RES\\Object\\books", "book", 4), center, CPoint(0, 0), 0); //先創建一個蔥的物件
@@ -394,7 +381,7 @@ namespace game_framework
 			CBlackHole *newBh = new CBlackHole(BitmapPath("RES\\Object\\blackhole", "blackhole", 1, RGB(0, 0, 0)), center + CPoint(-75, -68), CPoint(role->GetX1(), role->GetY1()), 0); //先創建一個蔥的物件
 
 			blackhole.push_back(newBh);
-			mode_Attack4_CreateBlackHole.ResetTime(mode4_AttackTime); //reset to 10s
+			mode_Attack4_CreateBlackHole.ResetTime(mode4_AttackTime); //reset
 		}
 	}
 
@@ -426,7 +413,6 @@ namespace game_framework
 	}
 
 	void CXingting::Level4Collision(CRole *role)
-
 	{
 		for (vector<CBlackHole*>::iterator bkiter = blackhole.begin(); bkiter != blackhole.end();)
 		{
@@ -609,7 +595,6 @@ namespace game_framework
 	void CFacaiSeed::Clear()
 	{
 		ClearBullet();
-
 		animation.SetValid(false);
 	}
 
