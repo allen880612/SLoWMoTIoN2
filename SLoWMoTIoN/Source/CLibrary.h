@@ -436,7 +436,7 @@ namespace game_framework
 		void Open();
 		void Close();
 		bool CollisionArrow(CPoint);
-		void ClickWindows(CPoint);
+		void ClickWindows(CPoint, string);
 		void OnCycle();
 
 	private:

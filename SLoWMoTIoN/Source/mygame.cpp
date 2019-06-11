@@ -183,7 +183,7 @@ namespace game_framework {
 		}
 		else if (windowsHandbook.IsOpen())
 		{
-			windowsHandbook.ClickWindows(point);
+			windowsHandbook.ClickWindows(point, "left");
 		}
 		else if (buttonManager.GetCollisionButtonName() != "NoButtonClick")
 		{
@@ -215,6 +215,14 @@ namespace game_framework {
 
 	void CGameStateInit::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
+	}
+
+	void CGameStateInit::OnRButtonDown(UINT nFlags, CPoint point)
+	{
+		if (windowsHandbook.IsOpen())
+		{
+			windowsHandbook.ClickWindows(point, "right");
+		}
 	}
 
 	void CGameStateInit::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作

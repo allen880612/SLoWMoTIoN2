@@ -1649,8 +1649,8 @@ namespace game_framework
 	void CSwitchWindow::Initialize(CPoint _point)
 	{
 		CWindow::Initialize(_point);
-		arrow_left.SetTopLeft(10, 320);
-		arrow_right.SetTopLeft(540, 320);
+		arrow_left.SetTopLeft(0, 180);
+		arrow_right.SetTopLeft(560, 180);
 		arrow_left.SetValid(false);
 		arrow_right.SetValid(false);
 
@@ -1725,13 +1725,17 @@ namespace game_framework
 		return false;
 	}
 
-	void CSwitchWindow::ClickWindows(CPoint point)
+	void CSwitchWindow::ClickWindows(CPoint point, string mouseKey)
 	{
 		if (!CollisionArrow(point))
 		{
-			if (step < (int)bmp[index].size() - 1)
+			if (mouseKey == "left" && step < (int)bmp[index].size() - 1)
 			{
 				step++;
+			}
+			else if (mouseKey == "right" && step > 0)
+			{
+				step--;
 			}
 			Switchwindow("this");
 		}
