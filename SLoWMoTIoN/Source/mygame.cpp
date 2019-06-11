@@ -68,11 +68,9 @@
 using namespace std;
 using namespace myLibrary;
 namespace game_framework {
-	/////////////////////////////////////////////////////////////////////////////
-	// 這個class為遊戲的遊戲開頭畫面物件
-	/////////////////////////////////////////////////////////////////////////////
-	int finalScore = 0;
 
+	int finalScore = 0;
+	#pragma region - CGame Init -
 	CGameStateInit::CGameStateInit(CGame *g)
 		: CGameState(g)
 	{
@@ -110,9 +108,6 @@ namespace game_framework {
 			windowsEnding.LoadResource();
 			windowsHandbook.LoadResource("RES\\Handbook\\introduction\\");
 			miku.LoadasMascot();
-			//windowsEnding.PushButtonToButtonManager(&buttonManager);
-			//frame.LoadBitmap(".\\RES\\UI\\blood_frame.bmp", RGB(214, 214, 214));
-			//blood.LoadBitmap(".\\RES\\UI\\blood.bmp", RGB(214, 214, 214));
 		}
 
 		buttonManager.Initialize();	
@@ -124,28 +119,13 @@ namespace game_framework {
 		miku.GetAction()->SetFaceTo("_R");
 
 		isLoaded = true;
-		IsKeyCtrl = false;
 	}
 
 	void CGameStateInit::OnInit()
 	{
-		//
-		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
-		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
-		//
 		ShowInitProgress(0);	// 一開始的loading進度為0%
-								//
-								// 開始載入資料
-								//
-		background.LoadBitmap(".\\RES\\Map\\Menu_3.bmp");
-		
-		
 
-				
-		//Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
-								//
-								// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
-								//
+		background.LoadBitmap(".\\RES\\Map\\Menu_3.bmp");
 	}
 
 	void CGameStateInit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -161,11 +141,9 @@ namespace game_framework {
 		const char KEY_ESC = 27;
 		if (nChar == KEY_SPACE)
 		{
-			//CAudio::Instance()->Stop(AUDIO_MENU);
-
 			GotoGameState(GAME_STATE_RUN);			// 切換至GAME_STATE_RUN
 		}						
-		else if (nChar == KEY_ESC)								// Demo 關閉遊戲的方法
+		else if (nChar == KEY_ESC)
 			PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0);	// 關閉遊戲
 	}
 
@@ -206,44 +184,19 @@ namespace game_framework {
 				buttonManager.ClickButton("sound");
 				CAudio::Instance()->SetIsPlaySound(buttonManager.GetState("sound"));
 			}
-			else if (btnName == "ending")	//他媽最好 close button 可以跟 這個同時觸發
+			else if (btnName == "ending")
 			{
 				windowsEnding.Open();
 			}
 			else if (btnName == "play")
 			{
-				GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+				GotoGameState(GAME_STATE_RUN);	// 切換至GAME_STATE_RUN
 			}
 			else if (btnName == "tutorial")
 			{
 				windowsHandbook.Open();
 			}		
 		}
-		
-		//else if (buttonManager.IsCollisionMouse("music"))
-		//{
-		//	buttonManager.ClickButton("music");
-		//	CAudio::Instance()->SetIsPlayMusic(buttonManager.GetState("music"));
-		//}
-		//else if (buttonManager.IsCollisionMouse("sound"))
-		//{
-		//	buttonManager.ClickButton("sound");
-		//	CAudio::Instance()->SetIsPlaySound(buttonManager.GetState("sound"));
-		//}
-		//else if (buttonManager.IsCollisionMouse("ending"))	//他媽最好 close button 可以跟 這個同時觸發
-		//{
-		//	windowsEnding.Open();
-		//}
-		//else if (buttonManager.IsCollisionMouse("play"))
-		//{
-		//	GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
-		//}
-		//else if (buttonManager.IsCollisionMouse("about"))
-		//{
-		//	windowsHandbook.Open();
-		//}
-		
-
 	}
 
 	void CGameStateInit::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -268,15 +221,8 @@ namespace game_framework {
 
 	void CGameStateInit::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
 	{	
-		if (zDelta > 0) //往使用者方向滾 -> 往下捲動 (圖片 y -= dy)
-		{
-			
-		}
-		else			//遠離 使用者方向滾 -> 往上捲動 (圖片 y += dy)
-		{
-			
-		}
-
+		//往使用者方向滾 -> 往下捲動 (圖片 y -= dy)
+		//遠離 使用者方向滾 -> 往上捲動 (圖片 y += dy)
 		windowsEnding.OnScrolling(zDelta);
 	}
 
@@ -307,13 +253,10 @@ namespace game_framework {
 		background.ShowBitmap();
 		CLayerManager::Instance()->ShowLayer();
 		windowsEnding.OnShow();
-		//windowsHandbook.OnShow();
 	}
+	#pragma endregion
 
-	/////////////////////////////////////////////////////////////////////////////
-	// 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
-	/////////////////////////////////////////////////////////////////////////////
-
+	#pragma region - CGame Run -
 	CGameStateRun::CGameStateRun(CGame *g)
 		: CGameState(g)
 	{
@@ -356,15 +299,7 @@ namespace game_framework {
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	{
-		//
-		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
-		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
-		//
-
 		ShowInitProgress(33);	// 接個前一個狀態的進度，此處進度視為33%
-								//
-								// 開始載入資料
-								//
 
 		ShowInitProgress(50);										// 載入圖形
 		
@@ -375,19 +310,15 @@ namespace game_framework {
 
 		#pragma region 載入角色
 		role.Load();
-		/*role.LoadAction("idle", BitmapPath("RES\\Role\\miku\\idle", "idle", 19, RGB(150, 200, 250)));
-		role.LoadAction("run", BitmapPath("RES\\Role\\miku\\run", "run", 7, RGB(150, 200, 250)));
-		role.LoadAction("jump", BitmapPath("RES\\Role\\miku\\jump", "jump", 7, RGB(150, 200, 250)));*/
 		#pragma endregion
 
 		uiManager.Load();
 		panel.LoadResource();
 	}
 
-	void CGameStateRun::OnMove()							// 移動遊戲元素
+	void CGameStateRun::OnMove() // 移動遊戲元素
 	{
 		SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
-		//SetCursor(AfxGetApp()->LoadCursor("..\\RES\\gamecurs.cur"));
 		
 		#pragma region - on panel -
 		panel.OnCycle();
@@ -396,7 +327,6 @@ namespace game_framework {
 			return;
 		}
 		#pragma endregion
-
 
 		#pragma region - pause game state in dialoging -
 		if (CDialogManager::Instance()->GetDialogState())
@@ -415,12 +345,6 @@ namespace game_framework {
 			GoToEnd();
 			SwitchState(GAME_STATE_OVER);
 		}
-		/*if (nowUsedTimer->GetTime() == (int)nowUsedTimer->GetTime())
-		{
-			time_left.Add(-1);
-		}*/
-
-
 		#pragma endregion
 		
 		#pragma region - run boss endprocess -
@@ -486,13 +410,10 @@ namespace game_framework {
 		int screenPosX = ScreenX(mapManager.GetX1(), role.GetX3());
 
 		#pragma region SetCamera
-		//CCamera::Instance()->SetCameraBoundary(mapManager.GetSplitLeft(), mapManager.GetSplitRight());
-		//int CameraBoundary_right = SIZE_X + ((mapManager.GetBitmapWidth() - SIZE_X) / 2) - SIZE_X;//鏡頭右邊界
-		//int CameraBoundary_Left = -(((mapManager.GetBitmapWidth() - SIZE_X) / 2) - SIZE_X) - SIZE_X;//鏡頭左邊界
 		int mapR = mapManager.GetSplitRight();
 		int mapL = mapManager.GetSplitLeft();
 		int CameraBoundary_R = (mapManager.GetBitmapWidth() / 2 - mapL) + (mapR - mapManager.GetBitmapWidth() / 2);//鏡頭右邊界
-		int CameraBoundary_L = -CameraBoundary_R;//鏡頭左邊界
+		int CameraBoundary_L = -CameraBoundary_R; //鏡頭左邊界
 		CCamera::Instance()->SetCanMoving(true);
 		
 		#pragma endregion
@@ -507,7 +428,6 @@ namespace game_framework {
 					if (bossManager.targetBoss->GetID() != "Xingting" && bossManager.targetBoss->GetID() != "FacaiSeed")
 					{
 						CCamera::Instance()->SetCanMoving(false);
-						//role.SetCanMoving(false);
 						roleCanMoving = false;
 					}
 				}
@@ -524,7 +444,6 @@ namespace game_framework {
 			if (role.IsCollisionBlock(&(*bkiter))) //collision with block
 			{
 				CCamera::Instance()->SetCanMoving(false);
-				//role.SetCanMoving(false);
 				roleCanMoving = false;
 			}
 
@@ -552,27 +471,16 @@ namespace game_framework {
 
 			if (role.GetX3() <= SIZE_X / 2)
 			{
-				//mapManager.SetMovingLeft(true);
-				//mapManager.SetMovingRight(false);
-				if (/*CCamera::Instance()->GetX() > 0 &&*/ screenPosX > mapL)
+				if (screenPosX > mapL)
 				{
 					CCamera::Instance()->AddX(-MOVE_DISTANCE);
-					//role.SetCanMoving(false);
 					roleCanMoving = false;
-				}
-				else
-				{
-					//role.SetCanMoving(true);
 				}
 				
 				if (bossManager.targetBoss != NULL)
 				{
 					bossManager.targetBoss->OnMove();
 				}
-			}
-			else
-			{
-				//role.SetCanMoving(true);
 			}
 		}
 		#pragma endregion
@@ -583,82 +491,17 @@ namespace game_framework {
 		{
 			if (role.GetX3() >= SIZE_X / 2)
 			{
-				//mapManager.SetMovingLeft(false);
-				//mapManager.SetMovingRight(true);
-				if (/*CCamera::Instance()->GetX() < CameraBoundary_R &&*/ screenPosX < mapR)
+				if (screenPosX < mapR)
 				{
 					CCamera::Instance()->AddX(MOVE_DISTANCE);
 					//role.SetCanMoving(false);
 					roleCanMoving = false;
 				}
-				else
-				{
-					//role.SetCanMoving(true);
-				}
-			}
-			else
-			{
-				//mapManager.SetMovingLeft(false);
-				//mapManager.SetMovingRight(false);
-				//role.SetCanMoving(true);
 			}
 		}
 		#pragma endregion
 
 		mapManager.OnMove();
-
-		/*
-		if (CCamera::Instance()->GetX() > mapManager.GetSplitRight())
-			CCamera::Instance()->SetXY(mapManager.GetSplitRight(), 0);
-		if (CCamera::Instance()->GetX() < mapManager.GetSplitLeft())
-			CCamera::Instance()->SetXY(mapManager.GetSplitLeft(), 0);*/
-
-		/*#pragma region -- Moving Left --
-		if (role.GetMovingLeft())
-		{
-
-			if (screenPosX > mapManager.GetSplitLeft() && screenPosX <= mapManager.GetSplitRight())
-			{
-				mapManager.SetMovingLeft(true);
-				mapManager.SetMovingRight(false);
-				mapManager.OnMove();
-				role.SetCanMoving(false);
-				if (bossManager.targetBoss != NULL)
-				{
-					bossManager.targetBoss->MoveWithMap("left");
-				}
-			}
-			else
-			{
-				mapManager.SetMovingLeft(false);
-				mapManager.SetMovingRight(false);
-				role.SetCanMoving(true);
-			}
-		}
-		#pragma endregion
-		#pragma region -- Moving Right --
-		
-		if (role.GetMovingRight())
-		{
-			if (screenPosX >= mapManager.GetSplitLeft() && screenPosX < mapManager.GetSplitRight())
-			{
-				mapManager.SetMovingLeft(false);
-				mapManager.SetMovingRight(true);
-				mapManager.OnMove();
-				role.SetCanMoving(false);
-				if (bossManager.targetBoss != NULL)
-				{
-					bossManager.targetBoss->MoveWithMap("right");
-				}
-			}
-			else
-			{
-				mapManager.SetMovingLeft(false);
-				mapManager.SetMovingRight(false);
-				role.SetCanMoving(true);
-			}
-		}
-		#pragma endregion*/
 
 		#pragma region -- 左右界地圖檢查 - 卡邊界or換地圖 --
 		
@@ -678,7 +521,6 @@ namespace game_framework {
 		#pragma region --- 右邊沒有地圖且人物往右邊行走 ---
 		if (role.GetX2() >= SIZE_X && role.GetMovingRight() && (mapManager.GetRightMap() < 0 || bossManager.IsBattle()))
 		{
-			//role.SetCanMoving(false); //沒有地圖，卡邊界
 			roleCanMoving = false;
 		}
 		#pragma endregion
@@ -698,7 +540,6 @@ namespace game_framework {
 		#pragma region --- 左邊沒有地圖且人物往左邊行走 ---
 		if (role.GetX1() <= 0 && role.GetMovingLeft() && (mapManager.GetLeftMap() < 0 || bossManager.IsBattle()))
 		{
-			//role.SetCanMoving(false); //沒有地圖，卡邊界
 			roleCanMoving = false;
 		}
 		#pragma endregion
@@ -719,7 +560,7 @@ namespace game_framework {
 				int ddy = 2;
 				role.SetMovingJump(false);
 				role.SetCanJumping(true);
-				role.GetAction()->SetAction("idle");	//髒髒
+				role.GetAction()->SetAction("idle");
 				role.SetXY(role.GetX1(), floorY - role.Height() + ddy);
 			}
 			else //Jumping
@@ -740,7 +581,6 @@ namespace game_framework {
 		#pragma region - boss cycle (move and attack) -
 		if (bossManager.targetBoss != NULL && bossManager.IsBattle())
 		{
-			//bossManager.targetBoss->Attack1(&role);
 			bossManager.targetBoss->OnCycle(&role);
 		}
 		#pragma endregion
@@ -748,8 +588,8 @@ namespace game_framework {
 
 		#pragma region - Collision -
 
-		scallions = role.GetScallion();			//取出蔥的指標做碰撞
-		passerbys = mapManager.GetPasserby();	//取出passerby指標碰撞
+		scallions = role.GetScallion();	//取出蔥的指標做碰撞
+		passerbys = mapManager.GetPasserby(); //取出passerby指標碰撞
 		for (vector<CScallion*>::iterator scallionk = scallions->begin(); scallionk != scallions->end(); )
 		{
 			for (vector<CPasserby*>::iterator passerbyj = passerbys->begin(); passerbyj != passerbys->end(); )
@@ -801,22 +641,6 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		
-		//if (nChar == KEY_LEFT)
-		//{
-		//	role.SetMovingLeft(true);
-		//}
-		//if (nChar == KEY_RIGHT)
-		//{
-		//	role.SetMovingRight(true);
-		//}
-		//if (nChar == KEY_UP)
-		//	role.SetMovingUp(true);
-		//if (nChar == KEY_DOWN)
-		//{
-		//	role.SetMovingDown(true);
-		//}
-
 		if (nChar == KEY_A)
 			role.SetMovingLeft(true);
 		if (nChar == KEY_D)
@@ -841,7 +665,6 @@ namespace game_framework {
 		if (nChar == 'U')
 		{
 			nowUsedTimer->ResetTime(5.0);
-			/*time_left.SetInteger(nowUsedTimer->GetTime(2));*/
 		}
 		if (nChar == 'T')
 		{
@@ -889,63 +712,16 @@ namespace game_framework {
 		{
 			role.SetRoleNoSubHp();
 		}
-
-		#pragma region - 沒路用ING -
-		//if (nChar == KEY_S)
-		//{
-		//	role.SetMovingDown(false);
-		//}
-
-		//if (nChar == KEY_Q)
-		//{
-		//	CDialogManager::Instance()->Start(DIALOG_DATA_VSXingting1);
-		//}
-
-		//if (nChar == 67)
-		//{
-		//	CAudio::Instance()->Pause();
-		//	//CAudio::Instance()->Play("MyVoiceIsDead");
-		//}
-
-		//if (nChar == KEY_B)
-		//{
-		//	CAudio::Instance()->Resume();
-		//}
-		//if (nChar == 86)
-		//{
-		//	CAudio::Instance()->Play("MyVoiceIsDead");
-		//	//CAudio::Instance()->Play("SLoWMoTIoN_Gameover");
-		//}
-
-		//if (nChar == 'N')
-		//{
-		//	role.SetMovingJump(false);
-		//	role.SetCanJumping(true);
-		//}
-		#pragma endregion
 	}
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-
-		//if (nChar == KEY_LEFT)
-		//	role.SetMovingLeft(false);
-		//if (nChar == KEY_RIGHT)
-		//	role.SetMovingRight(false);
-		//if (nChar == KEY_UP)
-		//	role.SetMovingUp(false);
-		//if (nChar == KEY_DOWN)
-		//{
-		//	role.SetMovingDown(false);
-		//}
-
 		if (nChar == 27)	//ESC
 		{
 			if (panel.IsOpen())
 				panel.Close();
 			else
 				panel.Open();
-			//GotoGameState(GAME_STATE_INIT);
 		}
 
 		if (nChar == KEY_A)
@@ -954,11 +730,6 @@ namespace game_framework {
 			role.SetMovingRight(false);
 		if (nChar == KEY_W)
 			role.SetMovingUp(false);
-		/*if (nChar == KEY_S)
-		{
-			role.SetMovingDown(false);
-		}*/
-
 	}
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -1011,7 +782,7 @@ namespace game_framework {
 				{
 					CDialogManager::Instance()->Stop();
 				}
-				GotoGameState(GAME_STATE_INIT);		// 切換至GAME_STATE_RUN
+				GotoGameState(GAME_STATE_INIT);	// 切換至GAME_STATE_RUN
 			}
 			else if (btnName == "exit")
 			{
@@ -1023,7 +794,6 @@ namespace game_framework {
 
 	void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
-		// 沒事。如果需要處理滑鼠移動的話，寫code在這裡
 		role.SetMouseXY(point.x, point.y);
 
 		if (panel.IsOpen())
@@ -1031,8 +801,6 @@ namespace game_framework {
 			panel.CollisionClose(point);
 			panel.UpdateMouse(point);
 		}
-		
-
 	}
 
 	void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -1047,15 +815,6 @@ namespace game_framework {
 
 	void CGameStateRun::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
 	{
-		//測試用：上滾score增加，下滾減少
-		if (zDelta > 0) //往使用者方向滾 -> 往下捲動 (圖片 y -= dy)
-		{
-			role.AddScore(5);
-		}
-		else			//遠離 使用者方向滾 -> 往上捲動 (圖片 y += dy)
-		{
-			role.AddScore(-5);
-		}
 	}
 
 	void CGameStateRun::PositionTrigger()
@@ -1071,8 +830,6 @@ namespace game_framework {
 			nextMap = mapManager.GetLeftMap();
 			mapManager.ChangeMap(mapManager.GetLeftMap(), "left");
 			role.SetXY(SIZE_X - (role.GetX3() - role.GetX1()), role.GetY1() - 1);
-			//role.SetXY(SIZE_X + (role.GetX2() - role.GetX1()), role.GetY1() - 1);
-			//CCamera::Instance()->SetXY(mapManager.GetBitmapWidth() / 2, 0);
 		}
 		else if (dir == "right")
 		{
@@ -1080,7 +837,6 @@ namespace game_framework {
 			mapManager.ChangeMap(mapManager.GetRightMap(), "right");
 
 			role.SetXY(0 - (role.GetX3() - role.GetX1()), role.GetY1() - 1);
-			//role.SetXY(1,  role.GetY1());
 		}
 		bossManager.TargetBoss(mapManager.GetNowMap());
 		npcManager.ChangeMap(nowMap, nextMap);
@@ -1112,7 +868,6 @@ namespace game_framework {
 	void CGameStateRun::SwitchTimer(CTimer *swtimer)
 	{
 		nowUsedTimer = swtimer;
-		/*time_left.SetInteger(nowUsedTimer->GetTime(2), 2);*/
 	}
 
 	void CGameStateRun::GoToEnd()
@@ -1153,20 +908,13 @@ namespace game_framework {
 
 	void CGameStateRun::OnShow()
 	{
-		//
-		//  注意：Show裡面千萬不要移動任何物件的座標，移動座標的工作應由Move做才對，
-		//        否則當視窗重新繪圖時(OnDraw)，物件就會移動，看起來會很怪。換個術語
-		//        說，Move負責MVC中的Model，Show負責View，而View不應更動Model。
-		//
-
 		panel.OnShow();
 
-		#pragma region - paint object -
+		#pragma region - paint layer -
 		CLayerManager::Instance()->ShowLayer();
 		#pragma endregion
-
-		//CDialogManager::Instance()->ShowText();
 	}
+	#pragma endregion
 
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的結束狀態(Game Over)

@@ -46,24 +46,6 @@
 #include "Refactor.h"
 
 namespace game_framework {
-	/////////////////////////////////////////////////////////////////////////////
-	// Constants
-	/////////////////////////////////////////////////////////////////////////////
-
-	//enum AUDIO_ID {				// 定義各種音效的編號
-	//	AUDIO_MENU,				
-	//	AUDIO_GAMEING,			
-	//	AUDIO_GAMEOVER,
-	//	AUDIO_THROW,
-	//	AUDIO_JUMP,
-	//	AUDIO_HIT
-	//};
-
-	/////////////////////////////////////////////////////////////////////////////
-	// 這個class為遊戲的遊戲開頭畫面物件
-	// 每個Member function的Implementation都要弄懂
-	/////////////////////////////////////////////////////////////////////////////
-
 
 	class CGameStateInit : public CGameState {
 	public:
@@ -89,10 +71,6 @@ namespace game_framework {
 		
 		CScrollWindow windowsEnding;
 		CSwitchWindow windowsHandbook;
-		//CWindows windowsEnding;
-
-		bool IsKeyCtrl;
-		
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -120,10 +98,6 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
-		CMovingBitmap	background;	// 背景圖
-		CMovingBitmap	help;		// 說明圖
-		CMovingBitmap	corner;		// 角落圖
-		CEraser			eraser;		// 拍子
 		CRole role;
 		CInteger		time_left;	// 剩下的撞擊數
 		CTimer timer; //stateRun狀態下的timer (其實好像在什麼狀態下都無所謂) (gameRun timer)
