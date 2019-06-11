@@ -296,7 +296,7 @@ namespace game_framework {
 	{
 		LoadAction("idle", BitmapPath("RES\\Role\\miku\\idle", "idle", 19, RGB(150, 200, 250)));
 		LoadAction("run", BitmapPath("RES\\Role\\miku\\run", "run", 7, RGB(150, 200, 250)));
-		LoadAction("jump", BitmapPath("RES\\Role\\miku\\jump", "jump", 7, RGB(150, 200, 250)));		
+		LoadAction("jump", BitmapPath("RES\\Role\\miku\\jump", "jump", 5, RGB(150, 200, 250)));		
 		decisionPoint.LoadBitmap("RES\\Role\\miku\\cursor.bmp", RGB(214, 214, 214));
 	}
 
@@ -591,8 +591,8 @@ namespace game_framework {
 		eq = initEq;
 		score = 0;
 
-		const int INIT_VELOCITY = 30;				//設定初速度
-		const int GRAVITY = 2;						//設定重力
+		const int INIT_VELOCITY = 25;				//設定初速度
+		const int GRAVITY = 1;						//設定重力
 		init_velocity = velocity = INIT_VELOCITY;
 		gravity = GRAVITY;
 
