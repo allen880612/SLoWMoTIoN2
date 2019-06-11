@@ -1115,7 +1115,7 @@ namespace game_framework
 		nowAction = NULL;
 		nowBitmap = NULL;
 		
-		action = "jump";
+		action = "idle";
 		faceTo = "_R";
 		action_index = 0;
 		if (!paser.empty())

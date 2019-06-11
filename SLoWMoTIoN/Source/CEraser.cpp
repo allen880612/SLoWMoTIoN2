@@ -300,6 +300,12 @@ namespace game_framework {
 		decisionPoint.LoadBitmap("RES\\Role\\miku\\cursor.bmp", RGB(214, 214, 214));
 	}
 
+	void CRole::LoadasMascot()
+	{
+		LoadAction("idle", BitmapPath("RES\\Role\\miku\\idle", "idle", 19, RGB(150, 200, 250)));
+		LoadAction("run", BitmapPath("RES\\Role\\miku\\run", "run", 7, RGB(150, 200, 250)));
+	}
+
 	void CRole::LoadAction(string _action, BitmapPath _loadpath)
 	{
 		action.LoadAction(_action, _loadpath);
@@ -591,7 +597,7 @@ namespace game_framework {
 		eq = initEq;
 		score = 0;
 
-		const int INIT_VELOCITY = 25;				//設定初速度
+		const int INIT_VELOCITY = 23;				//設定初速度
 		const int GRAVITY = 1;						//設定重力
 		init_velocity = velocity = INIT_VELOCITY;
 		gravity = GRAVITY;

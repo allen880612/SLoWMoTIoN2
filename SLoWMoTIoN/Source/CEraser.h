@@ -134,6 +134,8 @@ namespace game_framework {
 		void SetValid(bool);
 
 		void Load();
+		void LoadasMascot();
+
 		void LoadAction(string, BitmapPath);	//載入動應動作
 
 		void OnMove();

@@ -83,11 +83,10 @@ namespace game_framework {
 	private:
 		CButtonManager buttonManager;
 		CPoint		  mouse;
-		CMovingBitmap logo;								// csieªºlogo
+		CMovingBitmap background;								// background
 
-		CMovingBitmap blood;
-		CMovingBitmap frame;
-
+		CRole miku;
+		
 		CScrollWindows windowsEnding;
 		CSwitchWindow windowsHandbook;
 		//CWindows windowsEnding;

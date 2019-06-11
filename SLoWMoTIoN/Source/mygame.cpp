@@ -79,9 +79,9 @@ namespace game_framework {
 		#pragma region Button Create
 		buttonManager.CreateButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true, false);
 		buttonManager.CreateButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true, false);
-		buttonManager.CreateButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(350, 190), false, true);
-		buttonManager.CreateButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(350, 260), false, true);
-		buttonManager.CreateButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(350, 330), false, true);
+		buttonManager.CreateButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(230, 200), false, true);
+		buttonManager.CreateButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(230, 270), false, true);
+		buttonManager.CreateButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(230, 340), false, true);
 		#pragma endregion
 	}
 
@@ -103,6 +103,7 @@ namespace game_framework {
 			buttonManager.Load();
 			windowsEnding.LoadResource();
 			windowsHandbook.LoadResource("RES\\Handbook\\introduction\\");
+			miku.LoadasMascot();
 			//windowsEnding.PushButtonToButtonManager(&buttonManager);
 			//frame.LoadBitmap(".\\RES\\UI\\blood_frame.bmp", RGB(214, 214, 214));
 			//blood.LoadBitmap(".\\RES\\UI\\blood.bmp", RGB(214, 214, 214));
@@ -112,6 +113,9 @@ namespace game_framework {
 		buttonManager.SetValid(true);
 		windowsEnding.Initialize(CPoint(60, 60));
 		windowsHandbook.Initialize(CPoint(0, 0));
+		miku.Initialize();
+		miku.SetXY(50, 320);
+		miku.GetAction()->SetFaceTo("_R");
 
 		isLoaded = true;
 		IsKeyCtrl = false;
@@ -127,7 +131,7 @@ namespace game_framework {
 								//
 								// 開始載入資料
 								//
-		logo.LoadBitmap(".\\RES\\Map\\Menu.bmp");
+		background.LoadBitmap(".\\RES\\Map\\Menu_3.bmp");
 		
 		
 
@@ -277,16 +281,17 @@ namespace game_framework {
 		}
 		#pragma endregion
 
-		logo.SetTopLeft(0, 0);
+		background.SetTopLeft(0, 0);
 		buttonManager.OnCycle();
 		buttonManager.SetValid(!(windowsEnding.IsOpen() || windowsHandbook.IsOpen()));
 		windowsEnding.OnCycle();
 		windowsHandbook.OnCycle();
+		miku.GetAction()->OnMove("run");
 	}
 
 	void CGameStateInit::OnShow()
 	{
-		logo.ShowBitmap();
+		background.ShowBitmap();
 		CLayerManager::Instance()->ShowLayer();
 		windowsEnding.OnShow();
 		//windowsHandbook.OnShow();
