@@ -424,14 +424,29 @@ CMovingBitmap::CMovingBitmap()
 
 int CMovingBitmap::Height()
 {
-	GAME_ASSERT(isBitmapLoaded,"A bitmap must be loaded before Height() is called !!!");
-	return location.bottom - location.top;
+	//GAME_ASSERT(isBitmapLoaded,"A bitmap must be loaded before Height() is called !!!");
+	if (isBitmapLoaded)
+	{
+		return location.bottom - location.top;
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 int CMovingBitmap::Left()
 {
-	GAME_ASSERT(isBitmapLoaded,"A bitmap must be loaded before Left() is called !!!");
-	return location.left;
+	//GAME_ASSERT(isBitmapLoaded,"A bitmap must be loaded before Left() is called !!!");
+	if (isBitmapLoaded)
+	{
+		return location.left;
+	}
+	else
+	{
+		return 0;
+	}
+	
 }
 
 void CMovingBitmap::LoadBitmap(int IDB_BITMAP, COLORREF color)
@@ -495,8 +510,11 @@ void CMovingBitmap::SetTopLeft(int x, int y)
 
 void CMovingBitmap::ShowBitmap()
 {
-	GAME_ASSERT(isBitmapLoaded,"A bitmap must be loaded before ShowBitmap() is called !!!");
-	CDDraw::BltBitmapToBack(SurfaceID,location.left,location.top);
+	//GAME_ASSERT(isBitmapLoaded,"A bitmap must be loaded before ShowBitmap() is called !!!");
+	if (isBitmapLoaded)
+	{
+		CDDraw::BltBitmapToBack(SurfaceID, location.left, location.top);
+	}
 }
 
 void CMovingBitmap::ShowBitmap(double factor)
@@ -514,14 +532,28 @@ void CMovingBitmap::ShowBitmap(CMovingBitmap &bm)
 
 int CMovingBitmap::Top()
 {
-	GAME_ASSERT(isBitmapLoaded,"A bitmap must be loaded before Top() is called !!!");
-	return location.top;
+	//GAME_ASSERT(isBitmapLoaded,"A bitmap must be loaded before Top() is called !!!");
+	if (isBitmapLoaded)
+	{
+		return location.top;
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 int CMovingBitmap::Width()
 {
-	GAME_ASSERT(isBitmapLoaded,"A bitmap must be loaded before Width() is called !!!");
-	return location.right - location.left;
+	//GAME_ASSERT(isBitmapLoaded,"A bitmap must be loaded before Width() is called !!!");
+	if (isBitmapLoaded)
+	{
+		return location.right - location.left;
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 void CMovingBitmap::SetValid(bool flag)

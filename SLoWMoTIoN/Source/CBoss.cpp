@@ -515,12 +515,13 @@ namespace game_framework
 		InitializeDirAnimate("right", 0.05);
 		#pragma region - Init ray -
 		ray = NULL;
-		rayStartTime.ResetTime(2.5); //預設一秒後發射
+		rayStartTime.ResetTime(2.5); //預設k秒後發射
 		rayStayTime.ResetTime(2.0); //預設持續兩秒
-		fly = false;
-		flyY = 1;
 		#pragma endregion
 		Clear();
+
+		fly = false;
+		flyY = 1;
 
 		movingTime = CTimer(0.2);
 		shootCoinTimer = CTimer(0.2); //每0.2s發射1波金幣
