@@ -41,7 +41,6 @@
 #include "CEraser.h"
 #include "CBall.h"
 #include "CManager.h"
-#include "CBouncingBall.h"
 #include "CBoss.h"
 #include "Refactor.h"
 
