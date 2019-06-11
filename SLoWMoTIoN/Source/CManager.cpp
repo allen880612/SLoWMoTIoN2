@@ -1074,11 +1074,13 @@ namespace game_framework
 		if (nowMap == BOSS_MAP_XINGTING && bossInformation[BOSS_XINGTING]->GetAlive())
 		{
 			targetBoss = bossInformation[BOSS_XINGTING];
+			targetBoss->Initialize();
 			targetBoss->GetAnimate()->SetValid(true);
 		}
 		else if (nowMap == BOSS_MAP_FACAISEED && bossInformation[BOSS_FACAISEED]->GetAlive())
 		{
 			targetBoss = bossInformation[BOSS_FACAISEED];
+			targetBoss->Initialize();
 			targetBoss->GetAnimate()->SetValid(true);
 		}
 		else
@@ -1198,6 +1200,7 @@ namespace game_framework
 		if (gameState != NULL)
 		{
 			dialogWithXingting = false;
+			dialogWithFacaiSeed = false;
 		}
 	}
 
