@@ -1464,7 +1464,7 @@ namespace game_framework
 	{
 		//closeButton = new CButton(BitmapPath("RES\\Button", "close", 2, RGB(214, 214, 214)), CPoint(0, 0), false, true);
 		closeButton->LoadBitmap();
-		background.LoadBitmap("RES\\Windows", "EndingWindows", RGB(214, 214, 214));
+		background.LoadBitmap("RES\\Windows", "EndWindow_2", RGB(214, 214, 214));
 
 		
 	}
@@ -1637,7 +1637,8 @@ namespace game_framework
 	void CScrollWindows::LoadResource()
 	{
 		CWindows::LoadResource();
-		cover.LoadBitmap("RES\\Windows", "EndingWindows_Cover", RGB(214, 214, 214));
+		cover.LoadBitmap("RES\\Windows", "cover_top", RGB(214, 214, 214));
+		cover_bottom.LoadBitmap("RES\\Windows", "cover_bottom", RGB(214, 214, 214));
 
 		for (int r = 0; r < rowNum; r++)
 		{
@@ -1680,9 +1681,10 @@ namespace game_framework
 		//const int WIDTH = endingVector[0][0].Width();
 		CWindows::Initialize(_p);
 		cover.SetTopLeft(_p.x, _p.y);
+		cover_bottom.SetTopLeft(_p.x, SIZE_Y - cover_bottom.Height());
 
 		// set image initial position
-		img_x = x + 50;
+		img_x = x + 150;
 		img_y = cover.GetRect().bottom + 10;
 
 		// set padding
@@ -1760,6 +1762,7 @@ namespace game_framework
 		}
 
 		cover.ShowBitmap();
+		cover_bottom.ShowBitmap();
 		closeButton->OnShow();
 	}
 
@@ -2150,15 +2153,22 @@ namespace game_framework
 	void CPanel::CreatButton()
 	{
 		
-		btnManager->CreateButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(350, 190), false, true);
-		btnManager->CreateButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(350, 260), false, true);
-		btnManager->CreateButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(350, 330), false, true);
+		const int BTN_X = 240;
+		const int F_BTN_Y = 120;
+		
+		btnManager->CreateButton(BitmapPath("RES\\Button", "resume", 2, RGB(214, 214, 214)), CPoint(BTN_X, F_BTN_Y), false, true);
+		btnManager->CreateButton(BitmapPath("RES\\Button", "restart", 2, RGB(214, 214, 214)), CPoint(BTN_X, F_BTN_Y + 60), false, true);
+		btnManager->CreateButton(BitmapPath("RES\\Button", "menu", 2, RGB(214, 214, 214)), CPoint(BTN_X, F_BTN_Y + 120), false, true);
+		btnManager->CreateButton(BitmapPath("RES\\Button", "exit", 2, RGB(214, 214, 214)), CPoint(BTN_X, F_BTN_Y  + 180), false, true);
 	}
 
 	void CPanel::LoadResource()
 	{
 		CWindows::LoadResource();
 		btnManager->Load();
+		CMovingBitmap panelBK;
+		panelBK.LoadBitmap("RES\\UI\\panel", "panel", RGB(214, 214, 214));
+		background = panelBK;
 	}
 
 	void CPanel::Initialize(CPoint _p)
@@ -2166,6 +2176,10 @@ namespace game_framework
 		CWindows::Initialize(_p);
 		btnManager->Initialize();
 		btnManager->SetValid(false);
+
+		const int BTN_X = _p.x + background.Width() - 50;
+		const int BTN_Y = _p.y - 30;
+		closeButton->SetXY(BTN_X, BTN_Y);
 	}
 
 	void CPanel::Clear()
@@ -2183,7 +2197,13 @@ namespace game_framework
 	{
 		CWindows::OnCycle();
 		btnManager->SetValid(IsOpen());
+		btnManager->UpdateState(mousePos);
+		CollisionClose(mousePos);
+
 		btnManager->OnCycle();
+
+		
+
 	}
 	
 	string CPanel::GetCollisionButtonName()

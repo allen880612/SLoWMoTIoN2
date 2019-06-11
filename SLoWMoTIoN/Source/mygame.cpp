@@ -81,7 +81,7 @@ namespace game_framework {
 		buttonManager.CreateButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true, false);
 		buttonManager.CreateButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(230, 200), false, true);
 		buttonManager.CreateButton(BitmapPath("RES\\Button", "ending", 2, RGB(214, 214, 214)), CPoint(230, 270), false, true);
-		buttonManager.CreateButton(BitmapPath("RES\\Button", "about", 2, RGB(214, 214, 214)), CPoint(230, 340), false, true);
+		buttonManager.CreateButton(BitmapPath("RES\\Button", "tutorial", 2, RGB(214, 214, 214)), CPoint(230, 340), false, true);
 		#pragma endregion
 	}
 
@@ -111,7 +111,7 @@ namespace game_framework {
 
 		buttonManager.Initialize();	
 		buttonManager.SetValid(true);
-		windowsEnding.Initialize(CPoint(60, 60));
+		windowsEnding.Initialize(CPoint(0, 0));
 		windowsHandbook.Initialize(CPoint(0, 0));
 		miku.Initialize();
 		miku.SetXY(50, 320);
@@ -207,7 +207,7 @@ namespace game_framework {
 			{
 				GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 			}
-			else if (btnName == "about")
+			else if (btnName == "tutorial")
 			{
 				windowsHandbook.Open();
 			}		
@@ -270,6 +270,7 @@ namespace game_framework {
 
 	void CGameStateInit::OnMove()
 	{
+		SetCursor(AfxGetApp()->LoadCursor(IDC_GAMECURSOR));
 		#pragma region mute music with menu_bgm
 		if (!buttonManager.GetState("music"))	//music mute
 		{
@@ -800,6 +801,7 @@ namespace game_framework {
 		#pragma endregion
 
 		uiManager.OnCycle(nowUsedTimer->GetTime(1));
+		panel.OnCycle();
 	}
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -985,14 +987,54 @@ namespace game_framework {
 
 	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
+		
 		role.SetIsFire(false);
+
+		if (!panel.IsOpen())
+		{
+			return;
+		}
+		
+
+		if (panel.GetCollisionButtonName() != "NoButtonClick")
+		{
+			string btnName = panel.GetCollisionButtonName();
+			if (btnName == "resume")
+			{
+				panel.Close();
+
+			}
+			else if (btnName == "restart")	//他媽最好 close button 可以跟 這個同時觸發
+			{
+				panel.Close();
+				CDialogManager::Instance()->Stop();
+				GotoGameState(GAME_STATE_RUN);
+			}
+			else if (btnName == "menu")
+			{
+				panel.Close();
+				CDialogManager::Instance()->Stop();
+				GotoGameState(GAME_STATE_INIT);		// 切換至GAME_STATE_RUN
+			}
+			else if (btnName == "exit")
+			{
+				panel.Clear();
+				PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0);
+			}
+		}
 	}
 
 	void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
 		// 沒事。如果需要處理滑鼠移動的話，寫code在這裡
 		role.SetMouseXY(point.x, point.y);
-		panel.UpdateMouse(point);
+
+		if (panel.IsOpen())
+		{
+			panel.CollisionClose(point);
+			panel.UpdateMouse(point);
+		}
+		
 
 	}
 
@@ -1003,22 +1045,7 @@ namespace game_framework {
 
 	void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
-		if (panel.GetCollisionButtonName() != "NoButtonClick")
-		{
-			string btnName = panel.GetCollisionButtonName();
-			if (btnName == "play")
-			{
-
-			}
-			else if (btnName == "ending")	//他媽最好 close button 可以跟 這個同時觸發
-			{
-				
-			}
-			else if (btnName == "about")
-			{
-				GotoGameState(GAME_STATE_INIT);		// 切換至GAME_STATE_RUN
-			}
-		}
+		
 	}
 
 	void CGameStateRun::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
@@ -1134,45 +1161,14 @@ namespace game_framework {
 		//        否則當視窗重新繪圖時(OnDraw)，物件就會移動，看起來會很怪。換個術語
 		//        說，Move負責MVC中的Model，Show負責View，而View不應更動Model。
 		//
-		//
-		//  貼上背景圖、撞擊數、球、擦子、彈跳的球
-		//
-		
-		//background.ShowBitmap();			// 貼上背景圖
-		//help.ShowBitmap();					// 貼上說明圖
-		//
 
-		//corner.SetTopLeft(0, 0);
-		//corner.ShowBitmap();
-		//corner.SetTopLeft(SIZE_X - corner.Width(), SIZE_Y - corner.Height());
-		//corner.ShowBitmap();
-		//貼上MIKU
-		//miku.onShow();
+		panel.OnShow();
 
 		#pragma region - paint object -
-		panel.OnShow();
 		CLayerManager::Instance()->ShowLayer();
-
-		#pragma endregion
-
-		//role.OnShow();
-
-		#pragma region - paint time remain -
-		//char roleScore[100], rolehp[100];
-		//sprintf(roleScore, "%d", role.GetScore());
-		//PaintText(roleScore, 500, 0, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
-
-
-		//sprintf(rolehp, "%d", role.GetHp());
-		//PaintText(rolehp, 20, 100, "Consolas", 32, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
-		#pragma endregion
 		#pragma endregion
 
 		CDialogManager::Instance()->ShowText();
-		role.OnShow();
-		
-		//time_left.ShowBitmap();	// 剩餘時間\
-		//hp_left.ShowBitmap();	// 剩餘HP	
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -1307,42 +1303,6 @@ namespace game_framework {
 			}
 		}
 		#pragma endregion
-
-		/*
-		CDC *pDC = CDDraw::GetBackCDC();			// 取得 Back Plain 的 CDC 
-		CFont f, *fp;
-		f.CreatePointFont(160, "Times New Roman");	// 產生 font f; 160表示16 point的字
-		fp = pDC->SelectObject(&f);					// 選用 font f
-		pDC->SetBkColor(RGB(0, 0, 0));
-		pDC->SetTextColor(RGB(255, 255, 0));
-		char str[80];								// Demo 數字對字串的轉換
-		sprintf(str, "Game Over ! (%d)", counter / 30);
-		pDC->TextOut(240, 210, str);
-		pDC->SelectObject(fp);						// 放掉 font f (千萬不要漏了放掉)
-		CDDraw::ReleaseBackCDC();					// 放掉 Back Plain 的 CDC
-		*/
-		
-		//if (time_remaining.GetTime() <= 1.5)	//之後放個 timer 來算那張圖應該要多久後，開始淡出
-		//{
-		//	DrawBitmap(&ending1, alpha-=4);
-		//}
-		//else if (alpha < 255)
-		//{
-		//	DrawBitmap(&ending1, alpha+=3);
-		//}
-		//else
-		//{
-		//	DrawBitmap(&ending1, alpha);
-		//}
-		
-		
-		
-
-		//overBitmap.SetTopLeft(0, 0);
-		//overBitmap.ShowBitmap();
-		//char str[100];
-		//sprintf(str, "Score: %d", finalScore);
-		//PaintText(str, 100, 360, "微軟正黑體", 20, RGB(255, 255, 255), RGB(255, 0, 0));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 	}
 
 	#pragma region - MapEditer -

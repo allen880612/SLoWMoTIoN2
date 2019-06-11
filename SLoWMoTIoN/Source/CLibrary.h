@@ -463,7 +463,7 @@ namespace game_framework
 			string GetCollisionButtonName(CPoint);
 
 		private:
-			CMovingBitmap cover;
+			CMovingBitmap cover, cover_bottom;
 			vector< vector <CButton> > endingVector;
 			vector<string> endName;
 			int colNum, rowNum;
