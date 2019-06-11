@@ -1077,7 +1077,7 @@ namespace game_framework
 			targetBoss->Initialize();
 			targetBoss->GetAnimate()->SetValid(true);
 		}
-		else if (nowMap == BOSS_MAP_FACAISEED && bossInformation[BOSS_FACAISEED]->GetAlive())
+		else if (nowMap == BOSS_MAP_FACAISEED && (!bossInformation[BOSS_FACAISEED]->IsEnd()))
 		{
 			targetBoss = bossInformation[BOSS_FACAISEED];
 			targetBoss->Initialize();
@@ -1204,8 +1204,6 @@ namespace game_framework
 		}
 	}
 
-	
-
 	void CEventManager::SetGameStateRun(CGameStateRun *state)
 	{
 		if (gameState == NULL)
@@ -1213,6 +1211,7 @@ namespace game_framework
 			gameState = state;
 		}
 	}
+
 	void CEventManager::trigger()
 	{
 		if (gameState != NULL)
@@ -1255,7 +1254,6 @@ namespace game_framework
 				}
 			}
 			#pragma endregion
-
 		}
 	}
 	#pragma endregion
