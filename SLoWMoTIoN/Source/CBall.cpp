@@ -177,13 +177,13 @@ namespace game_framework {
 
 
 
-	bool CScallion::IsCollision(CPasserby passerby)
+	bool CScallion::IsCollision(CMonster passerby)
 	{
 		return false;
 		return IsPointInRect(CPoint(x + animation.Width(), y), passerby.animation.GetRect());
 	}
 
-	bool CScallion::IsCollision(CPasserby* passerby)
+	bool CScallion::IsCollision(CMonster* passerby)
 	{
 		return IsRectCollision(animation.GetRect(), passerby->animation.GetRect());
 	}

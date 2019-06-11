@@ -220,13 +220,13 @@ namespace game_framework {
 	};
 	#pragma endregion
 
-	#pragma region - CPasserby -
-	class CPasserby : public CEraser
+	#pragma region - CMonster -
+	class CMonster : public CEraser
 	{
 		friend class CScallion;
 	public:
-		CPasserby();
-		CPasserby(int, int);
+		CMonster();
+		CMonster(int, int);
 		void SetBlock(vector<CBlock> *bkvector) {
 			blockVector = bkvector;
 		}
@@ -234,7 +234,7 @@ namespace game_framework {
 		void SetScore(int);
 		void SetMoving();
 		virtual void OnMove();
-		virtual ~CPasserby();
+		virtual ~CMonster();
 	protected:
 		int initX;
 		CTimer moveTimer;
@@ -252,24 +252,24 @@ namespace game_framework {
 		void ResetCollisionRect();
 	};
 
-	#pragma region - CPasserby1 - LUKA -
-	class CPasserbyType1 : public CPasserby
+	#pragma region - CMonster1 - LUKA -
+	class CMonsterType1 : public CMonster
 	{
 	public:
-		CPasserbyType1();
-		CPasserbyType1(int, int, BitmapPath, int);
-		~CPasserbyType1();
+		CMonsterType1();
+		CMonsterType1(int, int, BitmapPath, int);
+		~CMonsterType1();
 	};
 	#pragma endregion
 
-	#pragma region - CPasserby3 - mushroom -
-	class CPasserbyType2 : public CPasserby
+	#pragma region - CMonster2 - mushroom -
+	class CMonsterType2 : public CMonster
 	{
 	public:
-		CPasserbyType2();
-		CPasserbyType2(int, int, BitmapPath, int);
+		CMonsterType2();
+		CMonsterType2(int, int, BitmapPath, int);
 		void OnMove();
-		~CPasserbyType2();
+		~CMonsterType2();
 	};
 	#pragma endregion
 
@@ -287,10 +287,6 @@ namespace game_framework {
 	private:
 		string txt;
 	};
-	#pragma endregion
-
-	#pragma region - CNPC - No.2 -
-
 	#pragma endregion
 
 	#pragma region - CNPC - No.3 -
@@ -312,6 +308,4 @@ namespace game_framework {
 		bool isLoadHeadPhoneIcon;
 	};
 	#pragma endregion
-
-
 }

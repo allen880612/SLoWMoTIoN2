@@ -624,7 +624,7 @@ namespace game_framework {
 		passerbys = mapManager.GetPasserby(); //取出passerby指標碰撞
 		for (vector<CScallion*>::iterator scallionk = scallions->begin(); scallionk != scallions->end(); )
 		{
-			for (vector<CPasserby*>::iterator passerbyj = passerbys->begin(); passerbyj != passerbys->end(); )
+			for (vector<CMonster*>::iterator passerbyj = passerbys->begin(); passerbyj != passerbys->end(); )
 			{
 				if ((*scallionk)->IsCollision(*passerbyj) && (*passerbyj)->GetValid() && (*scallionk)->IsAlive())
 				{
@@ -656,7 +656,7 @@ namespace game_framework {
 		#pragma endregion
 
 		#pragma region - Passerby Moving -
-		for (vector<CPasserby*>::iterator passerbyj = passerbys->begin(); passerbyj != passerbys->end(); passerbyj++)
+		for (vector<CMonster*>::iterator passerbyj = passerbys->begin(); passerbyj != passerbys->end(); passerbyj++)
 		{
 			(*passerbyj)->SetMoving();
 			(*passerbyj)->OnMove();

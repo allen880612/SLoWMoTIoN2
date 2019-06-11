@@ -7,23 +7,23 @@
 
 namespace game_framework
 {
-	#pragma region - passerbyManager -
-	class CPasserbyManager
+	#pragma region - monsterManager -
+	class CMonsterManager
 	{
 		friend class CMapManager;
 	public:
-		CPasserbyManager();
-		~CPasserbyManager();
+		CMonsterManager();
+		~CMonsterManager();
 		void Clear();
-		CPasserby* GetPasserbyType(int);
-		CPasserby* AddPasserby(vector<int> , int );
-		void CreatePasserby(int, vector<int>, int, vector<CBlock>*);
-		void DeletePasserby(vector<CPasserby*>::iterator);
-		vector<CPasserby*> GetPasserby();
+		CMonster* GetMonsterType(int);
+		CMonster* AddMonster(vector<int> , int );
+		void CreateMonster(int, vector<int>, int, vector<CBlock>*);
+		void DeleteMonster(vector<CMonster*>::iterator);
+		vector<CMonster*> GetMonster();
 		CLayer layer;
 
 	private:
-		vector<CPasserby*> passerby;
+		vector<CMonster*> monsterManager;
 	};
 	#pragma endregion
 	
@@ -66,11 +66,11 @@ namespace game_framework
 		CAnimate* GetNpc(int);
 		CLayer layer;
 
-		vector<CPasserby*>* GetPasserby();
-		void DeletePasserby(vector<CPasserby*>::iterator); //temp
+		vector<CMonster*>* GetPasserby();
+		void DeletePasserby(vector<CMonster*>::iterator); //temp
 		void AddPasserby();
 		void Initialize();
-		CPasserbyManager passerbyManager; //temp
+		CMonsterManager passerbyManager; //temp
 
 		void ReloadBlockMap(); //如果有更新map，線上更新
 	private:

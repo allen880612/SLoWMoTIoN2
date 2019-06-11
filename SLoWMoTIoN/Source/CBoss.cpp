@@ -230,7 +230,6 @@ namespace game_framework
 
 	void CXingting::OnCycle(CRole *role)
 	{
-		AliveTime.CountDown();
 		if (AliveTime.IsTimeOut()) //時間到 杏庭自爆
 		{
 			if (IsAlive)

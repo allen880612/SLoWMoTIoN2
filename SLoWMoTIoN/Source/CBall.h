@@ -27,7 +27,7 @@ namespace game_framework {
 		int x, y; // 圓心的座標
 		bool is_alive;	// 是否活著
 	};
-#pragma endregion
+	#pragma endregion
 
 	#pragma region - CScallion -
 	class CScallion : public CBall
@@ -41,8 +41,8 @@ namespace game_framework {
 		void OnShow();
 		void SetInitVelocity(int, int, int, int, int = 5);
 		void SetInitVelocity(int, int);
-		bool IsCollision(CPasserby);
-		bool IsCollision(CPasserby*);
+		bool IsCollision(CMonster);
+		bool IsCollision(CMonster*);
 		bool IsCollision(CBoss*);
 		bool IsCollision(CRect);
 		void Clear();

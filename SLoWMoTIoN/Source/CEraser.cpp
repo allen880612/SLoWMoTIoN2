@@ -650,8 +650,8 @@ namespace game_framework {
 	}
 	#pragma endregion
 
-	#pragma region - CPasserby -
-	CPasserby::CPasserby() : CEraser()
+	#pragma region - CMonster -
+	CMonster::CMonster() : CEraser()
 	{
 		initX = 0;
 		x = initX;
@@ -664,7 +664,7 @@ namespace game_framework {
 		recreateTimer = CTimer((double)GetRandom(1, 4) / 2.0);
 	}
 
-	CPasserby::CPasserby(int _x, int _y) : CEraser()
+	CMonster::CMonster(int _x, int _y) : CEraser()
 	{
 		initX = _x;
 		x = initX;
@@ -682,7 +682,7 @@ namespace game_framework {
 		blockVector = NULL;
 	}
 
-	void CPasserby::SetXY(int _x, int _y)
+	void CMonster::SetXY(int _x, int _y)
 	{
 		initX = _x;
 		if (_y + height >= SIZE_Y - 2)
@@ -699,12 +699,12 @@ namespace game_framework {
 		animation.SetTopLeft(x, y);
 	}
 
-	void CPasserby::SetScore(int _score)
+	void CMonster::SetScore(int _score)
 	{
 		score = _score;
 	}
 
-	void CPasserby::SetMoving()
+	void CMonster::SetMoving()
 	{
 		if (GetValid() == false)
 		{
@@ -745,7 +745,7 @@ namespace game_framework {
 		}
 	}
 
-	void CPasserby::OnMove()
+	void CMonster::OnMove()
 	{
 		if (!recreateTimer.IsTimeOut())
 			return;
@@ -818,11 +818,11 @@ namespace game_framework {
 		animation.OnMove();
 	}
 
-	CPasserby::~CPasserby()
+	CMonster::~CMonster()
 	{
 	}
 
-	void CPasserby::ResetCollisionRect()
+	void CMonster::ResetCollisionRect()
 	{
 		//reset passerby's collision rect
 		#pragma region - collision Rect - Right and Left -
@@ -851,25 +851,25 @@ namespace game_framework {
 		#pragma endregion
 	}
 
-	#pragma region - CPasserby1 - Luka -
-	CPasserbyType1::CPasserbyType1() : CPasserby()
+	#pragma region - CMonsterType1 - Luka -
+	CMonsterType1::CMonsterType1() : CMonster()
 	{
 	}
-	CPasserbyType1::CPasserbyType1(int _x, int _y, BitmapPath _loadPath, int _score) : CPasserby(_x, _y)
+	CMonsterType1::CMonsterType1(int _x, int _y, BitmapPath _loadPath, int _score) : CMonster(_x, _y)
 	{
 		SetScore(_score);
 		LoadBitmap(_loadPath.ziliaojia, _loadPath.name, _loadPath.number, _loadPath.color);
 	}
-	CPasserbyType1::~CPasserbyType1()
+	CMonsterType1::~CMonsterType1()
 	{
 	}
 	#pragma endregion
 
-	#pragma region - CPasserby3 - mushroom -
-	CPasserbyType2::CPasserbyType2() : CPasserby()
+	#pragma region - CMonsterType2 - mushroom -
+	CMonsterType2::CMonsterType2() : CMonster()
 	{
 	}
-	CPasserbyType2::CPasserbyType2(int _x, int _y, BitmapPath _loadPath, int _score) : CPasserby(_x, _y)
+	CMonsterType2::CMonsterType2(int _x, int _y, BitmapPath _loadPath, int _score) : CMonster(_x, _y)
 	{
 		SetScore(_score);
 		BitmapPath leftPath = _loadPath;
@@ -890,10 +890,10 @@ namespace game_framework {
 		animation = leftAnimate;
 		faceto = "left";
 	}
-	CPasserbyType2::~CPasserbyType2()
+	CMonsterType2::~CMonsterType2()
 	{
 	}
-	void CPasserbyType2::OnMove()
+	void CMonsterType2::OnMove()
 	{
 		if (GetMovingLeft() && faceto != "left")
 		{
@@ -907,7 +907,7 @@ namespace game_framework {
 			animation = rightAnimate;
 			faceto = "right";
 		}
-		CPasserby::OnMove();
+		CMonster::OnMove();
 	}
 	#pragma endregion
 

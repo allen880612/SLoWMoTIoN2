@@ -104,7 +104,7 @@ namespace game_framework {
 		CTimer *nowUsedTimer; //現在被使用的計時器 (BOSS戰鬥的時候 原本的遊戲計時器不會倒數)
 
 		vector<CScallion*>*	scallions;
-		vector<CPasserby*>*	passerbys;
+		vector<CMonster*>*	passerbys;
 		CMapManager			mapManager;
 		CBossManager        bossManager;
 		CNPCManager         npcManager;

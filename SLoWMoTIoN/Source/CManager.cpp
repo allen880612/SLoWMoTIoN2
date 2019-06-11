@@ -26,21 +26,21 @@ namespace game_framework
 	{
 	}
 
-	vector<CPasserby*>* CMapManager::GetPasserby()
+	vector<CMonster*>* CMapManager::GetPasserby()
 	{
-		return &passerbyManager.passerby;
+		return &passerbyManager.monsterManager;
 	}
 
-	void CMapManager::DeletePasserby(vector<CPasserby*>::iterator passerbyj)
+	void CMapManager::DeletePasserby(vector<CMonster*>::iterator passerbyj)
 	{
-		passerbyManager.DeletePasserby(passerbyj);
+		passerbyManager.DeleteMonster(passerbyj);
 	}
 
 	void CMapManager::AddPasserby()
 	{
-		CPasserby *newPasserby = passerbyManager.AddPasserby(blockMap[nowMap].passerbyID, background.Width());
+		CMonster *newPasserby = passerbyManager.AddMonster(blockMap[nowMap].passerbyID, background.Width());
 		newPasserby->SetBlock(GetBlockVector());
-		passerbyManager.passerby.push_back(newPasserby);
+		passerbyManager.monsterManager.push_back(newPasserby);
 	}
 
 	void CMapManager::Initialize()
@@ -79,7 +79,7 @@ namespace game_framework
 		}
 		#pragma endregion
 
-		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width(), GetBlockVector());
+		passerbyManager.CreateMonster(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width(), GetBlockVector());
 	}
 
 	void CMapManager::ReloadBlockMap()
@@ -171,17 +171,17 @@ namespace game_framework
 
 	int CMapManager::GetNpcNumber()
 	{
-		return passerbyManager.passerby.size();
+		return passerbyManager.monsterManager.size();
 	}
 
 	int CMapManager::GetNpcLayer(int npcIndex)
 	{
-		return passerbyManager.passerby[npcIndex]->layer.GetLayer();
+		return passerbyManager.monsterManager[npcIndex]->layer.GetLayer();
 	}
 
 	bool CMapManager::GetNpcValid(int npcIndex)
 	{
-		return passerbyManager.passerby[npcIndex]->GetValid();
+		return passerbyManager.monsterManager[npcIndex]->GetValid();
 	}
 
 	vector<CBlock>* CMapManager::GetBlockVector()
@@ -201,7 +201,7 @@ namespace game_framework
 
 	CAnimate* CMapManager::GetNpc(int npcIndex)
 	{
-		return (passerbyManager.passerby[npcIndex]->GetAnimate());
+		return (passerbyManager.monsterManager[npcIndex]->GetAnimate());
 	}
 
 	int CMapManager::GetSplitLeft()
@@ -273,7 +273,7 @@ namespace game_framework
 		background.SetTopLeft(x, 0);
 
 		passerbyManager.Clear();
-		passerbyManager.CreatePasserby(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width(), GetBlockVector());
+		passerbyManager.CreateMonster(blockMap[nowMap].passerbyMaxSize, blockMap[nowMap].passerbyID, blockMap[nowMap].backgroundBitmap.Width(), GetBlockVector());
 
 		x = CCamera::Instance()->GetX();
 	}
@@ -475,82 +475,82 @@ namespace game_framework
 	#pragma endregion
 
 	#pragma region - passerbyManager -
-	CPasserbyManager::CPasserbyManager()
+	CMonsterManager::CMonsterManager()
 	{
 		layer.SetLayer(4);
-		passerby.clear();
+		monsterManager.clear();
 	}
 
-	CPasserbyManager::~CPasserbyManager()
+	CMonsterManager::~CMonsterManager()
 	{
 		Clear();
 	}
 
-	void CPasserbyManager::Clear()
+	void CMonsterManager::Clear()
 	{
-		for (vector<CPasserby*>::iterator it = passerby.begin(); it != passerby.end(); it++)
+		for (vector<CMonster*>::iterator it = monsterManager.begin(); it != monsterManager.end(); it++)
 		{
 			delete *it;
 			(*it) = NULL;
 		}
-		vector<CPasserby*> del;
-		passerby.swap(del);
-		passerby.clear();
+		vector<CMonster*> del;
+		monsterManager.swap(del);
+		monsterManager.clear();
 	}
 
-	CPasserby * CPasserbyManager::GetPasserbyType(int randomID)
+	CMonster * CMonsterManager::GetMonsterType(int randomID)
 	{
 		if (randomID == 0)
 		{
-			return new CPasserbyType1(0, 0, BitmapPath("RES\\Role\\NPC\\LUKA", "LUKA", 2, RGB(214, 214, 214)), 10); //先創建一個default passerby
+			return new CMonsterType1(0, 0, BitmapPath("RES\\Role\\NPC\\LUKA", "LUKA", 2, RGB(214, 214, 214)), 10); //先創建一個default passerby
 		}
 		else if (randomID == 1)
 		{
-			return new CPasserbyType1(0, 0, BitmapPath("RES\\Role\\NPC\\RIN", "RIN", 2, RGB(214, 214, 214)), 15); //先創建一個default passerby
+			return new CMonsterType1(0, 0, BitmapPath("RES\\Role\\NPC\\RIN", "RIN", 2, RGB(214, 214, 214)), 15); //先創建一個default passerby
 		}
 		else if (randomID == 2)
 		{
-			return new CPasserbyType2(0, 0, BitmapPath("RES\\Role\\NPC\\mushroom", "mushroom", 5, RGB(214, 214, 214)), 20); //先創建一個default passerby
+			return new CMonsterType2(0, 0, BitmapPath("RES\\Role\\NPC\\mushroom", "mushroom", 5, RGB(214, 214, 214)), 20); //先創建一個default passerby
 		}
 		else if (randomID == 3)
 		{
-			return new CPasserbyType2(0, 0, BitmapPath("RES\\Role\\NPC\\faqai", "faqai", 5, RGB(255, 255, 255)), 87); //先創建一個default passerby
+			return new CMonsterType2(0, 0, BitmapPath("RES\\Role\\NPC\\faqai", "faqai", 5, RGB(255, 255, 255)), 87); //先創建一個default passerby
 		}
-		return new CPasserbyType1(0, 0, BitmapPath("RES\\Role\\NPC\\LUKA", "LUKA", 2, RGB(214, 214, 214)), 10); //先創建一個default passerby
+		return new CMonsterType1(0, 0, BitmapPath("RES\\Role\\NPC\\LUKA", "LUKA", 2, RGB(214, 214, 214)), 10); //先創建一個default passerby
 	}
 
-	CPasserby* CPasserbyManager::AddPasserby(vector<int> id, int mapWidth)
+	CMonster* CMonsterManager::AddMonster(vector<int> id, int mapWidth)
 	{
 		#pragma region Create a Passerby
 		int randomID = GetRandom(0, id.size() - 1); //random 決定 passerby種類 (1號or2號)
-		CPasserby *newPasserby = GetPasserbyType(id[randomID]);
+		CMonster *newPasserby = GetMonsterType(id[randomID]);
 		int randomX = GetRandom(0, mapWidth - newPasserby->Width()); //random 決定passerby的出現位置
 		newPasserby->SetXY(randomX, -newPasserby->Height()); //set passerby x, y
 		return newPasserby;
 		#pragma endregion
 	}
 
-	void CPasserbyManager::CreatePasserby(int createNumber, vector<int> id, int mapWidth, vector<CBlock> *bkvector)
+	void CMonsterManager::CreateMonster(int createNumber, vector<int> id, int mapWidth, vector<CBlock> *bkvector)
 	{
 		for (int i = 0; i < createNumber; i++)
 		{
-			CPasserby* newPasserby = AddPasserby(id, mapWidth);
+			CMonster* newPasserby = AddMonster(id, mapWidth);
 			newPasserby->SetBlock(bkvector);
 			newPasserby->SetValid(false);
-			passerby.push_back(newPasserby);
+			monsterManager.push_back(newPasserby);
 		}
 	}
 
-	void CPasserbyManager::DeletePasserby(vector<CPasserby*>::iterator passerbyj)
+	void CMonsterManager::DeleteMonster(vector<CMonster*>::iterator passerbyj)
 	{
 		delete *passerbyj;
 		*passerbyj = NULL;
-		passerbyj = passerby.erase(passerbyj);
+		passerbyj = monsterManager.erase(passerbyj);
 	}
 
-	vector<CPasserby*> CPasserbyManager::GetPasserby()
+	vector<CMonster*> CMonsterManager::GetMonster()
 	{
-		return passerby;
+		return monsterManager;
 	}
 	#pragma endregion
 
