@@ -99,6 +99,7 @@ namespace game_framework {
 		static bool isLoaded = false;
 
 		CLayerManager::Instance()->Initialize();
+		CEndManager::Instance()->Initialize();
 		CAudio::Instance()->Initialize();
 		CAudio::Instance()->Play("SLoWMoTIoN_Menu", true);
 		
@@ -916,10 +917,7 @@ namespace game_framework {
 	}
 	#pragma endregion
 
-	/////////////////////////////////////////////////////////////////////////////
-	// 這個class為遊戲的結束狀態(Game Over)
-	/////////////////////////////////////////////////////////////////////////////
-
+	#pragma region - CGame Over -
 	CGameStateOver::CGameStateOver(CGame *g)
 		: CGameState(g)
 	{
@@ -943,13 +941,6 @@ namespace game_framework {
 			}
 		}
 		#pragma endregion
-
-		/*counter--;
-		if (counter < 0)
-		{
-			CAudio::Instance()->Stop("SLoWMoTIoN_Gameover");
-			GotoGameState(GAME_STATE_INIT);
-		}*/
 	}
 
 	void CGameStateOver::OnBeginState()
@@ -959,7 +950,6 @@ namespace game_framework {
 		timer_exit.ResetTime(1.5);
 		CAudio::Instance()->Play("SLoWMoTIoN_Gameover");
 		CAudio::Instance()->Stop("SLoWMoTIoN_Game");
-		//CLayerManager::Instance()->Clear();
 
 		canSwitchState = false;
 		canDrawGameOverImage = false;
@@ -967,31 +957,18 @@ namespace game_framework {
 		#pragma region - init -
 		CLayerManager::Instance()->Initialize();
 		CDialogManager::Instance()->Initialize();
-		//CEndManager::Instance()->Initialize();
 		#pragma endregion		
 
 	}
 
 	void CGameStateOver::OnInit()
 	{
-		//
-		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
-		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
-		//
-
-		//CAudio::Instance()->Load(AUDIO_GAMEOVER, "sounds\\SLoWMoTIoN_Gameover.wav");
 		overBitmap.LoadBitmap(".\\RES\\Map\\Gameover.bmp");
 		gameOverImage.SetBmp("RES\\Map\\Gameover.bmp");
 		gameOverImage.SetFadeInOut(60, -40);
 
 		ShowInitProgress(66);	// 接個前一個狀態的進度，此處進度視為66%
-								//
-								// 開始載入資料
-								//
-		Sleep(300);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
-								//
-								// 最終進度為100%
-								//
+
 		ShowInitProgress(100);
 	}
 
@@ -1031,10 +1008,6 @@ namespace game_framework {
 
 		#pragma region - Draw Dialog -
 		CLayerManager::Instance()->ShowLayer(); //顯示layerManager
-		if (CDialogManager::Instance()->GetDialogState()) //顯示文字
-		{
-			CDialogManager::Instance()->ShowText();
-		}
 		#pragma endregion
 
 		#pragma region - DrawGameOverImage when Ending end -
@@ -1049,6 +1022,7 @@ namespace game_framework {
 		}
 		#pragma endregion
 	}
+	#pragma endregion
 
 	#pragma region - MapEditer -
 	CGameStateMapEditer::CGameStateMapEditer(CGame * g) : CGameState(g)
@@ -1066,7 +1040,6 @@ namespace game_framework {
 	void CGameStateMapEditer::OnBeginState()
 	{
 		mapEditer.Initialize();
-		//mapEditer.LoadMapInfo();
 	}
 
 	void CGameStateMapEditer::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -1085,16 +1058,10 @@ namespace game_framework {
 			mapEditer.SetMapMoveDir("right");
 		}
 
-		if (nChar == 'K')
-		{
-		}
-
 		if (nChar == 9) //Key Tab
 		{
 			mapEditer.isPrintNowMap = !mapEditer.isPrintNowMap;
 		}
-
-		//maybe ctrl = 11
 
 		if (nChar == 46) //Key Delete
 		{
@@ -1161,11 +1128,7 @@ namespace game_framework {
 
 	void CGameStateMapEditer::OnLButtonUp(UINT nFlags, CPoint point)
 	{
-		if (mapEditer.IsInSelectMapMode())
-		{
-
-		}
-		else
+		if (!mapEditer.IsInSelectMapMode())
 		{
 			mapEditer.SetMouseState(false);
 		}
