@@ -145,7 +145,20 @@ namespace game_framework {
 			GotoGameState(GAME_STATE_RUN);			// 切換至GAME_STATE_RUN
 		}						
 		else if (nChar == KEY_ESC)
-			PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0);	// 關閉遊戲
+		{
+			if (windowsEnding.IsOpen())
+			{
+				windowsEnding.Close();
+			}
+			else if (windowsHandbook.IsOpen())
+			{
+				windowsHandbook.Close();
+			}
+			else
+			{
+				PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0);	// 關閉遊戲
+			}
+		}
 	}
 
 	void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
@@ -361,17 +374,27 @@ namespace game_framework {
 		#pragma region - role - dead -
 		if (role.IsDead())
 		{
-			if (bossManager.targetBoss->GetBossId() == "Xingting")
+			if (bossManager.targetBoss != NULL)
 			{
-				CEndManager::Instance()->Start(END_NAME_LOSEXINGTING);
-				role.SetXY(0, 0);
-				SwitchState(GAME_STATE_OVER);
-				return;
+				if (bossManager.targetBoss->GetBossId() == "Xingting")
+				{
+					CEndManager::Instance()->Start(END_NAME_LOSEXINGTING);
+					role.SetXY(0, 0);
+					SwitchState(GAME_STATE_OVER);
+					return;
+				}
+				if (bossManager.targetBoss->GetBossId() == BOSS_FACAISEED)
+				{
+					CEndManager::Instance()->Start(END_NAME_LOSE_FACAISEED);
+					role.SetXY(640, 0);
+					SwitchState(GAME_STATE_OVER);
+					return;
+				}
 			}
-			if (bossManager.targetBoss->GetBossId() == BOSS_FACAISEED)
+			else
 			{
-				CEndManager::Instance()->Start(END_NAME_LOSE_FACAISEED);
-				role.SetXY(640, 0);
+				CEndManager::Instance()->Start(END_NAME_SALTEDFISH);
+				role.SetXY(0, 0);
 				SwitchState(GAME_STATE_OVER);
 				return;
 			}
@@ -816,6 +839,14 @@ namespace game_framework {
 
 	void CGameStateRun::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
 	{
+		if (zDelta > 0)
+		{
+			role.AddScore(5);
+		}
+		else if (zDelta < 0)
+		{
+			role.AddScore(-5);
+		}
 	}
 
 	void CGameStateRun::PositionTrigger()

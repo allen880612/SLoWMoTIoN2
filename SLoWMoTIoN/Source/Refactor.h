@@ -22,9 +22,6 @@
 #define KEY_C 67
 #define KEY_B 66
 
-
-#define AUDIO_NUM 9
-
 #pragma region - Layer 
 #define INTERFACE_LAYER 9
 #define BULLET_LAYER 6
@@ -32,7 +29,6 @@
 #define NPC_LAYER 4
 #define BLOCK_LAYER 5
 #pragma endregion
-
 
 #pragma region - dialog - margin -
 #define MARGIN_DIALOG_AVATAR 16
@@ -79,14 +75,11 @@
 #define DIALOG_ADDTEXT_TIME 0.1
 #pragma endregion
 
-
-
 #pragma region - boss -
 #define BOSS_DEPRATMENT "boss"
 #define BOSS_MAP_XINGTING 5
 #define BOSS_MAP_FACAISEED 11
 #pragma endregion
-
 
 #pragma region - boss name -
 #define BOSS_XINGTING "xingting"
@@ -108,7 +101,6 @@
 #define END_EOF "nonenone"
 
 #define EDITER_PRESET_SAVETXTNAME "mapTest.txt"
-
 
 #define GAME_TIME 999		//­­¨î®É¶¡
 #define DEBUG_MODE false
