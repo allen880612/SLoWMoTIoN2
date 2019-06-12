@@ -75,7 +75,7 @@ namespace game_framework {
 	CGameStateInit::CGameStateInit(CGame *g)
 		: CGameState(g)
 	{
-		#pragma region Button Create
+		#pragma region - Button Create -
 		buttonManager.CreateButton(BitmapPath("RES\\Button", "music", 2, RGB(214, 214, 214)), CPoint(250, 420), true, false);
 		buttonManager.CreateButton(BitmapPath("RES\\Button", "sound", 2, RGB(214, 214, 214)), CPoint(450, 420), true, false);
 		buttonManager.CreateButton(BitmapPath("RES\\Button", "play", 2, RGB(214, 214, 214)), CPoint(230, 200), false, true);
@@ -87,7 +87,6 @@ namespace game_framework {
 		DeleteFile("RES\\Map\\FileName.txt");
 		DeleteFile("RES\\Map\\ReloadMapInformation.txt");
 		#pragma endregion
-
 	}
 
 	CGameStateInit::~CGameStateInit()
@@ -1093,6 +1092,7 @@ namespace game_framework {
 		{
 			mapEditer.SetMapMoveDir("left");
 		}
+
 		if (nChar == 'D') //map move right
 		{
 			mapEditer.SetMapMoveDir("right");
