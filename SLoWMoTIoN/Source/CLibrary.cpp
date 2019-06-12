@@ -853,7 +853,7 @@ namespace game_framework
 		if (IsCollisionMouse(_m))
 		{
 			if (!GetState()) //只有第一次進入Button有音效
-				CAudio::Instance()->Play("jump");
+				CAudio::Instance()->Play("btn_collision_3");
 			SetState(true);
 		}
 		else
@@ -863,6 +863,8 @@ namespace game_framework
 	void CButton::ClickButton()
 	{
 		SetState(!GetState());
+		CAudio::Instance()->Play("btn_click_3");
+		
 	}
 
 	bool CButton::IsCollisionMouse(CPoint _m)
@@ -1359,13 +1361,19 @@ namespace game_framework
 	void CWindow::Open()
 	{
 		if (!isOpen)
+		{
 			isOpen = true;
+			CAudio::Instance()->Play("open_window");
+		}
 	}
 
 	void CWindow::Close()
 	{
 		if (isOpen)
+		{
 			isOpen = false;
+			CAudio::Instance()->Play("page_close");
+		}
 	}
 
 	bool CWindow::IsCollisionClose(CPoint _m)
@@ -1473,9 +1481,14 @@ namespace game_framework
 		{
 			for (unsigned c = 0; c < endingVector[r].size(); c++)
 			{
-				if (endingVector[r][c].GetState() && IsPointInRect(mPoint, endingVector[r][c].GetAnimate()->GetRect())) //已解鎖 + 有碰撞
+				if (IsPointInRect(mPoint, endingVector[r][c].GetAnimate()->GetRect())) // 有碰撞
 				{
-					return endingVector[r][c].GetName();
+					if (!endingVector[r][c].GetState())		// 未解鎖
+					{
+						CAudio::Instance()->Play("not_clear");
+						return "NoButtonClick";
+					}
+					return endingVector[r][c].GetName();	// 有碰撞 + 已解鎖
 				}
 			}
 		}
@@ -1550,6 +1563,7 @@ namespace game_framework
 
 	void CScrollWindow::Close()
 	{
+		CWindow::Close();
 		isOpen = false;
 		Initialize(CPoint(x, y));
 	}
@@ -1569,6 +1583,7 @@ namespace game_framework
 			for (int c = 0; c < colNum; c++)
 			{
 				endingVector[r][c].OnMove();
+				//endingVector[r][c].CollisonMouse(mousePos);
 			}
 		}
 	}

@@ -150,16 +150,6 @@ void CAudio::Initialize()
 	}
 
 	#pragma endregion	
-	
-	/*Load(adapter["SLoWMoTIoN_Menu"], "RES\\sounds\\SLoWMoTIoN_Menu.wav");
-	Load(adapter["SLoWMoTIoN_Game"], "RES\\sounds\\SLoWMoTIoN_Game.wav");
-	Load(adapter["throw"], "RES\\sounds\\throw.wav");
-	Load(adapter["jump"], "RES\\sounds\\jump.wav");
-	Load(adapter["hit"], "RES\\sounds\\hit.wav");
-	Load(adapter["SLoWMoTIoN_Gameover"], "RES\\sounds\\SLoWMoTIoN_Gameover.wav");
-	Load(adapter["MyVoiceIsDead"], "RES\\sounds\\MyVoiceIsDead.mp3");
-	Load(adapter["faqai"], "RES\\sounds\\faqai.mp3");*/
-
 	SetIsPlayMusic(true);
 	SetIsPlaySound(true);
 }
