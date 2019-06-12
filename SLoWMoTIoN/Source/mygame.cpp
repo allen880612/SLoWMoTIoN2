@@ -1235,19 +1235,19 @@ namespace game_framework {
 	void CGameStateMapEditer::OnShow()
 	{
 		mapEditer.OnShow();
-		PaintText("MapEditer", 0, 445, "微軟正黑體", 20, RGB(0, 0, 0), RGB(255, 255, 255));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+		PaintText("MapEditer", 0, 445, "微軟正黑體", 20, RGB(0, 0, 0), RGB(255, 255, 255)); //Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 
 		if (mapEditer.isPrintNowMap)
 		{
 			char *address = ConvertCharPointToString(mapEditer.GetNowMap());
-			PaintText(address, 320, 0, "微軟正黑體", 20, RGB(0, 0, 0), RGB(255, 255, 255));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+			PaintText(address, 320, 0, "微軟正黑體", 20, RGB(0, 0, 0), RGB(255, 255, 255)); //Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 			delete address;
 		}
 
 		if (mapEditer.IsInSelectMapMode())
 		{
 			char *address = ConvertCharPointToString(mapEditer.GetSelectMapMode());
-			PaintText(address, 90, 0, "微軟正黑體", 20, RGB(0, 0, 0), RGB(255, 255, 255));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+			PaintText(address, 90, 0, "微軟正黑體", 20, RGB(0, 0, 0), RGB(255, 255, 255)); //Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 			delete address;
 		}
 	}	
