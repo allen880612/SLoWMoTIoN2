@@ -342,7 +342,7 @@ namespace game_framework
 			int drs = 3; //用意在給一個倍數讓books不從中心點出現
 			CPoint center = GetCenterPoint() + CPoint((int)mx * drs, -(int)my * drs);
 			#pragma endregion
-
+			CAudio::Instance()->Play("blackhole");
 			CScallion *newlevel4 = new CScallion(BitmapPath("RES\\Object\\books", "book", 4), center, CPoint(0, 0), 0); //先創建一個蔥的物件
 			newlevel4->SetInitVelocity((int)mx, (int)my);
 			level4.push_back(newlevel4); //將蔥放進vector
@@ -380,6 +380,7 @@ namespace game_framework
 		mode_Attack4_CreateBlackHole.CountDown();
 		if (mode_Attack4_CreateBlackHole.IsTimeOut())
 		{
+			CAudio::Instance()->Play("blackhole");
 			CPoint center = GetCenterPoint();
 			CBlackHole *newBh = new CBlackHole(BitmapPath("RES\\Object\\blackhole", "blackhole", 1, RGB(0, 0, 0)), center + CPoint(-75, -68), CPoint(role->GetX1(), role->GetY1()), 0); //先創建一個蔥的物件
 
@@ -467,6 +468,7 @@ namespace game_framework
 			if ((*level4iter)->IsAlive() && role->IsCollisionLevel4(*level4iter))
 			{
 				(*level4iter)->SetIsAlive(false);
+				CAudio::Instance()->Play("role_hitted");
 				role->SubHp();
 			}
 			
@@ -524,7 +526,7 @@ namespace game_framework
 
 	void CFacaiSeed::OnCycle(CRole *role)
 	{
-		#pragma region - boss deaa - 
+		#pragma region - boss dead - 
 		if (hp <= 0) //boss dead
 		{
 			CDialogManager::Instance()->Start("roleWinFacaiSeed");
@@ -564,8 +566,12 @@ namespace game_framework
 	void CFacaiSeed::Attack(CRole *role)
 	{
 		Attack1(role);
-		if(ray == NULL)
+		bool isTalking = CDialogManager::Instance()->GetDialogState();
+		if (ray == NULL && !isTalking)
+		{
+			CAudio::Instance()->Play("ray");
 			Attack2();
+		}
 		Attack3();
 	}
 
@@ -606,6 +612,7 @@ namespace game_framework
 		#pragma region - role dead and this fly -
 		if (fly)
 		{
+			CAudio::Instance()->Play("faacai_fly");
 			SetCurrentXY(currentX, currentY - flyY);
 			flyY++;
 			CBoss::OnMove();
@@ -626,6 +633,7 @@ namespace game_framework
 			subRoleHp_NoEQ.CountDown();
 			if (subRoleHp_NoEQ.IsTimeOut())
 			{
+				CAudio::Instance()->Play("role_hitted");
 				role->SubHp();
 				subRoleHp_NoEQ.ResetTime();
 			}
@@ -637,6 +645,7 @@ namespace game_framework
 		shootCoinTimer.CountDown();
 		if (shootCoinTimer.IsTimeOut())
 		{
+			CAudio::Instance()->Play("door");
 			for (int i = 0; i < 4; i++)
 			{
 				double speed = 27.0;
@@ -712,6 +721,7 @@ namespace game_framework
 			(*cointiter)->OnMove();
 			if ((*cointiter)->IsAlive() && role->IsCollisionLevel4(*cointiter))
 			{
+				CAudio::Instance()->Play("role_hitted");
 				(*cointiter)->SetIsAlive(false);
 				role->SubHp();
 			}
@@ -736,6 +746,7 @@ namespace game_framework
 			{
 				if (attackRoleTimer.IsTimeOut())
 				{
+					CAudio::Instance()->Play("role_hitted");
 					role->SubHp();
 					attackRoleTimer.ResetTime();
 				}

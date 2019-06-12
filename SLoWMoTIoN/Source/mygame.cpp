@@ -68,9 +68,6 @@
 using namespace std;
 using namespace myLibrary;
 namespace game_framework {
-
-	int finalScore = 0;
-
 	#pragma region - CGame Init -
 	CGameStateInit::CGameStateInit(CGame *g)
 		: CGameState(g)
@@ -184,11 +181,13 @@ namespace game_framework {
 		}
 		else if (windowsHandbook.IsOpen())
 		{
+			CAudio::Instance()->Play("page_next");
 			windowsHandbook.ClickWindows(point, "left");
 		}
 		else if (buttonManager.GetCollisionButtonName() != "NoButtonClick")
 		{
 			string btnName = buttonManager.GetCollisionButtonName();
+			CAudio::Instance()->Play("btn_click_3");
 			if (btnName == "music")
 			{
 				buttonManager.ClickButton("music");
@@ -222,6 +221,7 @@ namespace game_framework {
 	{
 		if (windowsHandbook.IsOpen())
 		{
+			CAudio::Instance()->Play("page_next");
 			windowsHandbook.ClickWindows(point, "right");
 		}
 	}
@@ -298,8 +298,6 @@ namespace game_framework {
 
 	void CGameStateRun::OnBeginState()
 	{
-		finalScore = 0;
-
 		CLayerManager::Instance()->Initialize();
 		CDialogManager::Instance()->Initialize();
 		CCamera::Instance()->Initialize();
@@ -363,7 +361,6 @@ namespace game_framework {
 		nowUsedTimer->CountDown();
 		if (timer.IsTimeOut())
 		{
-			finalScore = role.GetScore();
 			CAudio::Instance()->Stop("SLoWMoTIoN_Game");
 			GoToEnd();
 			SwitchState(GAME_STATE_OVER);
@@ -694,7 +691,6 @@ namespace game_framework {
 			if(canRoleJump)
 				role.SetMovingUp(true);
 		}
-
 		if (nChar == 'U')
 		{
 			nowUsedTimer->ResetTime(5.0);
@@ -713,7 +709,16 @@ namespace game_framework {
 				CDialogManager::Instance()->Stop();
 			}
 		}
-
+		if (nChar == 27)	//ESC
+		{
+			if (panel.IsOpen())
+				panel.Close();
+			else
+			{
+				//Audio::Instance()->Play("open_window");
+				panel.Open();
+			}
+		}
 		if (nChar == KEY_Z) //dialog with npc
 		{
 			vector<CNPC*>* npc = npcManager.GetNpc(mapManager.GetNowMap());
@@ -726,7 +731,6 @@ namespace game_framework {
 				}
 			}
 		}
-
 		if (nChar == ' ') //open door
 		{
 			#pragma region - role - collision with door -
@@ -735,6 +739,7 @@ namespace game_framework {
 			{
 				if (role.IsCollisionDoor(&(*bkiter))) //collision with door
 				{
+					CAudio::Instance()->Play("door");
 					ChangeMap(bkiter->GetSwitchMapIndex());
 				}
 			}
@@ -749,14 +754,6 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		if (nChar == 27)	//ESC
-		{
-			if (panel.IsOpen())
-				panel.Close();
-			else
-				panel.Open();
-		}
-
 		if (nChar == KEY_A)
 			role.SetMovingLeft(false);
 		if (nChar == KEY_D)
@@ -789,11 +786,10 @@ namespace game_framework {
 		{
 			return;
 		}
-		
-
 		if (panel.GetCollisionButtonName() != "NoButtonClick")
 		{
 			string btnName = panel.GetCollisionButtonName();
+			CAudio::Instance()->Play("btn_click_3");
 			if (btnName == "resume")
 			{
 				panel.Close();

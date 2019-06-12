@@ -468,7 +468,8 @@ namespace game_framework
 		void LoadResource();
 		void Initialize(CPoint);
 		void Clear();
-
+		/*void Open();
+		void Close();*/
 		void UpdateMouse(CPoint _p) { mousePos = _p; };
 		void OnCycle();
 		string GetCollisionButtonName();
