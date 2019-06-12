@@ -121,7 +121,7 @@ namespace game_framework {
 
 	void CGameStateInit::OnInit()
 	{
-		ShowInitProgress(0);	// 一開始的loading進度為0%
+		ShowInitProgress(0); // 一開始的loading進度為0%
 
 		background.LoadBitmap(".\\RES\\Map\\Menu_3.bmp");
 	}
@@ -139,7 +139,7 @@ namespace game_framework {
 		const char KEY_ESC = 27;
 		if (nChar == KEY_SPACE)
 		{
-			GotoGameState(GAME_STATE_RUN);			// 切換至GAME_STATE_RUN
+			GotoGameState(GAME_STATE_RUN); // 切換至GAME_STATE_RUN
 		}						
 		else if (nChar == KEY_ESC)
 		{
@@ -153,7 +153,7 @@ namespace game_framework {
 			}
 			else
 			{
-				PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0);	// 關閉遊戲
+				PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0); // 關閉遊戲
 			}
 		}
 	}
@@ -317,11 +317,11 @@ namespace game_framework {
 		isWinFacaiSeed = false;
 	}
 
-	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
+	void CGameStateRun::OnInit() // 遊戲的初值及圖形設定
 	{
 		ShowInitProgress(33);	// 接個前一個狀態的進度，此處進度視為33%
 
-		ShowInitProgress(50);										// 載入圖形
+		ShowInitProgress(50); // 載入圖形
 		
 		#pragma region - Initialize - MapManager -
 		mapManager.LoadMapBitmap();
@@ -794,7 +794,7 @@ namespace game_framework {
 				panel.Close();
 
 			}
-			else if (btnName == "restart")	//他媽最好 close button 可以跟 這個同時觸發
+			else if (btnName == "restart")
 			{
 				panel.Close();
 				if (CDialogManager::Instance()->GetDialogState())
@@ -833,12 +833,10 @@ namespace game_framework {
 
 	void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
-		
 	}
 
 	void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
-		
 	}
 
 	void CGameStateRun::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
@@ -1235,19 +1233,19 @@ namespace game_framework {
 	void CGameStateMapEditer::OnShow()
 	{
 		mapEditer.OnShow();
-		PaintText("MapEditer", 0, 445, "微軟正黑體", 20, RGB(0, 0, 0), RGB(255, 255, 255));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+		PaintText("MapEditer", 0, 445, "微軟正黑體", 20, RGB(0, 0, 0), RGB(255, 255, 255)); //Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 
 		if (mapEditer.isPrintNowMap)
 		{
 			char *address = ConvertCharPointToString(mapEditer.GetNowMap());
-			PaintText(address, 320, 0, "微軟正黑體", 20, RGB(0, 0, 0), RGB(255, 255, 255));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+			PaintText(address, 320, 0, "微軟正黑體", 20, RGB(0, 0, 0), RGB(255, 255, 255)); //Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 			delete address;
 		}
 
 		if (mapEditer.IsInSelectMapMode())
 		{
 			char *address = ConvertCharPointToString(mapEditer.GetSelectMapMode());
-			PaintText(address, 90, 0, "微軟正黑體", 20, RGB(0, 0, 0), RGB(255, 255, 255));		//Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
+			PaintText(address, 90, 0, "微軟正黑體", 20, RGB(0, 0, 0), RGB(255, 255, 255)); //Text ,位置, 文字字形(sp), 文字大小, 文字顏色, 背景顏色
 			delete address;
 		}
 	}	

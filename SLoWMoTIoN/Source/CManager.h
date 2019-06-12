@@ -467,7 +467,7 @@ namespace game_framework
 
 	private:
 		int left_time;	// Game left time
-		int point;		// Usless kill passerby point
+		int point; // Usless kill passerby point
 
 		CInteger uiTime, uiScore;
 		CStatusBoard roleStatus;

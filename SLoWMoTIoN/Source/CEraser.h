@@ -30,11 +30,11 @@ namespace game_framework {
 		void OnMove(); // 移動擦子
 		void OnShow(); // 將擦子圖形貼到畫面
 		CAnimate* GetAnimate();
-		void SetMovingDown(bool flag);	// 設定是否正在往下移動
-		void SetMovingLeft(bool flag);	// 設定是否正在往左移動
+		void SetMovingDown(bool flag); // 設定是否正在往下移動
+		void SetMovingLeft(bool flag); // 設定是否正在往左移動
 		void SetMovingRight(bool flag); // 設定是否正在往右移動
-		void SetMovingUp(bool flag);	// 設定是否正在往上移動
-		void SetXY(int nx, int ny);		// 設定擦子左上角座標
+		void SetMovingUp(bool flag); // 設定是否正在往上移動
+		void SetXY(int nx, int ny); // 設定擦子左上角座標
 
 		void SetCanMoving(bool);
 		bool GetCanMoving();
@@ -50,17 +50,17 @@ namespace game_framework {
 		#pragma endregion
 
 	protected:
-		CAnimate animation;			// 擦子的動畫
+		CAnimate animation; // 擦子的動畫
 
-		int height, width;			// 擦子的高、寬
-		int x, y;					// 擦子左上角座標
+		int height, width; // 擦子的高、寬
+		int x, y; // 擦子左上角座標
 		int score;
 
-		bool isMovingDown;			// 是否正在往下移動
-		bool isMovingLeft;			// 是否正在往左移動
-		bool isMovingRight;			// 是否正在往右移動
-		bool isMovingUp;			// 是否正在往上移動
-		bool canMoving;				// 是否可以移動
+		bool isMovingDown; // 是否正在往下移動
+		bool isMovingLeft; // 是否正在往左移動
+		bool isMovingRight; // 是否正在往右移動
+		bool isMovingUp; // 是否正在往上移動
+		bool canMoving; // 是否可以移動
 		
 		CRect collisionRect;
 		CRect collisionDownRect;
@@ -115,20 +115,20 @@ namespace game_framework {
 	public:
 		CRole();
 		~CRole();
-		int  GetX3();                   // 中新點 X 座標
-		int  GetX2();					// 擦子右下角 x 座標
-		int  GetY2();					// 擦子右下角 y 座標
-		int  GetY3();                   // 中心點 Y 座標
+		int  GetX3(); // 中新點 X 座標
+		int  GetX2(); // 擦子右下角 x 座標
+		int  GetY2(); // 擦子右下角 y 座標
+		int  GetY3(); // 中心點 Y 座標
 		int  Height();
 		int  Width();
-		void SetXY(int _x, int _y);		// 設定擦子左上角座標
+		void SetXY(int _x, int _y); // 設定擦子左上角座標
 		bool GetValid();
 		void SetValid(bool);
 
 		void Load();
 		void LoadasMascot();
 
-		void LoadAction(string, BitmapPath);	//載入動應動作
+		void LoadAction(string, BitmapPath); //載入動應動作
 
 		void OnMove();
 		bool GetMovingJump();
@@ -146,7 +146,7 @@ namespace game_framework {
 
 		bool GetIsFire();
 		void SetIsFire(bool);
-		void Fire(int, int);			//傳入滑鼠座標
+		void Fire(int, int); //傳入滑鼠座標
 		
 		void SetDrop();
 		bool GetDrop();
