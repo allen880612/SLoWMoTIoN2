@@ -54,17 +54,17 @@ namespace game_framework {
 		void OnInit(); // 遊戲的初值及圖形設定
 		void OnKeyDown(UINT, UINT, UINT); // 處理鍵盤Down的動作
 		void OnKeyUp(UINT, UINT, UINT); // 處理鍵盤Up的動作
-		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
-		void OnLButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
-		void OnRButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
-		void OnMouseMove(UINT nFlags, CPoint point);	// 處理滑鼠的動作 
+		void OnLButtonDown(UINT nFlags, CPoint point); // 處理滑鼠的動作
+		void OnLButtonUp(UINT nFlags, CPoint point); // 處理滑鼠的動作
+		void OnRButtonDown(UINT nFlags, CPoint point); // 處理滑鼠的動作
+		void OnMouseMove(UINT nFlags, CPoint point); // 處理滑鼠的動作 
 		void OnMouseWheel(UINT nFlags, short zDelta, CPoint point);
 	protected:
 		void OnMove();
 		void OnShow(); // 顯示這個狀態的遊戲畫面
 	private:
 		CButtonManager buttonManager;
-		CPoint		  mouse;
+		CPoint mouse;
 		CMovingBitmap background; // background
 
 		CRole miku;
@@ -82,11 +82,11 @@ namespace game_framework {
 		void OnInit(); // 遊戲的初值及圖形設定
 		void OnKeyDown(UINT, UINT, UINT);
 		void OnKeyUp(UINT, UINT, UINT);
-		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
-		void OnLButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
-		void OnMouseMove(UINT nFlags, CPoint point);	// 處理滑鼠的動作 
-		void OnRButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
-		void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
+		void OnLButtonDown(UINT nFlags, CPoint point); // 處理滑鼠的動作
+		void OnLButtonUp(UINT nFlags, CPoint point); // 處理滑鼠的動作
+		void OnMouseMove(UINT nFlags, CPoint point); // 處理滑鼠的動作 
+		void OnRButtonDown(UINT nFlags, CPoint point); // 處理滑鼠的動作
+		void OnRButtonUp(UINT nFlags, CPoint point); // 處理滑鼠的動作
 		void OnMouseWheel(UINT nFlags, short zDelta, CPoint point);
 
 	protected:
@@ -94,15 +94,15 @@ namespace game_framework {
 		void OnShow(); // 顯示這個狀態的遊戲畫面
 	private:
 		CRole role;
-		CInteger		time_left;	// 剩下的撞擊數
+		CInteger time_left;	// 剩下的撞擊數
 		CTimer timer; //stateRun狀態下的timer (其實好像在什麼狀態下都無所謂) (gameRun timer)
 		CTimer *nowUsedTimer; //現在被使用的計時器 (BOSS戰鬥的時候 原本的遊戲計時器不會倒數)
 
-		vector<CScallion*>*	scallions;
-		vector<CMonster*>*	passerbys;
-		CMapManager			mapManager;
-		CBossManager        bossManager;
-		CNPCManager         npcManager;
+		vector<CScallion*>* scallions;
+		vector<CMonster*>* passerbys;
+		CMapManager mapManager;
+		CBossManager bossManager;
+		CNPCManager npcManager;
 
 		CEventManager eventManager;
 		CStatusBoard roleStatus;
@@ -133,7 +133,7 @@ namespace game_framework {
 		void OnMove(); // 移動遊戲元素
 		void OnShow(); // 顯示這個狀態的遊戲畫面
 	private:
-		int counter;	// 倒數之計數器
+		int counter; // 倒數之計數器
 		int alpha; 
 
 		bool canSwitchState = false;
@@ -150,15 +150,15 @@ namespace game_framework {
 			CGameStateMapEditer(CGame *g);
 			~CGameStateMapEditer();
 
-			void OnInit();  								// 遊戲的初值及圖形設定
-			void OnBeginState();							// 設定每次重玩所需的變數
+			void OnInit(); // 遊戲的初值及圖形設定
+			void OnBeginState(); // 設定每次重玩所需的變數
 			void OnKeyDown(UINT, UINT, UINT);
 			void OnKeyUp(UINT, UINT, UINT);
-			void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
-			void OnLButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
-			void OnMouseMove(UINT nFlags, CPoint point);	// 處理滑鼠的動作 
-			void OnRButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
-			void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
+			void OnLButtonDown(UINT nFlags, CPoint point); // 處理滑鼠的動作
+			void OnLButtonUp(UINT nFlags, CPoint point); // 處理滑鼠的動作
+			void OnMouseMove(UINT nFlags, CPoint point); // 處理滑鼠的動作 
+			void OnRButtonDown(UINT nFlags, CPoint point); // 處理滑鼠的動作
+			void OnRButtonUp(UINT nFlags, CPoint point); // 處理滑鼠的動作
 
 		protected:
 			void OnMove();

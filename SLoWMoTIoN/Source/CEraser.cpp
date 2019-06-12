@@ -352,7 +352,7 @@ namespace game_framework {
 			Fire(mouse_x, mouse_y);
 		}
 
-		shoot_cd.CountDown();	//設置射擊的 CD時間
+		shoot_cd.CountDown(); //設置射擊的 CD時間
 
 		if (isJumping)
 		{
