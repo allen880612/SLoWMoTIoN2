@@ -3,5 +3,5 @@ LoseXingting true
 SaltedFish true
 WinFacaiSeed true
 LoseFacaiSeed true
-PerfectLink true
+PerfectLink false
 Point999 false
