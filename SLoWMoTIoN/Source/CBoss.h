@@ -15,7 +15,6 @@ namespace game_framework
       CBoss();
       CBoss(int, int, int, string, BitmapPath); //x, y, hp, (路徑, 顏色)
       virtual ~CBoss();
-
       CPoint GetLeftTopPoint() {
         return CPoint(currentX, currentY);
       };
@@ -25,9 +24,7 @@ namespace game_framework
       CPoint GetRightBottomPoint() {
         return CPoint(currentX + width, currentY + height);
       };
-
       void LoadBitmap();
-
       void virtual Initialize();
       void InitializeDirAnimate(string, double = 0.1);
       void SetFaceTo(CPoint);
@@ -50,10 +47,8 @@ namespace game_framework
       void OnMove();
       void MoveWithMap(string);
       void CollisionScallion(CRole*);
-
       virtual void OnCycle(CRole*) {};
       virtual void Attack(CRole*) {};
-
       virtual void Clear() {};
       virtual bool InEndProcess() {
         return false;
@@ -62,20 +57,16 @@ namespace game_framework
       bool IsEnd() {
         return isEnd;
       };
-
       virtual vector<CScallion*>* GetBullet() {
         return nullptr;
       };
       bool IsDead() {
         return !IsAlive;
       };
-
       CTimer* GetAliveTimer() {
         return &AliveTime;
       };
-
       CLayer layer;
-
       CAnimate* GetAnimate();
       string GetBossId() {
         return id;
@@ -86,12 +77,10 @@ namespace game_framework
       BitmapPath loadPath;
       COLORREF transparentColor;
       #pragma endregion
-
       CAnimate animation;
       CAnimate leftAnimate;
       CAnimate rightAnimate;
       string faceTo;
-
       int hp;
       int currentX, currentY;
       int x, y;
@@ -124,25 +113,20 @@ namespace game_framework
       vector<CBlackHole*> blackhole;
       CBlackHole* targetBlackhole;
       void Level4Collision(CRole*);
-
       CTimer shootLevel4_cd;
       CTimer shoot_atk2_cd;
       CTimer shoot_atk3_cd;
-
       CTimer moveToGoal;
       CTimer mode_Attack2_timer;
       CTimer mode_Attack4_CreateBlackHole;
-
       int goal_x, goal_y;
       int angle_atk2;
       double mode4_AttackTime;
       int mode4_RoleMoveDir; // 1 = 左 2 = 右 3 = 不能動
-
       void Attack1();
       void Attack2();
       void Attack3();
       void Attack4(CRole*);
-
       bool moveToGoalPoint;
       bool mode_Attack1;
       bool mode_Attack2;
@@ -161,7 +145,6 @@ namespace game_framework
       CFacaiSeed(int, int, int, string, BitmapPath);
       ~CFacaiSeed();
       void Initialize();
-
       void OnCycle(CRole*);
       void Attack(CRole*);
       void OnMove();
@@ -177,7 +160,6 @@ namespace game_framework
       void ClearBullet();
       void Collision(CRole*);
       CPoint GetCreateCoinPoint(); //射出金幣的起始點
-
       CTimer movingTime;
       CTimer shootCoinTimer;
       CTimer attackRoleTimer; //role 硬值時間

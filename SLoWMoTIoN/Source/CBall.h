@@ -2,23 +2,19 @@
 #include "CLibrary.h"
 #include "CEraser.h"
 #include "CBoss.h"
-
 namespace game_framework {
-
   #pragma region - ball -
   class CBall
   {
     public:
       CBall();
       bool IsAlive(); // 是否活著
-
       void SetCurrentXY(double, double);
       void SetXY(int nx, int ny); // 設定圓心的座標
       void SetIsAlive(bool alive); // 設定是否活著
       CPoint GetCenterPoint() {
         return CPoint(x + animation.Width() / 2, y + animation.Height() / 2);
       };
-
       void LoadBitmap(string, string, int);
       void LoadBitmap(BitmapPath);
       CAnimate* GetAnimate();
@@ -30,7 +26,6 @@ namespace game_framework {
       bool is_alive;	// 是否活著
   };
   #pragma endregion
-
   #pragma region - CScallion -
   class CScallion : public CBall
   {
@@ -38,7 +33,6 @@ namespace game_framework {
       CScallion();
       CScallion(BitmapPath, CPoint, CPoint, int = 2);	//給兩CPoint + int 為參數時，第一個為目前座標，第二個為滑鼠座標，最後為重力參數
       CScallion(BitmapPath, CPoint, int, int); //若不給重力參數，第一個CPoint不變，但後面變為「x初速, y初速」
-
       void OnMove();
       void OnShow();
       void SetInitVelocity(int, int, int, int, int = 5);
@@ -55,7 +49,6 @@ namespace game_framework {
       void SetAtk(int k) {
         atk = k;
       };
-
     protected:
       int atk = 1;
       int velocity_x;
@@ -64,7 +57,6 @@ namespace game_framework {
       int direction; //丟出時面對的方向
   };
   #pragma endregion
-
   #pragma region - CBlackHole -
   class CBlackHole : public CScallion
   {
@@ -88,7 +80,6 @@ namespace game_framework {
       int csize = 100;
   };
   #pragma endregion
-
   #pragma region - CRay -
   class CRay
   {
@@ -96,9 +87,7 @@ namespace game_framework {
       CRay();
       CRay(BitmapPath, CPoint, double = 0.1); //動畫路徑, 起始位置, 每個影格間隔時間
       ~CRay();
-
       void OnMove();
-
       bool GetValid() {
         return animation.GetValid();
       };
