@@ -81,6 +81,7 @@
 #define END_NAME_SALTEDFISH "SaltedFish"
 #define END_NAME_WIN_FACAISEED "WinFacaiSeed"
 #define END_NAME_LOSE_FACAISEED "LoseFacaiSeed"
+#define END_NAME_PERFECT_LINK "PerfectLink"
 #pragma endregion
 #define END_EOF "nonenone"
 #define EDITER_PRESET_SAVETXTNAME "mapTest.txt"

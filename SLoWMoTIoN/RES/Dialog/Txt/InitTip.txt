@@ -1,6 +1,5 @@
 false
 role 這裡是哪裡？？
-role 偉凱偉凱一級棒 blue
 role 我是誰？？？
 question 這裡是虛擬世界"SLoWMoTIoN"，你可以在這裡做任何事。
 question 到處走動，打怪，跟NPC對話，打王，都是被允許的，但是要注意──有時間限制。

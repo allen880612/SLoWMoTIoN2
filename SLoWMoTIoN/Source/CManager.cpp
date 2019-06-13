@@ -1260,7 +1260,8 @@ namespace game_framework
     endmap[END_NAME_LOSEXINGTING] = CEnd(END_NAME_LOSEXINGTING);
     endmap[END_NAME_SALTEDFISH] = CEnd(END_NAME_SALTEDFISH);
     endmap[END_NAME_WIN_FACAISEED] = CEnd(END_NAME_WIN_FACAISEED);
-    endmap[END_NAME_LOSE_FACAISEED] = CEnd(END_NAME_LOSE_FACAISEED);
+	endmap[END_NAME_LOSE_FACAISEED] = CEnd(END_NAME_LOSE_FACAISEED);
+	endmap[END_NAME_PERFECT_LINK] = CEnd(END_NAME_PERFECT_LINK);
     #pragma region - open HaveEnd.txt to Load The End is Get -
     fstream haveEnd;
     haveEnd.open("RES\\End\\HaveEnd.txt", ios::in);

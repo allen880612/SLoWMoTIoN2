@@ -312,7 +312,7 @@ namespace game_framework {
 		timer = CTimer(GAME_TIME);
 		nowUsedTimer = &timer;
 		CAudio::Instance()->Stop("SLoWMoTIoN_Menu");
-		CAudio::Instance()->Play("SLoWMoTIoN_Game");
+		CAudio::Instance()->Play("SLoWMoTIoN_Game", true);
 		isWinXingting = false;
 		isWinFacaiSeed = false;
 	}
@@ -749,6 +749,12 @@ namespace game_framework {
 		{
 			role.SetRoleNoSubHp();
 		}
+
+		if (nChar == 'P')
+		{
+			PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0);
+		}
+
 	}
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -918,7 +924,7 @@ namespace game_framework {
 			}
 		}
 		#pragma endregion
-
+		IsTalkedAllNpc = true;
 		if (isWinFacaiSeed)
 		{
 			CEndManager::Instance()->Start(END_NAME_WIN_FACAISEED);
@@ -929,7 +935,7 @@ namespace game_framework {
 		}
 		else if (IsTalkedAllNpc)
 		{
-			CEndManager::Instance()->Start(END_NAME_SALTEDFISH);
+			CEndManager::Instance()->Start(END_NAME_PERFECT_LINK);
 		}
 		else if (role.GetScore() > 999)
 		{
