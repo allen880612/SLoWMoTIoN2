@@ -749,6 +749,12 @@ namespace game_framework {
 		{
 			role.SetRoleNoSubHp();
 		}
+
+		if (nChar == 'P')
+		{
+			PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0);
+		}
+
 	}
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
