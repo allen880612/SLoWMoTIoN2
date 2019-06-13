@@ -1,3 +1,5 @@
 WinXingting true
 LoseXingting true
 SaltedFish true
+WinFacaiSeed true
+LoseFacaiSeed true

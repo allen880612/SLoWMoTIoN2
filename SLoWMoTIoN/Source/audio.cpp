@@ -367,17 +367,20 @@ void CAudio::Play(unsigned id, bool repeat_flag)
 
 void CAudio::Play(string _id, bool repeat_flag)
 {
+	if (!adapter.count(_id))
+	{
+		return;
+	}
 	string type = adapter[_id].GetType();
 	unsigned id = adapter[_id].GetIndex();
 
-	
 	if (type == "SOUND" && !isPlaySound)
 		return;
 	if (type == "MUSIC" && !isPlayMusic)
 		return;
 	if (!isOpened)
 		return;
-	GAME_ASSERT(info.find(id) != info.end(), "Can not play back audio: incorrect Audio ID!");
+	//GAME_ASSERT(info.find(id) != info.end(), "Can not play back audio: incorrect Audio ID!");
 	//
 	// Do not play, if the file is no good
 	//

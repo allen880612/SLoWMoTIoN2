@@ -810,6 +810,7 @@ namespace game_framework {
 				{
 					CDialogManager::Instance()->Stop();
 				}
+				CAudio::Instance()->Stop("SLoWMoTIoN_Game");
 				GotoGameState(GAME_STATE_INIT);	// ¤Á´«¦ÜGAME_STATE_RUN
 			}
 			else if (btnName == "exit")
@@ -981,8 +982,8 @@ namespace game_framework {
 		counter = 30 * 5; // 5 seconds
 		alpha = 0;
 		timer_exit.ResetTime(1.5);
-		CAudio::Instance()->Play("SLoWMoTIoN_Gameover");
 		CAudio::Instance()->Stop("SLoWMoTIoN_Game");
+		CAudio::Instance()->Play("SLoWMoTIoN_Gameover");
 
 		canSwitchState = false;
 		canDrawGameOverImage = false;
@@ -1026,6 +1027,7 @@ namespace game_framework {
 		{
 			if (canSwitchState)
 			{
+				CAudio::Instance()->Stop("SLoWMoTIoN_Gameover");
 				GotoGameState(GAME_STATE_INIT);
 			}
 		}
