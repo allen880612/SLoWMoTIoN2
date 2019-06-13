@@ -159,7 +159,7 @@ END
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOGEX 0, 0, 218, 79
+IDD_ABOUTBOX DIALOGEX 0, 0, 219, 91
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About game"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
@@ -167,11 +167,12 @@ BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
     LTEXT           "SLoWMoTIoN",IDC_STATIC,39,10,119,8,SS_NOPREFIX
     LTEXT           "Product time 2019",IDC_STATIC,39,23,119,8
-    DEFPUSHBUTTON   "OK",IDOK,172,7,39,14,WS_GROUP
+    DEFPUSHBUTTON   "OK",IDOK,173,7,39,14,WS_GROUP
     LTEXT           "Liense: GPL",IDC_STATIC,39,35,119,8
-    PUSHBUTTON      "ReadMe",IDC_README,172,24,39,13,WS_GROUP
+    PUSHBUTTON      "ReadMe",IDC_README,173,24,39,13,WS_GROUP
     LTEXT           "Author: Zong-Yu, Guo Shiu-Wei Xu",IDC_STATIC,39,47,159,8
-    LTEXT           "http://www.ntut.edu.tw/~wkchen/game",IDC_STATIC,39,60,159,8
+    LTEXT           "http://www.ntut.edu.tw/~wkchen/game",IDC_STATIC,39,72,159,8
+    LTEXT           "Tearcher: Woei-Kae, Chen",IDC_STATIC,39,59,159,8
 END
 
 
@@ -224,9 +225,9 @@ BEGIN
     IDD_ABOUTBOX, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 211
+        RIGHTMARGIN, 212
         TOPMARGIN, 7
-        BOTTOMMARGIN, 68
+        BOTTOMMARGIN, 80
     END
 END
 #endif    // APSTUDIO_INVOKED
