@@ -1,5 +1,6 @@
 true
-role 夠了，怪噁心的
+role 所以...
+role 發財種子在穿越時空打臉自己?
 question 恭喜你通過了智力測驗
-role 蛤?
-role 獲得結局《理性選民》
+role 等等...啥?
+role 獲得結局《理性?》

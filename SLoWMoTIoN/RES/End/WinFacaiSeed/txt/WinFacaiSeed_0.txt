@@ -1,4 +1,5 @@
 true
-role 這裡是....?
-faqaiSeed 發...財...
-role 我不是把發財種子打倒了嗎!?
+faqaiSeed 國之將亡必有妖孽
+role 這是...發財種子?
+role 還有頭髮的時候嗎?
+role 但我不是把發財種子打倒了嗎!?

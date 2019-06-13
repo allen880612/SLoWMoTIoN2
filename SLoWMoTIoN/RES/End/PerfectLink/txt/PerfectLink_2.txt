@@ -1,0 +1,5 @@
+true
+role 夠了，怪噁心的
+question 恭喜你通過了智力測驗
+role 等等...啥?
+role 獲得結局《理性》

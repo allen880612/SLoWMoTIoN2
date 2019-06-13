@@ -1,4 +1,6 @@
 true
-faqaiSeed 發財種子願意承擔責任
-faqaiSeed 就算倒在這，我也願意為種花冥國...
-faqaiSeed 粉_身_碎_骨
+role 這裡又是?!
+faqaiSeed 發財種子隨時準備承擔任何重要職務!
+role 又是你發財種子?
+faqaiSeed 為了這個世界...
+faqaiSeed 不惜粉身碎骨!
