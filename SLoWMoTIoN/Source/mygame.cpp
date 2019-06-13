@@ -924,7 +924,7 @@ namespace game_framework {
 			}
 		}
 		#pragma endregion
-
+		IsTalkedAllNpc = true;
 		if (isWinFacaiSeed)
 		{
 			CEndManager::Instance()->Start(END_NAME_WIN_FACAISEED);
@@ -935,7 +935,7 @@ namespace game_framework {
 		}
 		else if (IsTalkedAllNpc)
 		{
-			CEndManager::Instance()->Start(END_NAME_SALTEDFISH);
+			CEndManager::Instance()->Start(END_NAME_PERFECT_LINK);
 		}
 		else if (role.GetScore() > 999)
 		{

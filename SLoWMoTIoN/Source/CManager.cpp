@@ -567,6 +567,60 @@ namespace game_framework
         passerbyj = monsterManager.erase(passerbyj);
     }
 
+    haveEnd_write.close();
+    #pragma endregion
+  }
+
+  void CEndManager::Initialize()
+  {
+    if (isLoadEnd == false)
+    {
+      LoadEnd();
+      isLoadEnd = true;
+    }
+
+    nowEnd = nullptr;
+    isEnding = false;
+    step = 0;
+    alpha = 0;
+    time_remaining = CTimer(1.0);
+    isFadeIn = true;
+    isFadeOut = false;
+    isOpenDialog = false;
+  }
+
+  void CEndManager::LoadEnd()
+  {
+	  endmap[END_NAME_WINXINGTING] = CEnd(END_NAME_WINXINGTING);
+	  endmap[END_NAME_LOSEXINGTING] = CEnd(END_NAME_LOSEXINGTING);
+	  endmap[END_NAME_SALTEDFISH] = CEnd(END_NAME_SALTEDFISH);
+	  endmap[END_NAME_WIN_FACAISEED] = CEnd(END_NAME_WIN_FACAISEED);
+	  endmap[END_NAME_LOSE_FACAISEED] = CEnd(END_NAME_LOSE_FACAISEED);
+	  endmap[END_NAME_PERFECT_LINK] = CEnd(END_NAME_PERFECT_LINK);
+
+	#pragma region - open HaveEnd.txt to Load The End is Get -
+	  fstream haveEnd;
+	  haveEnd.open("RES\\End\\HaveEnd.txt", ios::in);
+	  string lineData;
+	  map<string, CEnd>::iterator iter;
+
+	  while (getline(haveEnd, lineData))
+	  {
+		  //lineInfo[0] = name, [1] = have end (true or false)
+		  vector<string> lineInfo = SplitString(lineData);
+		#pragma region - find lineInfo[0] is the key of map -
+		  iter = endmap.find(lineInfo[0]);
+
+		  if (iter != endmap.end()) //map have this key
+		  {
+			  iter->second.SetGetEnd(ConvertStringToBoolen(lineInfo[1]));
+		  }
+
+		#pragma endregion
+	  }
+	  haveEnd.close();
+	}
+
     vector<CMonster*> CMonsterManager::GetMonster()
     {
         return monsterManager;
