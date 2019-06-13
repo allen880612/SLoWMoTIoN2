@@ -216,6 +216,8 @@ namespace game_framework
       void ChangeMap(int, int);
       void SetNPCValid(int, bool);
       void OnCycle(int, CPoint);
+	  bool  IsTotalTalk();
+
       vector<CNPC*>* GetNpc(int nowMap) {
         return &npc[nowMap];
       };

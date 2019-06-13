@@ -82,8 +82,10 @@
 #define END_NAME_WIN_FACAISEED "WinFacaiSeed"
 #define END_NAME_LOSE_FACAISEED "LoseFacaiSeed"
 #define END_NAME_PERFECT_LINK "PerfectLink"
+#define END_NAME_POINT_999 "Point999"
+#define END_NAME_POINT_OVERFLOW "PointOverflow"
 #pragma endregion
 #define END_EOF "nonenone"
 #define EDITER_PRESET_SAVETXTNAME "mapTest.txt"
-#define GAME_TIME 60 //限制時間
+#define GAME_TIME 99 //限制時間
 #define DEBUG_MODE false

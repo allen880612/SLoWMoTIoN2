@@ -492,85 +492,85 @@ namespace game_framework
 	#pragma endregion
 
 	#pragma region - passerbyManager -
-		CMonsterManager::CMonsterManager()
+	CMonsterManager::CMonsterManager()
+	{
+		layer.SetLayer(4);
+		monsterManager.clear();
+	}
+
+	CMonsterManager::~CMonsterManager()
+	{
+		Clear();
+	}
+
+	void CMonsterManager::Clear()
+	{
+		for (vector<CMonster*>::iterator it = monsterManager.begin(); it != monsterManager.end(); it++)
 		{
-			layer.SetLayer(4);
-			monsterManager.clear();
+			delete *it;
+			(*it) = NULL;
 		}
 
-		CMonsterManager::~CMonsterManager()
+		vector<CMonster*> del;
+		monsterManager.swap(del);
+		monsterManager.clear();
+	}
+
+	CMonster* CMonsterManager::GetMonsterType(int randomID)
+	{
+		if (randomID == 0)
 		{
-			Clear();
-		}
-
-		void CMonsterManager::Clear()
-		{
-			for (vector<CMonster*>::iterator it = monsterManager.begin(); it != monsterManager.end(); it++)
-			{
-				delete *it;
-				(*it) = NULL;
-			}
-
-			vector<CMonster*> del;
-			monsterManager.swap(del);
-			monsterManager.clear();
-		}
-
-		CMonster* CMonsterManager::GetMonsterType(int randomID)
-		{
-			if (randomID == 0)
-			{
-				return new CMonsterType1(0, 0, BitmapPath("RES\\Role\\NPC\\LUKA", "LUKA", 2, RGB(214, 214, 214)), 10); //先創建一個default passerby
-			}
-			else if (randomID == 1)
-			{
-				return new CMonsterType1(0, 0, BitmapPath("RES\\Role\\NPC\\RIN", "RIN", 2, RGB(214, 214, 214)), 15); //先創建一個default passerby
-			}
-			else if (randomID == 2)
-			{
-				return new CMonsterType2(0, 0, BitmapPath("RES\\Role\\NPC\\mushroom", "mushroom", 5, RGB(214, 214, 214)), 20); //先創建一個default passerby
-			}
-			else if (randomID == 3)
-			{
-				return new CMonsterType2(0, 0, BitmapPath("RES\\Role\\NPC\\faqai", "faqai", 5, RGB(255, 255, 255)), 87); //先創建一個default passerby
-			}
-
 			return new CMonsterType1(0, 0, BitmapPath("RES\\Role\\NPC\\LUKA", "LUKA", 2, RGB(214, 214, 214)), 10); //先創建一個default passerby
 		}
-
-		CMonster* CMonsterManager::AddMonster(vector<int> id, int mapWidth)
+		else if (randomID == 1)
 		{
-	#pragma region Create a Passerby
-			int randomID = GetRandom(0, id.size() - 1); //random 決定 passerby種類 (1號or2號)
-			CMonster* newPasserby = GetMonsterType(id[randomID]);
-			int randomX = GetRandom(0, mapWidth - newPasserby->Width()); //random 決定passerby的出現位置
-			newPasserby->SetXY(randomX, -newPasserby->Height()); //set passerby x, y
-			return newPasserby;
-	#pragma endregion
+			return new CMonsterType1(0, 0, BitmapPath("RES\\Role\\NPC\\RIN", "RIN", 2, RGB(214, 214, 214)), 1); //先創建一個default passerby
+		}
+		else if (randomID == 2)
+		{
+			return new CMonsterType2(0, 0, BitmapPath("RES\\Role\\NPC\\mushroom", "mushroom", 5, RGB(214, 214, 214)), 20); //先創建一個default passerby
+		}
+		else if (randomID == 3)
+		{
+			return new CMonsterType2(0, 0, BitmapPath("RES\\Role\\NPC\\faqai", "faqai", 5, RGB(255, 255, 255)), 87); //先創建一個default passerby
 		}
 
-		void CMonsterManager::CreateMonster(int createNumber, vector<int> id, int mapWidth, vector<CBlock>* bkvector)
-		{
-			for (int i = 0; i < createNumber; i++)
-			{
-				CMonster* newPasserby = AddMonster(id, mapWidth);
-				newPasserby->SetBlock(bkvector);
-				newPasserby->SetValid(false);
-				monsterManager.push_back(newPasserby);
-			}
-		}
+		return new CMonsterType1(0, 0, BitmapPath("RES\\Role\\NPC\\LUKA", "LUKA", 2, RGB(214, 214, 214)), 10); //先創建一個default passerby
+	}
 
-		void CMonsterManager::DeleteMonster(vector<CMonster*>::iterator passerbyj)
-		{
-			delete *passerbyj;
-			*passerbyj = NULL;
-			passerbyj = monsterManager.erase(passerbyj);
-		}
+	CMonster* CMonsterManager::AddMonster(vector<int> id, int mapWidth)
+	{
+#pragma region Create a Passerby
+		int randomID = GetRandom(0, id.size() - 1); //random 決定 passerby種類 (1號or2號)
+		CMonster* newPasserby = GetMonsterType(id[randomID]);
+		int randomX = GetRandom(0, mapWidth - newPasserby->Width()); //random 決定passerby的出現位置
+		newPasserby->SetXY(randomX, -newPasserby->Height()); //set passerby x, y
+		return newPasserby;
+#pragma endregion
+	}
 
-		vector<CMonster*> CMonsterManager::GetMonster()
+	void CMonsterManager::CreateMonster(int createNumber, vector<int> id, int mapWidth, vector<CBlock>* bkvector)
+	{
+		for (int i = 0; i < createNumber; i++)
 		{
-			return monsterManager;
+			CMonster* newPasserby = AddMonster(id, mapWidth);
+			newPasserby->SetBlock(bkvector);
+			newPasserby->SetValid(false);
+			monsterManager.push_back(newPasserby);
 		}
+	}
+
+	void CMonsterManager::DeleteMonster(vector<CMonster*>::iterator passerbyj)
+	{
+		delete *passerbyj;
+		*passerbyj = NULL;
+		passerbyj = monsterManager.erase(passerbyj);
+	}
+
+	vector<CMonster*> CMonsterManager::GetMonster()
+	{
+		return monsterManager;
+	}
 	#pragma endregion
 
 	#pragma region - CDialogManager -
@@ -1106,6 +1106,22 @@ namespace game_framework
 			}
 		}
 
+		bool CNPCManager::IsTotalTalk()
+		{
+			
+			for (int i = 0; i < MAX_MAP_NUMBER; i++)
+			{
+				for (vector<CNPC*>::iterator npciter = npc[i].begin(); npciter != npc[i].end(); ++npciter)
+				{
+					if (!(*npciter)->IsTalked())
+					{
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+
 		void CNPCManager::LoadNPC()
 		{
 			npc[4].push_back(new CNPC1(CPoint(50, 388), BitmapPath("RES\\NPC\\test", "test", 1, RGB(255, 255, 255)), "frog", FROG));
@@ -1270,6 +1286,9 @@ namespace game_framework
 			endmap[END_NAME_SALTEDFISH] = CEnd(END_NAME_SALTEDFISH);
 			endmap[END_NAME_WIN_FACAISEED] = CEnd(END_NAME_WIN_FACAISEED);
 			endmap[END_NAME_LOSE_FACAISEED] = CEnd(END_NAME_LOSE_FACAISEED);
+			endmap[END_NAME_PERFECT_LINK] = CEnd(END_NAME_PERFECT_LINK);
+			endmap[END_NAME_POINT_999] = CEnd(END_NAME_POINT_999);
+			endmap[END_NAME_POINT_OVERFLOW] = CEnd(END_NAME_POINT_OVERFLOW);
 	#pragma region - open HaveEnd.txt to Load The End is Get -
 			fstream haveEnd;
 			haveEnd.open("RES\\End\\HaveEnd.txt", ios::in);

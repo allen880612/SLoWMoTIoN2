@@ -1,4 +1,4 @@
 true
-question 你還沒有發現嗎
-role ??
-question 即使你再努力，分數還是不會超過999
+role 雖然印象模糊，但我們絕不是第一次在這對話吧?
+question 是嗎?
+role 我相信能到這裡絕不只是巧合

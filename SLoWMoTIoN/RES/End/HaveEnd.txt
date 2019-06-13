@@ -1,7 +1,8 @@
-WinXingting true
-LoseXingting true
-SaltedFish true
-WinFacaiSeed true
-LoseFacaiSeed true
+WinXingting false
+LoseXingting false
+SaltedFish false
+WinFacaiSeed false
+LoseFacaiSeed false
 PerfectLink false
+PointOverflow false
 Point999 false

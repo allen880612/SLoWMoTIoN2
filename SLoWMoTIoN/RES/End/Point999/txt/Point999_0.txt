@@ -1,3 +1,6 @@
 true
-question 這麼努力打怪是為了什麼呢
-role 還不是為了找到離開的方法
+question 終於到這裡了嗎
+role 這裡是...?
+question 這次仍然沒有記住嗎?
+role ??
+question 那麼也可能是湊巧而來的呢

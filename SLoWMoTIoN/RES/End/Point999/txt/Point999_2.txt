@@ -1,4 +1,7 @@
 true
-role 999...這代表了甚麼嗎?
-question (能發現分數的機制，看來離「完成」也不遠了呢)
+question 看來這次是真的記住我了呢
+question 我是設計著個世界的人
+question 這個世界的創造，是為了訓練你自主思考的能力
+question 能到達這裡，代表著你已經在這世界有所成長了
+question 恭喜你，再見了
 role 獲得結局《999》

@@ -850,11 +850,11 @@ namespace game_framework {
 	{
 		if (zDelta > 0)
 		{
-			role.AddScore(5);
+			role.AddScore(999);
 		}
 		else if (zDelta < 0)
 		{
-			role.AddScore(-5);
+			role.AddScore(-100);
 		}
 	}
 
@@ -914,18 +914,14 @@ namespace game_framework {
 	void CGameStateRun::GoToEnd()
 	{
 		#pragma region - is the role talking to all npc -
-		bool IsTalkedAllNpc = true;
-		vector<CNPC*>* npc = npcManager.GetNpc(mapManager.GetNowMap());
-		for (vector<CNPC*>::iterator npciter = npc->begin(); npciter != npc->end(); npciter++)
-		{
-			if (!(*npciter)->IsTalked())
-			{
-				IsTalkedAllNpc = false;
-			}
-		}
+		bool IsTalkedAllNpc = npcManager.IsTotalTalk();
+		
 		#pragma endregion
-		IsTalkedAllNpc = true;
-		if (isWinFacaiSeed)
+		if (role.GetScore() == 999)
+		{
+			CEndManager::Instance()->Start(END_NAME_POINT_999);
+		}
+		else if (isWinFacaiSeed)
 		{
 			CEndManager::Instance()->Start(END_NAME_WIN_FACAISEED);
 		}
@@ -939,7 +935,7 @@ namespace game_framework {
 		}
 		else if (role.GetScore() > 999)
 		{
-			CEndManager::Instance()->Start(END_NAME_SALTEDFISH);
+			CEndManager::Instance()->Start(END_NAME_POINT_OVERFLOW);
 		}
 		else
 		{
