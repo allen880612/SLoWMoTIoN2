@@ -8,13 +8,9 @@
 #include "CBall.h"
 #include "CEraser.h"
 #include "CManager.h"
-
 using namespace myLibrary;
-
 namespace game_framework {
-
   #pragma region - ball -
-
   CBall::CBall()
   {
     is_alive = true;
@@ -63,9 +59,7 @@ namespace game_framework {
   {
     return &animation;
   }
-
   #pragma endregion
-
   #pragma region - CScallion -
   CScallion::CScallion()
   {
@@ -129,9 +123,7 @@ namespace game_framework {
       animation.SetValid(false);
       return;
     }
-
     #pragma region - 重力計算 -
-
     if (velocity_y > 0)
     {
       velocity_y -= gravity;
@@ -142,7 +134,6 @@ namespace game_framework {
       velocity_y -= gravity;
       y -= velocity_y;
     }
-
     #pragma endregion
     animation.OnMove();
     SetXY(x + velocity_x, y);
@@ -152,7 +143,6 @@ namespace game_framework {
   {
     if (!IsAlive())
       return;
-
     animation.SetTopLeft(x, y);
     animation.OnShow();
   }
@@ -190,7 +180,6 @@ namespace game_framework {
     return IsRectCollision(animation.GetRect(), rect);
   }
   #pragma endregion
-
   #pragma region - CBlackHole -
   CBlackHole::CBlackHole() : CScallion()
   {
@@ -218,28 +207,23 @@ namespace game_framework {
   void CBlackHole::OnMove()
   {
     selfBang.CountDown();
-
     if (selfBang.IsTimeOut())
     {
       SetIsAlive(false);
       role = NULL;
       return;
     }
-
     if (y + animation.Height() < SIZE_Y)
     {
       if (!IsAlive())
         return;
-
       if (x > SIZE_X || x + animation.Width() + 87 < 0 || y > SIZE_Y || y < -300)	//超出螢幕
       {
         SetIsAlive(false);
         animation.SetValid(false);
         return;
       }
-
       #pragma region - 重力計算 -
-
       if (velocity_y > 0)
       {
         velocity_y -= gravity;
@@ -250,12 +234,10 @@ namespace game_framework {
         velocity_y -= gravity;
         currentY -= velocity_y;
       }
-
       #pragma endregion
       animation.OnMove();
       SetCurrentXY(currentX + velocity_x, currentY);
     }
-
     animation.OnMove();
     int centerRectWidth = centerRectSize.right;
     int centerRectHeight = centerRectSize.bottom;
@@ -265,7 +247,6 @@ namespace game_framework {
                        centerPointY - centerRectHeight / 2,  //top
                        centerPointX + centerRectWidth / 2,   //right
                        centerPointY + centerRectHeight / 2); //bottom
-
     if (role != NULL)
     {
       int ddrsx = (role->GetX3() - centerPointX) / 8;
@@ -273,7 +254,6 @@ namespace game_framework {
     }
   }
   #pragma endregion
-
   #pragma region - CRay -
   CRay::CRay()
   {
@@ -296,7 +276,6 @@ namespace game_framework {
   void CRay::OnMove()
   {
     animation.SetValid(true);
-
     if (animation.GetIndex() < animation.GetIndexSize() - 1)
     {
       animation.OnMove();

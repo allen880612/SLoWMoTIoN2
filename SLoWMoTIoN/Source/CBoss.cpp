@@ -13,7 +13,6 @@
 #include "CBoss.h"
 #include <vector>
 using namespace myLibrary;
-
 namespace game_framework
 {
   #pragma region - CBoss -
@@ -56,12 +55,10 @@ namespace game_framework
   void CBoss::Initialize()
   {
     #pragma region - 僅一次的載入圖片 -
-
     if (animation.IsNull())
     {
       LoadBitmap();
     }
-
     #pragma endregion
     inity = SIZE_Y - animation.Height();
     SetCurrentXY(initx, inity);
@@ -85,7 +82,6 @@ namespace game_framework
     leftAnimate.CopyAnimateInformation(&animation);
     rightAnimate.CopyAnimateInformation(&animation);
     faceTo = dir;
-
     if (faceTo == "left")
       animation = leftAnimate;
     else if (faceTo == "right")
@@ -135,10 +131,8 @@ namespace game_framework
   {
     if (dir == "left")
       x += MOVE_DISTANCE;
-
     if (dir == "right")
       x -= MOVE_DISTANCE;
-
     SetXY(x, y);
   }
 
@@ -146,7 +140,6 @@ namespace game_framework
   {
     #pragma region - scallion collision this -
     vector<CScallion*>* scallion = role->GetScallion();
-
     for (vector<CScallion*>::iterator scallionk = scallion->begin(); scallionk != scallion->end();)
     {
       if ((*scallionk)->IsAlive() && (*scallionk)->IsCollision(this))
@@ -157,7 +150,6 @@ namespace game_framework
         (*scallionk)->SetIsAlive(false);
         hp -= (*scallionk)->GetAtk();
       }
-
       if (!(*scallionk)->IsAlive())
       {
         delete *scallionk;
@@ -169,7 +161,6 @@ namespace game_framework
         scallionk++;
       }
     }
-
     #pragma endregion
   }
 
@@ -236,7 +227,6 @@ namespace game_framework
         isEnd = true;
       }
     }
-
     if (!IsDead())
     {
       OnMove();
@@ -251,13 +241,11 @@ namespace game_framework
       int move_dx = (currentX > goal_x) ? (initx - goal_x) / 50 : 0;
       int move_dy = (currentY > goal_y) ? (inity - goal_y) / 50 : 0;
       moveToGoal.CountDown();
-
       if (moveToGoal.IsTimeOut())
       {
         SetCurrentXY(currentX - move_dx, currentY - move_dy);
         moveToGoal.ResetTime();
       }
-
       if (currentX <= goal_x && currentY <= goal_y)
       {
         moveToGoalPoint = false;
@@ -268,7 +256,6 @@ namespace game_framework
         CDialogManager::Instance()->Start(DIALOG_DATA_VSXingting2);
       }
     }
-
     int dx = CCamera::Instance()->GetX();
     SetXY(currentX - dx, currentY);
     animation.OnMove();
@@ -280,7 +267,6 @@ namespace game_framework
     {
       Attack1();
     }
-
     if (mode_Attack2)
     {
       Attack2();
@@ -293,24 +279,20 @@ namespace game_framework
         mode_Attack4 = true;
       }
     }
-
     if (mode_Attack3)
     {
       Attack3();
     }
-
     if (mode_Attack4)
     {
       Attack4(role);
     }
-
     Level4Collision(role);
   }
 
   void CXingting::Attack1()
   {
     shootLevel4_cd.CountDown();
-
     if (shootLevel4_cd.IsTimeOut())
     {
       for (int i = 0; i < 12; i++)
@@ -332,7 +314,6 @@ namespace game_framework
   void CXingting::Attack2()
   {
     shoot_atk2_cd.CountDown();
-
     if (shoot_atk2_cd.IsTimeOut())
     {
       #pragma region - bullet parameter -
@@ -355,7 +336,6 @@ namespace game_framework
   void CXingting::Attack3()
   {
     shoot_atk3_cd.CountDown();
-
     if (shoot_atk3_cd.IsTimeOut())
     {
       for (int i = 0; i < 18; i++)
@@ -379,7 +359,6 @@ namespace game_framework
   void CXingting::Attack4(CRole* role)
   {
     mode_Attack4_CreateBlackHole.CountDown();
-
     if (mode_Attack4_CreateBlackHole.IsTimeOut())
     {
       CAudio::Instance()->Play("blackhole");
@@ -403,13 +382,11 @@ namespace game_framework
       delete *bkiter;
       *bkiter = NULL;
     }
-
     for (vector<CScallion*>::iterator level4iter = level4.begin(); level4iter != level4.end(); level4iter++)
     {
       delete *level4iter;
       *level4iter = NULL;
     }
-
     level4.clear();
     blackhole.clear();
   }
@@ -424,19 +401,16 @@ namespace game_framework
     for (vector<CBlackHole*>::iterator bkiter = blackhole.begin(); bkiter != blackhole.end();)
     {
       (*bkiter)->OnMove();
-
       if ((*bkiter)->IsAlive() && !role->IsCatched() && role->IsCollisionBlackHole((*bkiter)))
       {
         targetBlackhole = *bkiter;
         role->SetCatched(true);
         (*bkiter)->SetRole(role);
       }
-
       if (!(*bkiter)->IsAlive())
       {
         #pragma region - Create Bullet -
         int bulletNumber = 12;
-
         for (int i = 0; i < bulletNumber; i++)
         {
           #pragma region - bullet parameter -
@@ -451,12 +425,10 @@ namespace game_framework
           newlevel4->SetInitVelocity((int)mx, (int)my);
           level4.push_back(newlevel4); //將蔥放進vector
         }
-
         #pragma endregion
         targetBlackhole = NULL;
         role->SetCatched(false);
       }
-
       if (!(*bkiter)->IsAlive())
       {
         delete *bkiter;
@@ -472,14 +444,12 @@ namespace game_framework
     for (vector<CScallion*>::iterator level4iter = level4.begin(); level4iter != level4.end();)
     {
       (*level4iter)->OnMove();
-
       if ((*level4iter)->IsAlive() && role->IsCollisionLevel4(*level4iter))
       {
         (*level4iter)->SetIsAlive(false);
         CAudio::Instance()->Play("role_hitted");
         role->SubHp();
       }
-
       if (!(*level4iter)->IsAlive())
       {
         delete *level4iter;
@@ -492,7 +462,6 @@ namespace game_framework
       }
     }
   }
-
   #pragma endregion
 
   #pragma region - CFaicaiSeed -
@@ -533,20 +502,16 @@ namespace game_framework
   void CFacaiSeed::OnCycle(CRole* role)
   {
     #pragma region - boss dead -
-
     if (hp <= 0) //boss dead
     {
       CDialogManager::Instance()->Start("roleWinFacaiSeed");
       SetIsAlive(false);
     }
-
     #pragma endregion
     #pragma region - Boss Alive -
-
     if (!IsDead())
     {
       attackRoleTimer.CountDown();
-
       if (ray == NULL) //射線中不轉換
       {
         ChangeFaceTimer.CountDown();
@@ -557,22 +522,18 @@ namespace game_framework
           ChangeFaceTimer.ResetTime();
         }
       }
-
       Attack(role);
       OnMove();
       Collision(role);
     }
-
     #pragma endregion
     #pragma region - role dead -
-
     if (role->IsDead() || AliveTime.IsTimeOut())
     {
       CDialogManager::Instance()->Start("roleLoseFacaiSeed");
       ClearBullet();
       fly = true;
     }
-
     #pragma endregion
   }
 
@@ -580,25 +541,21 @@ namespace game_framework
   {
     Attack1(role);
     bool isTalking = CDialogManager::Instance()->GetDialogState();
-
     if (ray == NULL && !isTalking)
     {
       CAudio::Instance()->Play("ray");
       Attack2();
     }
-
     Attack3();
   }
 
   void CFacaiSeed::OnMove()
   {
     #pragma region - rays animation -
-
     if (ray != NULL)
     {
       ray->OnMove();
     }
-
     #pragma endregion
     #pragma region - dont have ray - move -
     else
@@ -614,7 +571,6 @@ namespace game_framework
         SetCurrentXY(currentX - dx, currentY);
       }
     }
-
     #pragma endregion
     CBoss::OnMove();
   }
@@ -628,7 +584,6 @@ namespace game_framework
   void CFacaiSeed::EndProcess()
   {
     #pragma region - role dead and this fly -
-
     if (fly)
     {
       CAudio::Instance()->Play("faacai_fly");
@@ -643,7 +598,6 @@ namespace game_framework
         Clear();
       }
     }
-
     #pragma endregion
   }
 
@@ -665,11 +619,9 @@ namespace game_framework
   void CFacaiSeed::Attack2()
   {
     shootCoinTimer.CountDown();
-
     if (shootCoinTimer.IsTimeOut())
     {
       CAudio::Instance()->Play("door");
-
       for (int i = 0; i < 4; i++)
       {
         double speed = 27.0;
@@ -689,7 +641,6 @@ namespace game_framework
   void CFacaiSeed::Attack3()
   {
     rayStartTime.CountDown();
-
     if (rayStartTime.IsTimeOut())
     {
       if (ray == NULL)
@@ -703,9 +654,7 @@ namespace game_framework
           ray = new CRay(BitmapPath("RES\\Object\\Ray", "ray", 5, RGB(214, 214, 214)), CPoint(GetLeftTopPoint().x - 531, GetLeftTopPoint().y + 40));
         }
       }
-
       rayStayTime.CountDown(); //開始計算持續時間
-
       if (rayStayTime.IsTimeOut()) //delete ray
       {
         if (ray != NULL)
@@ -713,7 +662,6 @@ namespace game_framework
           delete ray;
           ray = NULL;
         }
-
         rayStayTime.ResetTime();
         rayStartTime.ResetTime();
       }
@@ -723,41 +671,34 @@ namespace game_framework
   void CFacaiSeed::ClearBullet()
   {
     #pragma region - clear coin -
-
     for (vector<CScallion*>::iterator coiniter = coinVector.begin(); coiniter != coinVector.end(); coiniter++)
     {
       delete *coiniter;
       *coiniter = NULL;
     }
-
     coinVector.clear();
     #pragma endregion
     #pragma region - clear ray -
-
     if (ray != NULL)
     {
       delete ray;
       ray = NULL;
     }
-
     #pragma endregion
   }
 
   void CFacaiSeed::Collision(CRole* role)
   {
     #pragma region - coin collision role -
-
     for (vector<CScallion*>::iterator cointiter = coinVector.begin(); cointiter != coinVector.end();)
     {
       (*cointiter)->OnMove();
-
       if ((*cointiter)->IsAlive() && role->IsCollisionLevel4(*cointiter))
       {
         CAudio::Instance()->Play("role_hitted");
         (*cointiter)->SetIsAlive(false);
         role->SubHp();
       }
-
       if (!(*cointiter)->IsAlive())
       {
         delete *cointiter;
@@ -769,10 +710,8 @@ namespace game_framework
         cointiter++;
       }
     }
-
     #pragma endregion
     #pragma region - ray collision role -
-
     if (ray != NULL)
     {
       if (ray->GetAttackValid() && role->IsCollisionRay(ray))
@@ -785,10 +724,8 @@ namespace game_framework
         }
       }
     }
-
     #pragma endregion
     #pragma region - this collision role -
-
     if (IsRectCollision(role->GetAction()->GetRect(), animation.GetRect()))
     {
       if (attackRoleTimer.IsTimeOut())
@@ -797,7 +734,6 @@ namespace game_framework
         attackRoleTimer.ResetTime();
       }
     }
-
     #pragma endregion
     #pragma region - this collsion scallion -
     CollisionScallion(role);
@@ -808,7 +744,6 @@ namespace game_framework
   {
     CPoint center = GetCenterPoint();
     int dx = 45;
-
     if (faceTo == "left")
     {
       center += CPoint(dx, 0);
@@ -817,7 +752,6 @@ namespace game_framework
     {
       center -= CPoint(dx, 0);
     }
-
     return center;
   }
   #pragma endregion

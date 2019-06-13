@@ -41,17 +41,14 @@ namespace game_framework
     char* address = ConvertCharPointToString(loadPath);
     backgroundBitmap.LoadBitmap(address);
     delete address;
-
     for (vector<CBlock>::iterator blockiter = block.begin(); blockiter != block.end(); blockiter++)
     {
       blockiter->LoadImg();
     }
-
     for (vector<CDoor>::iterator dooriter = door.begin(); dooriter != door.end(); dooriter++)
     {
       dooriter->LoadImg();
     }
-
     isLoad = true;
   }
 
@@ -72,13 +69,10 @@ namespace game_framework
     fstream mapData;
     mapData.open(mapFilePath);
     string lineData;
-
     while (getline(mapData, lineData))
     {
       vector<string> tempString = SplitString(lineData);
-      #pragma endregion
       #pragma region - load map information -
-
       if (tempString[0] == "background")
       {
         loadPath = tempString[1];
@@ -114,16 +108,13 @@ namespace game_framework
       else if (tempString[0] == "passerbyID")
       {
         passerbyID.clear();
-
         for (unsigned int i = 1; i < tempString.size(); i++)
         {
           passerbyID.push_back(ConvertStringToInt(tempString[i]));
         }
       }
-
       #pragma endregion
     }
-
     mapData.close();
   }
 
@@ -157,20 +148,16 @@ namespace game_framework
     vector<string> r;
     r.push_back("background " + loadPath + " 0 0\n");
     #pragma region - write block -
-
     for (unsigned int i = 0; i < block.size(); i++)
     {
       r.push_back("block " + block[i].path + " " + std::to_string(block[i].x) + " " + std::to_string(block[i].y) + "\n");
     }
-
     #pragma endregion
     #pragma region - write door -
-
     for (unsigned int i = 0; i < door.size(); i++)
     {
       r.push_back(door[i].GetType() + " " + door[i].path + " " + std::to_string(door[i].x) + " " + std::to_string(door[i].y) + " " + std::to_string(door[i].GetSwitchMapIndex()) + "\n");
     }
-
     #pragma endregion
     r.push_back("up " + std::to_string(upMap) + "\n");
     r.push_back("down " + std::to_string(downMap) + "\n");
@@ -178,20 +165,16 @@ namespace game_framework
     r.push_back("right " + std::to_string(rightMap) + "\n");
     r.push_back("passerbyNumber " + std::to_string(passerbyMaxSize) + "\n");
     string passID = "";
-
     for (unsigned int i = 0; i < passerbyID.size(); i++)
     {
       string tempid = " " + std::to_string(passerbyID[i]);
       passID += tempid;
     }
-
     r.push_back("passerbyID" + passID + "\n");
-
     for (unsigned int i = 0; i < r.size(); i++)
     {
       data << r[i];
     }
-
     data.close();
   }
   #pragma endregion
