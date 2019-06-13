@@ -312,7 +312,7 @@ namespace game_framework {
 		timer = CTimer(GAME_TIME);
 		nowUsedTimer = &timer;
 		CAudio::Instance()->Stop("SLoWMoTIoN_Menu");
-		CAudio::Instance()->Play("SLoWMoTIoN_Game");
+		CAudio::Instance()->Play("SLoWMoTIoN_Game", true);
 		isWinXingting = false;
 		isWinFacaiSeed = false;
 	}
@@ -749,6 +749,12 @@ namespace game_framework {
 		{
 			role.SetRoleNoSubHp();
 		}
+
+		if (nChar == 'P')
+		{
+			PostMessage(AfxGetMainWnd()->m_hWnd, WM_CLOSE, 0, 0);
+		}
+
 	}
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
