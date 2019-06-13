@@ -131,32 +131,6 @@ END
 
 IDR_MAINFRAME MENU
 BEGIN
-    POPUP "&File"
-    BEGIN
-        MENUITEM "&New",                        ID_FILE_NEW
-        MENUITEM "Pause\tCtrl+Q",               ID_FILE_PAUSE
-        MENUITEM "&Open...",                    ID_FILE_OPEN
-        MENUITEM "&Save",                       ID_FILE_SAVE
-        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
-        MENUITEM SEPARATOR
-        MENUITEM "&Print...",                   ID_FILE_PRINT
-        MENUITEM "Print Pre&view",              ID_FILE_PRINT_PREVIEW
-        MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
-        MENUITEM SEPARATOR
-        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1
-        MENUITEM SEPARATOR
-        MENUITEM "E&xit",                       ID_APP_EXIT
-    END
-    POPUP "&View"
-    BEGIN
-        MENUITEM "&Fullscreen\tCtrl+F",         ID_TOGGLE_FULLSCREEN
-        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
-        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
-    END
-    POPUP "&Help"
-    BEGIN
-        MENUITEM "&About game...",              ID_APP_ABOUT
-    END
     POPUP "&Editer"
     BEGIN
         MENUITEM "&New Background",             ID_EDITER_NEWBG
@@ -164,6 +138,10 @@ BEGIN
         MENUITEM "&New upDoor",                 ID_EDITER_NEWUPDOOR
         MENUITEM "&New downDoor",               ID_EDITER_NEWDOWNDOOR
         MENUITEM "&Open Map",                   ID_EDITER_EDITMAP
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About game...",              ID_APP_ABOUT
     END
 END
 
