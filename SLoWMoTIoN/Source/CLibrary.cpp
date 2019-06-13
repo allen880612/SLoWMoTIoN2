@@ -1504,17 +1504,14 @@ namespace game_framework
     cover.LoadBitmap("RES\\Windows", "cover_top", RGB(214, 214, 214));
     cover_bottom.LoadBitmap("RES\\Windows", "cover_bottom", RGB(214, 214, 214));
 
+	int endID = 0;
+
     for (int r = 0; r < rowNum; r++)
     {
       vector<CButton> columnBitmaps(colNum);
 
       for (int c = 0; c < colNum; c++)
       {
-        int endID = r + c;
-
-        if (c != 0)
-          endID++;
-
         #pragma region - Create loadString -
         vector<string> loadString;
         loadString.push_back("RES\\End\\EndImg\\end_lock.bmp");
@@ -1523,6 +1520,7 @@ namespace game_framework
         columnBitmaps[c] = CButton(BitmapPath(loadString, RGB(214, 214, 214)), CPoint(x, y), false, true);
         columnBitmaps[c].SetName(endID < (int)endName.size() ? endName[endID] : "lock");
         columnBitmaps[c].SetValid(false);
+		endID++;
       }
 
       endingVector.push_back(columnBitmaps);
@@ -1548,15 +1546,17 @@ namespace game_framework
     limit_top = img_y;
     limit_buttom = img_y + colNum * (img_height + PADDING_Y);
 
+	int endID = 0;
     for (int r = 0; r < rowNum; r++)
     {
       for (int c = 0; c < colNum; c++)
       {
-        endingVector[r][c].SetXY(img_x + r * (img_width + PADDING_X), img_y + c * (img_height + PADDING_Y));
+        endingVector[r][c].SetXY(img_x + (endID % 2) * (img_width + PADDING_X), img_y + (endID / 2) * (img_height + PADDING_Y));
         #pragma region - set get end -
         bool flag = CEndManager::Instance()->IsPassEnd(endingVector[r][c].GetName());
         endingVector[r][c].SetState(CEndManager::Instance()->IsPassEnd(endingVector[r][c].GetName()));
         #pragma endregion
+		endID++;
       }
     }
   }
