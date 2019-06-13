@@ -619,13 +619,13 @@ namespace game_framework
 		#pragma endregion
 	  }
 	  haveEnd.close();
-	}
-
-    vector<CMonster*> CMonsterManager::GetMonster()
-    {
-        return monsterManager;
-    }
+  }
     #pragma endregion
+
+  vector<CMonster*> CMonsterManager::GetMonster()
+  {
+	  return monsterManager;
+  }
 
     #pragma region - CDialogManager -
     CDialogManager CDialogManager::dialogManager;
