@@ -477,6 +477,7 @@ void CMovingBitmap::LoadBitmap(char *filename, COLORREF color)
 		char error_msg[300];
 		sprintf(error_msg, "Loading bitmap from file \"%s\" failed !!!", filename);
 		GAME_ASSERT(false, error_msg);
+		return;
 	}
 	CBitmap *bmp = CBitmap::FromHandle(hbitmap ); // memory will be deleted automatically
 	BITMAP bitmapSize;

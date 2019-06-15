@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "game", "game.vcxproj", "{DDD280D7-4B85-4B03-BBC4-C46CA9BECCCB}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SLoWMoTIoN", "..\..\..\demo2\SLoWMoTIoN\SLoWMoTIoN.vdproj", "{F5471A74-C257-49DC-B394-6F5EE1085892}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SLoWMoTIoN", "SLoWMoTIoN\SLoWMoTIoN.vdproj", "{B1B2AE64-E156-4FE8-819B-79545A6680CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,8 +17,8 @@ Global
 		{DDD280D7-4B85-4B03-BBC4-C46CA9BECCCB}.Debug|Win32.Build.0 = Debug|Win32
 		{DDD280D7-4B85-4B03-BBC4-C46CA9BECCCB}.Release|Win32.ActiveCfg = Release|Win32
 		{DDD280D7-4B85-4B03-BBC4-C46CA9BECCCB}.Release|Win32.Build.0 = Release|Win32
-		{F5471A74-C257-49DC-B394-6F5EE1085892}.Debug|Win32.ActiveCfg = Debug
-		{F5471A74-C257-49DC-B394-6F5EE1085892}.Release|Win32.ActiveCfg = Release
+		{B1B2AE64-E156-4FE8-819B-79545A6680CF}.Debug|Win32.ActiveCfg = Debug
+		{B1B2AE64-E156-4FE8-819B-79545A6680CF}.Release|Win32.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -157,7 +157,7 @@ void CAudio::Initialize()
 void CAudio::ExecuteMciCommand(char *command)
 {
 	bool shouldExecuteCommand = true;
-	char action[20], device[20];
+	char action[100], device[100];
 	int ret = sscanf(command, "%s %s", action, device);
 	GAME_ASSERT(ret == 2, "MCI command error: internal error!");
 	if (strcmp(action, "pause") == 0) {
@@ -190,7 +190,7 @@ void CAudio::ExecuteMciCommand(char *command)
 
 void CAudio::MCIThread(HANDLE hRead)
 {
-	const int MAX_BUFFER_SIZE = 400;
+	const int MAX_BUFFER_SIZE = 1000;
 	char buf[MAX_BUFFER_SIZE];     
 	DWORD dwRead;
 	char *ptr = buf;

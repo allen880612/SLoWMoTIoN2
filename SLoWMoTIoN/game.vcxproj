@@ -318,6 +318,7 @@
     <ClInclude Include="Source\CEraser.h" />
     <ClInclude Include="Source\CLibrary.h" />
     <ClInclude Include="Source\CManager.h" />
+    <ClInclude Include="Source\dirent.h" />
     <ClInclude Include="Source\game.h" />
     <ClInclude Include="Source\gameDoc.h" />
     <ClInclude Include="Source\gameView.h" />
